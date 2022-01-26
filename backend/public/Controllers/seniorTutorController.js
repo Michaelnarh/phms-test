@@ -2,7 +2,6 @@ const SeniorTutor = require("../Models/seniorTutorModel");
 
 //create new SeniorTutor
 exports.createSeniorTutor = async (req, res) => {
-	console.log("here");
 	try {
 		const newSeniorTutor = await SeniorTutor.create(req.body);
 		res.status(201).json({
@@ -76,7 +75,7 @@ exports.deleteSeniorTutor = async (req, res, next) => {
 	try {
 		const tutor_id = req.params.id;
 		if (!tutor_id)
-			throw new Error("SeniorTutor id is required for this operation");
+			throw new Error("SeniorTutor id is required for this Operation");
 		const tutor = await SeniorTutor.findById(tutor_id);
 		await SeniorTutor.findByIdAndDelete(tutor_id);
 		res.status(200).json({

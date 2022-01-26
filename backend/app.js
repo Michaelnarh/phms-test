@@ -8,6 +8,7 @@ const reviewRouter = require("./public/Routes/reviewRoute");
 const tutorRouter = require("./public/Routes/seniorTutorRoute");
 const nssPRouter = require("./public/Routes/nssPRoute");
 const facilityRouter = require("./public/Routes/facilityRoute");
+const mpRouter = require("./public/Routes/mpRoute");
 
 const app = express();
 app.use(cors());
@@ -20,6 +21,8 @@ app.use("/api/v1/zones", zoneRouter);
 app.use("/api/v1/reviews", reviewRouter);
 app.use("/api/v1/senior-tutors", tutorRouter);
 app.use("/api/v1/nss-personnels", nssPRouter);
+app.use("/api/v1/mps", mpRouter);
+app.use("/api/v1/area_mps", mpRouter);
 
 //request which are undefined.
 app.all("*", (req, res, next) => {

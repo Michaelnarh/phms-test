@@ -18,8 +18,6 @@ exports.SignUp = async (req, res) => {
 			passwordConfirm,
 		});
 
-		// console.log(newUser);
-
 		const token = SignInToken(newUser._id);
 
 		newUser.save();

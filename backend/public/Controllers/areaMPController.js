@@ -36,7 +36,7 @@ exports.updateAreaMP = async (req, res) => {
 };
 
 // get ad particular AreaMP
-exports.getNSSPersonnel = async (req, res) => {
+exports.getAreaMP = async (req, res) => {
 	try {
 		const areaMP = await AreaMP.findById(req.params.id);
 		res.status(200).json({
@@ -68,12 +68,12 @@ exports.getAllAreaMP = async (req, res) => {
 };
 
 //delete a AreaMP
-exports.deleteNSSPersonnel = async (req, res, next) => {
+exports.deleteAreaMP = async (req, res, next) => {
 	try {
-		const areamP_id = req.params.id;
-		if (!areamP_id) throw new Error("AreaMP id is required for this operation");
-		const areaMP = await AreaMP.findById(areamP_id);
-		await AreaMP.findByIdAndDelete(areamP_id);
+		const areaMP_id = req.params.id;
+		if (!areaMP_id) throw new Error("AreaMP id is required for this operation");
+		const areaMP = await AreaMP.findById(areaMP_id);
+		await AreaMP.findByIdAndDelete(areaMP_id);
 		res.status(200).json({
 			status: "success",
 			message: `AreaMP records of  ${areaMP.name} is deleted successfully`,
