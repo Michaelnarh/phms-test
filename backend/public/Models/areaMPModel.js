@@ -9,7 +9,7 @@ const mpSchema = mongooose.Schema({
 		unique: true,
 	},
 	contact: { type: String },
-	zoneIds: [{ type: Schema.Types.ObjectId, ref: "Zone" }],
+	zones: [{ type: Schema.Types.ObjectId, ref: "Zone" }],
 	image: { type: String },
 });
 
