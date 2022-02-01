@@ -29,7 +29,7 @@ const data = [
 		distance: "7.6km",
 	},
 ];
-export default function Hostels(props) {
+export default function Homestels(props) {
 	return (
 		<>
 			<div className="hostel-flex">

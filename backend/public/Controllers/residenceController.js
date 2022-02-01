@@ -1,4 +1,5 @@
 const Residence = require("../Models/residenceModel");
+const AppError = require("../utils/AppError");
 
 //create new Residence
 exports.createResidence = async (req, res) => {
@@ -115,6 +116,39 @@ exports.deleteResidence = async (req, res, next) => {
 		res.status(200).json({
 			status: "success",
 			message: `Residence records of  ${residence.name} is deleted successfully`,
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "failed",
+			message: err.message,
+		});
+	}
+};
+
+//get all available homestels
+exports.getHomestels = async (req, res) => {
+	try {
+		const homestels = await Residence.find({ residenceType: "Homestel" });
+		//paginate response
+		res.status(200).json({
+			status: "success",
+			message: homestels,
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "failed",
+			message: err.message,
+		});
+	}
+};
+//get all available homestels
+exports.getHostels = async (req, res) => {
+	try {
+		const hostels = await Residence.find({ residenceType: "Hostel" });
+		//paginate response
+		res.status(200).json({
+			status: "success",
+			message: hostels,
 		});
 	} catch (err) {
 		res.status(400).json({

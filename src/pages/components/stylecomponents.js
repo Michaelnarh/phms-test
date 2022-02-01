@@ -7,6 +7,7 @@ export const CustomButton = styled.h5`
 	border-radius: 10px;
 	text-align: center;
 	&:hover {
+		cursor: pointer;
 		background-image: linear-gradient(
 			to right,
 			var(--darkBlue),

@@ -8,9 +8,9 @@ const userSchema = mongoose.Schema({
 	role: {
 		type: String,
 		enum: ["user", "maintainer", "supervisor", "admin"],
-		defualt: "user",
+		default: "user",
 	},
-	password: { type: String, required: true, min: 8 },
+	password: { type: String, required: true, min: 8, select: false },
 	passwordConfirm: { type: String, required: true, min: 8 },
 	passwordChangedAt: {
 		type: Date,
@@ -30,5 +30,18 @@ userSchema.pre("save", async function (next) {
 });
 userSchema.methods.correctPassword = async (canPass, userPass) => {
 	return await bcrypt.compare(canPass, userPass);
+};
+
+userSchema.methods.passwordChanged = async (jwtTimeStamp) => {
+	if (this.passwordChangedAt) {
+		const pwdChangeAtTime = await parseInt(
+			this.passwordChangedAt.getTime() / 1000,
+			10
+		);
+
+		return pwdChangeAtTime > jwtTimeStamp;
+	}
+
+	return false;
 };
 module.exports = mongoose.model("User", userSchema);

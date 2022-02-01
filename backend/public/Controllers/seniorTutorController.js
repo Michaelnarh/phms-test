@@ -41,7 +41,9 @@ exports.updateSeniorTutor = async (req, res) => {
 // get ad particular SeniorTutor
 exports.getSeniorTutor = async (req, res) => {
 	try {
-		const seniorTutor = await SeniorTutor.findById(req.params.id);
+		const seniorTutor = await SeniorTutor.findById(req.params.id).populate(
+			"zones"
+		);
 		res.status(200).json({
 			status: "success",
 			seniorTutor,

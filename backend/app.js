@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyparser = require("body-parser");
+const globalErrorHandler = require("./public/utils/errorController");
 const cors = require("cors");
 const userRouter = require("./public/Routes/userRoute");
 const residenceRouter = require("./public/Routes/residenceRoute");
@@ -30,4 +31,6 @@ app.all("*", (req, res, next) => {
 	next(new Error("The request at  " + url + " is not defined", 404));
 });
 
+//handles all global error
+app.use(globalErrorHandler);
 module.exports = app;
