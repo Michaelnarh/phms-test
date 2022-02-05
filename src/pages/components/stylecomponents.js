@@ -17,7 +17,8 @@ export const CustomButton = styled.h5`
 `;
 
 export const Divider = styled.div`
-	border: 5px solid var(--tqColor);
+	border: 5px solid ${(props)=>props.color?props.color:"var(--tqColor)"};
 	width: 80px;
 	margin-bottom: 18px;
+	color: ${(props)=>props.color?props.color:"var(--tqColor)"};
 `;

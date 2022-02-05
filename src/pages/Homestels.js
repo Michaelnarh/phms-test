@@ -1,46 +1,56 @@
 import React from "react";
 import Hostel from "./components/Hostel";
+import Searchbox from "./components/SearchBox";
 const data = [
 	{
-		name: "Amen hostel",
-		img: "Amen-Cover-img",
-		location: "Boadi",
-		distance: "7.6km",
+		name: "Family Renewal",
+		img: "/imgs/family-renewal.jpg",
+		location: "Ayeduase",
+		distance: 10,
 		gpsAdrress: [12.2233, -12.23432],
 	},
 	{
-		name: "Amen hostel",
-		img: "Amen-Cover-img",
-		location: "Boadi",
-		distance: "7.6km",
+		name: "Nana Kesse's House",
+		img: "/imgs/homestel.jpg",
+		location: "Ayeduase",
+		distance: 12,
 		gpsAdrress: [12.2233, -12.23432],
+		digitalAdrress: "AK-2670-1289",
 	},
 	{
-		name: "Amen hostel",
-		img: "Amen-Cover-img",
-		location: "Boadi",
-		distance: "7.6km",
+		name: "El-shaddai",
+		img: "/imgs/download.png",
+		location: "Ayeduase",
+		distance: 16,
 		gpsAdrress: [12.2233, -12.23432],
+		digitalAdrress: "AK-2670-1289",
 	},
 	{
-		name: "Amen hostel",
-		img: "Amen-Cover-img",
-		location: "Boadi",
-		distance: "7.6km",
+		name: "Koveland Homestel",
+		img: "/imgs/download.png",
+		location: "Ayeduase",
+		distance: 15,
+		gpsAdrress: [72.2233, -12.23432],
+		digitalAdrress: "AK-2670-1289",
 	},
 ];
-export default function Homestels(props) {
+export default function Hostels(props) {
 	return (
 		<>
-			<div className="hostel-flex">
-				{data &&
-					data.map((item, index) => {
-						return (
-							<>
-								<Hostel key={index} />
-							</>
-						);
-					})}
+			<div className="container">
+				<div>
+					<Searchbox data={data} />
+				</div>
+				<div className="hostel-flex mt-5">
+					{data &&
+						data.map((item, index) => {
+							return (
+								<>
+									<Hostel data={item} key={index} />
+								</>
+							);
+						})}
+				</div>
 			</div>
 		</>
 	);

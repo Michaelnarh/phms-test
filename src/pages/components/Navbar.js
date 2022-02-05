@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
+import Drawer from "./Drawer";
 import { NavLink } from "react-router-dom";
+import { FaBars, FaTimes, FaUser } from "react-icons/fa";
+import Logo from "../../images/logo-knust.png";
 
 export default function Navbar(props) {
+	const [isDrawerOpen, setDrawer] = useState(false);
 	return (
 		<>
 			<div className="nav-flex">
-				<ul>PHMS</ul>
+				<ul>
+					<img src={Logo} alt="..." style={{ width: 40, height: 50 }} />
+					KNUST PHMS
+				</ul>
 				<ul className="nav-inline-flex">
 					<li>
 						<NavLink
@@ -25,7 +32,7 @@ export default function Navbar(props) {
 					</li>
 					<li>
 						<NavLink
-							to="/homestel"
+							to="/homestels"
 							className={(navData) => (navData.isActive ? "active" : "")}
 						>
 							Hometels
@@ -42,9 +49,31 @@ export default function Navbar(props) {
 				</ul>
 				<ul className="nav-inline-flex">
 					<li>Sign Up</li>
+					<li>Login</li>
+					<li className="user">
+						<FaUser />
+					</li>
 					<li>{/* <FaSearch />o */}</li>
 				</ul>
+				<ul className="nav-bars">
+					{!isDrawerOpen ? (
+						<FaBars
+							size={25}
+							color="var(--darkBlue)"
+							style={{ marginRight: 18 }}
+							onClick={() => setDrawer(!isDrawerOpen)}
+						/>
+					) : (
+						<FaTimes
+							size={25}
+							color="var(--darkBlue)"
+							style={{ marginRight: 18 }}
+							onClick={() => setDrawer(!isDrawerOpen)}
+						/>
+					)}
+				</ul>
 			</div>
+			{isDrawerOpen && <Drawer />}
 		</>
 	);
 }

@@ -1,30 +1,41 @@
 import React from "react";
-import adombi from "../../images/adom_bi.jpg";
 import { MdLocationOn } from "react-icons/md";
+import { IoMdWalk } from "react-icons/io";
+import { Link } from "react-router-dom";
 export default function Hostel(props) {
+	const { data } = props;
 	return (
 		<>
-			<div>
-				<img
-					src={adombi}
-					alt="..."
-					style={{ height: "200px", width: "300px" }}
-				/>
-				<h5>Adom Bi Hostel</h5>
-				<ul>
+			<div className="residence">
+				<div>
+					<img
+						src={data.img}
+						alt="..."
+						style={{ height: "200px", width: "300px" }}
+					/>
+					<h5 className="text-center r-name">
+						<Link to={`${data.name}`}>{data.name}</Link>
+					</h5>
+				</div>
+				<div>
 					<p>
 						<b>
 							{" "}
 							<MdLocationOn />
 							Location:
 						</b>
-						<span>Ayeduase</span>
+						<span style={{ marginLeft: 2 }}>{data.location}</span>
 					</p>
 					<p>
-						<b>Distance: </b>
-						<span>2.3km</span>
+						<b>
+							<IoMdWalk />
+							Distance:{" "}
+						</b>
+						<span style={{ marginLeft: 2 }}>
+							{data.distance} minutes walk to campus
+						</span>
 					</p>
-				</ul>
+				</div>
 			</div>
 		</>
 	);

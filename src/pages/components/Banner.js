@@ -1,6 +1,7 @@
 import React from "react";
 import banner from "../../images/location_search.png";
 import { CustomButton, Divider } from "./stylecomponents";
+import { Link } from "react-router-dom";
 export default function Banner(props) {
 	return (
 		<>
@@ -12,15 +13,19 @@ export default function Banner(props) {
 						Access All Registered private Hostels & Homestels
 					</h6>
 					<p>
-						Access all registered private hostels Access all registered private
-						hostelsAccess all registered private hostels
+						Access all registered and approved private Hostels and Homestels for
+						easy room booking and information concerning your Residences.
 					</p>
 					<div className="row">
 						<div className="col-sm-6 col-md-6">
-							<CustomButton textColor="#fff">Get Help</CustomButton>
+							<Link to="/help-desk">
+								<CustomButton textColor="#fff">Get Help</CustomButton>
+							</Link>
 						</div>
 						<div className="col-sm-6 col-md-6">
-							<CustomButton textColor="#fff">Browse Hostels</CustomButton>
+							<Link to="/hostels">
+								<CustomButton textColor="#fff">Browse Hostels</CustomButton>
+							</Link>
 						</div>
 					</div>
 				</div>

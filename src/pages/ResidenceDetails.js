@@ -1,31 +1,72 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import adombi from "../images/adom_bi.jpg";
+import adombi2 from "../images/adom_bi-2.jpg";
+import MapComponent from "./components/MapsComponent";
+import SlideShow from "./components/SlideShow";
+import { useParams } from "react-router-dom";
+import { CustomButton } from "./components/stylecomponents";
+import ComomentsModal from "./components/CommentsModal";
 
 export default function Hosteldetails(props) {
+	const { id } = useParams();
+	const [Residence, setResidence] = useState({});
+	useEffect(() => {
+		// axios get data
+		//axios.get(`https://hostels/${id}`);
+		// cleanup
+		// return () => {};
+	}, []);
 	return (
 		<>
-			<div className="container-fluid mt-5 ">
+			<div className="container mt-5 ">
 				<div className="row">
-					<div className="col-md-6 mb-2">
-						<img
-							className="img-responsive center-block"
-							src={adombi}
-							alt="..."
-							style={{
-								height: 300,
-								width: 300,
-								borderRadius: 5,
-								margin: "auto",
-							}}
-						/>
-						<div className="card">
-							<p>display of multiple images</p>
+					<div className="col-md-4 col-lg-6 col-sm-12 mb-2">
+						<div>
+							<img
+								className="img-fluid"
+								src={adombi}
+								alt="..."
+								style={{
+									borderRadius: 5,
+								}}
+							/>
+						</div>
+						<div className="mt-2 flex-display-s">
+							<div>
+								<img
+									src={adombi}
+									style={{ height: 100, width: 100 }}
+									alt="..."
+								/>
+							</div>
+							<div>
+								<img
+									src={adombi2}
+									style={{ height: 100, width: 100 }}
+									alt="..."
+								/>
+							</div>
+							<div>
+								<img
+									src={adombi}
+									style={{ height: 100, width: 100 }}
+									alt="..."
+								/>
+							</div>
+						</div>
+						<div className="row">
+							<div className="col-md-6 col-lg-6 col-sm-12">
+								<ComomentsModal />
+							</div>
+							<div className="col-md-6 col-lg-6 col-sm-12">
+								<CustomButton className="my-3">Book a Room</CustomButton>
+							</div>
 						</div>
 					</div>
-					<div className="col-md-6">
+					<div className="col-md-8 col-lg-6 col-sm-12">
 						<div>
 							<div>
-								<h2 className="text-center">Adom Bi Hostel</h2>
+								<h2 className="text-center details-header ">{id}</h2>
 								<div>
 									<h5>Description</h5>
 									<p>
@@ -65,13 +106,21 @@ export default function Hosteldetails(props) {
 									<p>0537783990</p>
 								</div>
 							</div>
+							<div className="flex-display">
+								<div className=" text-center">
+									<h5>Digital Address</h5>
+									<p>AK-420-3310</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div>
 				<div className="container">
-					<div className="card">mapview display</div>
+					<div className="card">
+						<MapComponent isMarkerShown={true} />
+					</div>
 				</div>
 			</div>
 		</>
