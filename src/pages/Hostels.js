@@ -65,6 +65,7 @@ const data = [
 		digitalAdrress: "AK-2670-1289",
 	},
 ];
+
 export default function Hostels(props) {
 	return (
 		<>

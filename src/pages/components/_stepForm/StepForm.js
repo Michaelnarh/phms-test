@@ -1,17 +1,9 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-export default class StepForm extends Component {
-	state = {
-		step: 1,
-	};
+export default function StepForm() {
+	const [step, setStep] = useState(1);
 
-	prev = (step) => {
-		this.setState({ step: step - 1 });
-	};
-	next = (step) => {
-		this.setState({ step: step + 1 });
-	};
-	renderForm(step) {
+	const rerderForm = (step) => {
 		switch (step) {
 			case 1:
 				break;
@@ -22,9 +14,11 @@ export default class StepForm extends Component {
 			default:
 				break;
 		}
-	}
-	render() {
-		const { step } = this.state;
-		return <>{}</>;
-	}
+	};
+
+	return (
+		<>
+			<rerderForm />
+		</>
+	);
 }

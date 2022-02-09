@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
@@ -26,8 +27,12 @@ export default function Searchbox(props) {
 		setText(text);
 		setSuggestions([]);
 	};
-	const handleSearch = (text) => {
+	const handleSearch = async (text) => {
 		console.log("searching");
+		const res = await axios.get(
+			`http://localhost:8080/api/v1/residences/search?${text}`
+		);
+		console.log(res);
 	};
 	return (
 		<>

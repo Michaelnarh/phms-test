@@ -52,7 +52,6 @@ exports.getZone = async (req, res) => {
 };
 
 //get all zones
-
 exports.getAllZones = async (req, res) => {
 	try {
 		const zones = await Zone.find();

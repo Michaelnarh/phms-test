@@ -8,11 +8,13 @@ export default function Hostel(props) {
 		<>
 			<div className="residence">
 				<div>
-					<img
-						src={data.img}
-						alt="..."
-						style={{ height: "200px", width: "300px" }}
-					/>
+					<Link to={`${data.name}`}>
+						<img
+							src={data.img}
+							alt="..."
+							style={{ height: "200px", width: "300px" }}
+						/>
+					</Link>
 					<h5 className="text-center r-name">
 						<Link to={`${data.name}`}>{data.name}</Link>
 					</h5>
