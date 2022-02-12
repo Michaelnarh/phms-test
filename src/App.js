@@ -17,13 +17,12 @@ import HelpDesk from "./pages/HelpDesk";
 import Navbar from "./pages/components/Navbar";
 import { Routes, Route } from "react-router-dom";
 import { Footer } from "./pages/components/Footer";
+import DashLayout from "./dashboard/Routes";
 
 function App() {
 	return (
 		<>
-			<Routes>
-				<Route path="/dashboard/login" element={<DashNav />} />
-			</Routes>
+			<DashLayout />
 			{/* <Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />

@@ -1,34 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
-import SideBar from "./Sidebar";
 import { FaBars, FaTimes, FaUser } from "react-icons/fa";
+import { MdNotificationsActive, MdLogout } from "react-icons/md";
 import Logo from "../images/logo-knust.png";
 
 export default function Navbar(props) {
-	// const [isDrawerOpen, setDrawer] = useState(false);
+	const { isDrawerOpen, func } = props;
 	return (
 		<>
-			<div className="nav-flex">
-				<ul>
-					<img src={Logo} alt="..." style={{ width: 40, height: 50 }} />
-					<FaBars
-						size={25}
-						color="var(--darkBlue)"
-						style={{ marginRight: 18 }}
-						// onClick={() => setDrawer(!isDrawerOpen)}
-					/>
-				</ul>
-				<ul className="nav-inline-flex">
-					<li>Sign Up</li>
-					<li>Login</li>
-					<li className="user">
-						<FaUser />
-					</li>
-					<li>{/* <FaSearch />o */}</li>
-				</ul>
-			</div>
-
-
+			<nav>
+				<div className="d-nav-flex">
+					<ul>
+						{/* <img src={Logo} alt="..." style={{ width: 40, height: 50 }} /> */}
+						<FaBars
+							size={25}
+							color="var(--darkBlue)"
+							style={{ marginRight: 18 }}
+							onClick={() => func(!isDrawerOpen)}
+						/>
+					</ul>
+					<ul className="d-nav-inline-flex">
+						<li>
+							<MdNotificationsActive size={30} color="var(--darkBlue)" />
+						</li>
+						<li>
+							<MdLogout size={30} color="var(--darkBlue)" />
+						</li>
+					</ul>
+				</div>
+			</nav>
 		</>
 	);
 }

@@ -1,16 +1,19 @@
-import react from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import Emptypage from "./EmptyPage";
+import { Outlet } from "react-router-dom";
+import Drawer from "./Drawer";
+import { useState } from "react";
 export default function DashLayout() {
+	const [isDrawerOpen, setDrawer] = useState(false);
 	return (
 		<>
+			{isDrawerOpen && <Drawer />}
 			<div className="container-wrapper">
-				<Navbar />
+				<Navbar func={setDrawer} isDrawerOpen={isDrawerOpen} />
 				<div className="layout">
 					<Sidebar />
 					<div className="content">
-						<Emptypage />
+						<Outlet />
 					</div>
 				</div>
 			</div>
