@@ -60,7 +60,7 @@ a {
 	text-align: center;
 }
 
-.active {
+.nav-active {
 	border-bottom: 4px solid var(--darkBlue);
 	margin-top: 8px;
 }

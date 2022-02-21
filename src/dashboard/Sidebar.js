@@ -1,8 +1,9 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, Link } from "react-router-dom";
 import { SideBarItems } from "./Data-items";
 
 export default function Sidebar(props) {
+	const [dropDown, setDropDown] = useState(false);
 	return (
 		<>
 			<div className="main-sidebar">
@@ -20,19 +21,31 @@ export default function Sidebar(props) {
 					</div>
 					{SideBarItems.map((item) => {
 						return (
-							<NavLink
-								key={item.name}
-								to={`${item.href}`}
-								className={(navData) =>
-									navData.isActive ? "active-sidebar" : ""
-								}
-							>
-								<div className="dash-nav">
-									<li className="icon">{item.icon}</li>
-									<li className="dash-name">{item.name}</li>
-									<li className="">{/* <FaArrowRight /> */}</li>
+							<div key={item.name}>
+								<NavLink
+									to={`${item.href}`}
+									className={(navData) =>
+										navData.isActive ? "active-sidebar" : ""
+									}
+									onClick={() => setDropDown(true)}
+								>
+									<div className="dash-nav">
+										<li className="icon">{item.icon}</li>
+										<li className="dash-name">{item.name}</li>
+										<li className="">{/* <FaArrowRight /> */}</li>
+									</div>
+								</NavLink>
+								<div>
+									{item.children && dropDown && (
+										<Link to={`${item.children.href}`}>
+											<div className="dash-nav">
+												{/* <li className="icon"> {item.children.icon}</li> */}
+												<li className="dash-submenu"> {item.children.name}</li>
+											</div>
+										</Link>
+									)}
 								</div>
-							</NavLink>
+							</div>
 						);
 					})}
 				</div>

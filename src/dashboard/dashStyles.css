@@ -10,8 +10,10 @@ nav {
 	box-shadow: var(--darkShadow);
 	right: 0;
 }
-.d-nav-flex ul {
+.d-nav-flex ul > li {
 	top: 0;
+	text-decoration: none;
+	list-style: none;
 }
 .d-nav-inline-flex {
 	display: flex;
@@ -19,12 +21,28 @@ nav {
 	align-items: center;
 }
 .d-nav-inline-flex > li {
-	text-decoration: none;
-	list-style: none;
 	margin-left: 20px;
 	margin-right: 30px;
 }
+.dash-logo {
+	display: block;
+}
+.FaBars-display {
+	display: none;
+}
+.drop-down-show {
+	display: block;
+	display: none;
+	list-style: none;
+	text-decoration: none;
+	margin-left: 55px;
+}
 
+.drop-down-hide {
+}
+.dash-sub-menu {
+	margin-left: 55px;
+}
 /* top Title */
 .top-title-flex {
 	display: flex;
@@ -122,6 +140,7 @@ table {
 	width: 100%;
 	background-color: var(--mainWhite);
 	border-collapse: collapse;
+	margin-bottom: 15px;
 }
 td,
 th {
@@ -171,6 +190,7 @@ tr:nth-child(even) {
 .tutors-flex {
 	display: flex;
 	flex-direction: row;
+	justify-content: space-evenly;
 	flex-wrap: wrap;
 	gap: 10px;
 }
@@ -183,6 +203,16 @@ tr:nth-child(even) {
 .tutor-name {
 	color: var(--darkBlue);
 	font-weight: bold;
+}
+
+.division-title {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.head-title {
+	color: var(--darkBlue);
+	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
 .card-box-flex {
@@ -257,10 +287,19 @@ tr:nth-child(even) {
 }
 
 @media screen and (max-width: 972px) {
+	.FaBars-display {
+		display: block;
+	}
+	.dash-logo {
+		display: none;
+	}
 	.main-sidebar {
 		display: none;
 	}
 	.bread-crums {
+		font-size: large;
+	}
+	.head-title {
 		font-size: large;
 	}
 	.search-box {

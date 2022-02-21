@@ -17,6 +17,11 @@ export const SideBarItems = [
 		name: "Hostels",
 		href: "hostels",
 		icon: <FaHome size={20} color="var(--mainWhite)" />,
+		children: {
+			name: "Add Hostel",
+			href: "hostels/add",
+			icon: <FaHome size={20} color="var(--mainWhite)" />,
+		},
 	},
 	{
 		name: "Homestels",

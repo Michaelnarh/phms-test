@@ -5,13 +5,11 @@ import { FaStar } from "react-icons/fa";
 function ComomentsModal() {
 	const [show, setShow] = useState(false);
 	const [rating, setRating] = useState(0);
-
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
 	return (
 		<>
-			{/* <CustomButton className="m-5">Leave a Comment</CustomButton> */}
 			<CustomButton className="my-3" onClick={handleShow}>
 				Leave a Comment
 			</CustomButton>

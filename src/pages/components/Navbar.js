@@ -17,7 +17,7 @@ export default function Navbar(props) {
 					<li>
 						<NavLink
 							to="/"
-							className={(navData) => (navData.isActive ? "active" : "")}
+							className={(navData) => (navData.isActive ? "nav-active" : "")}
 						>
 							Home
 						</NavLink>

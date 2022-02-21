@@ -13,6 +13,7 @@ const residenceSchema = mongoose.Schema({
 	managerContact: { type: String },
 	porter: { name: { type: String }, contact: { type: String } },
 	coverImage: { type: String },
+
 	images: [{ type: String }],
 	facilities: [{ type: String }],
 	bookingLink: { type: String },
