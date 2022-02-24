@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import DashLayout from "./DashLayout";
+import Login from "./views/auth/Login";
+import Register from "./views/auth/Register";
 import DashBoard from "./views/DashBoard";
 import HostelsViews from "./views/Hostels/Index";
 import AddHostel from "./views/Hostels/AddHostel";
@@ -15,6 +17,8 @@ import Hostels from "./views/Hostels/Hostels";
 function MainLayout() {
 	return (
 		<Routes>
+			<Route path="/admin/login" element={<Login />} />
+			<Route path="/admin/register" element={<Register />} />
 			<Route path="/admin" element={<DashLayout />}>
 				<Route path="dashboard" element={<DashBoard />} />
 				<Route path="hostels" element={<HostelsViews />}>

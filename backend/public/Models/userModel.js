@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
 		default: "user",
 	},
 	password: { type: String, required: true, min: 8, select: false },
-	passwordConfirm: { type: String, required: true, min: 8 },
+	passwordConfirm: { type: String, required: true, min: 8, select: false },
 	passwordChangedAt: {
 		type: Date,
 		default: null,
@@ -25,7 +25,7 @@ userSchema.pre("save", async function (next) {
 	// console.log("on pre save");
 	if (!this.isModified("password")) return next();
 	this.password = await bcrypt.hash(this.password, 12);
-	this.passwordConfirm = undefined;
+	// this.passwordConfirm = undefined;
 	next();
 });
 userSchema.methods.correctPassword = async (canPass, userPass) => {

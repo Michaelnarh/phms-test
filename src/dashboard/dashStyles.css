@@ -286,6 +286,45 @@ tr:nth-child(even) {
 	align-items: center;
 }
 
+/* form-styles */
+.eg-text {
+	color: rgb(156, 151, 151);
+	font-size: 15px;
+}
+.required {
+	color: red !important;
+}
+
+/* auth styles */
+.center-center-login {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+	flex-direction: column;
+	margin-top: 17%;
+	justify-self: center;
+	justify-items: center;
+}
+.center-center-signup {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+	flex-direction: column;
+	margin-top: 10%;
+	justify-self: center;
+	justify-items: center;
+}
+
+.show-flex {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
 @media screen and (max-width: 972px) {
 	.FaBars-display {
 		display: block;

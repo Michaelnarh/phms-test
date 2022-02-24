@@ -16,9 +16,14 @@ exports.SignUp = async (req, res) => {
 
 		newUser.save();
 
+		const user = newUser.toObject();
+
+		delete user.password;
+		delete user.passwordConfirm;
+
 		res.status(201).json({
 			status: "success",
-			user: newUser,
+			user: user,
 			token,
 		});
 	} catch (err) {
