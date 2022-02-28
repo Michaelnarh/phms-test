@@ -16,7 +16,11 @@ router
 router
 	.route("/:id")
 	.get(residenceController.getResidence)
-	.patch(residenceController.updateResidence)
+	.patch(
+		residenceController.uploadCoverImage,
+		residenceController.resizeImage,
+		residenceController.updateResidence
+	)
 	.delete(residenceController.deleteResidence);
 
 module.exports = router;

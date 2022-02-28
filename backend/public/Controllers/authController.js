@@ -20,7 +20,14 @@ exports.SignUp = async (req, res) => {
 
 		delete user.password;
 		delete user.passwordConfirm;
-
+		res.cookie("jwt", token, {
+			expires: new Date(
+				Date.now + process.env.JWT_EXPIRES_IN * 24 * 3600 * 1000
+			),
+			secure: {
+				httpOnly: true,
+			},
+		});
 		res.status(201).json({
 			status: "success",
 			user: user,
@@ -49,10 +56,12 @@ exports.LogIn = async (req, res) => {
 		}
 		//signin token by the user
 		const token = SignInToken(user._id);
+		const u = user.toObject();
+		delete u.password;
 
 		res.status(200).json({
 			status: "success",
-			user,
+			user: u,
 			token,
 		});
 	} catch (err) {

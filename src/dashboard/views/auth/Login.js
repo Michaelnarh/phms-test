@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+// import process from "process";
 import axios from "axios";
 
 export default function Login(props) {
@@ -9,7 +10,7 @@ export default function Login(props) {
 			.email("input field must be an email")
 			.required("Email is Required"),
 		password: Yup.string()
-			// .matches("/([0-9])+([a-zA-Z])*/")
+			.min(6, "character too short, should be 6 and above")
 			.required("password  is Required"),
 	});
 
@@ -21,10 +22,12 @@ export default function Login(props) {
 	const renderError = (message) => <p className="text-danger">{message}</p>;
 
 	const handleSubmit = async (values) => {
+		alert(JSON.stringify(process.env.REACT_APP_API_URL));
 		alert(JSON.stringify(values, null, 2));
+		// alert(JSON.stringify({process.env.REACT_APP_API_URL});
 		const res = await axios({
 			method: "post",
-			url: "http://127.0.0.1:8080/api/v1/users/login",
+			url: `${process.env.REACT_APP_API_URL}/api/v1/users/login`,
 
 			headers: {
 				"Content-Type": "application/json",

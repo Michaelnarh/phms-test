@@ -317,6 +317,13 @@ tr:nth-child(even) {
 	justify-items: center;
 }
 
+/* show flex display */
+.show-flex-display {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
 .show-flex {
 	display: flex;
 	justify-content: center;

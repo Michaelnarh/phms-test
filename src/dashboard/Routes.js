@@ -5,6 +5,7 @@ import Register from "./views/auth/Register";
 import DashBoard from "./views/DashBoard";
 import HostelsViews from "./views/Hostels/Index";
 import AddHostel from "./views/Hostels/AddHostel";
+import ShowHostel from "./views/Hostels/ShowHostel";
 import Homestels from "./views/Homestels";
 import AreaMps from "./views/AreaMPs";
 import NssPersonnels from "./views/NssPersonnels";
@@ -24,6 +25,7 @@ function MainLayout() {
 				<Route path="hostels" element={<HostelsViews />}>
 					<Route index element={<Hostels />} />
 					<Route path="add" element={<AddHostel />} />
+					<Route path="show/:id" element={<ShowHostel />} />
 				</Route>
 				<Route path="homestels" element={<Homestels />} />
 				<Route path="zones" element={<Zones />} />

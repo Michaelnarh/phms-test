@@ -2,7 +2,6 @@ import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import process from "process";
 export default function Register(props) {
 	const validationSchema = Yup.object({
 		username: Yup.string().required("Email is Required"),
@@ -10,9 +9,7 @@ export default function Register(props) {
 			.email("input field must be an email")
 			.required("Email is Required"),
 		password: Yup.string()
-			.matches(
-				"(?=^.{6,}$)((?=.*d)|(?=.*W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-			)
+			.min(6, "character too short, should be 6 and above")
 			.required("password  is Required"),
 		passwordConfirm: Yup.string()
 			.required("password  is Required")
@@ -31,11 +28,12 @@ export default function Register(props) {
 	const renderError = (message) => <p className="text-danger">{message}</p>;
 
 	const handleSubmit = async (values) => {
-		alert(JSON.stringify(process.env.REACT_API_URL));
+		alert(JSON.stringify(process.env.REACT_APP_API_URL));
+		console.log(process.env);
 		alert(JSON.stringify(values, null, 2));
 		const res = await axios({
 			method: "post",
-			url: `${process.env.REACT_APP_API_URl}/api/v1/users/signup`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/users/signup`,
 
 			headers: {
 				"Content-Type": "application/json",

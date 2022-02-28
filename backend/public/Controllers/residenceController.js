@@ -1,7 +1,43 @@
 const Residence = require("../Models/residenceModel");
 const AppError = require("../utils/AppError");
+const multer = require("multer");
+const ApiFeatures = require("../utils/APIfeatures");
+const sharp = require("sharp");
+const fs = require("fs");
 
 //create new Residence
+
+const multerStorage = multer.memoryStorage();
+const multerFilter = async (req, file, cb) => {
+	if (file.mimetype.startsWith("image")) {
+		cb(null, true);
+		const dir = `public/images/${req.params.id.slice(20, 24)}`;
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir);
+		}
+	}
+	/// handle error when type is incorrect
+};
+
+exports.resizeImage = (req, res, next) => {
+	if (!req.file) return next();
+	req.file.filename = `coverImage-${Date.now()}.jpeg`;
+	const dir = `public/images/${req.params.id.slice(20, 24)}`;
+
+	sharp(req.file.buffer)
+		.resize(500, 500)
+		.toFormat("jpeg")
+		.jpeg({ quality: 90 })
+		.toFile(`${dir}/${req.file.filename}`);
+	next();
+};
+const upload = multer({
+	storage: multerStorage,
+	fileFilter: multerFilter,
+});
+// const upload = multer({ dest: "public/images/photo" });
+exports.uploadCoverImage = upload.single("coverImage");
+
 exports.createResidence = async (req, res) => {
 	try {
 		const newResidence = await Residence.create(req.body);
@@ -18,14 +54,19 @@ exports.createResidence = async (req, res) => {
 };
 
 //update an info about a Residence
-exports.updateResidence = async (req, res) => {
+exports.updateResidence = async (req, res, next) => {
 	if (!req.params.id) {
 		throw Error("Hostel  not identified");
 	}
 	try {
+		if (req.file) req.body.coverImage = req.file.filename;
 		const residence = await Residence.findByIdAndUpdate(
 			req.params.id,
-			req.body
+			req.body,
+			{
+				new: true,
+				runValidators: true,
+			}
 		);
 		res.status(201).json({
 			status: "success",
@@ -45,6 +86,7 @@ exports.getResidence = async (req, res) => {
 		const residence = await Residence.findById(req.params.id).populate(
 			"reviews"
 		);
+
 		res.status(200).json({
 			status: "success",
 			residence,
@@ -60,16 +102,20 @@ exports.getResidence = async (req, res) => {
 // get all residences
 exports.getAllResidence = async (req, res) => {
 	try {
-		const residences = await Residence.find();
+		// const queryObj = { ...req.query };
+		// const excludedFields = ["page", "sort", "limit", "fields"];
+		// excludedFields.forEach((el) => delete queryObj[el]);
+		// console.log(req.query, queryObj);
 
-		const queryObj = { ...req.query };
-		const excludedFields = ["page", "sort", "limit", "fields"];
-		excludedFields.forEach((el) => delete queryObj[el]);
+		// let queryStr = JSON.stringify(queryObj);
+		// queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
 
-		let queryStr = JSON.stringify(queryObj);
-		queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
+		// let query = await Residence.find(JSON.parse(queryStr));
 
-		let query = await Residence.find(JSON.parse(queryStr));
+		const features = new ApiFeatures(Residence.find(), req.query)
+			.filter()
+			.paginate(2);
+		const residences = await features.query;
 
 		// if (req.query.sort) {
 		//   const sortBy = req.query.sort.split(",").join(" ");
@@ -93,8 +139,9 @@ exports.getAllResidence = async (req, res) => {
 		//pagination
 
 		res.status(200).json({
+			total: residences.length,
 			status: "success",
-			message: residences,
+			data: residences,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -146,9 +193,21 @@ exports.getHostels = async (req, res) => {
 	try {
 		const hostels = await Residence.find({ residenceType: "Hostel" });
 		//paginate response
+		const feature = new ApiFeatures(
+			Residence.find({ residenceType: "Hostel" }).populate({
+				path: "zone",
+				select: "name",
+			}),
+			req.query
+		)
+			.filter()
+			.paginate(25);
+
+		const current_hostels = await feature.query;
 		res.status(200).json({
+			total: hostels.length,
 			status: "success",
-			message: hostels,
+			data: current_hostels,
 		});
 	} catch (err) {
 		res.status(400).json({

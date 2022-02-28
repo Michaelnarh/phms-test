@@ -25,13 +25,13 @@ export default function Addhostel(props) {
 		name: Yup.string().required("Residence is Required"),
 		residenceType: Yup.string().required("Residence Type is required"),
 		location: Yup.string().required("Location is Required"),
-		digitalAddress: Yup.string().required("Digital address is required"),
-		managersName: Yup.string().required("Manager's Name is required"),
-		managersContact: Yup.string().required("Manager's Contact is required"),
-		portersName: Yup.string().required("Porter's Name is required"),
-		portersContact: Yup.string().required("Porter's Contact is required"),
-		ownersName: Yup.string().required("Owner's Name is required"),
-		ownersContact: Yup.string().required("Owner's Contact is required"),
+		digitalAddress: Yup.string().nullable(),
+		managersName: Yup.string().nullable(),
+		managersContact: Yup.string().nullable(),
+		portersName: Yup.string().nullable(),
+		portersContact: Yup.string().nullable(),
+		ownersName: Yup.string().nullable(),
+		ownersContact: Yup.string().nullable(),
 		bookingLink: Yup.string()
 			.matches(
 				/((http?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
@@ -40,16 +40,7 @@ export default function Addhostel(props) {
 			.nullable(),
 		zone: Yup.string().required("Residence Zone is required"),
 		// facilities: Yup.array().nullable(),
-
-		// gpsAddress: Yup.object().shape({
-		// 	coordinates: Yup.array().of(
-		// 		Yup.object.shape({
-		// 		})
-		// 	),
-		// }),
-		//	registered: Yup.boolean().nullable(),
 		regDate: Yup.date().nullable(),
-
 		coverImage: Yup.mixed().nullable(),
 	});
 
