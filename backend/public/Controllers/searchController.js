@@ -2,11 +2,11 @@ const Residence = require("../Models/residenceModel");
 
 exports.searchResidence = async (req, res) => {
 	try {
-		const { search } = req.params;
+		const { search } = req.body;
 		const result = await Residence.find({ name: `${search}` });
 		res.status(200).json({
 			status: "success",
-			result,
+			data: result,
 		});
 	} catch (err) {
 		res.status(400).json({

@@ -3,6 +3,7 @@ import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import SearchForm from "../../utils/SearchForm";
 
 export default function Hostels(props) {
 	const [hostels, setHostels] = useState([]);
@@ -43,14 +44,7 @@ export default function Hostels(props) {
 	return (
 		<>
 			<div className="content-top-flex">
-				<div className="search-area">
-					<div>
-						<input className="search-box" placeholder="Search Hostel" />
-					</div>
-					<div>
-						<button className=" btn  form-control">SEARCH</button>
-					</div>
-				</div>
+				<SearchForm data={hostels} />
 			</div>
 			<div className="table-container">
 				<table>

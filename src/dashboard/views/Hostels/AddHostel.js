@@ -1,25 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import Dropzone from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 
 import Thumb from "../../utils/Thumb";
 
 export default function Addhostel(props) {
+	const fileRef = useRef();
+	const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 	const [alt, setlt] = useState("");
 	const [lng, setlg] = useState("");
 
 	const isLatitude = (num) => isFinite(num) && Math.abs(num) <= 90;
 	const isLongitude = (num) => isFinite(num) && Math.abs(num) <= 180;
-	const dropzoneStyle = {
-		width: "auto",
-		height: "auto",
-		borderWidth: 7,
-		borderColor: "rgb(102, 102, 102)",
-		borderStyle: "dashed",
-		borderRadius: 5,
-	};
 
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Residence is Required"),
@@ -41,7 +36,8 @@ export default function Addhostel(props) {
 		zone: Yup.string().required("Residence Zone is required"),
 		// facilities: Yup.array().nullable(),
 		regDate: Yup.date().nullable(),
-		coverImage: Yup.mixed().nullable(),
+		// coverImage: Yup.string().nullable(),
+		// images: Yup.array(),
 	});
 
 	const initialValues = {
@@ -71,6 +67,7 @@ export default function Addhostel(props) {
 	const onSubmit = async (values) => {
 		values.gpsAddress.coordinates[0] = lng; //insert longitude data
 		values.gpsAddress.coordinates[1] = alt; //insert latitude data
+		console.log(values);
 		// const res = await axios.post({
 		// 	url:`http://localhost:8080/api/v1/residences`,
 		// 	data:JSON.stringify(values)
@@ -85,13 +82,14 @@ export default function Addhostel(props) {
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}
-					validationSchema={validationSchema}
+					// validationSchema={validationSchema}
 					onSubmit={async (values, { resetForm }) => {
+						console.log(values);
 						await onSubmit(values);
-						resetForm();
+						// resetForm();
 					}}
 				>
-					{({ values, onSubmit, setFieldValue }) => (
+					{({ values, setFieldValue }) => (
 						<Form>
 							<div className="row">
 								<div className="col-md-4 col-sm-12">
@@ -312,7 +310,7 @@ export default function Addhostel(props) {
 									</div>
 								</div>
 								<div className="row mt-3">
-									<div className="col-md-6 col-sm-12 ">
+									{/* <div className="col-md-6 col-sm-12 ">
 										<Field
 											type="file"
 											className="form-control"
@@ -320,7 +318,7 @@ export default function Addhostel(props) {
 											name="coverImage"
 										/>
 										<ErrorMessage name="coverImage" render={renderError} />
-									</div>
+									</div> */}
 								</div>
 							</div>
 							<div className="row mt-3 ">
@@ -343,18 +341,17 @@ export default function Addhostel(props) {
 									<ErrorMessage name="zone" render={renderError} />
 								</div>
 							</div>
-							<div></div>
 
-							<Dropzone
-								style={dropzoneStyle}
-								name="images"
+							{/* <Dropzone
+								multiple={true}
+								className="dropzone"
 								accept="image/*"
 								onDrop={(acceptedFiles) => {
+									console.log("hi");
 									// do nothing if no files
 									if (acceptedFiles.length === 0) {
 										return;
 									}
-
 									// on drop we add to the existing files
 									setFieldValue("images", values.images.concat(acceptedFiles));
 								}}
@@ -381,7 +378,9 @@ export default function Addhostel(props) {
 										<Thumb key={i} file={file} />
 									));
 								}}
-							</Dropzone>
+							</Dropzone> */}
+							<input hidden type="file" />
+							<button ref={fileRef.current}>upload Images</button>
 							<button type="submit" className="btn is-primary">
 								Submit
 							</button>

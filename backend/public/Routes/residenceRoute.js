@@ -4,7 +4,7 @@ const searchController = require("../Controllers/searchController");
 const router = express.Router();
 //special routes
 /**get residence by type */
-router.route("/search?:search").get(searchController.searchResidence);
+router.route("/search").post(searchController.searchResidence);
 router.route("/hostels").get(residenceController.getHostels);
 router.route("/homestels").get(residenceController.getHomestels);
 
@@ -17,7 +17,8 @@ router
 	.route("/:id")
 	.get(residenceController.getResidence)
 	.patch(
-		residenceController.uploadCoverImage,
+		residenceController.uploadImages,
+		// residenceController.uploadImages,
 		residenceController.resizeImage,
 		residenceController.updateResidence
 	)

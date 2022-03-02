@@ -332,6 +332,15 @@ tr:nth-child(even) {
 	flex-wrap: wrap;
 }
 
+.dropzone {
+	width: "auto";
+	height: "auto";
+	border-width: 7;
+	border-color: "rgb(102, 102, 102)";
+	border-style: "dashed";
+	border-radius: 5;
+}
+
 @media screen and (max-width: 972px) {
 	.FaBars-display {
 		display: block;

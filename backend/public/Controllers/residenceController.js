@@ -8,35 +8,68 @@ const fs = require("fs");
 //create new Residence
 
 const multerStorage = multer.memoryStorage();
+// {
+// 	destination: (req, files, cb) => {
+//
+// 		if (req.files["coverImage"]) {
+// 			console.log(req);
+// 			cb(null, dir);
+// 		}
+// 		if (files.filename === "images") {
+// 			cb(null, dir);
+// 		}
+// 	},
+// }
+
 const multerFilter = async (req, file, cb) => {
-	if (file.mimetype.startsWith("image")) {
-		cb(null, true);
-		const dir = `public/images/${req.params.id.slice(20, 24)}`;
-		if (!fs.existsSync(dir)) {
-			fs.mkdirSync(dir);
-		}
-	}
+	// if (files.mimetype.startsWith("image")) {
+	cb(null, true);
+	// }
 	/// handle error when type is incorrect
 };
 
-exports.resizeImage = (req, res, next) => {
-	if (!req.file) return next();
-	req.file.filename = `coverImage-${Date.now()}.jpeg`;
+exports.resizeImage = async (req, res, next) => {
+	// if (!req.files) return next();
+	// console.log(req.files);
+	const filename_cover = `cover-image-${Date.now()}.jpeg`;
 	const dir = `public/images/${req.params.id.slice(20, 24)}`;
+	if (!fs.existsSync(dir)) {
+		fs.mkdirSync(dir);
+	}
 
-	sharp(req.file.buffer)
+	await sharp(req.files["coverImage"][0].buffer)
 		.resize(500, 500)
 		.toFormat("jpeg")
 		.jpeg({ quality: 90 })
-		.toFile(`${dir}/${req.file.filename}`);
+		.toFile(`${dir}/${filename_cover}`);
+
+	req.body.coverImage = filename_cover;
+
+	req.body.images = [];
+
+	await Promise.all(
+		req.files["images"].map(async (el) => {
+			const filename = `image-${Date.now()}.jpeg`;
+			await sharp(el.buffer)
+				.resize(500, 500)
+				.toFormat("jpeg")
+				.jpeg({ quality: 90 })
+				.toFile(`${dir}/${filename}`);
+			req.body.images.push(filename);
+		})
+	);
+
 	next();
 };
 const upload = multer({
 	storage: multerStorage,
 	fileFilter: multerFilter,
 });
-// const upload = multer({ dest: "public/images/photo" });
-exports.uploadCoverImage = upload.single("coverImage");
+//upload single file for the cover-image & images.
+exports.uploadImages = upload.fields([
+	{ name: "coverImage", maxCount: 1 },
+	{ name: "images", maxCount: 8 },
+]);
 
 exports.createResidence = async (req, res) => {
 	try {
@@ -59,7 +92,8 @@ exports.updateResidence = async (req, res, next) => {
 		throw Error("Hostel  not identified");
 	}
 	try {
-		if (req.file) req.body.coverImage = req.file.filename;
+		// if (req.files) req.body.coverImage = req.file.filename;
+
 		const residence = await Residence.findByIdAndUpdate(
 			req.params.id,
 			req.body,
@@ -102,41 +136,10 @@ exports.getResidence = async (req, res) => {
 // get all residences
 exports.getAllResidence = async (req, res) => {
 	try {
-		// const queryObj = { ...req.query };
-		// const excludedFields = ["page", "sort", "limit", "fields"];
-		// excludedFields.forEach((el) => delete queryObj[el]);
-		// console.log(req.query, queryObj);
-
-		// let queryStr = JSON.stringify(queryObj);
-		// queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
-
-		// let query = await Residence.find(JSON.parse(queryStr));
-
 		const features = new ApiFeatures(Residence.find(), req.query)
 			.filter()
-			.paginate(2);
+			.paginate(25);
 		const residences = await features.query;
-
-		// if (req.query.sort) {
-		//   const sortBy = req.query.sort.split(",").join(" ");
-		//   query = query.sort(sortBy);
-		// } else {
-		//   query.sort("-createdAt");
-		// }
-
-		//fields limiting
-		// if (req.query.fields) {
-		//   const fields = req.query.limi.split(",").join(" ");
-		//   query = query.select(fields);
-		// } else {
-		//   query = query.select("-__v");
-		// }
-		//  const page = (req.query.page * 1) | 1;
-		//     const limit = (req.query.limit * 1) | 30;
-		//     const skip = (page - 1) * limit;
-
-		//     query = query.skip(skip).limit(limit);
-		//pagination
 
 		res.status(200).json({
 			total: residences.length,
@@ -215,4 +218,10 @@ exports.getHostels = async (req, res) => {
 			message: err.message,
 		});
 	}
+};
+
+exports.getStatistic = (req, res) => {
+	const hostels_num = Residence.find({
+		residenceType: "Hostel",
+	}).countDocument();
 };
