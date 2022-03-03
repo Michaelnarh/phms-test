@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import adombi from "../images/adom_bi.jpg";
-import adombi2 from "../images/adom_bi-2.jpg";
 import MapComponent from "./components/MapsComponent";
-import SlideShow from "./components/SlideShow";
 import { useParams } from "react-router-dom";
 import { CustomButton } from "./components/stylecomponents";
 import ComomentsModal from "./components/CommentsModal";
+import ImageGallery from "react-image-gallery";
 
 export default function Hosteldetails(props) {
 	const { id } = useParams();
@@ -16,43 +14,43 @@ export default function Hosteldetails(props) {
 		// cleanup
 		// return () => {};
 	}, []);
+	const images = [
+		{
+			id: 1,
+			original: "/imgs/adom_bi-2.jpg",
+			thumbnail: "https:/picsum.photos/id/1015/250/150",
+			orginalHeight: 600,
+			orginalWidth: 700,
+			thumbnailHeight: 40,
+			thumbnailWidth: 20,
+		},
+		{
+			id: 2,
+			original: "/imgs/adom_bi.jpg",
+			thumbnail: "https:/picsum.photos/id/1011/250/150",
+		},
+		{
+			id: 3,
+			original: "/imgs/canam-hall-2.jpg",
+			thumbnail: "https:/picsum.photos/id/1011/250/150",
+		},
+		{
+			id: 4,
+			original: "/imgs/jj.jpg",
+			thumbnail: "https:/picsum.photos/id/1011/250/150",
+			orginalHeight: 100,
+			orginalWidth: 400,
+			thumbnailHeight: 40,
+			thumbnailWidth: 20,
+		},
+	];
 	return (
 		<>
 			<div className="container mt-5 ">
 				<div className="row">
 					<div className="col-md-4 col-lg-6 col-sm-12 mb-2">
 						<div>
-							<img
-								className="img-fluid"
-								src={adombi}
-								alt="..."
-								style={{
-									borderRadius: 5,
-								}}
-							/>
-						</div>
-						<div className="mt-2 flex-display-s">
-							<div>
-								<img
-									src={adombi}
-									style={{ height: 100, width: 100 }}
-									alt="..."
-								/>
-							</div>
-							<div>
-								<img
-									src={adombi2}
-									style={{ height: 100, width: 100 }}
-									alt="..."
-								/>
-							</div>
-							<div>
-								<img
-									src={adombi}
-									style={{ height: 100, width: 100 }}
-									alt="..."
-								/>
-							</div>
+							<ImageGallery items={images} />
 						</div>
 						<div className="row">
 							<div className="col-md-6 col-lg-6 col-sm-12">
@@ -68,7 +66,7 @@ export default function Hosteldetails(props) {
 							<div>
 								<h2 className="text-center details-header ">{id}</h2>
 								<div>
-									<h5>Description</h5>
+									<h6>Description</h6>
 									<p>
 										display of multiple images display of multiple imagesdisplay
 										of multiple imagesdisplay of multiple images display of
@@ -78,37 +76,37 @@ export default function Hosteldetails(props) {
 							</div>
 							<div className="flex-display">
 								<div className="text-center">
-									<h5>Location</h5>
+									<h6>Location</h6>
 									<p>Ayeduase</p>
 								</div>
 								<div className="text-center">
-									<h5>Constituency / Zone</h5>
+									<h6>Constituency / Zone</h6>
 									<p>Ayeduase North</p>
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className="text-center">
-									<h5>Manager's Name</h5>
+									<h6>Manager's Name</h6>
 									<p>John Doe</p>
 								</div>
 								<div className="text-center">
-									<h5>Manager's Contact</h5>
+									<h6>Manager's Contact</h6>
 									<p>0537783990</p>
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className=" text-center">
-									<h5>Porter's Name</h5>
+									<h6>Porter's Name</h6>
 									<p>Suleman Smith</p>
 								</div>
 								<div className=" text-center">
-									<h5>Manager's Contact</h5>
+									<h6>Manager's Contact</h6>
 									<p>0537783990</p>
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className=" text-center">
-									<h5>Digital Address</h5>
+									<h6>Digital Address</h6>
 									<p>AK-420-3310</p>
 								</div>
 							</div>
@@ -119,7 +117,7 @@ export default function Hosteldetails(props) {
 			<div>
 				<div className="container">
 					<div className="card">
-						<MapComponent isMarkerShown={true} />
+						{/* <MapComponent isMarkerShown={true} /> */}
 					</div>
 				</div>
 			</div>

@@ -3,13 +3,18 @@ import DashLayout from "./DashLayout";
 import Login from "./views/auth/Login";
 import Register from "./views/auth/Register";
 import DashBoard from "./views/DashBoard";
-import HostelsViews from "./views/Hostels/Index";
-import HomestelsViews from "./views/Homestels/Index";
-import Hostels from "./views/Hostels/Hostels";
-import AddHostel from "./views/Hostels/AddHostel";
-import ShowHostel from "./views/Hostels/ShowHostel";
-// import Homestels from "./views/Homestels";
-import Homestels from "./views/Homestels/Homestel";
+
+//import of hostel views
+import HostelsViews from "./views/hostels/Index";
+import Hostels from "./views/hostels/Hostels";
+import AddHostel from "./views/hostels/AddHostel";
+import ShowHostel from "./views/hostels/ShowHostel";
+
+// import of Homestel views
+import HomestelsViews from "./views/homestels/Index";
+import Homestels from "./views/homestels/Homestel";
+import AddHomestel from "./views/homestels/AddHomestel";
+
 import AreaMps from "./views/AreaMPs";
 import NssPersonnels from "./views/NssPersonnels";
 import SnrTutors from "./views/SnrTutors";
@@ -17,17 +22,20 @@ import Facilities from "./views/Facilities";
 import NotFoundPage from "./views/404Page";
 import Zones from "./views/Zones";
 
+//import navigatin routes
+
 function MainLayout() {
 	return (
 		<Routes>
 			<Route path="/admin/login" element={<Login />} />
 			<Route path="/admin/register" element={<Register />} />
+
 			<Route path="/admin" element={<DashLayout />}>
 				<Route path="dashboard" element={<DashBoard />} />
 				<Route path="hostels" element={<HostelsViews />}>
 					<Route index element={<Hostels />} />
 					<Route path="add" element={<AddHostel />} />
-					<Route path="show/:id" element={<ShowHostel />} />
+					<Route path="details/:id" element={<ShowHostel />} />
 				</Route>
 				<Route path="homestels" element={<HomestelsViews />}>
 					<Route index element={<Homestels />} />

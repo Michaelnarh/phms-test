@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Searchform(props) {
+	const navigate = useNavigate();
 	const { data } = props.data;
 	const [text, setText] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
@@ -40,6 +42,8 @@ export default function Searchform(props) {
 			},
 			data: data,
 		});
+
+		navigate(`details/${res.data.data[0]._id}`);
 	};
 
 	return (
@@ -67,7 +71,7 @@ export default function Searchform(props) {
 					{suggestions.slice(0, 6).map((item, index) => {
 						return (
 							<>
-								<div key={index}>
+								<div key={item._id}>
 									<h5
 										className="suggest-list"
 										onClick={() => onSuggestion(item.name)}

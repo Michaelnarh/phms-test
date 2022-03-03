@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchForm from "../../utils/SearchForm";
 
 export default function Hostels(props) {
+	const navigate = useNavigate();
 	const [hostels, setHostels] = useState([]);
 	const [pageCount, setPageCount] = useState(0);
 	const [page, setPage] = useState(1);
@@ -24,11 +25,7 @@ export default function Hostels(props) {
 	}, [page, limit]);
 
 	const handleView = async (id) => {
-		const res = await axios({
-			method: "get",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${id}`,
-		});
-		console.log(res.data);
+		navigate(`details/${id}`);
 	};
 	const handleEdit = async (id) => {
 		const res = await axios({

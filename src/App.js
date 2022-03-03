@@ -1,6 +1,7 @@
 import "./App.css";
 import "./dashboard/dashStyles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-image-gallery/styles/css/image-gallery.css";
 /***
  * import from the dashboard
  */
@@ -22,8 +23,8 @@ import DashLayout from "./dashboard/Routes";
 function App() {
 	return (
 		<>
-			<DashLayout />
-			{/* <Navbar />
+			{/* <DashLayout /> */}
+			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/hostels" element={<Hostels />} />
@@ -32,7 +33,7 @@ function App() {
 				<Route path="/hostels/:id" element={<ResidenceDetails />} />
 				<Route path="/help-desk" element={<HelpDesk />} />
 			</Routes>
-			<Footer /> */}
+			<Footer />
 		</>
 	);
 }

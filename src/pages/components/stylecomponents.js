@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export const CustomButton = styled.h5`
-	padding: 1rem;
+export const CustomButton = styled.p`
+	padding: 6px;
 	background-image: linear-gradient(to right, var(--tqColor), var(--darkBlue));
 	color: ${(props) => (props.textColor ? props.textColor : "var(--mainWhite)")};
 	border-radius: 10px;
@@ -17,8 +17,8 @@ export const CustomButton = styled.h5`
 `;
 
 export const Divider = styled.div`
-	border: 5px solid ${(props)=>props.color?props.color:"var(--tqColor)"};
+	border: 5px solid ${(props) => (props.color ? props.color : "var(--tqColor)")};
 	width: 80px;
 	margin-bottom: 18px;
-	color: ${(props)=>props.color?props.color:"var(--tqColor)"};
+	color: ${(props) => (props.color ? props.color : "var(--tqColor)")};
 `;

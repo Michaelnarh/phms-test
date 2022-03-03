@@ -210,7 +210,7 @@ hostel and homestel images
 		justify-content: center;
 	}
 	.banner-header {
-		font-size: 3rem;
+		font-size: 2.2rem;
 	}
 	.banner-sub-header {
 		font-size: 1rem !important;
@@ -221,6 +221,9 @@ hostel and homestel images
 	}
 	.suggestions-area {
 		width: auto;
+	}
+	.details-header {
+		font-size: 2.3rem;
 	}
 }
 

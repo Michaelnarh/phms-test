@@ -5,21 +5,7 @@ const ApiFeatures = require("../utils/APIfeatures");
 const sharp = require("sharp");
 const fs = require("fs");
 
-//create new Residence
-
-const multerStorage = multer.memoryStorage();
-// {
-// 	destination: (req, files, cb) => {
-//
-// 		if (req.files["coverImage"]) {
-// 			console.log(req);
-// 			cb(null, dir);
-// 		}
-// 		if (files.filename === "images") {
-// 			cb(null, dir);
-// 		}
-// 	},
-// }
+const multerStorage = multer.memoryStorage(); //create memorystorage for sharp resizing
 
 const multerFilter = async (req, file, cb) => {
 	// if (files.mimetype.startsWith("image")) {
@@ -61,16 +47,19 @@ exports.resizeImage = async (req, res, next) => {
 
 	next();
 };
+
 const upload = multer({
 	storage: multerStorage,
 	fileFilter: multerFilter,
 });
+
 //upload single file for the cover-image & images.
 exports.uploadImages = upload.fields([
 	{ name: "coverImage", maxCount: 1 },
 	{ name: "images", maxCount: 8 },
 ]);
 
+//create new Residence
 exports.createResidence = async (req, res) => {
 	try {
 		const newResidence = await Residence.create(req.body);
@@ -123,7 +112,7 @@ exports.getResidence = async (req, res) => {
 
 		res.status(200).json({
 			status: "success",
-			residence,
+			data: residence,
 		});
 	} catch (err) {
 		res.status(400).json({

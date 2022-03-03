@@ -7,6 +7,7 @@ const seniourTutorSchema = mongoose.Schema({
 		required: [true, "Email field is required"],
 		unique: true,
 	},
+	current: { type: Boolean, default: true },
 	contact: { type: String },
 	zones: [{ type: mongoose.Schema.Types.ObjectId, ref: "Zone" }],
 });
