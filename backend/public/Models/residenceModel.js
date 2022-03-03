@@ -30,9 +30,12 @@ const residenceSchema = mongoose.Schema({
 	},
 	rating: { type: Number, max: 5, default: 3.2 },
 	addedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-	registered: { type: Boolean },
+	distance: { type: String },
+	capacity: { type: Number },
+	maleCapacity: { type: Number },
+	femaleCapacity: { type: Number },
 	regDate: { type: Date },
-
+	registered: { type: Boolean },
 	createAt: { type: Date, default: Date.now() },
 	updadtedAt: { type: Date },
 });

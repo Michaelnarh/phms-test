@@ -25,7 +25,7 @@ export default function Navbar(props) {
 					<li>
 						<NavLink
 							to="/hostels"
-							className={(navData) => (navData.isActive ? "active" : "")}
+							className={(navData) => (navData.isActive ? "nav-active" : "")}
 						>
 							Hostels
 						</NavLink>
@@ -33,7 +33,7 @@ export default function Navbar(props) {
 					<li>
 						<NavLink
 							to="/homestels"
-							className={(navData) => (navData.isActive ? "active" : "")}
+							className={(navData) => (navData.isActive ? "nav-active" : "")}
 						>
 							Hometels
 						</NavLink>
@@ -41,7 +41,7 @@ export default function Navbar(props) {
 					<li>
 						<NavLink
 							to="/help-desk"
-							className={(navData) => (navData.isActive ? "active" : "")}
+							className={(navData) => (navData.isActive ? "nav-active" : "")}
 						>
 							Help Desk
 						</NavLink>
@@ -73,7 +73,7 @@ export default function Navbar(props) {
 					)}
 				</ul>
 			</div>
-			{isDrawerOpen && <Drawer />}
+			{isDrawerOpen && <Drawer setDrawer={isDrawerOpen} />}
 		</>
 	);
 }

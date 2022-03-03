@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import MenuItems from "./MenuItems";
 export default function Drawer(props) {
+	const { setDrawer } = props;
 	return (
 		<>
 			<ul className="drawer">
@@ -9,6 +9,7 @@ export default function Drawer(props) {
 					<NavLink
 						to="/"
 						className={(navData) => (navData.isActive ? "active" : "")}
+						onClick={() => setDrawer(false)}
 					>
 						Home
 					</NavLink>
@@ -17,14 +18,16 @@ export default function Drawer(props) {
 					<NavLink
 						to="/hostels"
 						className={(navData) => (navData.isActive ? "active" : "")}
+						onClick={() => setDrawer(false)}
 					>
 						Hostels
 					</NavLink>
 				</li>
 				<li className="drawer-item">
 					<NavLink
-						to="/homestel"
+						to="/homestels"
 						className={(navData) => (navData.isActive ? "active" : "")}
+						onClick={() => setDrawer(false)}
 					>
 						Hometels
 					</NavLink>
@@ -33,6 +36,7 @@ export default function Drawer(props) {
 					<NavLink
 						to="/help-desk"
 						className={(navData) => (navData.isActive ? "active" : "")}
+						onClick={() => setDrawer(false)}
 					>
 						Help Desk
 					</NavLink>

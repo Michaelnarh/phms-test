@@ -1,56 +1,68 @@
-import React from "react";
-import Hostel from "./components/Hostel";
+import React, { useEffect, useState } from "react";
+import Residence from "./components/Residence";
 import Searchbox from "./components/SearchBox";
-const data = [
-	{
-		name: "Family Renewal",
-		img: "/imgs/family-renewal.jpg",
-		location: "Ayeduase",
-		distance: 10,
-		gpsAdrress: [12.2233, -12.23432],
-	},
-	{
-		name: "Nana Kesse's House",
-		img: "/imgs/homestel.jpg",
-		location: "Ayeduase",
-		distance: 12,
-		gpsAdrress: [12.2233, -12.23432],
-		digitalAdrress: "AK-2670-1289",
-	},
-	{
-		name: "El-shaddai",
-		img: "/imgs/download.png",
-		location: "Ayeduase",
-		distance: 16,
-		gpsAdrress: [12.2233, -12.23432],
-		digitalAdrress: "AK-2670-1289",
-	},
-	{
-		name: "Koveland Homestel",
-		img: "/imgs/download.png",
-		location: "Ayeduase",
-		distance: 15,
-		gpsAdrress: [72.2233, -12.23432],
-		digitalAdrress: "AK-2670-1289",
-	},
-];
+import ReactPaginate from "react-paginate";
+import axios from "axios";
+
 export default function Hostels(props) {
+	const [homestels, setHomestels] = useState([]);
+	const [pageCount, setPageCount] = useState(0);
+	const [page, setPage] = useState(1);
+	const [limit, setLimit] = useState(24);
+	useEffect(() => {
+		const fetchHomestels = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/homestels?page=${page}&limit=${limit}`,
+			});
+			console.log(res.data.total);
+			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
+			setHomestels(res.data.data);
+		};
+
+		fetchHomestels();
+	}, [page, limit]);
+
+	const handlePageClick = (p) => {
+		setPage(p.selected + 1);
+		setLimit(limit);
+	};
 	return (
 		<>
 			<div className="container">
 				<div>
-					<Searchbox data={data} />
+					<Searchbox data={homestels} />
 				</div>
-				<div className="hostel-flex mt-5">
-					{data &&
-						data.map((item, index) => {
+				<div className="hostel-flex my-5">
+					{homestels &&
+						homestels.map((item, index) => {
 							return (
 								<>
-									<Hostel data={item} key={index} />
+									<Residence residence={item} key={index} />
 								</>
 							);
 						})}
 				</div>
+				<ReactPaginate
+					breakLabel="..."
+					nextLabel="Next >>"
+					onPageChange={handlePageClick}
+					// pageRangeDisplayed={5}
+					pageCount={pageCount}
+					previousLabel="<< Previous"
+					renderOnZeroPageCount={null}
+					containerClassName="pagination justify-content-center"
+					pageClassName="page-item"
+					pageLinkClassName="page-link"
+					activeClassName=" active"
+					activeLinkClassName="active"
+					breakClassName="page-item"
+					breakLinkClassName="page-link"
+					nextClassName="page-item"
+					nextLinkClassName="page-link"
+					previousClassName="page-item"
+					previousLinkClassName="page-link"
+				/>
 			</div>
 		</>
 	);
