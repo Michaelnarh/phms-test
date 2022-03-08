@@ -1,17 +1,31 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
-import Dropzone from "react-dropzone";
+import JsonToFormData from "../../utils/JsonToFormData";
 import { useDropzone } from "react-dropzone";
 
 import Thumb from "../../utils/Thumb";
 
 export default function Addhostel(props) {
-	const fileRef = useRef();
-	const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
-	const [alt, setlt] = useState("");
-	const [lng, setlg] = useState("");
+	const [accepted, setAccepted] = useState([]);
+	const onDrop = useCallback((acceptedFiles) => {
+		console.log("hi");
+		// do nothing if no files
+		// if (acceptedFiles.length === 0) {
+		// 	return;
+		// }
+		// on drop we add to the existing files
+		// setFieldValue("images", values.images.concat(acceptedFiles));
+		setAccepted(acceptedFiles);
+		// acceptedFiles.forEach((file, i) => {
+		// 	setAccepted.push(file);
+		// });
+	}, []);
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+	const [lat, setlt] = useState(-11.121);
+	const [lng, setlg] = useState(21.2122);
 
 	const isLatitude = (num) => isFinite(num) && Math.abs(num) <= 90;
 	const isLongitude = (num) => isFinite(num) && Math.abs(num) <= 180;
@@ -45,7 +59,7 @@ export default function Addhostel(props) {
 		residenceType: "",
 		location: "",
 		gpsAddress: {
-			coordinates: [parseFloat(lng), parseFloat(alt)],
+			coordinates: [parseFloat(lng), parseFloat(lat)],
 		},
 		digitalAddress: "",
 		bookingLink: "",
@@ -65,15 +79,23 @@ export default function Addhostel(props) {
 	const renderError = (message) => <p className="text-danger">{message}</p>;
 
 	const onSubmit = async (values) => {
+		values.images = accepted;
+
+		values.coverImage = accepted[0];
+		values.gpsAddress.coordinates[1] = lat; //insert latitude data
 		values.gpsAddress.coordinates[0] = lng; //insert longitude data
-		values.gpsAddress.coordinates[1] = alt; //insert latitude data
-		console.log(values);
-		// const res = await axios.post({
-		// 	url:`http://localhost:8080/api/v1/residences`,
-		// 	data:JSON.stringify(values)
-		// });
-		// console.log(res);
-		alert(JSON.stringify(values, null, 2));
+
+		const form_data = JsonToFormData(values);
+		alert(JSON.stringify(form_data, null, 2));
+		const res = await axios({
+			method: "patch",
+			url: `${process.env.REACT_APP_API_URL}/api/v1/residences/62190417a06c031b84009105`,
+			headers: {
+				"Content-Type": "multipart/formdata",
+			},
+			data: form_data,
+		});
+		console.log(res);
 	};
 
 	return (
@@ -86,7 +108,7 @@ export default function Addhostel(props) {
 					onSubmit={async (values, { resetForm }) => {
 						console.log(values);
 						await onSubmit(values);
-						// resetForm();
+						resetForm();
 					}}
 				>
 					{({ values, setFieldValue }) => (
@@ -157,18 +179,18 @@ export default function Addhostel(props) {
 										type="text"
 										className="form-control"
 										placeholder="+/-90 Latitude"
-										value={alt}
-										onChange={(e) => setlt(e.target.value)}
-										name="alt"
+										// value={alt}
+										// onChange={(e) => setlt(e.target.value)}
+										// name="alt"
 									/>
 									<ErrorMessage name="alt" render={renderError} />
 									<Field
 										type="text"
 										className="form-control"
 										placeholder="+/-180 longitude"
-										value={lng}
-										name="lng"
-										onChange={(e) => setlg(e.target.value)}
+										// value={lng}
+										// name="lng"
+										// onChange={(e) => setlg(e.target.value)}
 									/>
 									<ErrorMessage name="lng" render={renderError} />
 								</div>
@@ -215,7 +237,6 @@ export default function Addhostel(props) {
 									<ErrorMessage name="ownersContact" render={renderError} />
 								</div>
 							</div>
-
 							<div className="row mt-3">
 								<div className="col-md-6 col-sm-12">
 									<Field
@@ -330,9 +351,15 @@ export default function Addhostel(props) {
 										aria-label="Default select example"
 									>
 										<option>Select Zone</option>
-										<option value="id1">Ayeduase North</option>
-										<option value="id2">Ayeduase South</option>
-										<option value="id3">Kentikrono-gaza</option>
+										<option value="61efe22b0a51105af3675537">
+											Ayeduase North
+										</option>
+										<option value="61efe22b0a51105af3675537">
+											Ayeduase South
+										</option>
+										<option value="61efe22b0a51105af3675537">
+											Kentikrono-gaza
+										</option>
 									</Field>
 									<p className="eg-text">
 										{" "}
@@ -341,7 +368,6 @@ export default function Addhostel(props) {
 									<ErrorMessage name="zone" render={renderError} />
 								</div>
 							</div>
-
 							{/* <Dropzone
 								multiple={true}
 								className="dropzone"
@@ -374,13 +400,22 @@ export default function Addhostel(props) {
 										return <p>Try dragging a file here!</p>;
 									}
 
-									return values.images.map((file, i) => (
-										<Thumb key={i} file={file} />
-									));
 								}}
 							</Dropzone> */}
+							<div {...getRootProps()}>
+								<input {...getInputProps()} />
+								{isDragActive ? (
+									<p> drop of files </p>
+								) : (
+									<p>drag and drop files here</p>
+								)}
+							</div>
+							{/* {accepted && setFieldValue("images", accepted)}; */}
+							{accepted &&
+								accepted.map((file, i) => {
+									return <Thumb key={i} file={file} />;
+								})}
 							<input hidden type="file" />
-							<button ref={fileRef.current}>upload Images</button>
 							<button type="submit" className="btn is-primary">
 								Submit
 							</button>

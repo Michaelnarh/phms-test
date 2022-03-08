@@ -18,14 +18,18 @@ import HelpDesk from "./pages/HelpDesk";
 import Navbar from "./pages/components/Navbar";
 import { Routes, Route } from "react-router-dom";
 import { Footer } from "./pages/components/Footer";
+import { Provider } from "mobx-react";
 import DashLayout from "./dashboard/Routes";
+import Store from "./Store";
 
 function App() {
 	return (
 		<>
-			{/* <DashLayout /> */}
-			<Navbar />
-			<Routes>
+			<Provider store={Store}>
+				<DashLayout />
+			</Provider>
+			{/* {/* <Navbar /> */}
+			{/* <Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/hostels" element={<Hostels />} />
 				<Route path="/homestels" element={<Homestels />} />
@@ -33,7 +37,7 @@ function App() {
 				<Route path="/hostels/:id" element={<ResidenceDetails />} />
 				<Route path="/help-desk" element={<HelpDesk />} />
 			</Routes>
-			<Footer />
+			<Footer />  */}
 		</>
 	);
 }

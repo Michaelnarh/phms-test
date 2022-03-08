@@ -1,4 +1,10 @@
 const Residence = require("../Models/residenceModel");
+const Zone = require("../Models/ZoneModel");
+const Location = require("../Models/locationModel");
+const SnrTutor = require("../Models/seniorTutorModel");
+const NssPersonnel = require("../Models/nssPModel");
+const Facility = require("../Models/facilityModel");
+const AreaMp = require("../Models/mpModel");
 const AppError = require("../utils/AppError");
 const multer = require("multer");
 const ApiFeatures = require("../utils/APIfeatures");
@@ -23,27 +29,29 @@ exports.resizeImage = async (req, res, next) => {
 		fs.mkdirSync(dir);
 	}
 
-	await sharp(req.files["coverImage"][0].buffer)
-		.resize(500, 500)
-		.toFormat("jpeg")
-		.jpeg({ quality: 90 })
-		.toFile(`${dir}/${filename_cover}`);
+	if (req.files["coverImage"]) {
+		await sharp(req.files["coverImage"][0].buffer)
+			.resize(500, 500)
+			.toFormat("jpeg")
+			.jpeg({ quality: 90 })
+			.toFile(`${dir}/${filename_cover}`);
+	}
 
 	req.body.coverImage = filename_cover;
-
-	req.body.images = [];
-
-	await Promise.all(
-		req.files["images"].map(async (el) => {
-			const filename = `image-${Date.now()}.jpeg`;
-			await sharp(el.buffer)
-				.resize(500, 500)
-				.toFormat("jpeg")
-				.jpeg({ quality: 90 })
-				.toFile(`${dir}/${filename}`);
-			req.body.images.push(filename);
-		})
-	);
+	if (req.files["images"]) {
+		req.body.images = [];
+		await Promise.all(
+			req.files["images"].map(async (el) => {
+				const filename = `image-${Date.now()}.jpeg`;
+				await sharp(el.buffer)
+					.resize(500, 500)
+					.toFormat("jpeg")
+					.jpeg({ quality: 90 })
+					.toFile(`${dir}/${filename}`);
+				req.body.images.push(filename);
+			})
+		);
+	}
 
 	next();
 };
@@ -169,9 +177,21 @@ exports.getHomestels = async (req, res) => {
 	try {
 		const homestels = await Residence.find({ residenceType: "Homestel" });
 		//paginate response
+		const feature = new ApiFeatures(
+			Residence.find({ residenceType: "Homestel" }).populate({
+				path: "zone",
+				select: "name",
+			}),
+			req.query
+		)
+			.filter()
+			.paginate(25);
+
+		const current_homestels = await feature.query;
 		res.status(200).json({
 			status: "success",
-			message: homestels,
+			total: homestels.length,
+			data: current_homestels,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -209,8 +229,53 @@ exports.getHostels = async (req, res) => {
 	}
 };
 
-exports.getStatistic = (req, res) => {
-	const hostels_num = Residence.find({
-		residenceType: "Hostel",
-	}).countDocument();
+exports.getStatistics = async (req, res) => {
+	try {
+		const hostels_num = await Residence.find({
+			residenceType: "Hostel",
+		}).countDocuments();
+
+		const reg_hostels_num = await Residence.find({
+			residenceType: "Hostel",
+			registered: true,
+		}).countDocuments();
+
+		const homestels_num = await Residence.find({
+			residenceType: "Homestel",
+		}).countDocuments();
+
+		const reg_homestels_num = await Residence.find({
+			residenceType: "Homestel",
+			registered: true,
+		}).countDocuments();
+
+		const zones_num = await Zone.find().countDocuments();
+
+		const location_num = await Location.find().countDocuments();
+		const nssP_num = await NssPersonnel.find().countDocuments();
+		const snr_tutors_num = await SnrTutor.find().countDocuments();
+		const facility_num = await Facility.find().countDocuments();
+		const area_mp_num = await AreaMp.find().countDocuments();
+
+		res.status(200).json({
+			status: "succes",
+			data: {
+				hostels_num,
+				reg_hostels_num,
+				homestels_num,
+				reg_homestels_num,
+				zones_num,
+				location_num,
+				nssP_num,
+				snr_tutors_num,
+				facility_num,
+				area_mp_num,
+			},
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "failed",
+			message: err.message,
+		});
+	}
 };

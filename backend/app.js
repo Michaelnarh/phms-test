@@ -2,6 +2,7 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const globalErrorHandler = require("./public/utils/errorController");
 const cors = require("cors");
+const path = require("path");
 const userRouter = require("./public/Routes/userRoute");
 const residenceRouter = require("./public/Routes/residenceRoute");
 const zoneRouter = require("./public/Routes/zoneRoute");
@@ -12,8 +13,18 @@ const facilityRouter = require("./public/Routes/facilityRoute");
 const mpRouter = require("./public/Routes/mpRoute");
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(bodyparser.json());
+
+app.use(express.static("public"));
+app.use("/images", express.static("images"));
+
+// xss-clean
+// hpp
+// helmet
+// morgan
+// express-mongo-sanitize
+//cookie-parser
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/residences", residenceRouter);

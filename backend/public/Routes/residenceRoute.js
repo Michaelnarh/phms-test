@@ -7,6 +7,7 @@ const router = express.Router();
 router.route("/search").post(searchController.searchResidence);
 router.route("/hostels").get(residenceController.getHostels);
 router.route("/homestels").get(residenceController.getHomestels);
+router.route("/statistics").get(residenceController.getStatistics);
 
 router
 	.route("/")

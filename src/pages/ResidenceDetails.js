@@ -4,16 +4,11 @@ import { useParams } from "react-router-dom";
 import { CustomButton } from "./components/stylecomponents";
 import ComomentsModal from "./components/CommentsModal";
 import ImageGallery from "react-image-gallery";
+import axios from "axios";
 
 export default function Hosteldetails(props) {
-	const { id } = useParams();
-	const [Residence, setResidence] = useState({});
-	useEffect(() => {
-		// axios get data
-		//axios.get(`https://hostels/${id}`);
-		// cleanup
-		// return () => {};
-	}, []);
+	const [residence, setResidence] = useState();
+	let { id } = useParams();
 	const images = [
 		{
 			id: 1,
@@ -34,16 +29,19 @@ export default function Hosteldetails(props) {
 			original: "/imgs/canam-hall-2.jpg",
 			thumbnail: "https:/picsum.photos/id/1011/250/150",
 		},
-		{
-			id: 4,
-			original: "/imgs/jj.jpg",
-			thumbnail: "https:/picsum.photos/id/1011/250/150",
-			orginalHeight: 100,
-			orginalWidth: 400,
-			thumbnailHeight: 40,
-			thumbnailWidth: 20,
-		},
 	];
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${id}`,
+			});
+			console.log(res);
+			setResidence(res.data.data);
+		};
+		fetchData();
+	}, []);
 	return (
 		<>
 			<div className="container mt-5 ">
@@ -57,57 +55,60 @@ export default function Hosteldetails(props) {
 								<ComomentsModal />
 							</div>
 							<div className="col-md-6 col-lg-6 col-sm-12">
-								<CustomButton className="my-3">Book a Room</CustomButton>
+								{/* {residence.bookingLink && (
+									<CustomButton className="my-3">
+										<a href={residence.bookingLink}>Book a Room</a>
+									</CustomButton>
+								)} */}
 							</div>
 						</div>
 					</div>
 					<div className="col-md-8 col-lg-6 col-sm-12">
 						<div>
 							<div>
-								<h2 className="text-center details-header ">{id}</h2>
+								<h2 className="text-center details-header ">
+									{residence.name}
+								</h2>
+								s
 								<div>
 									<h6>Description</h6>
-									<p>
-										display of multiple images display of multiple imagesdisplay
-										of multiple imagesdisplay of multiple images display of
-										multiple images display of multiple images
-									</p>
+									{/* <p>{residence.desc ?? "N/A"}</p> */}
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className="text-center">
 									<h6>Location</h6>
-									<p>Ayeduase</p>
+									{/* <p>{residence.location ?? "N/A"}</p> */}
 								</div>
 								<div className="text-center">
 									<h6>Constituency / Zone</h6>
-									<p>Ayeduase North</p>
+									{/* <p>{residence.zone.name}</p> */}
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className="text-center">
 									<h6>Manager's Name</h6>
-									<p>John Doe</p>
+									<p>{residence.managersName ?? "N/A"}</p>
 								</div>
 								<div className="text-center">
 									<h6>Manager's Contact</h6>
-									<p>0537783990</p>
+									<p>{residence.managersContact ?? "N/A"}</p>
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className=" text-center">
 									<h6>Porter's Name</h6>
-									<p>Suleman Smith</p>
+									{/* <p>{residence.portersName ?? "N/A"}</p> */}
 								</div>
 								<div className=" text-center">
-									<h6>Manager's Contact</h6>
-									<p>0537783990</p>
+									<h6>Porter's Contact</h6>
+									{/* <p>{residence.portersContact ?? "N/A"}</p> */}
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className=" text-center">
 									<h6>Digital Address</h6>
-									<p>AK-420-3310</p>
+									{/* <p>{residence.digitalAddress ?? "N/A"}</p> */}
 								</div>
 							</div>
 						</div>

@@ -7,7 +7,11 @@ const SignInToken = (id) => {
 		expiresIn: process.env.JWT_EXPIRES_IN,
 	});
 };
-
+const cookieOptions = {
+	expires: new Date(Date.now + process.env.JWT_EXPIRES_IN * 24 * 3600 * 1000),
+	// secure: true
+	httpOnly: true,
+};
 exports.SignUp = async (req, res) => {
 	try {
 		const newUser = await User.create(req.body);
@@ -20,14 +24,7 @@ exports.SignUp = async (req, res) => {
 
 		delete user.password;
 		delete user.passwordConfirm;
-		res.cookie("jwt", token, {
-			expires: new Date(
-				Date.now + process.env.JWT_EXPIRES_IN * 24 * 3600 * 1000
-			),
-			secure: {
-				httpOnly: true,
-			},
-		});
+		res.cookie("jwt", token, cookieOptions);
 		res.status(201).json({
 			status: "success",
 			user: user,
@@ -58,6 +55,7 @@ exports.LogIn = async (req, res) => {
 		const token = SignInToken(user._id);
 		const u = user.toObject();
 		delete u.password;
+		res.cookie("jwt", token, cookieOptions);
 
 		res.status(200).json({
 			status: "success",

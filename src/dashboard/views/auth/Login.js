@@ -1,10 +1,13 @@
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+
+import { inject, observer } from "mobx-react";
 // import process from "process";
 import axios from "axios";
 
-export default function Login(props) {
+function Login(props) {
+	const { getToken, setToken } = props.store;
 	const validationSchema = Yup.object({
 		email: Yup.string()
 			.email("input field must be an email")
@@ -22,20 +25,24 @@ export default function Login(props) {
 	const renderError = (message) => <p className="text-danger">{message}</p>;
 
 	const handleSubmit = async (values) => {
-		alert(JSON.stringify(process.env.REACT_APP_API_URL));
-		alert(JSON.stringify(values, null, 2));
-		// alert(JSON.stringify({process.env.REACT_APP_API_URL});
-		const res = await axios({
-			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/users/login`,
+		try {
+			const res = await axios({
+				method: "post",
+				withCredentials: true,
+				credentials: "include",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/users/login`,
 
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: JSON.stringify(values),
-		});
-		console.log(res);
+				headers: {
+					"Content-Type": "application/json",
+				},
+
+				data: JSON.stringify(values),
+			});
+			setToken(res.token);
+			console.log(res);
+		} catch (e) {}
 	};
+
 	return (
 		<>
 			<Formik
@@ -59,6 +66,7 @@ export default function Login(props) {
 											className="form-control"
 											placeholder="email"
 											name="email"
+											autoComplete="true"
 										/>
 										<p className="eg-text">
 											<span className="required">*</span> Example:
@@ -71,6 +79,7 @@ export default function Login(props) {
 											type="password"
 											className="form-control"
 											placeholder="password"
+											autoComplete="true"
 											aria-label="location"
 											name="password"
 										/>
@@ -87,6 +96,7 @@ export default function Login(props) {
 											Submit
 										</button>
 									</div>
+									<p>{getToken()}------</p>
 								</div>
 							</div>
 						</div>
@@ -96,3 +106,5 @@ export default function Login(props) {
 		</>
 	);
 }
+
+export default inject("store")(observer(Login));

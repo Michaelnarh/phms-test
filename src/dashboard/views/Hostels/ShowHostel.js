@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import adombi from "../../../images/adom_bi.jpg";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ImageGallery from "react-image-gallery";

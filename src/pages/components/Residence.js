@@ -1,28 +1,47 @@
 import React from "react";
 import { MdLocationOn } from "react-icons/md";
 import { IoMdWalk } from "react-icons/io";
-import { Link } from "react-router-dom";
-import adom from "../../images/adom_bi.jpg";
-import banner from "../../images/location_search.png";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 export default function Residence(props) {
+	const navigate = useNavigate();
+
 	const { residence } = props;
+	const url = `${process.env.REACT_APP_API_URL}/images`;
+
+	const handleDetials = async (id) => {
+		// setResidence(res.data.data);
+		navigate(`${id}`);
+	};
+
 	return (
 		<>
 			<div className="residence">
 				<div>
-					<Link to={`${residence.name}`}>
+					<aside
+						onClick={() => {
+							handleDetials(residence._id);
+						}}
+						// to={`${residence._id}`}
+					>
 						{residence.coverImage ? (
 							<img
-								src={residence.coverImage}
+								src={`${url}/${residence._id.slice(20, 24)}/${
+									residence.coverImage
+								}`}
 								alt="..."
 								style={{ height: "200px", width: "300px" }}
 							/>
 						) : (
-							<img src={adom} alt="..." style={{ height: 200, width: 300 }} />
+							<img
+								src={`${url}/90ef/cover-image-1646409988773.jpeg`}
+								alt="..."
+								style={{ height: 200, width: 300 }}
+							/>
 						)}
-					</Link>
+					</aside>
 					<h5 className="text-center r-name">
-						<Link to={`${residence.name}`}>{residence.name}</Link>
+						<Link to={`${residence._id}`}>{residence.name}</Link>
 					</h5>
 				</div>
 				<div>

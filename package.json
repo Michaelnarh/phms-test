@@ -12,6 +12,7 @@
     "formik": "^2.2.9",
     "google-map-react": "^2.1.10",
     "mobx": "^6.4.2",
+    "mobx-react": "^7.3.0",
     "process": "^0.11.10",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.1",
@@ -28,6 +29,7 @@
     "react-scripts": "5.0.0",
     "react-slideshow-image": "^3.7.0",
     "styled-components": "^5.3.3",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },

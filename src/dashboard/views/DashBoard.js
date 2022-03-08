@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaChartPie } from "react-icons/fa";
 import { Doughnut, Bar } from "react-chartjs-2";
 import Toptitle from "./TopTitle";
+import axios from "axios";
 
 const data = {
 	datasets: [
@@ -74,6 +75,21 @@ const options = {
 };
 
 export default function Dashboard(props) {
+	const [data, setData] = useState({});
+	useEffect(() => {
+		const fetchData = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/statistics`,
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			// console.log(res.data.data);
+			setData(res.data.data);
+		};
+		fetchData();
+	});
 	return (
 		<>
 			<div className=" page-container mt-3 mb-3  ">
@@ -84,7 +100,7 @@ export default function Dashboard(props) {
 							<div className="card-box-inlineflex">
 								<div>
 									<p>HOSTELS</p>
-									<h1>108</h1>
+									<h1>{data.hostels_num}</h1>
 								</div>
 								<div>
 									<FaChartPie size={58} color="green" />
@@ -95,7 +111,7 @@ export default function Dashboard(props) {
 							<div className="card-box-inlineflex">
 								<div>
 									<p>HOMESTELS</p>
-									<h1>87</h1>
+									<h1>{data.homestels_num}</h1>
 								</div>
 								<div>
 									<FaChartPie size={58} color="red" />
@@ -106,7 +122,7 @@ export default function Dashboard(props) {
 							<div className="card-box-inlineflex">
 								<div>
 									<p>REGISTERED HOSTELS</p>
-									<h1>117</h1>
+									<h1>{data.reg_hostels_num}</h1>
 								</div>
 								<div>
 									<FaChartPie size={58} color="orange" />
@@ -117,7 +133,7 @@ export default function Dashboard(props) {
 							<div className="card-box-inlineflex">
 								<div>
 									<p>REGISTERED HOMESTELS</p>
-									<h1>47</h1>
+									<h1>{data.reg_homestels_num}</h1>
 								</div>
 								<div>
 									<FaChartPie size={58} color="purple" />
@@ -128,7 +144,7 @@ export default function Dashboard(props) {
 							<div className="card-box-inlineflex">
 								<div>
 									<p>ZONES / CONSTITUENCIES</p>
-									<h1>6</h1>
+									<h1>{data.zones_num}</h1>
 								</div>
 								<div>
 									<FaChartPie size={58} color="purple" />
@@ -139,7 +155,7 @@ export default function Dashboard(props) {
 							<div className="card-box-inlineflex">
 								<div>
 									<p>SENIOR TUTORS</p>
-									<h1>4</h1>
+									<h1>{data.snr_tutors_num}</h1>
 								</div>
 								<div>
 									<FaChartPie size={58} color="purple" />
@@ -150,7 +166,7 @@ export default function Dashboard(props) {
 							<div className="card-box-inlineflex">
 								<div>
 									<p>NSS PERSONNELS</p>
-									<h1>4</h1>
+									<h1>{data.nssP_num}</h1>
 								</div>
 								<div>
 									<FaChartPie size={58} color="purple" />
@@ -161,7 +177,7 @@ export default function Dashboard(props) {
 							<div className="card-box-inlineflex">
 								<div>
 									<p>AREA MPS</p>
-									<h1>4</h1>
+									<h1>{data.area_mp_num}</h1>
 								</div>
 								<div>
 									<FaChartPie size={58} color="purple" />
