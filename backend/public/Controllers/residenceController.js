@@ -11,20 +11,22 @@ const ApiFeatures = require("../utils/APIfeatures");
 const sharp = require("sharp");
 const fs = require("fs");
 
-const multerStorage = multer.memoryStorage(); //create memorystorage for sharp resizing
+const multerStorage = multer.memoryStorage({
+	destination: (req, file, cb) => {},
+}); //create memorystorage for sharp resizing
 
 const multerFilter = async (req, file, cb) => {
-	// if (files.mimetype.startsWith("image")) {
-	cb(null, true);
-	// }
+	if (file.mimetype.startsWith("image")) {
+		cb(null, true);
+	}
 	/// handle error when type is incorrect
 };
 
 exports.resizeImage = async (req, res, next) => {
-	// if (!req.files) return next();
-	// console.log(req.files);
+	if (!req.files) return next();
 	const filename_cover = `cover-image-${Date.now()}.jpeg`;
 	const dir = `public/images/${req.params.id.slice(20, 24)}`;
+
 	if (!fs.existsSync(dir)) {
 		fs.mkdirSync(dir);
 	}
@@ -61,7 +63,7 @@ const upload = multer({
 	fileFilter: multerFilter,
 });
 
-//upload single file for the cover-image & images.
+//upload  for the cover-image & images.
 exports.uploadImages = upload.fields([
 	{ name: "coverImage", maxCount: 1 },
 	{ name: "images", maxCount: 8 },
