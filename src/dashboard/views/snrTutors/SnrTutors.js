@@ -1,6 +1,7 @@
-import React from "react";
-import Divisiontitle from "./DivisionTitle";
+import React, { useEffect, useState } from "react";
+import Divisiontitle from "../DivisionTitle";
 import Toptitle from "../TopTitle";
+import axios from "axios";
 
 const data = [
 	{
@@ -54,23 +55,36 @@ const data = [
 ];
 
 export default function Snrtutors(props) {
+	const url = `${process.env.REACT_APP_API_URL}/images`;
+	const [tutors, setTutors] = useState([]);
+	useEffect(() => {
+		const fetchTutors = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			console.log(res.data.total);
+			setTutors(res.data.data);
+		};
+		fetchTutors();
+	}, []);
+
 	return (
 		<>
 			<div className="page-container mt-3">
-				<Toptitle page="Senior Tutors" />
-				<div className="content-left-side">
-					<button className=" btn mb-4 ">ADD TUTOR</button>
-				</div>
 				<Divisiontitle title="CURRENT SENIOR TUTORS" />
 				<div className="tutors-flex">
-					{data.filters(!data.current).map((item) => {
+					{tutors.map((item) => {
 						return (
-							<div key={item.id} className="tutors-card">
+							<div key={item._id} className="tutors-card">
 								<img
-									src={item.img}
+									src={`${url}/snrtutors/gh.jpg`}
 									className="img-fluid"
 									alt="..."
-									style={{ width: 210, height: 200 }}
+									style={{ width: 200, height: 200 }}
 								/>
 								<div>
 									<p className="tutor-name">{item.name}</p>
@@ -87,14 +101,14 @@ export default function Snrtutors(props) {
 				<div>
 					<Divisiontitle title="PAST SENIOR TUTORS" />
 					<div className="tutors-flex">
-						{data.map((item) => {
+						{tutors.map((item) => {
 							return (
-								<div key={item.id} className="tutors-card">
+								<div key={item._id} className="tutors-card">
 									<img
-										src={item.img}
+										src={`${url}/snrtutors/gh.jpg`}
 										className="img-fluid"
 										alt="..."
-										style={{ width: 210, height: 200 }}
+										style={{ width: 200, height: 200 }}
 									/>
 									<div>
 										<p className="tutor-name">{item.name}</p>

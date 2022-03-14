@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
@@ -9,18 +9,10 @@ import Thumb from "../../utils/Thumb";
 
 export default function Addhostel(props) {
 	const [accepted, setAccepted] = useState([]);
+	const [step, setStep] = useState(1);
+
 	const onDrop = useCallback((acceptedFiles) => {
-		console.log("hi");
-		// do nothing if no files
-		// if (acceptedFiles.length === 0) {
-		// 	return;
-		// }
-		// on drop we add to the existing files
-		// setFieldValue("images", values.images.concat(acceptedFiles));
 		setAccepted(acceptedFiles);
-		// acceptedFiles.forEach((file, i) => {
-		// 	setAccepted.push(file);
-		// });
 	}, []);
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -66,36 +58,54 @@ export default function Addhostel(props) {
 		managersName: "",
 		managersContact: "",
 		portersName: "",
-		images: [],
 		portersContact: "",
 		ownersName: "",
 		ownersContact: "",
-		coverImage: "",
 		facilities: [],
 		registered: false,
 		regDate: Date,
+		images: [],
+		coverImage: "",
 	};
 
 	const renderError = (message) => <p className="text-danger">{message}</p>;
 
 	const onSubmit = async (values) => {
-		values.images = accepted;
+		let formData = new FormData();
+		console.log(values.images);
 
+		formData.append("name", values.name);
+		formData.append("residenceType", values.residenceType);
+		formData.append("location", values.location);
+		formData.append("digitalAddress", values.digitalAddress);
+		formData.append("bookingLink", values.bookingLink);
+		formData.append("managersName", values.managersName);
+		formData.append("portersName", values.portersName);
+		formData.append("portersName", values.portersName);
+
+		accepted.forEach((el) => {
+			formData.append("images", el);
+		});
+
+		formData.append("coverImage", accepted[0]);
+
+		values.images = accepted;
 		values.coverImage = accepted[0];
 		values.gpsAddress.coordinates[1] = lat; //insert latitude data
 		values.gpsAddress.coordinates[0] = lng; //insert longitude data
 
-		const form_data = JsonToFormData(values);
-		alert(JSON.stringify(form_data, null, 2));
+		// const form_data = JsonToFormData(values);
+		// alert(JSON.stringify(formData, null, 2));
+		console.log(formData);
+
 		const res = await axios({
-			method: "patch",
+			method: "post",
 			url: `${process.env.REACT_APP_API_URL}/api/v1/residences/62190417a06c031b84009105`,
 			headers: {
-				"Content-Type": "multipart/formdata",
+				accept: "application/json",
 			},
-			data: form_data,
+			data: formData,
 		});
-		console.log(res);
 	};
 
 	return (
@@ -104,9 +114,8 @@ export default function Addhostel(props) {
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}
-					// validationSchema={validationSchema}
+					// validationSchema={validationSchema
 					onSubmit={async (values, { resetForm }) => {
-						console.log(values);
 						await onSubmit(values);
 						resetForm();
 					}}
@@ -368,40 +377,6 @@ export default function Addhostel(props) {
 									<ErrorMessage name="zone" render={renderError} />
 								</div>
 							</div>
-							{/* <Dropzone
-								multiple={true}
-								className="dropzone"
-								accept="image/*"
-								onDrop={(acceptedFiles) => {
-									console.log("hi");
-									// do nothing if no files
-									if (acceptedFiles.length === 0) {
-										return;
-									}
-									// on drop we add to the existing files
-									setFieldValue("images", values.images.concat(acceptedFiles));
-								}}
-							>
-								{({
-									isDragActive,
-									isDragReject,
-									acceptedFiles,
-									rejectedFiles,
-								}) => {
-									if (isDragActive) {
-										return "This file is authorized";
-									}
-
-									if (isDragReject) {
-										return "This file is not authorized";
-									}
-
-									if (values.images.length === 0) {
-										return <p>Try dragging a file here!</p>;
-									}
-
-								}}
-							</Dropzone> */}
 							<div {...getRootProps()}>
 								<input {...getInputProps()} />
 								{isDragActive ? (
@@ -410,18 +385,18 @@ export default function Addhostel(props) {
 									<p>drag and drop files here</p>
 								)}
 							</div>
-							{/* {accepted && setFieldValue("images", accepted)}; */}
 							{accepted &&
 								accepted.map((file, i) => {
 									return <Thumb key={i} file={file} />;
 								})}
-							<input hidden type="file" />
+
 							<button type="submit" className="btn is-primary">
 								Submit
 							</button>
 						</Form>
 					)}
 				</Formik>
+				<div>{}</div>
 			</div>
 		</>
 	);

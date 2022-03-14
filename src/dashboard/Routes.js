@@ -15,9 +15,13 @@ import HomestelsViews from "./views/homestels/Index";
 import Homestels from "./views/homestels/Homestel";
 import AddHomestel from "./views/homestels/AddHomestel";
 
+import SnrTutorsViews from "./views/snrTutors/Index";
+import SnrTutors from "./views/snrTutors/SnrTutors";
+import AddSnrTutors from "./views/snrTutors/AddSnrTutor";
+// import EditTutors from "./views/snrTutors/EditSnrTutors";
+
 import AreaMps from "./views/AreaMPs";
 import NssPersonnels from "./views/NssPersonnels";
-import SnrTutors from "./views/SnrTutors";
 import Facilities from "./views/Facilities";
 import NotFoundPage from "./views/404Page";
 import Zones from "./views/Zones";
@@ -42,7 +46,10 @@ function MainLayout() {
 				</Route>
 				<Route path="zones" element={<Zones />} />
 				<Route path="area-mps" element={<AreaMps />} />
-				<Route path="snr-tutors" element={<SnrTutors />} />
+				<Route path="snr-tutors" element={<SnrTutorsViews />}>
+					<Route index element={<SnrTutors />} />
+					<Route path="add" element={<AddSnrTutors />} />
+				</Route>
 				<Route path="nss-personnels" element={<NssPersonnels />} />
 				<Route path="facilities" element={<Facilities />} />
 				<Route path="*" element={<NotFoundPage />} />

@@ -122,7 +122,7 @@ exports.restrictTo = (...roles) => {
 		if (roles.includes(req.user)) {
 			next();
 		}
-		next(new AppError("You are not permitted for this operation", 401));
+		// next(new AppError("You are not permitted for this operation", 401));
 	};
 };
 

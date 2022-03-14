@@ -5,8 +5,8 @@ const router = express.Router();
 
 router
 	.route("/")
-	.post(authController.protected, seniorTutorController.createSeniorTutor)
-	.get(authController.protected, seniorTutorController.getAllSeniorTutors);
+	.post(seniorTutorController.createSeniorTutor)
+	.get(seniorTutorController.getAllSeniorTutors);
 
 router
 	.route("/:id")

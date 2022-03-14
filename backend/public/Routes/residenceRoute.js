@@ -17,9 +17,8 @@ router
 router
 	.route("/:id")
 	.get(residenceController.getResidence)
-	.patch(
+	.post(
 		residenceController.uploadImages,
-		// residenceController.uploadImages,
 		residenceController.resizeImage,
 		residenceController.updateResidence
 	)

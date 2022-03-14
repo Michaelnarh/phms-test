@@ -62,7 +62,7 @@ exports.getAllSeniorTutors = async (req, res) => {
 		const seniorTutors = await SeniorTutor.find();
 		res.status(200).json({
 			status: "success",
-			message: seniorTutors,
+			data: seniorTutors,
 		});
 	} catch (err) {
 		res.status(400).json({

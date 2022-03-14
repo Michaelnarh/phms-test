@@ -1,10 +1,26 @@
-const JsonToFormData = (item) => {
-	let formData = new FormData();
-	for (var key in item) {
-		formData.append(key, item[key]);
+function buildFormData(formData, data, parentKey) {
+	if (data && typeof data === "object" && data instanceof File) {
+		Object.keys(
+			data.forEach((key) => {
+				buildFormData(
+					formData,
+					data[key],
+					parentKey ? `${parentKey}[${key}]` : key
+				);
+			})
+		);
+	} else {
+		const value = data === null ? "" : data;
+		formData.append(parentKey, value);
 	}
+}
+const JsonToFormData = (data) => {
+	let formData = new FormData();
+	console.log(data);
 
-	return item;
+	buildFormData(formData, data);
+
+	return data;
 };
 
 export default JsonToFormData;

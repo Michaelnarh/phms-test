@@ -14,9 +14,8 @@ export default function Homestel(props) {
 		const fetchHomestels = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/hostels?page=${page}&limit=${limit}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/hometels?page=${page}&limit=${limit}`,
 			});
-			console.log(res.data.total);
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
 			setHostels(res.data);
 		};
