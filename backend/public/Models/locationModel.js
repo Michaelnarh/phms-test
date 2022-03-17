@@ -6,9 +6,9 @@ const ZoneSchema = mongoose.Schema({
 		required: [true, "Zone Name is required"],
 		unique: [true, "This Zone name already Exist"],
 	},
-	zone: { type: mongoose.Schema.Types.ObjectId, ref: "zone" },
+	zone: { type: mongoose.Schema.Types.ObjectId, ref: "Zone" },
 	createdAt: { type: Date, default: Date.now() },
 	updatedAt: { type: Date, default: Date.now() },
 });
 
-module.exports = mongoose.model("Lcocation", ZoneSchema);
+module.exports = mongoose.model("Location", ZoneSchema);

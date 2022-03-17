@@ -5,19 +5,9 @@ import ImageGallery from "react-image-gallery";
 
 export default function Showhostel(props) {
 	let { id } = useParams();
-	const [hostels, setHostels] = useState([]);
-	const images = [
-		{
-			id: 1,
-			original: "https:/picsum.photos/id/1015/400/350",
-			thumbnail: "https:/picsum.photos/id/1015/250/150",
-		},
-		{
-			id: 1,
-			original: "https:/picsum.photos/id/1011/400/350",
-			thumbnail: "https:/picsum.photos/id/1011/250/150",
-		},
-	];
+	const [hostel, setHostel] = useState([]);
+	const [gimages, setImages] = useState([]);
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const res = await axios({
@@ -25,20 +15,42 @@ export default function Showhostel(props) {
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${id}`,
 			});
 			console.log(res);
-			setHostels(res.data.data);
+			setHostel(res.data.data);
+			res.data.data.images.forEach((el) => {
+				gimages.push({
+					original: `${process.env.REACT_APP_API_URL}/images/${id.slice(
+						20,
+						24
+					)}/${el}`,
+					thumbnail: `${process.env.REACT_APP_API_URL}/images/${id.slice(
+						20,
+						24
+					)}/${el}`,
+				});
+			});
 		};
 		fetchData();
 	}, []);
+
 	return (
 		<>
 			<div className="container">
 				<div className="row">
 					<div className="col-md-5 col-sm-12 ">
-						<ImageGallery items={images} />
+						{gimages ? (
+							<img
+								src={`${process.env.REACT_APP_API_URL}/images/cover-image-1646411339799.jpeg`}
+								height={400}
+								width={500}
+								alt="..."
+							/>
+						) : (
+							<ImageGallery items={gimages} />
+						)}
 						{/* show images gallery */}
 					</div>
 					<div className="col-md-7 col-sm-12">
-						<h3 className="text-center">{hostels.name}</h3>
+						<h3 className="text-center">{hostel.name}</h3>
 						<div className="container">
 							<h5>Description</h5>
 							<p>
@@ -50,38 +62,38 @@ export default function Showhostel(props) {
 						<div className="show-flex-display">
 							<div className="text-center">
 								<h5>Owner's Name</h5>
-								<p>{hostels.ownersName ?? "N/A"}</p>
+								<p>{hostel.ownersName ?? "N/A"}</p>
 							</div>
 							<div className="text-center">
 								<h5>Owner's Contact</h5>
-								<p>{hostels.ownersContact ?? "N/A"}</p>
+								<p>{hostel.ownersContact ?? "N/A"}</p>
 							</div>
 						</div>
 						<div className="show-flex-display">
 							<div className="text-center">
 								<h5>Manager's Name</h5>
 
-								<p>{hostels.managersName ?? "N/A"}</p>
+								<p>{hostel.managersName ?? "N/A"}</p>
 							</div>
 							<div className="text-center">
 								<h5>Manager's Contact</h5>
-								<p>{hostels.managersContact ?? "N/A"}</p>
+								<p>{hostel.managersContact ?? "N/A"}</p>
 							</div>
 						</div>
 						<div className="show-flex-display">
 							<div className=" text-center">
 								<h5>Porter's Name</h5>
-								<p>{hostels.portersContact ?? "N/A"}</p>
+								<p>{hostel.portersName ?? "N/A"}</p>
 							</div>
 							<div className=" text-center">
 								<h5>Porter's Contact</h5>
-								<p>{hostels.portersContact ?? "N/A"}</p>
+								<p>{hostel.portersContact ?? "N/A"}</p>
 							</div>
 						</div>
 						<div className="show-flex-display">
 							<div className=" text-center">
 								<h5>Digital Address</h5>
-								<p>{hostels.digitalAddress ?? "N/A"}</p>
+								<p>{hostel.digitalAddress ?? "N/A"}</p>
 							</div>
 						</div>
 					</div>

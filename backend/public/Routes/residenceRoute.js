@@ -12,7 +12,11 @@ router.route("/statistics").get(residenceController.getStatistics);
 router
 	.route("/")
 	.get(residenceController.getAllResidence)
-	.post(residenceController.createResidence);
+	.post(
+		residenceController.uploadImages,
+		residenceController.resizeImage,
+		residenceController.createResidence
+	);
 
 router
 	.route("/:id")

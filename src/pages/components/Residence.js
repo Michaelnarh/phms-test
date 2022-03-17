@@ -10,7 +10,6 @@ export default function Residence(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 
 	const handleDetials = async (id) => {
-		// setResidence(res.data.data);
 		navigate(`${id}`);
 	};
 

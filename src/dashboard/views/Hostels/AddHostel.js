@@ -1,21 +1,41 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
-import JsonToFormData from "../../utils/JsonToFormData";
 import { useDropzone } from "react-dropzone";
 
 import Thumb from "../../utils/Thumb";
 
 export default function Addhostel(props) {
+	const [coverImage, setCoverImage] = useState("");
 	const [accepted, setAccepted] = useState([]);
-	const [step, setStep] = useState(1);
+	const [locations, setLocations] = useState([]);
+	const [facilities, setFacilities] = useState([]);
 
 	const onDrop = useCallback((acceptedFiles) => {
 		setAccepted(acceptedFiles);
 	}, []);
-	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+	useEffect(() => {
+		const fetchLocations = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/locations`,
+			});
+			setLocations(res.data.data);
+		};
+		const fetchFacilities = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/locations`,
+			});
+			setFacilities(res.data.data);
+		};
+		fetchLocations();
+		fetchFacilities();
+	});
+
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 	const [lat, setlt] = useState(-11.121);
 	const [lng, setlg] = useState(21.2122);
 
@@ -39,9 +59,6 @@ export default function Addhostel(props) {
 				"Please Enter a correct url!"
 			)
 			.nullable(),
-		zone: Yup.string().required("Residence Zone is required"),
-		// facilities: Yup.array().nullable(),
-		regDate: Yup.date().nullable(),
 		// coverImage: Yup.string().nullable(),
 		// images: Yup.array(),
 	});
@@ -72,7 +89,8 @@ export default function Addhostel(props) {
 
 	const onSubmit = async (values) => {
 		let formData = new FormData();
-		console.log(values.images);
+		values.gpsAddress.coordinates[1] = lat; //insert latitude data
+		values.gpsAddress.coordinates[0] = lng; //insert longitude data
 
 		formData.append("name", values.name);
 		formData.append("residenceType", values.residenceType);
@@ -80,32 +98,33 @@ export default function Addhostel(props) {
 		formData.append("digitalAddress", values.digitalAddress);
 		formData.append("bookingLink", values.bookingLink);
 		formData.append("managersName", values.managersName);
+		formData.append("managersContact", values.managersContact);
 		formData.append("portersName", values.portersName);
-		formData.append("portersName", values.portersName);
+		formData.append("portersContact", values.portersContact);
+		formData.append("ownersName", values.ownersName);
+		formData.append("ownersContact", values.ownersContact);
+		formData.append("gpsAddress", values.gpsAddress);
+		formData.append("facilities", values.facilities);
 
+		formData.append("coverImage", values.coverImage);
 		accepted.forEach((el) => {
 			formData.append("images", el);
 		});
 
-		formData.append("coverImage", accepted[0]);
-
-		values.images = accepted;
-		values.coverImage = accepted[0];
-		values.gpsAddress.coordinates[1] = lat; //insert latitude data
-		values.gpsAddress.coordinates[0] = lng; //insert longitude data
-
-		// const form_data = JsonToFormData(values);
-		// alert(JSON.stringify(formData, null, 2));
-		console.log(formData);
-
-		const res = await axios({
-			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/residences/62190417a06c031b84009105`,
-			headers: {
-				accept: "application/json",
-			},
-			data: formData,
-		});
+		try {
+			const res = await axios({
+				method: "post",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/residences`,
+				headers: {
+					accept: "application/json",
+				},
+				data: formData,
+			});
+			setAccepted([]);
+			values.coverImage = "";
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
@@ -156,12 +175,19 @@ export default function Addhostel(props) {
 								</div>
 								<div className="col-md-4 col-sm-12">
 									<Field
-										type="text"
-										className="form-control"
+										as="select"
+										className="form-select"
 										placeholder="Location"
-										aria-label="location"
 										name="location"
-									/>
+									>
+										<option> select location</option>
+										{locations &&
+											locations.map((item) => (
+												<option key={item._id} value={item._id}>
+													{item.name}
+												</option>
+											))}
+									</Field>
 									<p className="eg-text">
 										{" "}
 										<span className="required">*</span> Example: Ayeduase
@@ -217,6 +243,7 @@ export default function Addhostel(props) {
 									<ErrorMessage name="bookingLink" render={renderError} />
 								</div>
 							</div>
+							<hr className="my-3" />
 							<div className="row mt-3">
 								<div className="col-md-6 col-sm-12">
 									<Field
@@ -304,91 +331,97 @@ export default function Addhostel(props) {
 										<ErrorMessage name="portersContact" render={renderError} />
 									</div>
 								</div>
+								<hr className="my-3" />
 								<div className="row mt-3">
-									<div className="col-md-12 col-sm-12">
-										<h5> Facilities</h5>
-										{/* <div className="form-check">
+									<div className="col-md-4 col-sm-12">
 										<Field
-											className="form-check-input"
-											type="checkbox"
-											value=""
-											id="flexCheckDefault"
+											type="n"
+											name="portersContact"
+											className="form-control"
+											placeholder="Total Bed Spaces"
+											aria-label="roomsCapacity"
 										/>
-										<ErrorMessage name="residenceType" render={renderError} />
-										<label
-											className="form-check-label"
-											htmlFor="flexCheckDefault"
-										>
-											Default checkbox
-										</label>
+										<p className="eg-text">
+											{" "}
+											<span className="required">*</span> Example: 100
+										</p>
+										<ErrorMessage name="roomsCapacity" render={renderError} />
 									</div>
-									<div className="form-check">
+									<div className="col-md-4 col-sm-12">
 										<Field
-											className="form-check-input"
-											type="checkbox"
-											value=""
-											id="flexCheckChecked"
+											type="n"
+											name="portersContact"
+											className="form-control"
+											placeholder="Male Capacity"
+											aria-label="maleCapacity"
 										/>
-										<ErrorMessage name="residenceType" render={renderError} />
-										<label
-											className="form-check-label"
-											htmlFor="flexCheckChecked"
-										>
-											Checked checkbox
-										</label>
-									</div> */}
+										<p className="eg-text">
+											{" "}
+											<span className="required">*</span> Example: 60
+										</p>
+										<ErrorMessage name="maleCapacity" render={renderError} />
+									</div>
+									<div className="col-md-4 col-sm-12">
+										<Field
+											type="n"
+											name="portersContact"
+											className="form-control"
+											placeholder="Femaile Capacity"
+											aria-label="femaleCapacity"
+										/>
+										<p className="eg-text">
+											{" "}
+											<span className="required">*</span> Example: 40
+										</p>
+										<ErrorMessage name="femaleCapacity" render={renderError} />
 									</div>
 								</div>
+
 								<div className="row mt-3">
-									{/* <div className="col-md-6 col-sm-12 ">
-										<Field
+									<div className="col-md-6 col-sm-12">
+										<h5> Facilities</h5>
+										{facilities &&
+											facilities.map((item) => (
+												<div key={item._id} className="form-check">
+													<Field
+														className="form-check-input"
+														type="checkbox"
+														name="facilites"
+														value={item._id}
+													/>
+													<label>{item.name}</label>
+												</div>
+											))}
+									</div>
+									<div className="col-md-6 col-sm-12">
+										<input
 											type="file"
 											className="form-control"
-											placeholder="Cover Image"
-											name="coverImage"
+											placeholder="Load cover Image"
+											onChange={(e) => {
+												setFieldValue("coverImage", e.currentTarget.files[0]);
+											}}
 										/>
 										<ErrorMessage name="coverImage" render={renderError} />
-									</div> */}
+
+										{coverImage && <Thumb file={coverImage} />}
+									</div>
 								</div>
 							</div>
-							<div className="row mt-3 ">
-								<div className="col-md-4 col-sm-12 ">
-									<Field
-										as="select"
-										name="zone"
-										className="form-select"
-										aria-label="Default select example"
-									>
-										<option>Select Zone</option>
-										<option value="61efe22b0a51105af3675537">
-											Ayeduase North
-										</option>
-										<option value="61efe22b0a51105af3675537">
-											Ayeduase South
-										</option>
-										<option value="61efe22b0a51105af3675537">
-											Kentikrono-gaza
-										</option>
-									</Field>
-									<p className="eg-text">
-										{" "}
-										<span className="required">*</span> Example: Ayeduase North
-									</p>
-									<ErrorMessage name="zone" render={renderError} />
+							<div className="mx-5 mt-3 mb-2">
+								<div {...getRootProps()}>
+									<input {...getInputProps()} />
+									{isDragActive ? (
+										<p> drop of files </p>
+									) : (
+										<p className=" p-2">Click to Load images here</p>
+									)}
 								</div>
+								{accepted &&
+									accepted.map((file, i) => {
+										return <Thumb key={i} file={file} />;
+									})}
 							</div>
-							<div {...getRootProps()}>
-								<input {...getInputProps()} />
-								{isDragActive ? (
-									<p> drop of files </p>
-								) : (
-									<p>drag and drop files here</p>
-								)}
-							</div>
-							{accepted &&
-								accepted.map((file, i) => {
-									return <Thumb key={i} file={file} />;
-								})}
 
 							<button type="submit" className="btn is-primary">
 								Submit

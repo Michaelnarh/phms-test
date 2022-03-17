@@ -1,7 +1,7 @@
 const Location = require("../Models/locationModel");
 
 //create new Location
-exports.createZone = async (req, res) => {
+exports.createLocation = async (req, res) => {
 	try {
 		const newLocation = await Location.create(req.body);
 		res.status(201).json({
@@ -40,7 +40,7 @@ exports.updateLocation = async (req, res) => {
 };
 
 // get ad particular zone
-exports.getZone = async (req, res) => {
+exports.getlocation = async (req, res) => {
 	try {
 		const location = await Location.findById(req.params.id);
 		res.status(200).json({

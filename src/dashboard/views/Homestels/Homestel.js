@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate";
 import SearchForm from "../../utils/SearchForm";
 
 export default function Homestel(props) {
-	const [hostels, setHostels] = useState([]);
+	const [homestels, setHomestels] = useState([]);
 	const [pageCount, setPageCount] = useState(0);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(25);
@@ -14,10 +14,10 @@ export default function Homestel(props) {
 		const fetchHomestels = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/hometels?page=${page}&limit=${limit}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/homestels?page=${page}&limit=${limit}`,
 			});
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
-			setHostels(res.data);
+			setHomestels(res.data.data);
 		};
 
 		fetchHomestels();
@@ -45,7 +45,7 @@ export default function Homestel(props) {
 	return (
 		<>
 			<div className="content-top-flex">
-				<SearchForm data={hostels} />
+				<SearchForm data={homestels} type={`Homestels`} />
 			</div>
 			<div className="table-container">
 				<table>
@@ -60,13 +60,13 @@ export default function Homestel(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{hostels.length !== 0 &&
-							hostels.data.map((item, i) => (
+						{homestels &&
+							homestels.map((item) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
 									<td>{item.name}</td>
-									<td>{item.location}</td>
-									<td>{item.zone.name}</td>
+									<td>{item.location.name}</td>
+									<td>{item.location.zone.name}</td>
 									<td>{item.digitalAddress}</td>
 									<td className="table-inline-flex">
 										<FaEye

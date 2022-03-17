@@ -6,9 +6,11 @@ const NssPersonnel = require("../Models/nssPModel");
 const Facility = require("../Models/facilityModel");
 const AreaMp = require("../Models/mpModel");
 const AppError = require("../utils/AppError");
-const multer = require("multer");
 const ApiFeatures = require("../utils/APIfeatures");
+//import of of special modules
 const sharp = require("sharp");
+const multer = require("multer");
+const slugify = require("slugify");
 const fs = require("fs");
 
 const multerStorage = multer.memoryStorage({
@@ -19,13 +21,18 @@ const multerFilter = async (req, file, cb) => {
 	if (file.mimetype.startsWith("image")) {
 		cb(null, true);
 	}
-	/// handle error when type is incorrect
+	return new AppError("image format not supported", 400); // handle error when type is incorrect
 };
 
 exports.resizeImage = async (req, res, next) => {
 	if (!req.files) return next();
 	const filename_cover = `cover-image-${Date.now()}.jpeg`;
-	const dir = `public/images/${req.params.id.slice(20, 24)}`;
+	let dir = "";
+	if (req.params.id) {
+		dir = `public/images/${req.params.id.slice(20, 24)}`;
+	} else {
+		dir = `public/images/new-image`;
+	}
 
 	if (!fs.existsSync(dir)) {
 		fs.mkdirSync(dir);
@@ -37,9 +44,9 @@ exports.resizeImage = async (req, res, next) => {
 			.toFormat("jpeg")
 			.jpeg({ quality: 90 })
 			.toFile(`${dir}/${filename_cover}`);
+		req.body.coverImage = filename_cover;
 	}
 
-	req.body.coverImage = filename_cover;
 	if (req.files["images"]) {
 		req.body.images = [];
 		await Promise.all(
@@ -72,6 +79,8 @@ exports.uploadImages = upload.fields([
 //create new Residence
 exports.createResidence = async (req, res) => {
 	try {
+		req.body.slug = await slugify(req.body.name, { lower: true });
+		console.log(req.body);
 		const newResidence = await Residence.create(req.body);
 		res.status(201).json({
 			status: "success",
@@ -91,8 +100,6 @@ exports.updateResidence = async (req, res, next) => {
 		throw Error("Hostel  not identified");
 	}
 	try {
-		// if (req.files) req.body.coverImage = req.file.filename;
-
 		const residence = await Residence.findByIdAndUpdate(
 			req.params.id,
 			req.body,
@@ -181,8 +188,8 @@ exports.getHomestels = async (req, res) => {
 		//paginate response
 		const feature = new ApiFeatures(
 			Residence.find({ residenceType: "Homestel" }).populate({
-				path: "zone",
-				select: "name",
+				path: "location",
+				populate: { path: "zone", select: ["name"] },
 			}),
 			req.query
 		)
@@ -209,8 +216,8 @@ exports.getHostels = async (req, res) => {
 		//paginate response
 		const feature = new ApiFeatures(
 			Residence.find({ residenceType: "Hostel" }).populate({
-				path: "zone",
-				select: "name",
+				path: "location",
+				populate: { path: "zone", select: ["name"] },
 			}),
 			req.query
 		)

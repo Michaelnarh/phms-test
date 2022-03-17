@@ -17,15 +17,15 @@ export default function Hostels(props) {
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/hostels?page=${page}&limit=${limit}`,
 			});
-			console.log(res.data.total);
+
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
-			setHostels(res.data);
+			setHostels(res.data.data);
 		};
 		fetchHostels();
 	}, [page, limit]);
 
 	const handleView = async (id) => {
-		navigate(`details/${id}`);
+		// navigate(`details/${id}`);
 	};
 	const handleEdit = async (id) => {
 		const res = await axios({
@@ -41,7 +41,7 @@ export default function Hostels(props) {
 	return (
 		<>
 			<div className="content-top-flex">
-				<SearchForm data={hostels} />
+				<SearchForm data={hostels} type="Hostel" />
 			</div>
 			<div className="table-container">
 				<table>
@@ -56,13 +56,13 @@ export default function Hostels(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{hostels.length !== 0 &&
-							hostels.data.map((item, i) => (
+						{hostels &&
+							hostels.map((item, i) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
 									<td>{item.name}</td>
-									<td>{item.location}</td>
-									<td>{item.zone.name}</td>
+									<td>{item.location.name}</td>
+									<td>{item.location.zone.name}</td>
 									<td>{item.digitalAddress}</td>
 									<td className="table-inline-flex">
 										<FaEye
