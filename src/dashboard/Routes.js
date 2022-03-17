@@ -24,8 +24,18 @@ import AreaMps from "./views/AreaMPs";
 import NssPersonnels from "./views/NssPersonnels";
 import Facilities from "./views/Facilities";
 import NotFoundPage from "./views/404Page";
-import Zones from "./views/Zones";
 
+// import Zones Views
+import ZonesViews from "./views/zones/Index";
+import Zones from "./views/zones/Zones";
+import AddZone from "./views/zones/AddZone";
+import EditZone from "./views/zones/EditZone";
+
+// import Location Views
+import LocationViews from "./views/locations/Index";
+import Locations from "./views/locations/Locations";
+import AddLocation from "./views/locations/AddLocation";
+import EditLocation from "./views/locations/EditLocation";
 //import navigatin routes
 
 function MainLayout() {
@@ -44,7 +54,14 @@ function MainLayout() {
 				<Route path="homestels" element={<HomestelsViews />}>
 					<Route index element={<Homestels />} />
 				</Route>
-				<Route path="zones" element={<Zones />} />
+				<Route path="zones" element={<ZonesViews />}>
+					<Route index element={<Zones />} />
+					<Route path="add" element={<AddZone />} />
+				</Route>
+				<Route path="locations" element={<LocationViews />}>
+					<Route index element={<Locations />} />
+					<Route path="add" element={<AddLocation />} />
+				</Route>
 				<Route path="area-mps" element={<AreaMps />} />
 				<Route path="snr-tutors" element={<SnrTutorsViews />}>
 					<Route index element={<SnrTutors />} />

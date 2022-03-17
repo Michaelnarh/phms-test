@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Searchform(props) {
 	const navigate = useNavigate();
-	const { data } = props;
+	const { data, type } = props;
 	const [text, setText] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 
@@ -54,7 +54,7 @@ export default function Searchform(props) {
 						className="search-box"
 						onChange={(e) => onChangeHandler(e.target.value)}
 						value={text}
-						placeholder="Search Hostel"
+						placeholder={`Search ${type} by name`}
 					/>
 				</div>
 				<div>

@@ -15,7 +15,7 @@ export default function Sidebar(props) {
 							style={{ width: 60, height: 60, borderRadius: "50%" }}
 							alt="..."
 						/>
-						<h3>Francis Kumi</h3>
+						<h4>Francis Kumi</h4>
 						<p>Maintainer</p>
 						<div className="divider" />
 					</div>
@@ -39,8 +39,10 @@ export default function Sidebar(props) {
 									{item.children && dropDown && (
 										<Link to={`${item.children.href}`}>
 											<div className="dash-nav">
-												{/* <li className="icon"> {item.children.icon}</li> */}
-												<li className="dash-submenu"> {item.children.name}</li>
+												<li className="dash-submenu">
+													{" "}
+													<span>{item.children.icon}</span> {item.children.name}
+												</li>
 											</div>
 										</Link>
 									)}

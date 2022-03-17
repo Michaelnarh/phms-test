@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { renderError } from "../../utils/ModuleFunctions";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
-
 import Thumb from "../../utils/Thumb";
 
 export default function Addhostel(props) {
@@ -84,8 +84,6 @@ export default function Addhostel(props) {
 		images: [],
 		coverImage: "",
 	};
-
-	const renderError = (message) => <p className="text-danger">{message}</p>;
 
 	const onSubmit = async (values) => {
 		let formData = new FormData();
