@@ -10,7 +10,7 @@ export default function Addsnrtutor(props) {
 		const fetchZones = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/snr-tutors`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
 			});
 			setZones(res.data.data);
 		};
@@ -22,8 +22,8 @@ export default function Addsnrtutor(props) {
 		email: Yup.string()
 			.email("TextField must be an Email")
 			.required("Senior Tutor's email is required"),
-		contact: Yup.string().required("Contact is Required"),
-		zone: Yup.string().nullable(),
+		contact: Yup.string().required("Contact is required"),
+		zone: Yup.string().required("Zone is required"),
 		image: Yup.string().nullable(),
 	});
 
@@ -37,20 +37,22 @@ export default function Addsnrtutor(props) {
 	const onSubmit = async (values) => {
 		console.log(values);
 		let formData = new FormData();
-		formData.append("name", values.name);
+		formData.append("name", "ddd");
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
 		formData.append("zone", values.zone);
 		formData.append("image", values.image);
+		formData.append("youth", "d");
+		console.log(formData);
 
-		const res = await axios({
-			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/snr-tutors`,
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: formData,
-		});
+		// const res = await axios({
+		// 	method: "post",
+		// 	url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+		// 	headers: {
+		// 		accept: "application/json",
+		// 	},
+		// 	data: values,
+		// });
 	};
 
 	return (
@@ -111,10 +113,10 @@ export default function Addsnrtutor(props) {
 								<Field
 									as="select"
 									className="form-select"
-									placeholder="Location"
-									name="location"
+									placeholder="Zones"
+									name="zone"
 								>
-									<option> select location</option>
+									<option value=""> select location</option>
 									{zones &&
 										zones.map((item) => (
 											<option key={item._id} value={item._id}>
@@ -126,7 +128,7 @@ export default function Addsnrtutor(props) {
 									{" "}
 									<span className="required">*</span> Example: Ayeduase-North
 								</p>
-								<ErrorMessage name="location" render={renderError} />
+								<ErrorMessage name="zone" render={renderError} />
 							</div>
 							<div className="row mt-3">
 								<div className="col-md-6 col-sm-12">

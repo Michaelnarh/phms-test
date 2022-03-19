@@ -2,58 +2,6 @@ import React, { useEffect, useState } from "react";
 import Divisiontitle from "../DivisionTitle";
 import Toptitle from "../TopTitle";
 import axios from "axios";
-
-const data = [
-	{
-		id: 1,
-		name: "Dr. James Sir",
-		contact: "0542399377",
-		img: "/imgs/person.jpg",
-		current: true,
-		zone: "Ayeduase North",
-	},
-	{
-		id: 2,
-		name: "Dr. James Sir Kwame",
-		contact: "0542399377",
-		img: "/imgs/person.jpg",
-		current: true,
-		zone: "Gaza Kentikrono",
-	},
-	{
-		id: 3,
-		name: "Dr. James Agyekum Ozzil",
-		contact: "0542399377",
-		img: "/imgs/person.jpg",
-		current: true,
-		zone: "Ayeduase South",
-	},
-	{
-		id: 4,
-		name: "Dr. James Agyekum Ozzil",
-		contact: "0542399377",
-		img: "/imgs/person.jpg",
-		current: true,
-		zone: "Ayeduase North",
-	},
-	{
-		id: 5,
-		name: "Dr. James Agyekum Ozzil",
-		contact: "0542399377",
-		img: "/imgs/person.jpg",
-		current: true,
-		zone: "Ayeduase North",
-	},
-	{
-		id: 6,
-		name: "Dr. James Agyekum Ozzil",
-		contact: "0542399377",
-		img: "/imgs/person.jpg",
-		current: false,
-		zone: "Ayeduase North",
-	},
-];
-
 export default function Snrtutors(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	const [tutors, setTutors] = useState([]);
@@ -81,7 +29,7 @@ export default function Snrtutors(props) {
 						return (
 							<div key={item._id} className="tutors-card">
 								<img
-									src={`${url}/snrtutors/gh.jpg`}
+									src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
 									className="img-fluid"
 									alt="..."
 									style={{ width: 200, height: 200 }}
@@ -89,7 +37,7 @@ export default function Snrtutors(props) {
 								<div>
 									<p className="tutor-name">{item.name}</p>
 									<p>{item.contact}</p>
-									<p>{item.zone}</p>
+									<p>{item.zone.name}</p>
 								</div>
 
 								<button className="btn form-control"> View</button>
@@ -101,25 +49,27 @@ export default function Snrtutors(props) {
 				<div>
 					<Divisiontitle title="PAST SENIOR TUTORS" />
 					<div className="tutors-flex">
-						{tutors.map((item) => {
-							return (
-								<div key={item._id} className="tutors-card">
-									<img
-										src={`${url}/snrtutors/gh.jpg`}
-										className="img-fluid"
-										alt="..."
-										style={{ width: 200, height: 200 }}
-									/>
-									<div>
-										<p className="tutor-name">{item.name}</p>
-										<p>{item.contact}</p>
-										<p>{item.zone}</p>
-									</div>
+						{tutors
+							.filter((person) => !person.isCurrent)
+							.map((item) => {
+								return (
+									<div key={item._id} className="tutors-card">
+										<img
+											src={`${url}/snrtutors/gh.jpg`}
+											className="img-fluid"
+											alt="..."
+											style={{ width: 200, height: 200 }}
+										/>
+										<div>
+											<p className="tutor-name">{item.name}</p>
+											<p>{item.contact}</p>
+											<p>{item.zone.name}</p>
+										</div>
 
-									<button className="btn form-control"> View</button>
-								</div>
-							);
-						})}
+										<button className="btn form-control"> View</button>
+									</div>
+								);
+							})}
 					</div>
 				</div>
 			</div>

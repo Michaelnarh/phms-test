@@ -1,4 +1,50 @@
 const SeniorTutor = require("../Models/seniorTutorModel");
+const AppError = require("../utils/AppError");
+const fs = require("fs");
+const multer = require("multer");
+const sharp = require("sharp");
+
+const multerStorage = multer.memoryStorage({
+	destination: (req, file, cb) => {},
+}); //create memorystorage for sharp resizing
+
+const multerFilter = async (req, file, cb) => {
+	if (file.mimetype.startsWith("image")) {
+		cb(null, true);
+	}
+	return new AppError("image format not supported", 400); // handle error when type is incorrect
+};
+
+exports.resizeImage = async (req, res, next) => {
+	console.log(req.file);
+	if (!req.file) return next();
+
+	const profile_image = `profile-${req.body.name}-${Date.now()}.jpeg`;
+	let dir = `public/images/snr-tutors`;
+
+	if (!fs.existsSync(dir)) {
+		fs.mkdirSync(dir);
+	}
+
+	if (req.file("image")) {
+		await sharp(req.file("image").buffer)
+			.resize(500, 500)
+			.toFormat("jpeg")
+			.jpeg({ quality: 90 })
+			.toFile(`${dir}/${profile_image}`);
+		req.body.image = profile_image;
+	}
+
+	next();
+};
+
+const upload = multer({
+	storage: multerStorage,
+	fileFilter: multerFilter,
+});
+
+//upload profile image.
+exports.uploadImage = upload.single("image");
 
 //create new SeniorTutor
 exports.createSeniorTutor = async (req, res) => {
@@ -59,7 +105,10 @@ exports.getSeniorTutor = async (req, res) => {
 //get all Tutors
 exports.getAllSeniorTutors = async (req, res) => {
 	try {
-		const seniorTutors = await SeniorTutor.find();
+		const seniorTutors = await SeniorTutor.find().populate({
+			path: "zone",
+			select: "name",
+		});
 		res.status(200).json({
 			status: "success",
 			data: seniorTutors,

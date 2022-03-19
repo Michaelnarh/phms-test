@@ -5,7 +5,11 @@ const router = express.Router();
 
 router
 	.route("/")
-	.post(seniorTutorController.createSeniorTutor)
+	.post(
+		seniorTutorController.uploadImage,
+		seniorTutorController.resizeImage,
+		seniorTutorController.createSeniorTutor
+	)
 	.get(seniorTutorController.getAllSeniorTutors);
 
 router

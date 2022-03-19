@@ -11,7 +11,7 @@ export default function Addzone(props) {
 		const fetchTutors = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/snr-tutors`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
 			});
 			setTutors(res.data.data);
 		};
@@ -28,9 +28,18 @@ export default function Addzone(props) {
 	};
 
 	const onSubmit = async (values) => {
-		let formData = new FormData();
-		formData.append("name", values.name);
-		formData.append("tutor", values.name);
+		try {
+			const res = await axios({
+				method: "post",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				headers: {
+					accept: "application/json",
+				},
+				data: values,
+			});
+		} catch (err) {
+			console.log(err);
+		}
 	};
 	return (
 		<>

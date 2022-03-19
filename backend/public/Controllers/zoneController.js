@@ -1,4 +1,5 @@
 const Zone = require("../Models/ZoneModel");
+const ApiFeatures = require("../utils/APIfeatures");
 
 //create new Zone
 exports.createZone = async (req, res) => {
@@ -54,11 +55,18 @@ exports.getZone = async (req, res) => {
 //get all zones
 exports.getAllZones = async (req, res) => {
 	try {
-		const zones = await Zone.find();
+		// const zones = Zone.find();
+		const feature = new ApiFeatures(
+			Zone.find().populate({ path: "tutor", select: "name" }),
+			req.query
+		)
+			.filter()
+			.paginate(25);
 
+		const zones = await feature.query;
 		res.status(200).json({
 			status: "success",
-			message: zones,
+			data: zones,
 		});
 	} catch (err) {
 		res.status(400).json({

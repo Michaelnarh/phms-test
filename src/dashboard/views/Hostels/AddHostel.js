@@ -59,8 +59,6 @@ export default function Addhostel(props) {
 				"Please Enter a correct url!"
 			)
 			.nullable(),
-		// coverImage: Yup.string().nullable(),
-		// images: Yup.array(),
 	});
 
 	const initialValues = {

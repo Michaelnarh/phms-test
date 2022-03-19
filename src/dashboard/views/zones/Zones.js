@@ -7,20 +7,23 @@ import { useNavigate } from "react-router-dom";
 export default function Zones(props) {
 	const navigate = useNavigate();
 	const [zones, setZones] = useState([]);
-	const [pageCount, setPageCount] = useState(0);
+	const [pageCount, setPageCount] = useState(1);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(25);
 	useEffect(() => {
-		const fetchZoness = async () => {
+		const fetchZones = async () => {
 			const res = await axios({
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/zones?page=${page}&limit=${limit}`,
+				headers: {
+					"Content-Type": "application/json",
+				},
 			});
 
-			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
+			// setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
 			setZones(res.data.data);
 		};
-		fetchZoness();
+		fetchZones();
 	}, [page, limit]);
 
 	const handleView = async (id) => {
@@ -45,7 +48,7 @@ export default function Zones(props) {
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Zone Name</th>
+							<th>Zone/Constituency</th>
 							<th>Senior Tutor In Charge</th>
 							<th>Action</th>
 						</tr>
@@ -56,7 +59,7 @@ export default function Zones(props) {
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
 									<td>{item.name}</td>
-									{/* <td>{item.tutor.name}</td> */}
+									<td>{item.tutor.name}</td>
 
 									<td className="table-inline-flex">
 										<FaEye

@@ -9,6 +9,7 @@ const seniourTutorSchema = mongoose.Schema({
 	},
 	isCurrent: { type: Boolean, default: true },
 	contact: { type: String },
+	image: { type: String },
 	zone: { type: mongoose.Schema.Types.ObjectId, ref: "Zone" },
 });
 module.exports = mongoose.model("SeniorTutor", seniourTutorSchema);

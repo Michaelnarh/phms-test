@@ -9,7 +9,7 @@ export default function Addlocation(props) {
 		const fetchZones = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/snr-tutors`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
 			});
 			setZones(res.data.data);
 		};
@@ -27,16 +27,14 @@ export default function Addlocation(props) {
 	};
 	const onSubmit = async (values) => {
 		console.log(values);
-		let formData = new FormData();
-		formData.append("name", values.name);
-		formData.append("zone", values.zone);
 
 		const res = await axios({
 			method: "get",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/locations`,
 			headers: {
 				"Content-Type": "application/json",
 			},
+			data: values,
 		});
 	};
 	return (
