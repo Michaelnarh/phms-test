@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect } from "react";
-import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
-import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import Thumb from "../../utils/Thumb";
+import * as Yup from "yup";
+import axios from "axios";
 
 export default function Addhostel(props) {
-	const [coverImage, setCoverImage] = useState("");
+	const [coverImage] = useState("");
 	const [accepted, setAccepted] = useState([]);
 	const [locations, setLocations] = useState([]);
 	const [facilities, setFacilities] = useState([]);
@@ -34,13 +34,13 @@ export default function Addhostel(props) {
 		fetchLocations();
 		fetchFacilities();
 	});
-
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-	const [lat, setlt] = useState(-11.121);
-	const [lng, setlg] = useState(21.2122);
 
-	const isLatitude = (num) => isFinite(num) && Math.abs(num) <= 90;
-	const isLongitude = (num) => isFinite(num) && Math.abs(num) <= 180;
+	const [lat, setlat] = useState(-11.121);
+	const [lng, setlng] = useState(21.2122);
+
+	// const isLatitude = (num) => isFinite(num) && Math.abs(num) <= 90;
+	// const isLongitude = (num) => isFinite(num) && Math.abs(num) <= 180;
 
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Residence is Required"),

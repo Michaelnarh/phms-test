@@ -3,6 +3,7 @@ const AppError = require("../utils/AppError");
 const fs = require("fs");
 const multer = require("multer");
 const sharp = require("sharp");
+const slugify = require("slugify");
 
 const multerStorage = multer.memoryStorage({
 	destination: (req, file, cb) => {},
@@ -18,16 +19,17 @@ const multerFilter = async (req, file, cb) => {
 exports.resizeImage = async (req, res, next) => {
 	console.log(req.file);
 	if (!req.file) return next();
-
-	const profile_image = `profile-${req.body.name}-${Date.now()}.jpeg`;
+	const slug = await slugify(req.body.name, { lower: true });
+	req.body.slug = slug;
+	const profile_image = `profile-${slug}-${Date.now()}.jpeg`;
 	let dir = `public/images/snr-tutors`;
 
 	if (!fs.existsSync(dir)) {
 		fs.mkdirSync(dir);
 	}
 
-	if (req.file("image")) {
-		await sharp(req.file("image").buffer)
+	if (req.file.buffer) {
+		await sharp(req.file.buffer)
 			.resize(500, 500)
 			.toFormat("jpeg")
 			.jpeg({ quality: 90 })
@@ -68,9 +70,16 @@ exports.updateSeniorTutor = async (req, res) => {
 		throw Error("SeniorTutor  not identified");
 	}
 	try {
+		if (req.body.name) {
+			req.body.slug = slugify(req.body.name, { lower: true });
+		}
 		const seniorTutor = await SeniorTutor.findByIdAndUpdate(
 			req.params.id,
-			req.body
+			req.body,
+			{
+				runValidators: true,
+				new: true,
+			}
 		);
 		res.status(201).json({
 			status: "success",

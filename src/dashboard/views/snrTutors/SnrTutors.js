@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Divisiontitle from "../DivisionTitle";
-import Toptitle from "../TopTitle";
 import axios from "axios";
 export default function Snrtutors(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
@@ -28,16 +27,26 @@ export default function Snrtutors(props) {
 					{tutors.map((item) => {
 						return (
 							<div key={item._id} className="tutors-card">
-								<img
-									src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
-									className="img-fluid"
-									alt="..."
-									style={{ width: 200, height: 200 }}
-								/>
+								{item.image ? (
+									<img
+										src={`${url}/snr-tutors/${item.image}`}
+										className="img-fluid"
+										alt="..."
+										style={{ width: 300, height: 250 }}
+									/>
+								) : (
+									<img
+										src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
+										className="img-fluid"
+										alt="..."
+										style={{ width: 300, height: 250 }}
+									/>
+								)}
+
 								<div>
 									<p className="tutor-name">{item.name}</p>
 									<p>{item.contact}</p>
-									<p>{item.zone.name}</p>
+									<p>{item.tutor ? item.tutor.name : "N/A"}</p>
 								</div>
 
 								<button className="btn form-control"> View</button>

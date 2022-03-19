@@ -6,21 +6,20 @@ import { useNavigate } from "react-router-dom";
 
 export default function Locations(props) {
 	const navigate = useNavigate();
-	const [zones, setZones] = useState([]);
+	const [locations, setLocations] = useState([]);
 	const [pageCount, setPageCount] = useState(0);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(25);
 	useEffect(() => {
-		const fetchZoness = async () => {
+		const fetchLocations = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones?page=${page}&limit=${limit}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/locations?page=${page}&limit=${limit}`,
 			});
-
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
-			setZones(res.data.data);
+			setLocations(res.data.data);
 		};
-		fetchZoness();
+		fetchLocations();
 	}, [page, limit]);
 
 	const handleView = async (id) => {
@@ -29,7 +28,7 @@ export default function Locations(props) {
 	const handleEdit = async (id) => {
 		const res = await axios({
 			method: "get",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/zones/${id}`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/locations/${id}`,
 		});
 		console.log(res.data);
 	};
@@ -49,12 +48,12 @@ export default function Locations(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{zones &&
-							zones.map((item) => (
+						{locations &&
+							locations.map((item) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
 									<td>{item.name}</td>
-									{/* <td>{item.tutor.name}</td> */}
+									<td>{item.zone ? item.zone.name : "N/A"}</td>
 
 									<td className="table-inline-flex">
 										<FaEye

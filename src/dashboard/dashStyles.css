@@ -197,7 +197,7 @@ tr:nth-child(even) {
 .tutors-card {
 	background-color: var(--mainWhite);
 	border-radius: 8px;
-	padding: 12px;
+	padding: 18px;
 	text-align: center;
 }
 .tutor-name {

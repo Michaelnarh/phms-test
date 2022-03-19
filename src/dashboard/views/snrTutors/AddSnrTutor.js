@@ -35,24 +35,24 @@ export default function Addsnrtutor(props) {
 		image: "",
 	};
 	const onSubmit = async (values) => {
-		console.log(values);
-		let formData = new FormData();
-		formData.append("name", "ddd");
+		// console.log(values);
+		var formData = new FormData();
+		formData.append("name", values.name);
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
 		formData.append("zone", values.zone);
 		formData.append("image", values.image);
-		formData.append("youth", "d");
+
 		console.log(formData);
 
-		// const res = await axios({
-		// 	method: "post",
-		// 	url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
-		// 	headers: {
-		// 		accept: "application/json",
-		// 	},
-		// 	data: values,
-		// });
+		const res = await axios({
+			method: "post",
+			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+			headers: {
+				accept: "application/json",
+			},
+			data: values,
+		});
 	};
 
 	return (

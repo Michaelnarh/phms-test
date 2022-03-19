@@ -65,8 +65,10 @@ export default function Homestel(props) {
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
 									<td>{item.name}</td>
-									<td>{item.location.name}</td>
-									<td>{item.location.zone.name}</td>
+									<td>{item.location ? item.location.name : "N/A"}</td>
+									<td>
+										{item.location.zone ? item.location.zone.name : "N/A"}
+									</td>
 									<td>{item.digitalAddress}</td>
 									<td className="table-inline-flex">
 										<FaEye

@@ -23,7 +23,10 @@ exports.updateZone = async (req, res) => {
 		throw Error("Zone  not identified");
 	}
 	try {
-		const zone = await Zone.findByIdAndUpdate(req.params.id, req.body);
+		const zone = await Zone.findByIdAndUpdate(req.params.id, req.body, {
+			runValidator: true,
+			new: true,
+		});
 		res.status(201).json({
 			status: "success",
 			zone,

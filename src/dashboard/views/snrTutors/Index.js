@@ -6,9 +6,9 @@ export default function Index(props) {
 	return (
 		<>
 			<div className="page-container mt-3">
-				<Toptitle page="Snr Tutors" />
+				<Toptitle page="Senior Tutors" />
 				<div className="content-left-side">
-					<button className=" btn mb-1 ">ADD Snr Tutor</button>
+					<button className=" btn mb-1 ">ADD Tutor</button>
 				</div>
 				<Outlet />
 			</div>

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function Zones(props) {
 	const navigate = useNavigate();
 	const [zones, setZones] = useState([]);
-	const [pageCount, setPageCount] = useState(1);
+	const [pageCount] = useState(1);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(25);
 	useEffect(() => {
@@ -59,8 +59,7 @@ export default function Zones(props) {
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
 									<td>{item.name}</td>
-									<td>{item.tutor.name}</td>
-
+									<td>{item.tutor ? item.tutor.name : "N/A"}</td>
 									<td className="table-inline-flex">
 										<FaEye
 											size={20}
