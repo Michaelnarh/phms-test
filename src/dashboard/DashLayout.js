@@ -7,15 +7,19 @@ export default function DashLayout() {
 	const [isDrawerOpen, setDrawer] = useState(false);
 	return (
 		<>
-			{isDrawerOpen && <Drawer />}
 			<div className="container-wrapper">
 				<Navbar func={setDrawer} isDrawerOpen={isDrawerOpen} />
-				<div className="layout">
-					<Sidebar />
-					<div className="content">
-						<Outlet />
+				{isDrawerOpen && (
+					<Drawer isDrawerOpen={isDrawerOpen} setDrawer={setDrawer} />
+				)}
+				{!isDrawerOpen && (
+					<div className="layout">
+						<Sidebar />
+						<div className="content">
+							<Outlet />
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</>
 	);

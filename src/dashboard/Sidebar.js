@@ -27,16 +27,20 @@ export default function Sidebar(props) {
 									className={(navData) =>
 										navData.isActive ? "active-sidebar" : ""
 									}
-									onClick={() => setDropDown(true)}
+									onClick={() => console.log("k")}
 								>
-									<div className="dash-nav">
+									<div
+										className="dash-nav"
+										id={
+											window.location.pathname === item.href ? "bg-active" : ""
+										}
+									>
 										<li className="icon">{item.icon}</li>
 										<li className="dash-name">{item.name}</li>
-										<li className="">{/* <FaArrowRight /> */}</li>
 									</div>
 								</NavLink>
 								<div>
-									{item.children && dropDown && (
+									{item.children && (
 										<Link to={`${item.children.href}`}>
 											<div className="dash-nav">
 												<li className="dash-submenu">

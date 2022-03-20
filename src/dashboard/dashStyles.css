@@ -116,6 +116,10 @@ nav {
 }
 
 .active-sidebar {
+	font-weight: 600;
+	color: aqua !important;
+}
+#bg-active {
 	background-color: rgb(10, 10, 39);
 }
 
@@ -124,6 +128,7 @@ nav {
 }
 .sidebar-bottom {
 	justify-content: flex-end;
+	margin-top: 4rem;
 	color: var(--mainWhite);
 	/* align-content: center; */
 	/* align-items: center; */

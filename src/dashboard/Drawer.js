@@ -1,12 +1,18 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { SideBarItems } from "./Data-items";
 export default function Drawer(props) {
+	const { setDrawer, isDrawerOpen } = props;
 	return (
 		<>
 			<div className="main-drawer">
-				<FaTimes size={25} color="var(--mainWhite)" />
+				<FaTimes
+					onClick={() => setDrawer(!isDrawerOpen)}
+					style={{ marginLeft: 12 }}
+					size={35}
+					color="var(--mainWhite)"
+				/>
 
 				<div className="drawer-columns">
 					<div className="dash-user">
@@ -28,11 +34,24 @@ export default function Drawer(props) {
 								className={(navData) =>
 									navData.isActive ? "active-sidebar" : ""
 								}
+								onClick={() => setDrawer(!isDrawerOpen)}
 							>
 								<div className="dash-nav">
 									<li className="icon">{item.icon}</li>
 									<li className="dash-name">{item.name}</li>
 									<li className="">{/* <FaArrowRight /> */}</li>
+								</div>
+								<div>
+									{item.children && (
+										<Link to={`${item.children.href}`}>
+											<div className="dash-nav">
+												<li className="dash-submenu">
+													{" "}
+													<span>{item.children.icon}</span> {item.children.name}
+												</li>
+											</div>
+										</Link>
+									)}
 								</div>
 							</NavLink>
 						);
