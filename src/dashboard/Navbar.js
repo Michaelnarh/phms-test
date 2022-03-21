@@ -1,5 +1,4 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { MdNotificationsActive, MdLogout } from "react-icons/md";
 import Logo from "../images/logo-knust.png";

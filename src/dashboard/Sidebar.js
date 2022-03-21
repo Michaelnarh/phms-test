@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { SideBarItems } from "./Data-items";
+import { observer } from "mobx-react";
+import { ContextStore } from "./../store/ContextStore";
 
-export default function Sidebar(props) {
-	const [dropDown, setDropDown] = useState(false);
+function Sidebar(props) {
+	const { authStore } = useContext(ContextStore);
+	// console.log(authStore.getToken());
+	console.log(authStore.getUser());
+	// console.log(authStore.getIsLoggedIn());
 	return (
 		<>
 			<div className="main-sidebar">
@@ -15,7 +20,6 @@ export default function Sidebar(props) {
 							style={{ width: 60, height: 60, borderRadius: "50%" }}
 							alt="..."
 						/>
-						<h4>Francis Kumi</h4>
 						<p>Maintainer</p>
 						<div className="divider" />
 					</div>
@@ -62,3 +66,4 @@ export default function Sidebar(props) {
 		</>
 	);
 }
+export default observer(Sidebar);

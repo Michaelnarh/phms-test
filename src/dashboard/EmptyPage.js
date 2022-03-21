@@ -1,5 +1,4 @@
 import React from "react";
-import SearchBox from "./SearchBox";
 import { FaChartPie } from "react-icons/fa";
 
 export default function Emptypage(props) {

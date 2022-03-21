@@ -2,7 +2,6 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const globalErrorHandler = require("./public/utils/errorController");
 const cors = require("cors");
-const path = require("path");
 const userRouter = require("./public/Routes/userRoute");
 const residenceRouter = require("./public/Routes/residenceRoute");
 const zoneRouter = require("./public/Routes/zoneRoute");

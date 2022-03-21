@@ -6,24 +6,28 @@ class AuthStore {
 		makeAutoObservable(this);
 	}
 
-	token = "ammass";
+	token = window.localStorage.getItem("jwt");
 	isLoggedIn = false;
 	isAdmin = false;
+	user = {};
 
 	//get functions
 	getToken = () => this.token;
 	getIsLoggeIn = () => this.isLoggedIn;
 	getIsAdmin = () => this.isAdmin;
+	getUser = () => this.user;
 
 	//setters
-	setToken = (token) => {
-		this.token = cookie.set("jwtttt", { user: 34 });
+	setToken = (t) => {
+		this.token = t;
 	};
 
-	getCookie = (name) => {
-		//  docCookies.get(name)
-		// let c = document.cookie.match(`(?:(?:^|.*; *)${name}*= *([^;]).*$)|^.*$`)[1]
-		// if (c) return decodedURIComponent(c)
+	setCookie = () => {
+		cookie.set("jwt", this.token);
+	};
+
+	setUser = (u) => {
+		this.user = u;
 	};
 }
 

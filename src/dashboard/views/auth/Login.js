@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { ContextStore } from "../../../store/ContextStore";
+import { AuthService } from "../../../services/AuthService";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
-import { inject, observer } from "mobx-react";
-// import process from "process";
-import axios from "axios";
-
 function Login(props) {
-	const { getToken, setToken } = props.store;
+	const authService = new AuthService();
+	const navigate = useNavigate();
+	const { authStore } = useContext(ContextStore);
 	const validationSchema = Yup.object({
 		email: Yup.string()
 			.email("input field must be an email")
@@ -26,21 +27,15 @@ function Login(props) {
 
 	const handleSubmit = async (values) => {
 		try {
-			const res = await axios({
-				method: "post",
-				withCredentials: true,
-				credentials: "include",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/users/login`,
-
-				headers: {
-					"Content-Type": "application/json",
-				},
-
-				data: JSON.stringify(values),
-			});
-			setToken(res.token);
-			console.log(res);
-		} catch (e) {}
+			const res = await authService.Login(values);
+			// authStore.setUser(res.data.user);
+			// console.log(res.data.user);
+			authStore.setIsLoggedIn(true);
+			navigate("/admin/dashboard");
+			// window.location.assign("/admin/dashboard");
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
@@ -96,7 +91,6 @@ function Login(props) {
 											Submit
 										</button>
 									</div>
-									<p>{getToken()}------</p>
 								</div>
 							</div>
 						</div>
@@ -107,4 +101,4 @@ function Login(props) {
 	);
 }
 
-export default inject("store")(observer(Login));
+export default Login;

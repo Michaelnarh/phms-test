@@ -38,8 +38,6 @@ nav {
 	margin-left: 55px;
 }
 
-.drop-down-hide {
-}
 .dash-sub-menu {
 	margin-left: 55px;
 }
@@ -158,9 +156,9 @@ th {
 	background-color: var(--darkBlue);
 	color: var(--mainWhite);
 }
-tr:nth-child(even) {
+/* tr:nth-child(even) {
 	/* background-color: rgb(108, 138, 111); */
-}
+
 .table-inline-flex {
 	display: flex;
 	justify-content: space-evenly;

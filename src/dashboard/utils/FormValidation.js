@@ -1,7 +1,7 @@
 export function checkIfFilesSize(files) {
 	let valid = true;
 	if (files) {
-		files.map((file) => {
+		files.forEach((file) => {
 			const size = file.size / 1024 / 1024;
 			if (size > 100) {
 				valid = false;
@@ -14,7 +14,7 @@ export function checkIfFilesSize(files) {
 export function checkIfFilesType(files) {
 	let valid = true;
 	if (files) {
-		files.map((file) => {
+		files.forEach((file) => {
 			if (!["application/pdf", "image/jpeg", "image/png"].includes(file.type)) {
 				valid = false;
 			}
