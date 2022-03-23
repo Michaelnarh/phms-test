@@ -41,12 +41,15 @@ exports.LogIn = async (req, res) => {
 	try {
 		const { email, password } = req.body;
 
-		const user = await User.findOne({ email }).select("+password");
-
-		if (!user || !password) {
+		if (!email || !password) {
 			throw Error("input Email and  password");
 		}
-		const correct = await user.correctPassword(password, user.password);
+
+		const user = await User.findOne({ email }).select("+password");
+		let correct;
+		if (user) {
+			correct = await user.correctPassword(password, user.password);
+		}
 
 		if (!user || !correct) {
 			throw Error("Incorrect Email or Password ");
@@ -64,6 +67,7 @@ exports.LogIn = async (req, res) => {
 		});
 	} catch (err) {
 		res.status(500).json({
+			status: "failed",
 			message: err.message,
 		});
 	}
@@ -133,5 +137,12 @@ exports.getAllUsers = async (req, res) => {
 	res.status(200).json({
 		status: "success",
 		users,
+	});
+};
+exports.getUser = async (req, res) => {
+	const user = await User.findById(req.params.id);
+	res.status(200).json({
+		status: "success",
+		user,
 	});
 };

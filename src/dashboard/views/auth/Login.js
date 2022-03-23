@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { ContextStore } from "../../../store/ContextStore";
 import { AuthService } from "../../../services/AuthService";
@@ -8,6 +8,7 @@ import * as Yup from "yup";
 function Login(props) {
 	const authService = new AuthService();
 	const navigate = useNavigate();
+	const [error, setError] = useState("");
 	const { authStore } = useContext(ContextStore);
 	const validationSchema = Yup.object({
 		email: Yup.string()
@@ -28,13 +29,13 @@ function Login(props) {
 	const handleSubmit = async (values) => {
 		try {
 			const res = await authService.Login(values);
-			// authStore.setUser(res.data.user);
-			// console.log(res.data.user);
+			authStore.setUser(res.data.user);
 			authStore.setIsLoggedIn(true);
+			localStorage.setItem("dumb", res.data.user._id);
 			navigate("/admin/dashboard");
-			// window.location.assign("/admin/dashboard");
 		} catch (err) {
 			console.log(err);
+			setError(err.message);
 		}
 	};
 
@@ -55,6 +56,7 @@ function Login(props) {
 							<h3> Admin LogIn</h3>
 							<div className="container">
 								<div className="ro">
+									<p className="text-danger p-2">{error}</p>
 									<div className=" col-md-4 col-sm-12 mx-auto">
 										<Field
 											type="email"

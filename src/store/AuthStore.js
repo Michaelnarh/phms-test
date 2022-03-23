@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, when } from "mobx";
+import { makeAutoObservable, when } from "mobx";
 import { makePersistable } from "mobx-persist-store";
 import Cookie from "universal-cookie";
 const cookie = new Cookie();
@@ -11,8 +11,8 @@ class AuthStore {
 	isLoggedIn = false;
 	isAdmin = false;
 	user = {
-		username: "jkda",
-		email: "jkda",
+		username: "michaelnarh",
+		email: "user@gmail.com",
 		contact: "",
 		image: "",
 		role: "",

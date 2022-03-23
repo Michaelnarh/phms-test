@@ -23,7 +23,7 @@ export default function Addsnrtutor(props) {
 			.email("TextField must be an Email")
 			.required("Senior Tutor's email is required"),
 		contact: Yup.string().required("Contact is required"),
-		zone: Yup.string().required("Zone is required"),
+		// zone: Yup.string().required("Zone is required"),
 		image: Yup.string().nullable(),
 	});
 
@@ -35,7 +35,7 @@ export default function Addsnrtutor(props) {
 		image: "",
 	};
 	const onSubmit = async (values) => {
-		// console.log(values);
+		console.log(values);
 		var formData = new FormData();
 		formData.append("name", values.name);
 		formData.append("email", values.email);
@@ -53,6 +53,8 @@ export default function Addsnrtutor(props) {
 			},
 			data: values,
 		});
+
+		console.log(res);
 	};
 
 	return (
@@ -116,7 +118,7 @@ export default function Addsnrtutor(props) {
 									placeholder="Zones"
 									name="zone"
 								>
-									<option value=""> select location</option>
+									<option value=""> select Zone</option>
 									{zones &&
 										zones.map((item) => (
 											<option key={item._id} value={item._id}>

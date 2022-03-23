@@ -1,14 +1,34 @@
-import React, { useContext } from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { MdSettings } from "react-icons/md";
 import { SideBarItems } from "./Data-items";
 import { observer } from "mobx-react";
-import { ContextStore } from "./../store/ContextStore";
+import { AuthService } from "../services/AuthService";
+import Dropdownmenu from "./utils/DropDownMenu";
 
 function Sidebar(props) {
-	const { authStore } = useContext(ContextStore);
-	// console.log(authStore.getToken());
-	console.log(authStore.getUser());
-	// console.log(authStore.getIsLoggedIn());
+	const authService = new AuthService();
+	const [user, setUser] = useState();
+	const y = new Date();
+
+	const id = localStorage.getItem("dumb");
+	const jwt = localStorage.getItem("jwt");
+	useEffect(() => {
+		if (id && jwt) {
+			const fetchUser = async () => {
+				try {
+					const res = await authService.getUser(id);
+					setUser(res.data.user);
+				} catch (err) {
+					console.log(err);
+				}
+			};
+
+			!user && fetchUser();
+		} else {
+			window.location.assign("/admin/login");
+		}
+	});
 	return (
 		<>
 			<div className="main-sidebar">
@@ -20,7 +40,8 @@ function Sidebar(props) {
 							style={{ width: 60, height: 60, borderRadius: "50%" }}
 							alt="..."
 						/>
-						<p>Maintainer</p>
+						<p>{user && user.username}</p>
+						<p>{user && user.role}</p>
 						<div className="divider" />
 					</div>
 					{SideBarItems.map((item) => {
@@ -31,28 +52,15 @@ function Sidebar(props) {
 									className={(navData) =>
 										navData.isActive ? "active-sidebar" : ""
 									}
-									onClick={() => console.log("k")}
 								>
-									<div
-										className="dash-nav"
-										id={
-											window.location.pathname === item.href ? "bg-active" : ""
-										}
-									>
+									<div className="dash-nav">
 										<li className="icon">{item.icon}</li>
 										<li className="dash-name">{item.name}</li>
 									</div>
 								</NavLink>
 								<div>
 									{item.children && (
-										<Link to={`${item.children.href}`}>
-											<div className="dash-nav">
-												<li className="dash-submenu">
-													{" "}
-													<span>{item.children.icon}</span> {item.children.name}
-												</li>
-											</div>
-										</Link>
+										<Dropdownmenu item={item} isActive={false} />
 									)}
 								</div>
 							</div>
@@ -60,7 +68,12 @@ function Sidebar(props) {
 					})}
 				</div>
 				<div className="sidebar-bottom">
-					<h6>next page</h6>
+					<MdSettings size={50} color={"var(--mainWhite)"} />
+					<ul>
+						{/* <li>Settings</li> */}
+						{/* <li>SuperLax Tech</li> */}
+						<li>{y.getFullYear()}</li>
+					</ul>
 				</div>
 			</div>
 		</>

@@ -126,307 +126,357 @@ export default function Addhostel(props) {
 	return (
 		<>
 			<div className="container">
-				<Formik
-					enableReinitialize={true}
+				<FormStepper
+					// validationSchema={validationSchema}
 					initialValues={initialValues}
-					// validationSchema={validationSchema
 					onSubmit={async (values, { resetForm }) => {
 						await onSubmit(values);
 						resetForm();
 					}}
 				>
-					{({ values, setFieldValue }) => (
-						<Form>
-							<div className="row">
-								<div className="col-md-4 col-sm-12">
-									{/* <label htmlFor="name">Residence Name</label> */}
-									<Field
-										type="text"
-										className="form-control"
-										placeholder=" Residence Name"
-										name="name"
-									/>
-									<p className="eg-text">
-										<span className="required">*</span> Example: Nana Adoma
-									</p>
-									<ErrorMessage name="name" render={renderError} />
-								</div>
-								<div className="col-md-4 col-sm-12 ">
-									<Field
-										as="select"
-										name="residenceType"
-										className="form-select"
-										aria-label="Default select example"
-									>
-										<option>Select Residence Type</option>
-										<option value="Hostel">HOSTEL</option>
-										<option value="Homestel">HOMESTEL</option>
-										<option value="Other">Other</option>
-									</Field>
-									<p className="eg-text">
-										{" "}
-										<span className="required">*</span> Example: HOSTEL
-									</p>
-									<ErrorMessage name="residenceType" render={renderError} />
-								</div>
-								<div className="col-md-4 col-sm-12">
-									<Field
-										as="select"
-										className="form-select"
-										placeholder="Location"
-										name="location"
-									>
-										<option> select location</option>
-										{locations &&
-											locations.map((item) => (
-												<option key={item._id} value={item._id}>
-													{item.name}
-												</option>
-											))}
-									</Field>
-									<p className="eg-text">
-										{" "}
-										<span className="required">*</span> Example: Ayeduase
-									</p>
-									<ErrorMessage name="location" render={renderError} />
-								</div>
+					<FormikStep
+						validationSchema={Yup.object({
+							name: Yup.string().required("Residence is Required"),
+							residenceType: Yup.string().required(
+								"Residence Type is required"
+							),
+							location: Yup.string().required("Location is Required"),
+							digitalAddress: Yup.string().nullable(),
+						})}
+					>
+						<div className="row">
+							<div className="col-md-4 col-sm-12">
+								<Field
+									type="text"
+									className="form-control"
+									placeholder=" Residence Name"
+									name="name"
+								/>
+								<p className="eg-text">
+									<span className="required">*</span> Example: Nana Adoma
+								</p>
+								<ErrorMessage name="name" render={renderError} />
 							</div>
-							<div className="row mt-3">
-								<div className="col-md-4 col-sm-12">
-									<Field
-										type="text"
-										name="digitalAddress"
-										className="form-control"
-										placeholder="GA-2324-3423"
-										aria-label="digitalAddress"
-									/>
-									<p className="eg-text">
-										Example: AK-1310-3223, use GhanaPost
-									</p>
-									<ErrorMessage name="digitalAddress" render={renderError} />
-								</div>
-								<div className="col-md-4 col-sm-12">
-									<Field
-										type="text"
-										className="form-control"
-										placeholder="+/-90 Latitude"
-										// value={alt}
-										// onChange={(e) => setlt(e.target.value)}
-										// name="alt"
-									/>
-									<ErrorMessage name="alt" render={renderError} />
-									<Field
-										type="text"
-										className="form-control"
-										placeholder="+/-180 longitude"
-										// value={lng}
-										// name="lng"
-										// onChange={(e) => setlg(e.target.value)}
-									/>
-									<ErrorMessage name="lng" render={renderError} />
-								</div>
-								<div className="col-md-4 col-sm-12">
-									<Field
-										type="url"
-										className="form-control"
-										placeholder="Booking Link"
-										aria-label="booklink"
-										name="bookingLink"
-									/>
-									<p className="eg-text">
-										Eg: www.saintpeters.studentroombook.com
-									</p>
-									<ErrorMessage name="bookingLink" render={renderError} />
-								</div>
+							<div className="col-md-4 col-sm-12 ">
+								<Field
+									as="select"
+									name="residenceType"
+									className="form-select"
+									aria-label="Default select example"
+								>
+									<option>Select Residence Type</option>
+									<option value="Hostel">HOSTEL</option>
+									<option value="Homestel">HOMESTEL</option>
+									<option value="Other">Other</option>
+								</Field>
+								<p className="eg-text">
+									{" "}
+									<span className="required">*</span> Example: HOSTEL
+								</p>
+								<ErrorMessage name="residenceType" render={renderError} />
 							</div>
-							<hr className="my-3" />
+							<div className="col-md-4 col-sm-12">
+								<Field
+									as="select"
+									className="form-select"
+									placeholder="Location"
+									name="location"
+								>
+									<option> select location</option>
+									{locations &&
+										locations.map((item) => (
+											<option key={item._id} value={item._id}>
+												{item.name}
+											</option>
+										))}
+								</Field>
+								<p className="eg-text">
+									{" "}
+									<span className="required">*</span> Example: Ayeduase
+								</p>
+								<ErrorMessage name="location" render={renderError} />
+							</div>
+						</div>
+						<div className="row mt-3">
+							<div className="col-md-4 col-sm-12">
+								<Field
+									type="text"
+									name="digitalAddress"
+									className="form-control"
+									placeholder="GA-2324-3423"
+									aria-label="digitalAddress"
+								/>
+								<p className="eg-text">Example: AK-1310-3223, use GhanaPost</p>
+								<ErrorMessage name="digitalAddress" render={renderError} />
+							</div>
+							<div className="col-md-4 col-sm-12">
+								<Field
+									type="text"
+									className="form-control"
+									placeholder="+/-90 Latitude"
+									// value={alt}
+									// onChange={(e) => setlt(e.target.value)}
+									// name="alt"
+								/>
+								<ErrorMessage name="alt" render={renderError} />
+								<Field
+									type="text"
+									className="form-control"
+									placeholder="+/-180 longitude"
+									// value={lng}
+									// name="lng"
+									// onChange={(e) => setlg(e.target.value)}
+								/>
+								<ErrorMessage name="lng" render={renderError} />
+							</div>
+							<div className="col-md-4 col-sm-12">
+								<Field
+									type="url"
+									className="form-control"
+									placeholder="Booking Link"
+									aria-label="booklink"
+									name="bookingLink"
+								/>
+								<p className="eg-text">
+									Eg: www.saintpeters.studentroombook.com
+								</p>
+								<ErrorMessage name="bookingLink" render={renderError} />
+							</div>
+						</div>
+						<hr className="my-3" />
+					</FormikStep>
+					<div>
+						<div className="row mt-3">
+							<div className="col-md-6 col-sm-12">
+								<Field
+									type="text"
+									className="form-control"
+									placeholder="Owner's Name"
+									name="ownersName"
+								/>
+								<p className="eg-text">
+									{" "}
+									<span className="required">*</span> Example: Kate Williams
+								</p>
+								<ErrorMessage name="ownersName" render={renderError} />
+							</div>
+							<div className="col-md-6 col-sm-12">
+								<Field
+									type="tel"
+									name="ownersContact"
+									className="form-control"
+									placeholder="Owner's Contact"
+									aria-label="ownersContact"
+								/>
+								<p className="eg-text">
+									{" "}
+									<span className="required">*</span> Example: 0201658894
+								</p>
+								<ErrorMessage name="ownersContact" render={renderError} />
+							</div>
+						</div>
+						<div className="row mt-3">
+							<div className="col-md-6 col-sm-12">
+								<Field
+									type="text"
+									className="form-control"
+									placeholder="Manager's Name"
+									name="managersName"
+								/>
+								<p className="eg-text">
+									{" "}
+									<span className="required">*</span> Example: Noble Akoh
+								</p>
+								<ErrorMessage name="managersName" render={renderError} />
+							</div>
+							<div className="col-md-6 col-sm-12">
+								<Field
+									type="tel"
+									className="form-control"
+									placeholder="Manger's Contact"
+									aria-label="managersContact"
+									name="managersContact"
+								/>
+								<p className="eg-text">
+									{" "}
+									<span className="required">*</span> Eg: 0201289778/0552311893
+								</p>
+								<ErrorMessage name="managersContact" render={renderError} />
+							</div>
 							<div className="row mt-3">
 								<div className="col-md-6 col-sm-12">
 									<Field
 										type="text"
 										className="form-control"
-										placeholder="Owner's Name"
-										name="ownersName"
+										placeholder="Porter's Name"
+										name="portersName"
 									/>
 									<p className="eg-text">
 										{" "}
-										<span className="required">*</span> Example: Kate Williams
+										<span className="required">*</span> Example: Francis Dogbe
 									</p>
-									<ErrorMessage name="ownersName" render={renderError} />
+									<ErrorMessage name="portersName" render={renderError} />
 								</div>
 								<div className="col-md-6 col-sm-12">
 									<Field
 										type="tel"
-										name="ownersContact"
+										name="portersContact"
 										className="form-control"
-										placeholder="Owner's Contact"
-										aria-label="ownersContact"
+										placeholder="Porter's Contact"
+										aria-label="portersContact"
 									/>
 									<p className="eg-text">
 										{" "}
 										<span className="required">*</span> Example: 0201658894
 									</p>
-									<ErrorMessage name="ownersContact" render={renderError} />
+									<ErrorMessage name="portersContact" render={renderError} />
 								</div>
 							</div>
-							<div className="row mt-3">
+							<hr className="my-3" />
+						</div>
+					</div>
+					<div>
+						<div className="col-md-4 col-sm-12">
+							<Field
+								type="n"
+								name="portersContact"
+								className="form-control"
+								placeholder="Total Bed Spaces"
+								aria-label="roomsCapacity"
+							/>
+							<p className="eg-text">
+								{" "}
+								<span className="required">*</span> Example: 100
+							</p>
+							<ErrorMessage name="roomsCapacity" render={renderError} />
+						</div>
+						<div className="col-md-4 col-sm-12">
+							<Field
+								type="n"
+								name="portersContact"
+								className="form-control"
+								placeholder="Male Capacity"
+								aria-label="maleCapacity"
+							/>
+							<p className="eg-text">
+								{" "}
+								<span className="required">*</span> Example: 60
+							</p>
+							<ErrorMessage name="maleCapacity" render={renderError} />
+						</div>
+						<div className="col-md-4 col-sm-12">
+							<Field
+								type="n"
+								name="portersContact"
+								className="form-control"
+								placeholder="Femaile Capacity"
+								aria-label="femaleCapacity"
+							/>
+							<p className="eg-text">
+								{" "}
+								<span className="required">*</span> Example: 40
+							</p>
+							<ErrorMessage name="femaleCapacity" render={renderError} />
+						</div>
+					</div>
+					<div>
+						<div className="row mt-3">
+							<div className="col-md-6 col-sm-12">
+								<h5> Facilities</h5>
+								{facilities &&
+									facilities.map((item) => (
+										<div key={item._id} className="form-check">
+											<Field
+												className="form-check-input"
+												type="checkbox"
+												name="facilites"
+												value={item._id}
+											/>
+											<label>{item.name}</label>
+										</div>
+									))}
+							</div>
+							{({ values, setFieldValue }) => (
 								<div className="col-md-6 col-sm-12">
-									<Field
-										type="text"
+									<input
+										type="file"
 										className="form-control"
-										placeholder="Manager's Name"
-										name="managersName"
+										placeholder="Load cover Image"
+										onChange={(e) => {
+											setFieldValue("coverImage", e.currentTarget.files[0]);
+										}}
 									/>
-									<p className="eg-text">
-										{" "}
-										<span className="required">*</span> Example: Noble Akoh
-									</p>
-									<ErrorMessage name="managersName" render={renderError} />
-								</div>
-								<div className="col-md-6 col-sm-12">
-									<Field
-										type="tel"
-										className="form-control"
-										placeholder="Manger's Contact"
-										aria-label="managersContact"
-										name="managersContact"
-									/>
-									<p className="eg-text">
-										{" "}
-										<span className="required">*</span> Eg:
-										0201289778/0552311893
-									</p>
-									<ErrorMessage name="managersContact" render={renderError} />
-								</div>
-								<div className="row mt-3">
-									<div className="col-md-6 col-sm-12">
-										<Field
-											type="text"
-											className="form-control"
-											placeholder="Porter's Name"
-											name="portersName"
-										/>
-										<p className="eg-text">
-											{" "}
-											<span className="required">*</span> Example: Francis Dogbe
-										</p>
-										<ErrorMessage name="portersName" render={renderError} />
-									</div>
-									<div className="col-md-6 col-sm-12">
-										<Field
-											type="tel"
-											name="portersContact"
-											className="form-control"
-											placeholder="Porter's Contact"
-											aria-label="portersContact"
-										/>
-										<p className="eg-text">
-											{" "}
-											<span className="required">*</span> Example: 0201658894
-										</p>
-										<ErrorMessage name="portersContact" render={renderError} />
-									</div>
-								</div>
-								<hr className="my-3" />
-								<div className="row mt-3">
-									<div className="col-md-4 col-sm-12">
-										<Field
-											type="n"
-											name="portersContact"
-											className="form-control"
-											placeholder="Total Bed Spaces"
-											aria-label="roomsCapacity"
-										/>
-										<p className="eg-text">
-											{" "}
-											<span className="required">*</span> Example: 100
-										</p>
-										<ErrorMessage name="roomsCapacity" render={renderError} />
-									</div>
-									<div className="col-md-4 col-sm-12">
-										<Field
-											type="n"
-											name="portersContact"
-											className="form-control"
-											placeholder="Male Capacity"
-											aria-label="maleCapacity"
-										/>
-										<p className="eg-text">
-											{" "}
-											<span className="required">*</span> Example: 60
-										</p>
-										<ErrorMessage name="maleCapacity" render={renderError} />
-									</div>
-									<div className="col-md-4 col-sm-12">
-										<Field
-											type="n"
-											name="portersContact"
-											className="form-control"
-											placeholder="Femaile Capacity"
-											aria-label="femaleCapacity"
-										/>
-										<p className="eg-text">
-											{" "}
-											<span className="required">*</span> Example: 40
-										</p>
-										<ErrorMessage name="femaleCapacity" render={renderError} />
-									</div>
-								</div>
+									<ErrorMessage name="coverImage" render={renderError} />
 
-								<div className="row mt-3">
-									<div className="col-md-6 col-sm-12">
-										<h5> Facilities</h5>
-										{facilities &&
-											facilities.map((item) => (
-												<div key={item._id} className="form-check">
-													<Field
-														className="form-check-input"
-														type="checkbox"
-														name="facilites"
-														value={item._id}
-													/>
-													<label>{item.name}</label>
-												</div>
-											))}
-									</div>
-									<div className="col-md-6 col-sm-12">
-										<input
-											type="file"
-											className="form-control"
-											placeholder="Load cover Image"
-											onChange={(e) => {
-												setFieldValue("coverImage", e.currentTarget.files[0]);
-											}}
-										/>
-										<ErrorMessage name="coverImage" render={renderError} />
-
-										{coverImage && <Thumb file={coverImage} />}
-									</div>
+									{coverImage && <Thumb file={coverImage} />}
 								</div>
+							)}
+						</div>
+						<div className="mx-5 mt-3 mb-2">
+							<div {...getRootProps()}>
+								<input {...getInputProps()} />
+								{isDragActive ? (
+									<p> drop of files </p>
+								) : (
+									<p className=" p-2">Click to Load images here</p>
+								)}
 							</div>
-							<div className="mx-5 mt-3 mb-2">
-								<div {...getRootProps()}>
-									<input {...getInputProps()} />
-									{isDragActive ? (
-										<p> drop of files </p>
-									) : (
-										<p className=" p-2">Click to Load images here</p>
-									)}
-								</div>
-								{accepted &&
-									accepted.map((file, i) => {
-										return <Thumb key={i} file={file} />;
-									})}
-							</div>
-
-							<button type="submit" className="btn is-primary">
-								Submit
-							</button>
-						</Form>
-					)}
-				</Formik>
-				<div>{}</div>
+							{accepted &&
+								accepted.map((file, i) => {
+									return <Thumb key={i} file={file} />;
+								})}
+						</div>
+					</div>
+				</FormStepper>
 			</div>
 		</>
+	);
+}
+
+export function FormikStep({ children }) {
+	return <>{children}</>;
+}
+
+export function FormStepper({ children, ...props }) {
+	const childrenArray = React.Children.toArray(children);
+	const [step, setStep] = useState(0);
+	const [completed, setCompleted] = useState(false);
+	const currentChild = childrenArray[step];
+
+	function isLastPage() {
+		return step === childrenArray.length - 1;
+	}
+
+	return (
+		<Formik
+			{...props}
+			validationSchema={currentChild.props.validationSchema}
+			onSubmit={async (values, { resetForm }) => {
+				console.log(props);
+				if (isLastPage()) {
+					await props.onSubmit(values);
+					resetForm();
+				}
+			}}
+		>
+			{({ isSubmitting }) => (
+				<Form>
+					{currentChild}
+
+					{step > 0 ? (
+						<button onClick={() => setStep((s) => s - 1)} className="btn p-2">
+							Back
+						</button>
+					) : null}
+					<button
+						type="submit"
+						onClick={() => setStep((s) => s + 1)}
+						className="btn ml-3 p-2"
+					>
+						{isSubmitting ? "Submitting" : isLastPage() ? "Submit" : "Next"}
+					</button>
+				</Form>
+			)}
+		</Formik>
 	);
 }
