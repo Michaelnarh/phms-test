@@ -18,10 +18,20 @@ import AddHomestel from "./views/homestels/AddHomestel";
 import SnrTutorsViews from "./views/snrTutors/Index";
 import SnrTutors from "./views/snrTutors/SnrTutors";
 import AddSnrTutors from "./views/snrTutors/AddSnrTutor";
-// import EditTutors from "./views/snrTutors/EditSnrTutors";
+import EditTutor from "./views/snrTutors/EditSnrTutors";
 
-import AreaMps from "./views/AreaMPs";
-import NssPersonnels from "./views/NssPersonnels";
+//import nss personnel views
+// import NssPersonnels from "./views/NssPersonnels";
+import NssPersonnelViews from "./views/nssPersonnel/Index";
+import NssPersonnels from "./views/nssPersonnel/NssPersonnels";
+import AddPersonnel from "./views/nssPersonnel/AddPersonnel";
+import EditPersonnel from "./views/nssPersonnel/EditPersonnel";
+
+import AreaMpViews from "./views/areaMp/Index";
+import AreaMps from "./views/areaMp/AreaMps";
+import AddMp from "./views/areaMp/AddAreaMp";
+import EditMp from "./views/areaMp/EditAreaMP";
+
 import Facilities from "./views/Facilities";
 import NotFoundPage from "./views/404Page";
 
@@ -57,17 +67,28 @@ function MainLayout() {
 				<Route path="zones" element={<ZonesViews />}>
 					<Route index element={<Zones />} />
 					<Route path="add" element={<AddZone />} />
+					<Route path=":id" element={<EditZone />} />
 				</Route>
 				<Route path="locations" element={<LocationViews />}>
 					<Route index element={<Locations />} />
 					<Route path="add" element={<AddLocation />} />
+					<Route path=":id" element={<EditLocation />} />
 				</Route>
-				<Route path="area-mps" element={<AreaMps />} />
+				<Route path="area-mps" element={<AreaMpViews />}>
+					<Route index element={<AreaMps />} />
+					<Route path="add" element={<AddMp />} />
+					<Route path=":slug" element={<EditMp />} />
+				</Route>
 				<Route path="snr-tutors" element={<SnrTutorsViews />}>
 					<Route index element={<SnrTutors />} />
 					<Route path="add" element={<AddSnrTutors />} />
+					<Route path=":slug" element={<EditTutor />} />
 				</Route>
-				<Route path="nss-personnels" element={<NssPersonnels />} />
+				<Route path="nss-personnels" element={<NssPersonnelViews />}>
+					<Route index element={<NssPersonnels />} />
+					<Route path="add" element={<AddPersonnel />} />
+					<Route path=":slug" element={<EditPersonnel />} />
+				</Route>
 				<Route path="facilities" element={<Facilities />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Route>

@@ -30,11 +30,7 @@ export default function Zones(props) {
 		// navigate(`details/${id}`);
 	};
 	const handleEdit = async (id) => {
-		const res = await axios({
-			method: "get",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/zones/${id}`,
-		});
-		console.log(res.data);
+		navigate(`/admin/zones/${id}`);
 	};
 	const handlePageClick = (p) => {
 		setPage(p.selected + 1);
@@ -69,7 +65,7 @@ export default function Zones(props) {
 										/>
 										<FaPen
 											size={20}
-											onClick={() => handleEdit("edit")}
+											onClick={() => handleEdit(item._id)}
 											color="var(--mainOrange)"
 											title="Edit"
 										/>

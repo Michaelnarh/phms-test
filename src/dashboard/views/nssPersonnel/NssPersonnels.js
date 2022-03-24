@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Divisiontitle from "../DivisionTitle";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-export default function Snrtutors(props) {
+import { useNavigate } from "react-router-dom";
+export default function NssPersonnels(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	const [tutors, setTutors] = useState([]);
-	const { slug } = useParams();
 	const navigate = useNavigate();
 	useEffect(() => {
 		const fetchTutors = async () => {
@@ -25,7 +24,7 @@ export default function Snrtutors(props) {
 	return (
 		<>
 			<div className="page-container mt-3">
-				<Divisiontitle title="CURRENT SENIOR TUTORS" />
+				<Divisiontitle title="CURRENT SERVICE PERSONNELS" />
 				<div className="tutors-flex">
 					{tutors.map((item) => {
 						return (
@@ -65,7 +64,7 @@ export default function Snrtutors(props) {
 				</div>
 				<hr />
 				<div>
-					<Divisiontitle title="PAST SENIOR TUTORS" />
+					<Divisiontitle title="PAST SERVICE PERSONNELS" />
 					<div className="tutors-flex">
 						{tutors
 							.filter((person) => !person.isCurrent)

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Divisiontitle from "../DivisionTitle";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-export default function Snrtutors(props) {
+import { useNavigate } from "react-router-dom";
+export default function NationalMps(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
-	const [tutors, setTutors] = useState([]);
-	const { slug } = useParams();
+	const [nmps, setNmps] = useState([]);
 	const navigate = useNavigate();
 	useEffect(() => {
-		const fetchTutors = async () => {
+		const fetchNationalMps = async () => {
 			const res = await axios({
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
@@ -16,10 +15,9 @@ export default function Snrtutors(props) {
 					"Content-Type": "application/json",
 				},
 			});
-			console.log(res.data.total);
-			setTutors(res.data.data);
+			setNmps(res.data.data);
 		};
-		fetchTutors();
+		fetchNationalMps();
 	}, []);
 
 	return (
@@ -27,7 +25,7 @@ export default function Snrtutors(props) {
 			<div className="page-container mt-3">
 				<Divisiontitle title="CURRENT SENIOR TUTORS" />
 				<div className="tutors-flex">
-					{tutors.map((item) => {
+					{nmps.map((item) => {
 						return (
 							<div key={item._id} className="tutors-card">
 								{item.image ? (
@@ -67,7 +65,7 @@ export default function Snrtutors(props) {
 				<div>
 					<Divisiontitle title="PAST SENIOR TUTORS" />
 					<div className="tutors-flex">
-						{tutors
+						{nmps
 							.filter((person) => !person.isCurrent)
 							.map((item) => {
 								return (

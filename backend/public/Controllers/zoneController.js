@@ -42,10 +42,10 @@ exports.updateZone = async (req, res) => {
 // get ad particular zone
 exports.getZone = async (req, res) => {
 	try {
-		const zone = await Zone.findById(req.params.id);
+		const zone = await Zone.findById(req.params.id).populate("tutor");
 		res.status(200).json({
 			status: "success",
-			zone,
+			data: zone,
 		});
 	} catch (err) {
 		res.status(400).json({

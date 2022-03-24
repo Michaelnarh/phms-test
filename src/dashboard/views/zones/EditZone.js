@@ -7,7 +7,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 export default function EditZone(props) {
 	const [tutors, setTutors] = useState([]);
-	const [zone, setZone] = useState({});
+	const [zone, setZone] = useState();
+	const { id } = useParams();
 	useEffect(() => {
 		const fetchTutors = async () => {
 			const res = await axios({
@@ -16,7 +17,15 @@ export default function EditZone(props) {
 			});
 			setTutors(res.data.data);
 		};
-		fetchTutors();
+		const fetchZone = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/zones/${id}`,
+			});
+			setZone(res.data.data);
+		};
+		if (tutors.length === 0) fetchTutors();
+		!zone && fetchZone();
 	});
 
 	const validationSchema = Yup.object({
@@ -24,20 +33,22 @@ export default function EditZone(props) {
 		tutor: Yup.string().required("Tutor Name is Required"),
 	});
 	const initialValues = {
-		name: "",
-		tutor: "",
+		name: zone && (zone.name ?? ""),
+		// tutor: "",
+		tutor: zone && (zone.tutor ? zone.tutor._id : ""),
 	};
 
 	const onSubmit = async (values) => {
 		try {
 			const res = await axios({
-				method: "post",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				method: "patch",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/zones/${id}`,
 				headers: {
 					accept: "application/json",
 				},
 				data: values,
 			});
+			console.log(res);
 		} catch (err) {
 			console.log(err);
 		}

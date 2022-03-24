@@ -5,31 +5,20 @@ import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 
-export default function Editsnrtutors(props) {
+export default function EditNationalMp(props) {
 	const { slug } = useParams();
-	const [zones, setZones] = useState([]);
-	const [tutor, setTutor] = useState();
+	const [nmp, setNmps] = useState();
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
-		const fetchZones = async () => {
-			const res = await axios({
-				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
-			});
-			setZones(res.data.data);
-		};
-
-		const fetchTutor = async () => {
+		const fetchNationalMps = async () => {
 			const res = await axios({
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/${slug}`,
 			});
-			setTutor(res.data.data);
+			setNmps(res.data.data);
 		};
-		!tutor && fetchTutor();
-		if (zones.length === 0) {
-			fetchZones();
-		}
+
+		!nmp && fetchNationalMps();
 	});
 
 	const validationSchema = Yup.object({
@@ -43,11 +32,11 @@ export default function Editsnrtutors(props) {
 	});
 
 	const initialValues = {
-		name: tutor && (tutor.name ?? ""),
-		email: tutor && (tutor.email ?? ""),
-		contact: tutor && (tutor.contact ?? ""),
-		zone: tutor && (tutor.zone._id ?? ""),
-		image: tutor && (tutor.image ?? ""),
+		name: nmp && (nmp.name ?? ""),
+		email: nmp && (nmp.email ?? ""),
+		contact: nmp && (nmp.contact ?? ""),
+		zone: nmp && (nmp.zone._id ?? ""),
+		image: nmp && (nmp.image ?? ""),
 	};
 	const onSubmit = async (values) => {
 		console.log(values);
@@ -55,12 +44,11 @@ export default function Editsnrtutors(props) {
 		formData.append("name", values.name);
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
-		formData.append("zone", values.zone);
 		formData.append("image", values.image);
 
 		const res = await axios({
 			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors${tutor._id}`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors${slug}`,
 			headers: {
 				accept: "application/json",
 			},
@@ -122,45 +110,7 @@ export default function Editsnrtutors(props) {
 								</p>
 								<ErrorMessage name="contact" render={renderError} />
 							</div>
-							<div className="col-md-6 col-sm-12">
-								<Field
-									as="select"
-									className="form-select"
-									placeholder="Zones"
-									name="zone"
-								>
-									<option value=""> select zone</option>
-									{zones &&
-										zones.map((item) => (
-											<option key={item._id} value={item._id}>
-												{item.name}
-											</option>
-										))}
-								</Field>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: Ayeduase-North
-								</p>
-								<ErrorMessage name="zone" render={renderError} />
-							</div>
 							<div className="row mt-3">
-								<div className="col-md-6 col-sm-12">
-									{tutor && tutor.image ? (
-										<img
-											src={`${url}/snr-tutors/${tutor.image}`}
-											className="img-fluid"
-											alt="..."
-											style={{ width: 300, height: 250 }}
-										/>
-									) : (
-										<img
-											src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
-											className="img-fluid"
-											alt="..."
-											style={{ width: 300, height: 250 }}
-										/>
-									)}
-								</div>
 								<div className="col-md-6 col-sm-12">
 									<label>Load Profile Image</label>
 									<input

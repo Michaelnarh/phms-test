@@ -10,7 +10,7 @@ function Sidebar(props) {
 	const authService = new AuthService();
 	const [user, setUser] = useState();
 	const y = new Date();
-
+	const url = `${process.env.REACT_APP_API_URL}/images/users`;
 	const id = localStorage.getItem("dumb");
 	const jwt = localStorage.getItem("jwt");
 	useEffect(() => {
@@ -26,7 +26,7 @@ function Sidebar(props) {
 
 			!user && fetchUser();
 		} else {
-			window.location.assign("/admin/login");
+			// window.location.assign("/admin/login");
 		}
 	});
 	return (
@@ -34,14 +34,26 @@ function Sidebar(props) {
 			<div className="main-sidebar">
 				<div className="sidebar-columns">
 					<div className="dash-user">
-						<img
-							src="/imgs/adom_bi.jpg"
-							className="img-fluid"
-							style={{ width: 60, height: 60, borderRadius: "50%" }}
-							alt="..."
-						/>
-						<p>{user && user.username}</p>
-						<p>{user && user.role}</p>
+						{user && user.image ? (
+							<img
+								src={`${url}/${user.image}`}
+								className="img-fluid"
+								style={{ width: 60, height: 60, borderRadius: "50%" }}
+								alt="..."
+							/>
+						) : (
+							<img
+								src={`${url}/profile_pic.jpg`}
+								className="img-fluid"
+								style={{ width: 90, height: 90, borderRadius: "50%" }}
+								alt="..."
+							/>
+						)}
+						<p className="profile_name">
+							{user && user.username}
+							<br /> {user && user.role}
+						</p>
+						{/* <p>{user && user.role}</p> */}
 						<div className="divider" />
 					</div>
 					{SideBarItems.map((item) => {
@@ -72,7 +84,7 @@ function Sidebar(props) {
 					<ul>
 						{/* <li>Settings</li> */}
 						{/* <li>SuperLax Tech</li> */}
-						<li>{y.getFullYear()}</li>
+						{/* <li>{y.getFullYear()}</li> */}
 					</ul>
 				</div>
 			</div>

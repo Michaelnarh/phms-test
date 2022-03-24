@@ -15,13 +15,12 @@ export class AuthService {
 		if (res.data.status === "success") {
 			localStorage.setItem("jwt", res.data.token);
 			// window.location.assign("/admin/dashboard");
+			return res;
 		}
 		if (res.data.status === "failed") {
 			console.log(res.data.message);
 			throw new Error();
 		}
-
-		return res;
 	};
 	getUser = async (id) => {
 		const res = await axios({

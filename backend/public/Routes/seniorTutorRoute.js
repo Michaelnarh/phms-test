@@ -13,7 +13,7 @@ router
 	.get(seniorTutorController.getAllSeniorTutors);
 
 router
-	.route("/:id")
+	.route("/:slug")
 	.get(seniorTutorController.getSeniorTutor)
 	.patch(seniorTutorController.updateSeniorTutor)
 	.delete(

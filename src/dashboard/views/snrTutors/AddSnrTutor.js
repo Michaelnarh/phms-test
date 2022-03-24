@@ -18,7 +18,7 @@ export default function Addsnrtutor(props) {
 	});
 
 	const validationSchema = Yup.object({
-		name: Yup.string().required("Residence is Required"),
+		name: Yup.string().required("Name is Required"),
 		email: Yup.string()
 			.email("TextField must be an Email")
 			.required("Senior Tutor's email is required"),
@@ -43,18 +43,20 @@ export default function Addsnrtutor(props) {
 		formData.append("zone", values.zone);
 		formData.append("image", values.image);
 
-		console.log(formData);
+		console.log(formData.entries());
 
 		const res = await axios({
 			method: "post",
 			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
 			headers: {
+				"Content-Type": "multipart/form-data",
 				accept: "application/json",
 			},
-			data: values,
+			data: formData,
 		});
-
-		console.log(res);
+		if (res.data.status === "success") {
+			window.location.assign("/admin/snr-tutors");
+		}
 	};
 
 	return (
@@ -79,7 +81,7 @@ export default function Addsnrtutor(props) {
 									name="name"
 								/>
 								<p className="eg-text">
-									<span className="required">*</span> Example: Nana Adoma
+									<span className="required">*</span> Example: Dr. James Arthur
 								</p>
 								<ErrorMessage name="name" render={renderError} />
 							</div>

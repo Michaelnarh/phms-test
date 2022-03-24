@@ -3,13 +3,9 @@ import axios from "axios";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
 
-export default function Editsnrtutors(props) {
-	const { slug } = useParams();
+export default function AddNationalMp(props) {
 	const [zones, setZones] = useState([]);
-	const [tutor, setTutor] = useState();
-	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
 		const fetchZones = async () => {
 			const res = await axios({
@@ -18,22 +14,11 @@ export default function Editsnrtutors(props) {
 			});
 			setZones(res.data.data);
 		};
-
-		const fetchTutor = async () => {
-			const res = await axios({
-				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/${slug}`,
-			});
-			setTutor(res.data.data);
-		};
-		!tutor && fetchTutor();
-		if (zones.length === 0) {
-			fetchZones();
-		}
+		fetchZones();
 	});
 
 	const validationSchema = Yup.object({
-		name: Yup.string().required("Residence is Required"),
+		name: Yup.string().required("Name is Required"),
 		email: Yup.string()
 			.email("TextField must be an Email")
 			.required("Senior Tutor's email is required"),
@@ -43,11 +28,10 @@ export default function Editsnrtutors(props) {
 	});
 
 	const initialValues = {
-		name: tutor && (tutor.name ?? ""),
-		email: tutor && (tutor.email ?? ""),
-		contact: tutor && (tutor.contact ?? ""),
-		zone: tutor && (tutor.zone._id ?? ""),
-		image: tutor && (tutor.image ?? ""),
+		name: "",
+		email: "",
+		contact: "",
+		image: "",
 	};
 	const onSubmit = async (values) => {
 		console.log(values);
@@ -58,14 +42,20 @@ export default function Editsnrtutors(props) {
 		formData.append("zone", values.zone);
 		formData.append("image", values.image);
 
+		console.log(formData.entries());
+
 		const res = await axios({
-			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors${tutor._id}`,
+			method: "post",
+			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
 			headers: {
+				"Content-Type": "multipart/form-data",
 				accept: "application/json",
 			},
 			data: formData,
 		});
+		if (res.data.status === "success") {
+			window.location.assign("/admin/snr-tutors");
+		}
 	};
 
 	return (
@@ -90,7 +80,7 @@ export default function Editsnrtutors(props) {
 									name="name"
 								/>
 								<p className="eg-text">
-									<span className="required">*</span> Example: Nana Adoma
+									<span className="required">*</span> Example: Dr. James Arthur
 								</p>
 								<ErrorMessage name="name" render={renderError} />
 							</div>
@@ -122,45 +112,7 @@ export default function Editsnrtutors(props) {
 								</p>
 								<ErrorMessage name="contact" render={renderError} />
 							</div>
-							<div className="col-md-6 col-sm-12">
-								<Field
-									as="select"
-									className="form-select"
-									placeholder="Zones"
-									name="zone"
-								>
-									<option value=""> select zone</option>
-									{zones &&
-										zones.map((item) => (
-											<option key={item._id} value={item._id}>
-												{item.name}
-											</option>
-										))}
-								</Field>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: Ayeduase-North
-								</p>
-								<ErrorMessage name="zone" render={renderError} />
-							</div>
 							<div className="row mt-3">
-								<div className="col-md-6 col-sm-12">
-									{tutor && tutor.image ? (
-										<img
-											src={`${url}/snr-tutors/${tutor.image}`}
-											className="img-fluid"
-											alt="..."
-											style={{ width: 300, height: 250 }}
-										/>
-									) : (
-										<img
-											src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
-											className="img-fluid"
-											alt="..."
-											style={{ width: 300, height: 250 }}
-										/>
-									)}
-								</div>
 								<div className="col-md-6 col-sm-12">
 									<label>Load Profile Image</label>
 									<input

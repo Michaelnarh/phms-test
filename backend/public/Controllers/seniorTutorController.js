@@ -96,12 +96,12 @@ exports.updateSeniorTutor = async (req, res) => {
 // get ad particular SeniorTutor
 exports.getSeniorTutor = async (req, res) => {
 	try {
-		const seniorTutor = await SeniorTutor.findById(req.params.id).populate(
-			"zones"
-		);
+		const seniorTutor = await SeniorTutor.findOne({
+			slug: req.params.slug,
+		}).populate("zone");
 		res.status(200).json({
 			status: "success",
-			seniorTutor,
+			data: seniorTutor,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -116,7 +116,6 @@ exports.getAllSeniorTutors = async (req, res) => {
 	try {
 		const seniorTutors = await SeniorTutor.find().populate({
 			path: "zone",
-			select: "name",
 		});
 		res.status(200).json({
 			status: "success",
@@ -133,11 +132,10 @@ exports.getAllSeniorTutors = async (req, res) => {
 //delete a Tutor
 exports.deleteSeniorTutor = async (req, res, next) => {
 	try {
-		const tutor_id = req.params.id;
-		if (!tutor_id)
-			throw new Error("SeniorTutor id is required for this Operation");
-		const tutor = await SeniorTutor.findById(tutor_id);
-		await SeniorTutor.findByIdAndDelete(tutor_id);
+		const slug = req.params.slug;
+		if (!slug) throw new Error("SeniorTutor id is required for this Operation");
+		const tutor = await SeniorTutor.findByOne(slug);
+		await SeniorTutor.findByIdAndDelete(slug);
 		res.status(200).json({
 			status: "success",
 			message: `SeniorTutor records of  ${tutor.name} is deleted successfully`,
