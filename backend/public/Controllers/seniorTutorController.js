@@ -69,6 +69,8 @@ exports.updateSeniorTutor = async (req, res) => {
 	if (!req.params.id) {
 		throw Error("SeniorTutor  not identified");
 	}
+
+	console.log(req.body);
 	try {
 		if (req.body.name) {
 			req.body.slug = slugify(req.body.name, { lower: true });
@@ -132,10 +134,10 @@ exports.getAllSeniorTutors = async (req, res) => {
 //delete a Tutor
 exports.deleteSeniorTutor = async (req, res, next) => {
 	try {
-		const slug = req.params.slug;
-		if (!slug) throw new Error("SeniorTutor id is required for this Operation");
-		const tutor = await SeniorTutor.findByOne(slug);
-		await SeniorTutor.findByIdAndDelete(slug);
+		const id = req.params.id;
+		if (!id) throw new Error("SeniorTutor id is required for this Operation");
+		const tutor = await SeniorTutor.findById(id);
+		await SeniorTutor.findByIdAndDelete(id);
 		res.status(200).json({
 			status: "success",
 			message: `SeniorTutor records of  ${tutor.name} is deleted successfully`,

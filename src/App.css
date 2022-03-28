@@ -5,7 +5,9 @@
 	--offWhite: #f7f7f7;
 	--mainBlack: #222;
 	--mainGrey: #ececec;
-	--darkBlue: #0d2150;
+	--darkBlue: #0a6e23;
+	/* --darkBlue: #7e3232; */
+	/* --darkBlue: #0d2150; */
 	--lightBlue: rgb(86, 58, 245);
 	--darkGrey: #cfcfcf;
 	--mainOrange: rgb(248, 78, 11);
@@ -93,11 +95,10 @@ hostel and homestel images
 	display: flex;
 	justify-content: center;
 	flex-direction: row;
-	/* margin-left: 50px; */
 }
 
 .search-box > input {
-	width: 485px;
+	width: 585px;
 	padding: 12px;
 	border-radius: 8px;
 	/* margin-right: 20px; */

@@ -22,15 +22,10 @@ export default function Locations(props) {
 		fetchLocations();
 	}, [page, limit]);
 
-	const handleView = async (id) => {
-		// navigate(`details/${id}`);
-	};
+	const handleView = async (id) => {};
 	const handleEdit = async (id) => {
-		const res = await axios({
-			method: "get",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/locations/${id}`,
-		});
-		console.log(res.data);
+		navigate(`/admin/locations/${id}`);
+		// console.log(res.data);
 	};
 	const handlePageClick = (p) => {
 		setPage(p.selected + 1);
@@ -64,7 +59,7 @@ export default function Locations(props) {
 										/>
 										<FaPen
 											size={20}
-											onClick={() => handleEdit("edit")}
+											onClick={() => handleEdit(item._id)}
 											color="var(--mainOrange)"
 											title="Edit"
 										/>

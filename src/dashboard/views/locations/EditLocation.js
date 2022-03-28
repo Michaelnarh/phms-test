@@ -6,7 +6,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useParams } from "react-router-dom";
 export default function Addlocation(props) {
 	const [zones, setZones] = useState([]);
-	const [location, setLocation] = useState([]);
+	const [location, setLocation] = useState();
 	const { id } = useParams();
 	useEffect(() => {
 		const fetchZones = async () => {
@@ -19,7 +19,7 @@ export default function Addlocation(props) {
 		const fetchLocation = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/locations${id}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/locations/${id}`,
 			});
 			setLocation(res.data.data);
 		};
@@ -30,7 +30,7 @@ export default function Addlocation(props) {
 	});
 
 	const validationSchema = Yup.object({
-		name: Yup.string().required("Residence is Required"),
+		name: Yup.string().required("Location Name is Required"),
 		zone: Yup.string().nullable(),
 	});
 
@@ -43,13 +43,14 @@ export default function Addlocation(props) {
 
 		const res = await axios({
 			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/locations`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/locations/${id}`,
 			headers: {
 				"Content-Type": "application/json",
 			},
 			data: values,
 		});
 	};
+
 	return (
 		<>
 			<Formik
@@ -81,7 +82,7 @@ export default function Addlocation(props) {
 								as="select"
 								className="form-select"
 								placeholder="Location"
-								name="location"
+								name="zone"
 							>
 								<option>Select Zone</option>
 								{zones &&

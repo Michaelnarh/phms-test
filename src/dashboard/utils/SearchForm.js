@@ -48,10 +48,10 @@ export default function Searchform(props) {
 
 	return (
 		<>
-			<div className="search-area">
+			<div className="search-area-dash">
 				<div>
 					<input
-						className="search-box"
+						className="search-box-dash"
 						onChange={(e) => onChangeHandler(e.target.value)}
 						value={text}
 						placeholder={`Search ${type} by name`}
@@ -66,14 +66,14 @@ export default function Searchform(props) {
 					</button>
 				</div>
 			</div>
-			<div className="suggestions-area">
+			<div className="suggestions-area-dash">
 				{suggestions &&
 					suggestions.slice(0, 6).map((item, index) => {
 						return (
 							<>
 								<div key={item._id}>
 									<h5
-										className="suggest-list"
+										className="suggest-list-dash"
 										onClick={() => onSuggestion(item.name)}
 									>
 										{item.name}

@@ -13,7 +13,7 @@ export default function Index(props) {
 						className=" btn mb-1 "
 						onClick={() => navigate("/admin/snr-tutors/add")}
 					>
-						ADD Tutor
+						ADD TUTOR
 					</button>
 				</div>
 				<Outlet />

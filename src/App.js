@@ -25,11 +25,11 @@ import Store from "./Store";
 function App() {
 	return (
 		<>
-			<Provider store={Store}>
+			{/* <Provider store={Store}>
 				<DashLayout />
-			</Provider>
-			{/* {/* <Navbar /> */}
-			{/* <Routes>
+			</Provider> */}
+			<Navbar />
+			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/hostels" element={<Hostels />} />
 				<Route path="/homestels" element={<Homestels />} />
@@ -37,7 +37,7 @@ function App() {
 				<Route path="/hostels/:id" element={<ResidenceDetails />} />
 				<Route path="/help-desk" element={<HelpDesk />} />
 			</Routes>
-			<Footer />  */}
+			<Footer />
 		</>
 	);
 }

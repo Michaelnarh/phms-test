@@ -12,13 +12,17 @@ router
 	)
 	.get(seniorTutorController.getAllSeniorTutors);
 
+router.route("/:slug").get(seniorTutorController.getSeniorTutor);
 router
-	.route("/:slug")
-	.get(seniorTutorController.getSeniorTutor)
-	.patch(seniorTutorController.updateSeniorTutor)
+	.route("/:id")
+	.patch(
+		seniorTutorController.uploadImage,
+		seniorTutorController.resizeImage,
+		seniorTutorController.updateSeniorTutor
+	)
 	.delete(
-		authController.protected,
-		authController.restrictTo(["supervisor", "admin"]),
+		// authController.protected,
+		// authController.restrictTo(["supervisor", "admin"]),
 		seniorTutorController.deleteSeniorTutor
 	);
 

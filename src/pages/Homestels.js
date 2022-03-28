@@ -31,7 +31,7 @@ export default function Hostels(props) {
 		<>
 			<div className="container">
 				<div>
-					<Searchbox data={homestels} />
+					<Searchbox type="Homestels" data={homestels} />
 				</div>
 				<div className="hostel-flex my-5">
 					{homestels &&

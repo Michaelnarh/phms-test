@@ -3,10 +3,11 @@ import axios from "axios";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function Editsnrtutors(props) {
 	const { slug } = useParams();
+	const navigate = useNavigate();
 	const [zones, setZones] = useState([]);
 	const [tutor, setTutor] = useState();
 	const url = `${process.env.REACT_APP_API_URL}/images`;
@@ -57,17 +58,31 @@ export default function Editsnrtutors(props) {
 		formData.append("contact", values.contact);
 		formData.append("zone", values.zone);
 		formData.append("image", values.image);
+		console.log(formData.entries());
 
 		const res = await axios({
 			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors${tutor._id}`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/${tutor._id}`,
 			headers: {
+				"Content-Type": "multipart/form-data",
 				accept: "application/json",
 			},
 			data: formData,
 		});
-	};
 
+		if (res.data.status === "success") {
+			navigate(-1);
+		}
+	};
+	const handleDelete = async (id) => {
+		const res = await axios({
+			method: "delete",
+			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/${id}`,
+		});
+		if (res.data.status === "success") {
+			navigate("/admin/snr-tutors");
+		}
+	};
 	return (
 		<>
 			<Formik
@@ -171,6 +186,12 @@ export default function Editsnrtutors(props) {
 										}}
 									/>
 									<ErrorMessage name="image" render={renderError} />
+									<button
+										className="btn-danger p-3"
+										onClick={() => handleDelete(tutor._id)}
+									>
+										Delete
+									</button>
 								</div>
 							</div>
 						</div>

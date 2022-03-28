@@ -22,7 +22,8 @@ exports.updateLocation = async (req, res) => {
 		throw Error("Location  not identified");
 	}
 	try {
-		req.body.updatedAt = new Date.now();
+		let date = new Date();
+		req.body.updatedAt = date;
 		const location = await Location.findByIdAndUpdate(req.params.id, req.body, {
 			new: true,
 			runValidators: true,
@@ -42,7 +43,7 @@ exports.updateLocation = async (req, res) => {
 // get ad particular zone
 exports.getlocation = async (req, res) => {
 	try {
-		const location = await Location.findById(req.params.id);
+		const location = await Location.findById(req.params.id).populate("zone");
 		res.status(200).json({
 			status: "success",
 			data: location,
@@ -58,7 +59,7 @@ exports.getlocation = async (req, res) => {
 //get all locations
 exports.getAllLocations = async (req, res) => {
 	try {
-		const locations = await Location.find();
+		const locations = await Location.find().populate("zone");
 
 		res.status(200).json({
 			status: "success",

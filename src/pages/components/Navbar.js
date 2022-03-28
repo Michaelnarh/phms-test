@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Drawer from "./Drawer";
 import { NavLink } from "react-router-dom";
-import { FaBars, FaTimes, FaUser } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 import Logo from "../../images/logo-knust.png";
+import profile from "../../images/profile_pic.jpg";
+const isUser = true;
 
 export default function Navbar(props) {
 	const [isDrawerOpen, setDrawer] = useState(false);
@@ -47,13 +49,24 @@ export default function Navbar(props) {
 						</NavLink>
 					</li>
 				</ul>
-				<ul className="nav-inline-flex">
-					<li>Sign Up</li>
-					<li>Login</li>
-					<li className="user">
-						<FaUser />
-					</li>
-					<li>{/* <FaSearch />o */}</li>
+				<ul className="mr-3">
+					{isUser ? (
+						<img
+							src={profile}
+							alt="..."
+							style={{
+								width: 40,
+								height: 40,
+								borderRadius: "50%",
+								marginRight: 14,
+							}}
+						/>
+					) : (
+						<ul className="nav-inline-flex">
+							<li>Sign Up</li>
+							<li>Login</li>
+						</ul>
+					)}
 				</ul>
 				<ul className="nav-bars">
 					{!isDrawerOpen ? (

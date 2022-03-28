@@ -11,7 +11,7 @@ export default function AreaMPs(props) {
 		const fetchAreaMps = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/mps`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
 				headers: {
 					"Content-Type": "application/json",
 				},

@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
 
 export default function Searchbox(props) {
-	const { data } = props;
+	const { data, type } = props;
 	const [text, setText] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 
@@ -32,25 +31,25 @@ export default function Searchbox(props) {
 		const res = await axios.get(
 			`http://localhost:8080/api/v1/residences/search?${text}`
 		);
-		console.log(res);
 	};
 	return (
 		<>
 			<div>
 				<div className="search-box mt-5">
-					<input
-						type="text"
-						className=""
-						onChange={(e) => onChangeHandler(e.target.value)}
-						value={text}
-						placeholder="search hostel name"
-					/>
-					<FaSearch
-						onClick={() => handleSearch(text)}
-						className="search-icon"
-						size={30}
-						color="var(--darkBlue)"
-					/>
+					<div>
+						<input
+							type="text"
+							className="p-2"
+							onChange={(e) => onChangeHandler(e.target.value)}
+							value={text}
+							placeholder={`Search ${type} by Name`}
+						/>
+					</div>
+					<div className="ml-2">
+						<button className="btn p-2 " onClick={() => handleSearch(text)}>
+							SEARCH
+						</button>
+					</div>
 				</div>
 				{suggestions && (
 					<div className="suggestions-area">
