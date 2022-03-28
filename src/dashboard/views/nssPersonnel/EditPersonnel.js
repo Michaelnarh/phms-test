@@ -7,16 +7,16 @@ import { useParams } from "react-router-dom";
 
 export default function EditPersonnel(props) {
 	const { slug } = useParams();
-	const [zones, setZones] = useState([]);
+	const [tutors, setTutors] = useState([]);
 	const [personnel, setPersonnel] = useState();
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
 		const fetchZones = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
 			});
-			setZones(res.data.data);
+			setTutors(res.data.data);
 		};
 
 		const fetchPersonnel = async () => {
@@ -27,16 +27,16 @@ export default function EditPersonnel(props) {
 			setPersonnel(res.data.data);
 		};
 		!personnel && fetchPersonnel();
-		if (zones.length === 0) {
+		if (tutors.length === 0) {
 			fetchZones();
 		}
 	});
 
 	const validationSchema = Yup.object({
-		name: Yup.string().required("Residence is Required"),
+		name: Yup.string().required("Personnnel name  is Required"),
 		email: Yup.string()
 			.email("TextField must be an Email")
-			.required("Senior Tutor's email is required"),
+			.required("Personnel email is required"),
 		contact: Yup.string().required("Contact is required"),
 		// zone: Yup.string().required("Zone is required"),
 		image: Yup.string().nullable(),
@@ -46,7 +46,7 @@ export default function EditPersonnel(props) {
 		name: personnel && (personnel.name ?? ""),
 		email: personnel && (personnel.email ?? ""),
 		contact: personnel && (personnel.contact ?? ""),
-		zone: personnel && (personnel.zone._id ?? ""),
+		tutor: personnel && (personnel.tutor._id ?? ""),
 		image: personnel && (personnel.image ?? ""),
 	};
 	const onSubmit = async (values) => {
@@ -55,12 +55,12 @@ export default function EditPersonnel(props) {
 		formData.append("name", values.name);
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
-		formData.append("zone", values.zone);
+		formData.append("tutor", values.tutor);
 		formData.append("image", values.image);
 
 		const res = await axios({
 			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors${personnel._id}`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/nss-personnels/${personnel._id}`,
 			headers: {
 				accept: "application/json",
 			},
@@ -127,11 +127,11 @@ export default function EditPersonnel(props) {
 									as="select"
 									className="form-select"
 									placeholder="Zones"
-									name="zone"
+									name="tutor"
 								>
 									<option value=""> select zone</option>
-									{zones &&
-										zones.map((item) => (
+									{tutors &&
+										tutors.map((item) => (
 											<option key={item._id} value={item._id}>
 												{item.name}
 											</option>
@@ -141,13 +141,13 @@ export default function EditPersonnel(props) {
 									{" "}
 									<span className="required">*</span> Example: Ayeduase-North
 								</p>
-								<ErrorMessage name="zone" render={renderError} />
+								<ErrorMessage name="tutor" render={renderError} />
 							</div>
 							<div className="row mt-3">
 								<div className="col-md-6 col-sm-12">
 									{personnel && personnel.image ? (
 										<img
-											src={`${url}/snr-tutors/${personnel.image}`}
+											src={`${url}/nss-personnels/${personnel.image}`}
 											className="img-fluid"
 											alt="..."
 											style={{ width: 300, height: 250 }}

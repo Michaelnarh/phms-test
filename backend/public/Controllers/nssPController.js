@@ -1,8 +1,56 @@
 const NSSPersonnel = require("../Models/nssPModel");
+const AppError = require("../utils/AppError");
+const fs = require("fs");
+const multer = require("multer");
+const sharp = require("sharp");
+const slugify = require("slugify");
 
+const multerStorage = multer.memoryStorage({
+	destination: (req, file, cb) => {},
+}); //create memorystorage for sharp resizing
+
+const multerFilter = async (req, file, cb) => {
+	if (file.mimetype.startsWith("image")) {
+		cb(null, true);
+	}
+	return new AppError("image format not supported", 400); // handle error when type is incorrect
+};
+
+exports.resizeImage = async (req, res, next) => {
+	console.log(req.file);
+	if (!req.file) return next();
+	const slug = await slugify(req.body.name, { lower: true });
+	req.body.slug = slug;
+	const profile_image = `profile-${slug}-${Date.now()}.jpeg`;
+	let dir = `public/images/nss-personnels`;
+
+	if (!fs.existsSync(dir)) {
+		fs.mkdirSync(dir);
+	}
+
+	if (req.file.buffer) {
+		await sharp(req.file.buffer)
+			.resize(500, 500)
+			.toFormat("jpeg")
+			.jpeg({ quality: 90 })
+			.toFile(`${dir}/${profile_image}`);
+		req.body.image = profile_image;
+	}
+
+	next();
+};
+
+const upload = multer({
+	storage: multerStorage,
+	fileFilter: multerFilter,
+});
+
+//upload profile image.
+exports.uploadImage = upload.single("image");
 //create new NSSPersonnel
 exports.createNSSPersonnel = async (req, res) => {
 	try {
+		req.body.slug = slugify(req.body.name, { lower: true });
 		const nssPerssonnel = await NSSPersonnel.create(req.body);
 		res.status(201).json({
 			status: "success",
@@ -22,9 +70,16 @@ exports.updateNSSPersonel = async (req, res) => {
 		throw Error("NSSPersonnel  not identified");
 	}
 	try {
+		if (req.body.name) {
+			req.body.slug = slugify(req.body.name, { lower: true });
+		}
 		const nssPerssonnel = await NSSPersonnel.findByIdAndUpdate(
 			req.params.id,
-			req.body
+			req.body,
+			{
+				runValidators: true,
+				new: true,
+			}
 		);
 		res.status(201).json({
 			status: "success",
@@ -41,10 +96,12 @@ exports.updateNSSPersonel = async (req, res) => {
 // get a particular NSSPersonnel
 exports.getNSSPersonnel = async (req, res) => {
 	try {
-		const nssPerssonnel = await NSSPersonnel.findById(req.params.id);
+		const nssPerssonnel = await NSSPersonnel.findOne({
+			slug: req.params.slug,
+		}).populate("tutor");
 		res.status(200).json({
 			status: "success",
-			nssPerssonnel,
+			data: nssPerssonnel,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -57,10 +114,10 @@ exports.getNSSPersonnel = async (req, res) => {
 //get all NSS personnels
 exports.getAllNSSPersonnel = async (req, res) => {
 	try {
-		const nssPerssonnel = await NSSPersonnel.find();
+		const nssPerssonnels = await NSSPersonnel.find().populate("tutor");
 		res.status(200).json({
 			status: "success",
-			message: nssPerssonnel,
+			data: nssPerssonnels,
 		});
 	} catch (err) {
 		res.status(400).json({

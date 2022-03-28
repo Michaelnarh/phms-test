@@ -53,7 +53,7 @@ export default function Searchbox(props) {
 				</div>
 				{suggestions && (
 					<div className="suggestions-area">
-						{suggestions.slice(0, 5).map((item, index) => {
+						{suggestions.slice(0, 7).map((item, index) => {
 							return (
 								<>
 									<div key={index}>

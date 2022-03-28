@@ -296,7 +296,7 @@ th {
 	border-color: none !important;
 	color: var(--mainWhite) !important;
 }
-.search-dash {
+.search-box-dash {
 	flex: 1;
 	width: 480px;
 	height: 56px;

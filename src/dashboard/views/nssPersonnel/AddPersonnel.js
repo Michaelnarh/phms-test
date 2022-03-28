@@ -5,14 +5,14 @@ import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
 
 export default function AddPersonnel(props) {
-	const [zones, setZones] = useState([]);
+	const [tutors, setTutots] = useState([]);
 	useEffect(() => {
 		const fetchZones = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
 			});
-			setZones(res.data.data);
+			setTutots(res.data.data);
 		};
 		fetchZones();
 	});
@@ -31,7 +31,7 @@ export default function AddPersonnel(props) {
 		name: "",
 		email: "",
 		contact: "",
-		zone: "",
+		tutor: "",
 		image: "",
 	};
 	const onSubmit = async (values) => {
@@ -40,14 +40,14 @@ export default function AddPersonnel(props) {
 		formData.append("name", values.name);
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
-		formData.append("zone", values.zone);
+		formData.append("tutor", values.tutor);
 		formData.append("image", values.image);
 
 		console.log(formData.entries());
 
 		const res = await axios({
 			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/nss-personnel`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/nss-personnels`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 				accept: "application/json",
@@ -117,11 +117,11 @@ export default function AddPersonnel(props) {
 									as="select"
 									className="form-select"
 									placeholder="Zones"
-									name="zone"
+									name="tutor"
 								>
-									<option value=""> select Zone</option>
-									{zones &&
-										zones.map((item) => (
+									<option value=""> select Tutor</option>
+									{tutors &&
+										tutors.map((item) => (
 											<option key={item._id} value={item._id}>
 												{item.name}
 											</option>
@@ -129,7 +129,8 @@ export default function AddPersonnel(props) {
 								</Field>
 								<p className="eg-text">
 									{" "}
-									<span className="required">*</span> Example: Ayeduase-North
+									<span className="required">*</span> Example: Dr. James Osei
+									Mensah
 								</p>
 								<ErrorMessage name="zone" render={renderError} />
 							</div>

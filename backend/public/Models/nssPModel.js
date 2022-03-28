@@ -8,9 +8,10 @@ const nssPersonnelSchema = mongooose.Schema({
 		required: [true, "Email field is required"],
 		unique: true,
 	},
+	isCurrent: { type: Boolean, default: true },
+	slug: { type: String },
 	contact: { type: String },
-	zones: [{ type: Schema.Types.ObjectId, ref: "Zone" }],
-	sTutors: [{ type: Schema.Types.ObjectId, ref: "SeniorTutor" }],
+	tutor: { type: Schema.Types.ObjectId, ref: "SeniorTutor" },
 	image: { type: String },
 });
 

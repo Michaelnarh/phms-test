@@ -51,6 +51,7 @@ exports.uploadImage = upload.single("image");
 //create new SeniorTutor
 exports.createSeniorTutor = async (req, res) => {
 	try {
+		req.body.slug = slugify(req.body.name, { lower: true });
 		const newSeniorTutor = await SeniorTutor.create(req.body);
 		res.status(201).json({
 			status: "success",
