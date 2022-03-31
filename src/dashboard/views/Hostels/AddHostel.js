@@ -27,12 +27,16 @@ export default function Addhostel(props) {
 		const fetchFacilities = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/locations`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/facilities`,
 			});
 			setFacilities(res.data.data);
 		};
-		fetchLocations();
-		fetchFacilities();
+		if (locations.length === 0) {
+			fetchLocations();
+		}
+		if (facilities.length === 0) {
+			fetchFacilities();
+		}
 	});
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 

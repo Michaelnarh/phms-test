@@ -5,12 +5,19 @@ const router = express.Router();
 router
 	.route("/")
 	.get(areaMPController.getAllAreaMP)
-	.post(areaMPController.createAreaMP);
+	.post(
+		areaMPController.uploadImage,
+		areaMPController.resizeImage,
+		areaMPController.createAreaMP
+	);
 
+router.route("/:slug").get(areaMPController.getAreaMP);
 router
-	.route("/:id")
-	.get(areaMPController.getAreaMP)
-	.patch(areaMPController.updateAreaMP)
+	.patch(
+		areaMPController.uploadImage,
+		areaMPController.resizeImage,
+		areaMPController.updateAreaMP
+	)
 	.delete(areaMPController.deleteAreaMP);
 
 module.exports = router;

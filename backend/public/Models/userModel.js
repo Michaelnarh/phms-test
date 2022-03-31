@@ -18,6 +18,7 @@ const userSchema = mongoose.Schema({
 	},
 	passwordResetToken: { type: String, default: null },
 	passwordExpiresAt: { type: Date, default: null },
+	image: { type: String },
 });
 userSchema.plugin(uniqueValidator);
 

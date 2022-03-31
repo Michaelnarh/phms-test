@@ -42,7 +42,7 @@ export default function Drawer(props) {
 									<li className="">{/* <FaArrowRight /> */}</li>
 								</div>
 								<div>
-									{item.children && (
+									{/* {item.children && (
 										<Link to={`${item.children.href}`}>
 											<div className="dash-nav">
 												<li className="dash-submenu">
@@ -51,7 +51,7 @@ export default function Drawer(props) {
 												</li>
 											</div>
 										</Link>
-									)}
+									)} */}
 								</div>
 							</NavLink>
 						);

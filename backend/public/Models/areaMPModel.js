@@ -9,8 +9,10 @@ const mpSchema = mongooose.Schema({
 		unique: true,
 	},
 	contact: { type: String },
-	zones: [{ type: Schema.Types.ObjectId, ref: "Zone" }],
+	isCurrent: { type: Boolean, default: true },
+	zone: { type: Schema.Types.ObjectId, ref: "Zone" },
+	tutor: { type: Schema.Types.ObjectId, ref: "SeniorTutor" },
 	image: { type: String },
 });
 
-module.exports = mongooose.model("MP", mpSchema);
+module.exports = mongooose.model("AreaMP", mpSchema);

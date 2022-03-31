@@ -18,9 +18,9 @@ router
 		residenceController.createResidence
 	);
 
+router.route("/:slug").get(residenceController.getResidence);
 router
 	.route("/:id")
-	.get(residenceController.getResidence)
 	.post(
 		residenceController.uploadImages,
 		residenceController.resizeImage,

@@ -16,17 +16,16 @@ export default function Showhostel(props) {
 			});
 			console.log(res);
 			setHostel(res.data.data);
+			setHostel(res.data.data);
 			res.data.data.images.forEach((el) => {
 				gimages.push({
-					original: `${process.env.REACT_APP_API_URL}/images/${id.slice(
-						20,
-						24
-					)}/${el}`,
-					thumbnail: `${process.env.REACT_APP_API_URL}/images/${id.slice(
-						20,
-						24
-					)}/${el}`,
+					original: `${process.env.REACT_APP_API_URL}/images/${res.data.data.slug}/${el}`,
+					thumbnail: `${process.env.REACT_APP_API_URL}/images/${res.data.data.slug}/${el}`,
 				});
+			});
+			gimages.push({
+				original: `${process.env.REACT_APP_API_URL}/images/${res.data.data.slug}/${res.data.data.coverImage}`,
+				thumbnail: `${process.env.REACT_APP_API_URL}/images/${res.data.data.slug}/${res.data.data.coverImage}`,
 			});
 		};
 		fetchData();

@@ -9,8 +9,7 @@ const mpSchema = mongooose.Schema({
 		unique: true,
 	},
 	contact: { type: String },
-	zones: [{ type: Schema.Types.ObjectId, ref: "Zone" }],
-	sTutors: [{ type: Schema.Types.ObjectId, ref: "SeniorTutor" }],
+	isCurrent: { type: Boolean, default: true },
 	image: { type: String },
 });
 

@@ -4,7 +4,6 @@ import Searchbox from "./components/SearchBox";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 
-
 export default function Hostels(props) {
 	const [hostels, setHostels] = useState([]);
 	const [pageCount, setPageCount] = useState(0);
@@ -28,6 +27,7 @@ export default function Hostels(props) {
 		setPage(p.selected + 1);
 		setLimit(limit);
 	};
+	console.log(hostels);
 	return (
 		<>
 			<div className="container">

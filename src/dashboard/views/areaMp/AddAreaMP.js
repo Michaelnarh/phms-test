@@ -6,6 +6,7 @@ import * as Yup from "yup";
 
 export default function AddAreaMp(props) {
 	const [zones, setZones] = useState([]);
+	const [tutors, setTutors] = useState([]);
 	useEffect(() => {
 		const fetchZones = async () => {
 			const res = await axios({
@@ -14,7 +15,20 @@ export default function AddAreaMp(props) {
 			});
 			setZones(res.data.data);
 		};
-		fetchZones();
+		const fetchTutors = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+			});
+			setTutors(res.data.data);
+		};
+
+		if (zones.length === 0) {
+			fetchZones();
+		}
+		if (tutors.length === 0) {
+			fetchTutors();
+		}
 	});
 
 	const validationSchema = Yup.object({
@@ -24,6 +38,7 @@ export default function AddAreaMp(props) {
 			.required("Email is required"),
 		contact: Yup.string().required("Contact is required"),
 		// zone: Yup.string().required("Zone is required"),
+		// tutor: Yup.string().required("tutor is required"),
 		image: Yup.string().nullable(),
 	});
 
@@ -32,6 +47,7 @@ export default function AddAreaMp(props) {
 		email: "",
 		contact: "",
 		zone: "",
+		tutor: "",
 		image: "",
 	};
 	const onSubmit = async (values) => {
@@ -41,13 +57,14 @@ export default function AddAreaMp(props) {
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
 		formData.append("zone", values.zone);
+		formData.append("tutor", values.tutor);
 		formData.append("image", values.image);
 
 		console.log(formData.entries());
 
 		const res = await axios({
 			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/nss-personnel`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/area-mps`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 				accept: "application/json",
@@ -55,7 +72,7 @@ export default function AddAreaMp(props) {
 			data: formData,
 		});
 		if (res.data.status === "success") {
-			window.location.assign("/admin/nss-personnels");
+			window.location.assign("/admin/area-mps");
 		}
 	};
 
@@ -81,7 +98,7 @@ export default function AddAreaMp(props) {
 									name="name"
 								/>
 								<p className="eg-text">
-									<span className="required">*</span> Example: Acquah Emmanuel
+									<span className="required">*</span> Example: Johnson Owen
 								</p>
 								<ErrorMessage name="name" render={renderError} />
 							</div>
@@ -135,6 +152,27 @@ export default function AddAreaMp(props) {
 							</div>
 							<div className="row mt-3">
 								<div className="col-md-6 col-sm-12">
+									<Field
+										as="select"
+										className="form-select"
+										placeholder="Zones"
+										name="tutor"
+									>
+										<option value=""> select Tutor</option>
+										{tutors &&
+											tutors.map((item) => (
+												<option key={item._id} value={item._id}>
+													{item.name}
+												</option>
+											))}
+									</Field>
+									<p className="eg-text">
+										{" "}
+										<span className="required">*</span> Example: Dr. Osei Mensah
+									</p>
+									<ErrorMessage name="tutor" render={renderError} />
+								</div>
+								<div className="col-md-6 col-sm-12">
 									<label>Load Profile Image</label>
 									<input
 										type="file"
@@ -147,6 +185,7 @@ export default function AddAreaMp(props) {
 								</div>
 							</div>
 						</div>
+
 						<div className="mt-3">
 							<button type="submit" className="btn is-primary">
 								Submit

@@ -36,6 +36,9 @@ export default function Addlocation(props) {
 			},
 			data: values,
 		});
+		if (res.data.status === "success") {
+			window.location.assign("/admin/locations");
+		}
 	};
 	return (
 		<>
@@ -68,7 +71,7 @@ export default function Addlocation(props) {
 								as="select"
 								className="form-select"
 								placeholder="Location"
-								name="location"
+								name="zone"
 							>
 								<option>Select Zone</option>
 								{zones &&

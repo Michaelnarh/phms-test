@@ -41,7 +41,7 @@ export default function Hostels(props) {
 	return (
 		<>
 			<div className="content-top-flex">
-				<SearchForm data={hostels} type="Hostel" />
+				{hostels && <SearchForm data={hostels} type="Hostel" />}
 			</div>
 			<div className="table-container">
 				<table>

@@ -21,7 +21,7 @@ const residenceSchema = mongoose.Schema({
 	portersContact: { type: String },
 	coverImage: { type: String },
 	images: [{ type: String }],
-	facilities: [{ type: String }],
+	facilities: [{ type: Object }],
 	bookingLink: { type: String },
 	gpsAddress: {
 		type: { type: String, default: "Point", enum: ["Point"] },
@@ -31,7 +31,8 @@ const residenceSchema = mongoose.Schema({
 	},
 	rating: { type: Number, max: 5, default: 3.2 },
 	distance: { type: String },
-	roomscapacity: { type: Number },
+	roomsTotal: { type: Number },
+	totalBedspaces: { type: Number },
 	maleCapacity: { type: Number },
 	femaleCapacity: { type: Number },
 	regDate: { type: Date },

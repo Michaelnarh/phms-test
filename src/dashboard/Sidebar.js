@@ -26,7 +26,7 @@ function Sidebar(props) {
 
 			!user && fetchUser();
 		} else {
-			// window.location.assign("/admin/login");
+			window.location.assign("/admin/login");
 		}
 	});
 	return (

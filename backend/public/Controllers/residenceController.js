@@ -27,41 +27,38 @@ const multerFilter = async (req, file, cb) => {
 exports.resizeImage = async (req, res, next) => {
 	if (!req.files) return next();
 	const filename_cover = `cover-image-${Date.now()}.jpeg`;
-	let dir = "";
-	if (req.params.id) {
-		dir = `public/images/${req.params.id.slice(20, 24)}`;
-	} else {
-		dir = `public/images/new-image`;
-	}
+	if (req.body.name) {
+		const slug = slugify(req.body.name, { lower: true });
+		const dir = `public/images/${slug}`;
 
-	if (!fs.existsSync(dir)) {
-		fs.mkdirSync(dir);
-	}
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir);
+		}
 
-	if (req.files["coverImage"]) {
-		await sharp(req.files["coverImage"][0].buffer)
-			.resize(500, 500)
-			.toFormat("jpeg")
-			.jpeg({ quality: 90 })
-			.toFile(`${dir}/${filename_cover}`);
-		req.body.coverImage = filename_cover;
-	}
+		if (req.files["coverImage"]) {
+			await sharp(req.files["coverImage"][0].buffer)
+				.resize(500, 500)
+				.toFormat("jpeg")
+				.jpeg({ quality: 90 })
+				.toFile(`${dir}/${filename_cover}`);
+			req.body.coverImage = filename_cover;
+		}
 
-	if (req.files["images"]) {
-		req.body.images = [];
-		await Promise.all(
-			req.files["images"].map(async (el) => {
-				const filename = `image-${Date.now()}.jpeg`;
-				await sharp(el.buffer)
-					.resize(500, 500)
-					.toFormat("jpeg")
-					.jpeg({ quality: 90 })
-					.toFile(`${dir}/${filename}`);
-				req.body.images.push(filename);
-			})
-		);
+		if (req.files["images"]) {
+			req.body.images = [];
+			await Promise.all(
+				req.files["images"].map(async (el) => {
+					const filename = `image-${Date.now()}.jpeg`;
+					await sharp(el.buffer)
+						.resize(500, 500)
+						.toFormat("jpeg")
+						.jpeg({ quality: 90 })
+						.toFile(`${dir}/${filename}`);
+					req.body.images.push(filename);
+				})
+			);
+		}
 	}
-
 	next();
 };
 
@@ -79,8 +76,8 @@ exports.uploadImages = upload.fields([
 //create new Residence
 exports.createResidence = async (req, res) => {
 	try {
+		// console.log(req.body);
 		req.body.slug = await slugify(req.body.name, { lower: true });
-		console.log(req.body);
 		const newResidence = await Residence.create(req.body);
 		res.status(201).json({
 			status: "success",
@@ -100,12 +97,15 @@ exports.updateResidence = async (req, res, next) => {
 		throw Error("Hostel  not identified");
 	}
 	try {
+		if (req.body.name) {
+			// req.body.slug = await slugify(req.body.name, { lower: true });
+		}
 		const residence = await Residence.findByIdAndUpdate(
 			req.params.id,
 			req.body,
 			{
 				new: true,
-				runValidators: true,
+				// runValidators: true,
 			}
 		);
 		res.status(201).json({
@@ -123,9 +123,12 @@ exports.updateResidence = async (req, res, next) => {
 //get a particular  Residence
 exports.getResidence = async (req, res) => {
 	try {
-		const residence = await Residence.findById(req.params.id).populate(
-			"reviews"
-		);
+		const residence = await Residence.findOne({
+			slug: req.params.slug,
+		}).populate([
+			{ path: "reviews" },
+			{ path: "location", populate: { path: "zone" } },
+		]);
 
 		res.status(200).json({
 			status: "success",
@@ -142,7 +145,10 @@ exports.getResidence = async (req, res) => {
 // get all residences
 exports.getAllResidence = async (req, res) => {
 	try {
-		const features = new ApiFeatures(Residence.find(), req.query)
+		const features = new ApiFeatures(
+			Residence.find().populate("location"),
+			req.query
+		)
 			.filter()
 			.paginate(25);
 		const residences = await features.query;

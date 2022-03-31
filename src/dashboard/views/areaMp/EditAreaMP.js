@@ -8,7 +8,8 @@ import { useParams } from "react-router-dom";
 export default function EditAreamp(props) {
 	const { slug } = useParams();
 	const [zones, setZones] = useState([]);
-	const [tutor, setTutor] = useState();
+	const [tutors, setTutors] = useState([]);
+	const [areaMp, setAreaMp] = useState();
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
 		const fetchZones = async () => {
@@ -18,17 +19,27 @@ export default function EditAreamp(props) {
 			});
 			setZones(res.data.data);
 		};
+		const fetchTutors = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+			});
+			setTutors(res.data.data);
+		};
 
 		const fetchAreaMp = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/mps/${slug}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/area-mps/${slug}`,
 			});
-			setTutor(res.data.data);
+			setAreaMp(res.data.data);
 		};
-		!tutor && fetchAreaMp();
+		!areaMp && fetchAreaMp();
 		if (zones.length === 0) {
 			fetchZones();
+		}
+		if (tutors.length === 0) {
+			fetchTutors();
 		}
 	});
 
@@ -43,11 +54,12 @@ export default function EditAreamp(props) {
 	});
 
 	const initialValues = {
-		name: tutor && (tutor.name ?? ""),
-		email: tutor && (tutor.email ?? ""),
-		contact: tutor && (tutor.contact ?? ""),
-		zone: tutor && (tutor.zone._id ?? ""),
-		image: tutor && (tutor.image ?? ""),
+		name: areaMp && (areaMp.name ?? ""),
+		email: areaMp && (areaMp.email ?? ""),
+		contact: areaMp && (areaMp.contact ?? ""),
+		zone: areaMp && (areaMp.zone._id ?? ""),
+		tutor: areaMp && (areaMp.tutor._id ?? ""),
+		image: areaMp && (areaMp.image ?? ""),
 	};
 	const onSubmit = async (values) => {
 		console.log(values);
@@ -60,7 +72,7 @@ export default function EditAreamp(props) {
 
 		const res = await axios({
 			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors${tutor._id}`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/area-mps/${areaMp._id}`,
 			headers: {
 				accept: "application/json",
 			},
@@ -144,9 +156,32 @@ export default function EditAreamp(props) {
 							</div>
 							<div className="row mt-3">
 								<div className="col-md-6 col-sm-12">
-									{tutor && tutor.image ? (
+									<Field
+										as="select"
+										className="form-select"
+										placeholder="Zones"
+										name="tutor"
+									>
+										<option value=""> select Tutor</option>
+										{tutors &&
+											tutors.map((item) => (
+												<option key={item._id} value={item._id}>
+													{item.name}
+												</option>
+											))}
+									</Field>
+									<p className="eg-text">
+										{" "}
+										<span className="required">*</span> Example: Dr. Osei Mensah
+									</p>
+									<ErrorMessage name="tutor" render={renderError} />
+								</div>
+							</div>
+							<div className="row mt-3">
+								<div className="col-md-6 col-sm-12">
+									{areaMp && areaMp.image ? (
 										<img
-											src={`${url}/snr-tutors/${tutor.image}`}
+											src={`${url}/area-mps/${areaMp.image}`}
 											className="img-fluid"
 											alt="..."
 											style={{ width: 300, height: 250 }}

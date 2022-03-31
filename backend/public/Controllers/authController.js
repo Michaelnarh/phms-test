@@ -54,7 +54,7 @@ exports.LogIn = async (req, res) => {
 		if (!user || !correct) {
 			throw Error("Incorrect Email or Password ");
 		}
-		//signin token by the user
+		//signin token by the user Dr. Isaac Kingsley Amponsah Dr. Emmanuel Kwesi Arthur
 		const token = SignInToken(user._id);
 		const u = user.toObject();
 		delete u.password;

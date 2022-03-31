@@ -4,6 +4,7 @@ import { ContextStore } from "../../../store/ContextStore";
 import { AuthService } from "../../../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+const roles = ["admin", "supervisor", "maintainer"];
 
 function Login(props) {
 	const authService = new AuthService();
@@ -28,9 +29,13 @@ function Login(props) {
 
 	const handleSubmit = async (values) => {
 		try {
+			console.log(values.password);
 			const res = await authService.Login(values);
 			authStore.setUser(res.data.user);
 			authStore.setIsLoggedIn(true);
+			if (roles.includes(res.data.user.role)) {
+				authStore.setIsAdmin(true);
+			}
 			localStorage.setItem("dumb", res.data.user._id);
 			navigate("/admin/dashboard");
 		} catch (err) {

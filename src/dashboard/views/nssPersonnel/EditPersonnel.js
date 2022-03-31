@@ -46,7 +46,7 @@ export default function EditPersonnel(props) {
 		name: personnel && (personnel.name ?? ""),
 		email: personnel && (personnel.email ?? ""),
 		contact: personnel && (personnel.contact ?? ""),
-		tutor: personnel && (personnel.tutor._id ?? ""),
+		tutor: personnel && (personnel.tutor ? personnel.tutor._id : ""),
 		image: personnel && (personnel.image ?? ""),
 	};
 	const onSubmit = async (values) => {
@@ -129,7 +129,7 @@ export default function EditPersonnel(props) {
 									placeholder="Zones"
 									name="tutor"
 								>
-									<option value=""> select zone</option>
+									<option value=""> Select Senior Tutor</option>
 									{tutors &&
 										tutors.map((item) => (
 											<option key={item._id} value={item._id}>
@@ -139,7 +139,8 @@ export default function EditPersonnel(props) {
 								</Field>
 								<p className="eg-text">
 									{" "}
-									<span className="required">*</span> Example: Ayeduase-North
+									<span className="required">*</span> Example: Dr. James Osei
+									Mensah
 								</p>
 								<ErrorMessage name="tutor" render={renderError} />
 							</div>

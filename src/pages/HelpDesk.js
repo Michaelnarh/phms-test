@@ -23,7 +23,12 @@ export default function HelpDesk(props) {
 					<div className="row mt-3">
 						<h2 className="r-name">Deans of Students Office</h2>
 						<div className="col-md-3 p-3">
-							<img src={fireService} alt="..." className="img-fluid" />
+							<img
+								src={fireService}
+								alt="..."
+								className="img-fluid"
+								style={{ height: 80, width: 80 }}
+							/>
 							<p></p>
 						</div>
 					</div>
@@ -36,7 +41,7 @@ export default function HelpDesk(props) {
 								src={fireService}
 								alt="..."
 								className="img-fluid "
-								style={{ height: 150, width: 150 }}
+								style={{ height: 80, width: 80 }}
 							/>
 							<p></p>
 						</div>
@@ -46,7 +51,12 @@ export default function HelpDesk(props) {
 					<div className="row mt-3">
 						<h2 className="r-name">Students' Affairs</h2>
 						<div className="col-md-3 p-3">
-							<img src={fireService} alt="..." className="img-fluid" />
+							<img
+								src={fireService}
+								alt="..."
+								className="img-fluid"
+								style={{ height: 80, width: 80 }}
+							/>
 							<p></p>
 						</div>
 					</div>

@@ -73,7 +73,7 @@ export default function Searchform(props) {
 							<>
 								<div key={item._id}>
 									<h5
-										className="suggest-list-dash"
+										className="suggest-list"
 										onClick={() => onSuggestion(item.name)}
 									>
 										{item.name}

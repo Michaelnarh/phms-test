@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MapComponent from "./components/MapsComponent";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { CustomButton } from "./components/stylecomponents";
 import ComomentsModal from "./components/CommentsModal";
 import ImageGallery from "react-image-gallery";
@@ -8,7 +8,9 @@ import axios from "axios";
 
 export default function Hosteldetails(props) {
 	const [residence, setResidence] = useState();
-	let { id } = useParams();
+	const [gimages] = useState([]);
+	let { slug } = useParams();
+	const url = `${process.env.REACT_APP_API_URL}/images`;
 	const images = [
 		{
 			id: 1,
@@ -35,31 +37,56 @@ export default function Hosteldetails(props) {
 		const fetchData = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${id}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${slug}`,
 			});
 			console.log(res);
 			setResidence(res.data.data);
+			res.data.data.images.forEach((el) => {
+				gimages.push({
+					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
+					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
+				});
+			});
+			gimages.push({
+				original: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
+				thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
+			});
 		};
-		fetchData();
-	}, []);
+
+		!residence && fetchData();
+	});
 	return (
 		<>
 			<div className="container mt-5 ">
 				<div className="row">
 					<div className="col-md-4 col-lg-6 col-sm-12 mb-2">
 						<div>
-							<ImageGallery items={images} />
+							{gimages.length === 0 ? (
+								<ImageGallery items={gimages} />
+							) : (
+								<img
+									src={`${url}/90ef/cover-image-1646409988773.jpeg`}
+									alt="..."
+									style={{ height: 200, width: 300 }}
+								/>
+							)}
 						</div>
 						<div className="row">
 							<div className="col-md-6 col-lg-6 col-sm-12">
 								<ComomentsModal />
 							</div>
 							<div className="col-md-6 col-lg-6 col-sm-12">
-								{/* {residence.bookingLink && (
-									<CustomButton className="my-3">
-										<a href={residence.bookingLink}>Book a Room</a>
-									</CustomButton>
-								)} */}
+								{residence && (
+									// <CustomButton
+									<a
+										rel="noopener noreferrer"
+										href={`http://${residence.bookingLink}`}
+										target="_blank"
+									>
+										Link Here
+									</a>
+									// </CustomButton>
+								)}
 							</div>
 						</div>
 					</div>
@@ -67,48 +94,57 @@ export default function Hosteldetails(props) {
 						<div>
 							<div>
 								<h2 className="text-center details-header ">
-									{residence.name}
+									{residence && (residence.name ?? "N/A")}
 								</h2>
-								s
+
 								<div>
 									<h6>Description</h6>
-									{/* <p>{residence.desc ?? "N/A"}</p> */}
+									{/* <p>{residence && (residence.description ?? "N/A")}</p> */}
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className="text-center">
 									<h6>Location</h6>
-									{/* <p>{residence.location ?? "N/A"}</p> */}
+									<p>
+										{" "}
+										{residence &&
+											(residence.location ? residence.location.name : "N/A")}
+									</p>
 								</div>
 								<div className="text-center">
 									<h6>Constituency / Zone</h6>
-									{/* <p>{residence.zone.name}</p> */}
+									<p>
+										{residence &&
+											(residence.location
+												? residence.location.zone.name
+												: "N/A")}
+									</p>
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className="text-center">
 									<h6>Manager's Name</h6>
-									<p>{residence.managersName ?? "N/A"}</p>
+									<p>{residence && (residence.managersName ?? "N/A")}</p>
 								</div>
 								<div className="text-center">
 									<h6>Manager's Contact</h6>
-									<p>{residence.managersContact ?? "N/A"}</p>
+									<p>{residence && (residence.managersContact ?? "N/A")}</p>
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className=" text-center">
 									<h6>Porter's Name</h6>
-									{/* <p>{residence.portersName ?? "N/A"}</p> */}
+									<p>{residence && (residence.portersName ?? "N/A")}</p>
 								</div>
 								<div className=" text-center">
 									<h6>Porter's Contact</h6>
-									{/* <p>{residence.portersContact ?? "N/A"}</p> */}
+									<p>{residence && (residence.portersContact ?? "N/A")}</p>
 								</div>
 							</div>
 							<div className="flex-display">
 								<div className=" text-center">
 									<h6>Digital Address</h6>
-									{/* <p>{residence.digitalAddress ?? "N/A"}</p> */}
+									<p>{residence && (residence.digitalAddress ?? "N/A")}</p>
 								</div>
 							</div>
 						</div>
@@ -118,7 +154,7 @@ export default function Hosteldetails(props) {
 			<div>
 				<div className="container">
 					<div className="card">
-						{/* <MapComponent isMarkerShown={true} /> */}
+						<MapComponent isMarkerShown={true} />
 					</div>
 				</div>
 			</div>

@@ -65,7 +65,7 @@ export const SideBarItems = [
 		},
 	},
 	{
-		name: "Area MP",
+		name: "Area MPs",
 		href: "area-mps",
 		icon: <FaUser size={20} color="var(--mainWhite)" />,
 		children: {
@@ -75,7 +75,7 @@ export const SideBarItems = [
 		},
 	},
 	{
-		name: "National MP",
+		name: "National MPs",
 		href: "national-mp",
 		icon: <FaUser size={20} color="var(--mainWhite)" />,
 		children: {

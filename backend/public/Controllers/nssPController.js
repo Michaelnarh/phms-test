@@ -70,8 +70,9 @@ exports.updateNSSPersonel = async (req, res) => {
 		throw Error("NSSPersonnel  not identified");
 	}
 	try {
+		console.log(req.params.id);
 		if (req.body.name) {
-			req.body.slug = slugify(req.body.name, { lower: true });
+			req.body.slug = await slugify(req.body.name, { lower: true });
 		}
 		const nssPerssonnel = await NSSPersonnel.findByIdAndUpdate(
 			req.params.id,
@@ -83,7 +84,7 @@ exports.updateNSSPersonel = async (req, res) => {
 		);
 		res.status(201).json({
 			status: "success",
-			nssPerssonnel,
+			data: nssPerssonnel,
 		});
 	} catch (err) {
 		res.status(400).json({

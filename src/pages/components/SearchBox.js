@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Searchbox(props) {
 	const { data, type } = props;
+	const navigate = useNavigate();
 	const [text, setText] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 
@@ -27,10 +29,21 @@ export default function Searchbox(props) {
 		setSuggestions([]);
 	};
 	const handleSearch = async (text) => {
-		console.log("searching");
-		const res = await axios.get(
-			`http://localhost:8080/api/v1/residences/search?${text}`
-		);
+		if (!text) return;
+		console.log("searching...", text);
+		var data = JSON.stringify({
+			search: `${text}`,
+		});
+		const res = await axios({
+			method: "post",
+			url: `${process.env.REACT_APP_API_URL}/api/v1/residences/search`,
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: data,
+		});
+
+		navigate(`${res.data.data[0].slug}`);
 	};
 	return (
 		<>

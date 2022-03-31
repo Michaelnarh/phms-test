@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 
 export default function Searchbox(props) {
-	const { data } = props;
+	const navigate = useNavigate();
+	const { data, type } = props;
 	const [text, setText] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 
@@ -28,12 +30,23 @@ export default function Searchbox(props) {
 		setSuggestions([]);
 	};
 	const handleSearch = async (text) => {
-		console.log("searching");
-		const res = await axios.get(
-			`http://localhost:8080/api/v1/residences/search?${text}`
-		);
-		console.log(res);
+		if (!text) return;
+		console.log("searching...", text);
+		var data = JSON.stringify({
+			search: `${text}`,
+		});
+		const res = await axios({
+			method: "post",
+			url: `${process.env.REACT_APP_API_URL}/api/v1/residences/search`,
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: data,
+		});
+
+		navigate(`details/${res.data.data[0]._id}`);
 	};
+
 	return (
 		<>
 			<div>
@@ -43,7 +56,7 @@ export default function Searchbox(props) {
 						className=""
 						onChange={(e) => onChangeHandler(e.target.value)}
 						value={text}
-						placeholder="search hostel name"
+						placeholder={`search ${type} name`}
 					/>
 					<FaSearch
 						onClick={() => handleSearch(text)}

@@ -28,6 +28,9 @@ class AuthStore {
 	setToken = (t) => {
 		this.token = t;
 	};
+	setIsAdmin = (state) => {
+		this.isAdmin = state;
+	};
 
 	async function() {
 		await when(this.token, this.setCookie());
@@ -50,7 +53,7 @@ class AuthStore {
 }
 makePersistable(this, {
 	name: "AuthStore",
-	properties: ["user", "isLoggedIn"],
+	properties: ["user", "isLoggedIn", "isAdmin"],
 	storage: window.localStorage,
 });
 export default AuthStore;
