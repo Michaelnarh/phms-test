@@ -1,4 +1,5 @@
 import axios from "axios";
+
 export class AuthService {
 	Login = async (payload) => {
 		const res = await axios({

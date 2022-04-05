@@ -34,9 +34,9 @@ export default function Addhostel(props) {
 		if (locations.length === 0) {
 			fetchLocations();
 		}
-		if (facilities.length === 0) {
-			fetchFacilities();
-		}
+		// if (facilities.length === 0) {
+		// 	fetchFacilities();
+		// }
 	});
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -47,7 +47,7 @@ export default function Addhostel(props) {
 	// const isLongitude = (num) => isFinite(num) && Math.abs(num) <= 180;
 
 	const validationSchema = Yup.object({
-		name: Yup.string().required("Residence is Required"),
+		name: Yup.string().required("Residence Name is Required"),
 		residenceType: Yup.string().required("Residence Type is required"),
 		location: Yup.string().required("Location is Required"),
 		digitalAddress: Yup.string().nullable(),
@@ -85,6 +85,10 @@ export default function Addhostel(props) {
 		regDate: Date,
 		images: [],
 		coverImage: "",
+		roomsTotal: null,
+		totalBedspaces: null,
+		maleCapacity: null,
+		femaleCapacity: null,
 	};
 
 	const onSubmit = async (values) => {
@@ -97,14 +101,20 @@ export default function Addhostel(props) {
 		formData.append("location", values.location);
 		formData.append("digitalAddress", values.digitalAddress);
 		formData.append("bookingLink", values.bookingLink);
+		formData.append("gpsAddress", values.gpsAddress);
+
 		formData.append("managersName", values.managersName);
 		formData.append("managersContact", values.managersContact);
 		formData.append("portersName", values.portersName);
 		formData.append("portersContact", values.portersContact);
 		formData.append("ownersName", values.ownersName);
 		formData.append("ownersContact", values.ownersContact);
-		formData.append("gpsAddress", values.gpsAddress);
+
 		formData.append("facilities", values.facilities);
+		formData.append("roomsTotal", values.roomsTotal);
+		formData.append("totalBedspaces", values.totalBedspaces);
+		formData.append("maleCapacity", values.maleCapacity);
+		formData.append("femaleCapacity", values.femaleCapacity);
 
 		formData.append("coverImage", values.coverImage);
 		accepted.forEach((el) => {
@@ -131,7 +141,7 @@ export default function Addhostel(props) {
 		<>
 			<div className="container">
 				<FormStepper
-					// validationSchema={validationSchema}
+					validationSchema={validationSchema}
 					initialValues={initialValues}
 					onSubmit={async (values, { resetForm }) => {
 						await onSubmit(values);
@@ -220,7 +230,7 @@ export default function Addhostel(props) {
 									placeholder="+/-90 Latitude"
 									// value={alt}
 									// onChange={(e) => setlt(e.target.value)}
-									// name="alt"
+									name="lat"
 								/>
 								<ErrorMessage name="alt" render={renderError} />
 								<Field
@@ -228,7 +238,7 @@ export default function Addhostel(props) {
 									className="form-control"
 									placeholder="+/-180 longitude"
 									// value={lng}
-									// name="lng"
+									name="lng"
 									// onChange={(e) => setlg(e.target.value)}
 								/>
 								<ErrorMessage name="lng" render={renderError} />
@@ -245,6 +255,17 @@ export default function Addhostel(props) {
 									Eg: www.saintpeters.studentroombook.com
 								</p>
 								<ErrorMessage name="bookingLink" render={renderError} />
+							</div>
+						</div>
+						<div className="row mt-3">
+							<div className="col-md-8 col-sm-12">
+								<Field
+									type="text"
+									as="textarea"
+									name="description"
+									className="form-control"
+									placeholder="Short description of the Residence"
+								/>
 							</div>
 						</div>
 						<hr className="my-3" />
@@ -340,47 +361,61 @@ export default function Addhostel(props) {
 						</div>
 					</div>
 					<div>
-						<div className="col-md-4 col-sm-12">
-							<Field
-								type="n"
-								name="portersContact"
-								className="form-control"
-								placeholder="Total Bed Spaces"
-								aria-label="roomsCapacity"
-							/>
-							<p className="eg-text">
-								{" "}
-								<span className="required">*</span> Example: 100
-							</p>
-							<ErrorMessage name="roomsCapacity" render={renderError} />
+						<div className="row">
+							<div className="col-md-6 col-sm-12">
+								<Field
+									type="number"
+									name="roomsTotal"
+									className="form-control"
+									placeholder="Total Number of Rooms"
+								/>
+								<p className="eg-text">
+									{" "}
+									<span className="required">*</span> Example: 100
+								</p>
+								<ErrorMessage name="roomsCapacity" render={renderError} />
+							</div>
+							<div className="col-md-6 col-sm-12">
+								<Field
+									type="number"
+									name="totalBedspaces"
+									className="form-control"
+									placeholder="Total Bed Spaces"
+								/>
+								<p className="eg-text">
+									{" "}
+									<span className="required">*</span> Example: 100
+								</p>
+								<ErrorMessage name="roomsCapacity" render={renderError} />
+							</div>
 						</div>
-						<div className="col-md-4 col-sm-12">
-							<Field
-								type="n"
-								name="portersContact"
-								className="form-control"
-								placeholder="Male Capacity"
-								aria-label="maleCapacity"
-							/>
-							<p className="eg-text">
-								{" "}
-								<span className="required">*</span> Example: 60
-							</p>
-							<ErrorMessage name="maleCapacity" render={renderError} />
-						</div>
-						<div className="col-md-4 col-sm-12">
-							<Field
-								type="n"
-								name="portersContact"
-								className="form-control"
-								placeholder="Femaile Capacity"
-								aria-label="femaleCapacity"
-							/>
-							<p className="eg-text">
-								{" "}
-								<span className="required">*</span> Example: 40
-							</p>
-							<ErrorMessage name="femaleCapacity" render={renderError} />
+						<div className="row">
+							<div className="col-md-6 col-sm-12">
+								<Field
+									type="number"
+									className="form-control"
+									placeholder="Male Capacity"
+									name="maleCapacity"
+								/>
+								<p className="eg-text">
+									{" "}
+									<span className="required">*</span> Example: 60
+								</p>
+								<ErrorMessage name="maleCapacity" render={renderError} />
+							</div>
+							<div className="col-md-6 col-sm-12">
+								<Field
+									type="number"
+									className="form-control"
+									placeholder="Femaile Capacity"
+									name="femaleCapacity"
+								/>
+								<p className="eg-text">
+									{" "}
+									<span className="required">*</span> Example: 40
+								</p>
+								<ErrorMessage name="femaleCapacity" render={renderError} />
+							</div>
 						</div>
 					</div>
 					<div>
@@ -400,6 +435,7 @@ export default function Addhostel(props) {
 										</div>
 									))}
 							</div>
+
 							{({ values, setFieldValue }) => (
 								<div className="col-md-6 col-sm-12">
 									<input
@@ -468,14 +504,18 @@ export function FormStepper({ children, ...props }) {
 					{currentChild}
 
 					{step > 0 ? (
-						<button onClick={() => setStep((s) => s - 1)} className="btn p-2">
+						<button
+							style={{ marginRight: 12 }}
+							onClick={() => setStep((s) => s - 1)}
+							className="btn px-3 py-2"
+						>
 							Back
 						</button>
 					) : null}
 					<button
 						type="submit"
 						onClick={() => setStep((s) => s + 1)}
-						className="btn ml-3 p-2"
+						className="btn  py-2 px-3"
 					>
 						{isSubmitting ? "Submitting" : isLastPage() ? "Submit" : "Next"}
 					</button>

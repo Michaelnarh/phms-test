@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MapComponent from "./components/MapsComponent";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { CustomButton } from "./components/stylecomponents";
 import ComomentsModal from "./components/CommentsModal";
 import ImageGallery from "react-image-gallery";
@@ -11,27 +11,6 @@ export default function Hosteldetails(props) {
 	const [gimages] = useState([]);
 	let { slug } = useParams();
 	const url = `${process.env.REACT_APP_API_URL}/images`;
-	const images = [
-		{
-			id: 1,
-			original: "/imgs/adom_bi-2.jpg",
-			thumbnail: "https:/picsum.photos/id/1015/250/150",
-			orginalHeight: 600,
-			orginalWidth: 700,
-			thumbnailHeight: 40,
-			thumbnailWidth: 20,
-		},
-		{
-			id: 2,
-			original: "/imgs/adom_bi.jpg",
-			thumbnail: "https:/picsum.photos/id/1011/250/150",
-		},
-		{
-			id: 3,
-			original: "/imgs/canam-hall-2.jpg",
-			thumbnail: "https:/picsum.photos/id/1011/250/150",
-		},
-	];
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -45,11 +24,19 @@ export default function Hosteldetails(props) {
 				gimages.push({
 					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
 					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
+					// orginalHeight: 80,
+					// orginalWidth: 100,
+					thumbnailHeight: 40,
+					thumbnailWidth: 20,
 				});
 			});
 			gimages.push({
 				original: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
 				thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
+				// orginalHeight: 80,
+				// orginalWidth: 100,
+				thumbnailHeight: 40,
+				thumbnailWidth: 20,
 			});
 		};
 
@@ -58,9 +45,9 @@ export default function Hosteldetails(props) {
 	return (
 		<>
 			<div className="container mt-5 ">
-				<div className="row">
+				<div className="row ">
 					<div className="col-md-4 col-lg-6 col-sm-12 mb-2">
-						<div>
+						<div className="text-center align-center">
 							{gimages.length === 0 ? (
 								<ImageGallery items={gimages} />
 							) : (

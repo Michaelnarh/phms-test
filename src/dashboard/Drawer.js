@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
 import { SideBarItems } from "./Data-items";
-export default function Drawer(props) {
+import { observer } from "mobx-react";
+import { AuthService } from "../services/AuthService";
+import Dropdownmenu from "./utils/DropDownMenu";
+function Drawer(props) {
 	const { setDrawer, isDrawerOpen } = props;
+	const authService = new AuthService();
+	const [user, setUser] = useState();
+	const y = new Date();
+	const url = `${process.env.REACT_APP_API_URL}/images/users`;
+	const id = localStorage.getItem("dumb");
+	const jwt = localStorage.getItem("jwt");
+	useEffect(() => {
+		if (id && jwt) {
+			const fetchUser = async () => {
+				try {
+					const res = await authService.getUser(id);
+					setUser(res.data.user);
+				} catch (err) {
+					console.log(err);
+				}
+			};
+
+			!user && fetchUser();
+		} else {
+			window.location.assign("/admin/login");
+		}
+	});
 	return (
 		<>
 			<div className="main-drawer">
@@ -16,14 +41,26 @@ export default function Drawer(props) {
 
 				<div className="drawer-columns">
 					<div className="dash-user">
-						<img
-							src="/imgs/adom_bi.jpg"
-							className="img-fluid"
-							style={{ width: 50, height: 50, borderRadius: "50%" }}
-							alt="..."
-						/>
-						<h6>Francis Kumi</h6>
-						<p>Maintainer</p>
+						{user && user.image ? (
+							<img
+								src={`${url}/${user.image}`}
+								className="img-fluid"
+								style={{ width: 60, height: 60, borderRadius: "50%" }}
+								alt="..."
+							/>
+						) : (
+							<img
+								src={`${url}/profile_pic.jpg`}
+								className="img-fluid"
+								style={{ width: 90, height: 90, borderRadius: "50%" }}
+								alt="..."
+							/>
+						)}
+						<p className="profile_name">
+							{user && user.username}
+							<br /> {user && user.role}
+						</p>
+						{/* <p>{user && user.role}</p> */}
 						<div className="divider" />
 					</div>
 					{SideBarItems.map((item) => {
@@ -64,3 +101,5 @@ export default function Drawer(props) {
 		</>
 	);
 }
+
+export default observer(Drawer);

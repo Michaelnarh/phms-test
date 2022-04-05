@@ -14,7 +14,7 @@ export default function MapComponent() {
 
 	const renderMarker = (map, maps) => {
 		let marker = new maps.Marker({
-			position: { lat: 6.12222, lng: -1.2324 },
+			position: { lat: 6.672186, lng: -1.57854 },
 			maps,
 			title: "hostels data",
 			name: "regMap",
@@ -23,10 +23,9 @@ export default function MapComponent() {
 	};
 
 	return (
-		// Important! Always set the container height explicitly
 		<div style={{ height: "80vh", width: "100%" }}>
 			<GoogleMapReact
-				bootstrapURLKeys={{ key: "AIzaSyAKMQRBKrwmhH81MDuT65XOpOPXcuHTn5A" }}
+				bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
 				defaultCenter={defaultProps.center}
 				defaultZoom={defaultProps.zoom}
 				yesIWantToUseGoogleMapApiInternals={true}
@@ -34,7 +33,7 @@ export default function MapComponent() {
 					renderMarker(map, maps);
 				}}
 			>
-				{/* <AnyReactComponent lat={59.955413} lng={30.337844} text="New Hostel" /> */}
+				<AnyReactComponent lat={59.955413} lng={30.337844} text="New Hostel" />
 			</GoogleMapReact>
 		</div>
 	);
