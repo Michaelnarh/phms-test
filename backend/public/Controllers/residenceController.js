@@ -26,7 +26,6 @@ const multerFilter = async (req, file, cb) => {
 
 exports.resizeImage = async (req, res, next) => {
 	if (!req.files) return next();
-	console.log(req.files);
 
 	const filename_cover = `cover-image-${Date.now()}.jpeg`;
 	if (req.body.name) {
@@ -39,7 +38,7 @@ exports.resizeImage = async (req, res, next) => {
 
 		if (req.files["coverImage"]) {
 			await sharp(req.files["coverImage"][0].buffer)
-				.resize(500, 500)
+				.resize(700, 400)
 				.toFormat("jpeg")
 				.jpeg({ quality: 90 })
 				.toFile(`${dir}/${filename_cover}`);
@@ -52,7 +51,7 @@ exports.resizeImage = async (req, res, next) => {
 				req.files["images"].map(async (el) => {
 					const filename = `image-${Date.now()}.jpeg`;
 					await sharp(el.buffer)
-						.resize(500, 500)
+						.resize(700, 400)
 						.toFormat("jpeg")
 						.jpeg({ quality: 90 })
 						.toFile(`${dir}/${filename}`);

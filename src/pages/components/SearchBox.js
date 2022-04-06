@@ -58,7 +58,7 @@ export default function Searchbox(props) {
 							placeholder={`Search ${type} by Name`}
 						/>
 					</div>
-					<div className="ml-2">
+					<div className="ml-2" style={{ marginLeft: 3 }}>
 						<button className="btn p-2 " onClick={() => handleSearch(text)}>
 							SEARCH
 						</button>

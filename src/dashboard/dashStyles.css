@@ -307,8 +307,8 @@ th {
 .content-left-side {
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-end;
-	align-self: flex-end;
+	justify-content: space-between;
+	/* align-self: flex-end; */
 	align-items: center;
 }
 

@@ -3,10 +3,14 @@ import GoogleMapReact from "google-map-react";
 import Locationmaker from "./Maps/LocationMaker";
 import axios from "axios";
 import Locationinfobox from "./Maps/LocationInfoBox";
+import Polylinecomponent from "./Maps/PolylineComponent";
 
 export default function MapComponent() {
 	const [eventData, setEvents] = useState([]);
 	const [info, setInfo] = useState();
+	const [isMapLoaded, setIsMapLoaoded] = useState(false);
+	const [map, setMap] = useState();
+	const [maps, setMaps] = useState();
 	useEffect(() => {
 		const fetchHostels = async () => {
 			const res = await axios({
@@ -43,14 +47,10 @@ export default function MapComponent() {
 		zoom: 11,
 	};
 
-	const renderMarker = (map, maps) => {
-		let marker = new maps.Marker({
-			position: { lat: 6.672186, lng: -1.57854 },
-			maps,
-			title: "hostels data",
-			name: "regMap",
-		});
-		return marker;
+	const onMapLoaded = (map, maps) => {
+		setMap(map);
+		setMaps(maps);
+		setIsMapLoaoded(true);
 	};
 
 	console.log(info);
@@ -62,16 +62,13 @@ export default function MapComponent() {
 				defaultZoom={defaultProps.zoom}
 				yesIWantToUseGoogleMapApiInternals={true}
 				onGoogleApiLoaded={({ map, maps }) => {
-					renderMarker(map, maps);
+					onMapLoaded(map, maps);
 				}}
 			>
-				{/* <Locationmaker
-					lat={defaultProps.center.lat}
-					lng={defaultProps.center.lng}
-				/> */}
-				{makers}
+				{/* {makers} */}
+				{/* {isMapLoaded && <Polylinecomponent map={map} maps={maps} />} */}
+				{info && <Locationinfobox info={info} />}
 			</GoogleMapReact>
-			{info && <Locationinfobox info={info} />}
 		</div>
 	);
 }

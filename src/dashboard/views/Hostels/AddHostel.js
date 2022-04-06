@@ -121,7 +121,7 @@ export default function Addhostel(props) {
 		accepted.forEach((el) => {
 			formData.append("images", el);
 		});
-
+		console.log(formData.entries());
 		try {
 			const res = await axios({
 				method: "post",
@@ -226,7 +226,7 @@ export default function Addhostel(props) {
 							</div>
 							<div className="col-md-4 col-sm-12">
 								<Field
-									type="text"
+									type="number"
 									className="form-control"
 									placeholder="+/-90 Latitude"
 									// value={alt}
@@ -235,7 +235,7 @@ export default function Addhostel(props) {
 								/>
 								<ErrorMessage name="alt" render={renderError} />
 								<Field
-									type="text"
+									type="number"
 									className="form-control"
 									placeholder="+/-180 longitude"
 									// value={lng}
@@ -271,7 +271,7 @@ export default function Addhostel(props) {
 						</div>
 						<hr className="my-3" />
 					</FormikStep>
-					<div>
+					<FormikStep>
 						<div className="row mt-3">
 							<div className="col-md-6 col-sm-12">
 								<Field
@@ -360,8 +360,8 @@ export default function Addhostel(props) {
 							</div>
 							<hr className="my-3" />
 						</div>
-					</div>
-					<div>
+					</FormikStep>
+					<FormikStep>
 						<div className="row">
 							<div className="col-md-6 col-sm-12">
 								<Field
@@ -418,8 +418,8 @@ export default function Addhostel(props) {
 								<ErrorMessage name="femaleCapacity" render={renderError} />
 							</div>
 						</div>
-					</div>
-					<div>
+					</FormikStep>
+					<FormikStep>
 						<div className="row mt-3">
 							<div className="col-md-6 col-sm-12">
 								<h5> Facilities</h5>
@@ -439,6 +439,7 @@ export default function Addhostel(props) {
 
 							{({ values, setFieldValue }) => (
 								<div className="col-md-6 col-sm-12">
+									<label>upload Cover</label>
 									<input
 										type="file"
 										className="form-control"
@@ -448,8 +449,6 @@ export default function Addhostel(props) {
 										}}
 									/>
 									<ErrorMessage name="coverImage" render={renderError} />
-
-									{coverImage && <Thumb file={coverImage} />}
 								</div>
 							)}
 						</div>
@@ -467,7 +466,7 @@ export default function Addhostel(props) {
 									return <Thumb key={i} file={file} />;
 								})}
 						</div>
-					</div>
+					</FormikStep>
 				</FormStepper>
 			</div>
 		</>
@@ -492,11 +491,11 @@ export function FormStepper({ children, ...props }) {
 		<Formik
 			{...props}
 			validationSchema={currentChild.props.validationSchema}
-			onSubmit={async (values, { resetForm }) => {
+			onSubmit={async (values) => {
 				console.log(props);
 				if (isLastPage()) {
 					await props.onSubmit(values);
-					resetForm();
+					props.resetForm();
 				}
 			}}
 		>
