@@ -186,12 +186,12 @@ export default function Editsnrtutors(props) {
 										}}
 									/>
 									<ErrorMessage name="image" render={renderError} />
-									<button
+									{/* <button
 										className="btn-danger p-3"
 										onClick={() => handleDelete(tutor._id)}
 									>
 										Delete
-									</button>
+									</button> */}
 								</div>
 							</div>
 						</div>

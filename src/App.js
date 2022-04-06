@@ -11,41 +11,46 @@ import React, { useContext } from "react";
 /**
  * import of guest/regular users pages
  */
-import Home from "./pages/Home";
-import Hostels from "./pages/Hostels";
-import Homestels from "./pages/Homestels";
-import ResidenceDetails from "./pages/ResidenceDetails";
-import HelpDesk from "./pages/HelpDesk";
-import Navbar from "./pages/components/Navbar";
-import { Routes, Route, useMatch } from "react-router-dom";
-import { Footer } from "./pages/components/Footer";
 import { Provider } from "mobx-react";
 import DashLayout from "./dashboard/Routes";
-import Store from "./Store";
+import { Route, Navigate } from "react-router-dom";
 import { ContextStore } from "./store/ContextStore";
+import Layout from "./Layout";
 
 function App() {
-	const { authStore } = useContext(ContextStore);
-	let match = useMatch("/admin");
-	let token = authStore.getToken();
-	const user = false;
+	// const { authStore } = useContext(ContextStore);
+	// let token = authStore.getToken();
+
 	return (
 		<>
-			{token && <DashLayout />}
-			<>
-				<Navbar />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/hostels" element={<Hostels />} />
-					<Route path="/homestels" element={<Homestels />} />
-					<Route path="/homestels/:slug" element={<ResidenceDetails />} />
-					<Route path="/hostels/:slug" element={<ResidenceDetails />} />
-					<Route path="/help-desk" element={<HelpDesk />} />
-				</Routes>
-				<Footer />
-			</>
+			{<DashLayout />}
+			<Layout />
 		</>
 	);
 }
 
 export default App;
+
+export function PrivateRoute({ component: Component, roles, ...rest }) {
+	const { authStore } = useContext(ContextStore);
+	<Route
+		{...rest}
+		render={(props) => {
+			const currentUser = authStore.getUser();
+			const token = authStore.getToken();
+			if (!currentUser) {
+				// not logged in so redirect to login page with the return url
+				Navigate("/admin/login");
+			}
+
+			// check if route is restricted by role
+			if (token && currentUser.role === "user") {
+				// role not authorised so redirect to home page
+				Navigate("/");
+			}
+
+			// authorised so return component
+			return <Component {...props} />;
+		}}
+	/>;
+}

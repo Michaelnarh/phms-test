@@ -26,6 +26,8 @@ const multerFilter = async (req, file, cb) => {
 
 exports.resizeImage = async (req, res, next) => {
 	if (!req.files) return next();
+	console.log(req.files);
+
 	const filename_cover = `cover-image-${Date.now()}.jpeg`;
 	if (req.body.name) {
 		const slug = slugify(req.body.name, { lower: true });
@@ -69,8 +71,8 @@ const upload = multer({
 
 //upload  for the cover-image & images.
 exports.uploadImages = upload.fields([
-	{ name: "coverImage", maxCount: 1 },
 	{ name: "images", maxCount: 8 },
+	{ name: "coverImage", maxCount: 1 },
 ]);
 
 //create new Residence

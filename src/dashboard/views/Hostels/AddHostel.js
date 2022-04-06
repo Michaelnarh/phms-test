@@ -92,6 +92,7 @@ export default function Addhostel(props) {
 	};
 
 	const onSubmit = async (values) => {
+		console.log(values);
 		let formData = new FormData();
 		values.gpsAddress.coordinates[1] = lat; //insert latitude data
 		values.gpsAddress.coordinates[0] = lng; //insert longitude data
