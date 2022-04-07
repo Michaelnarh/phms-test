@@ -19,8 +19,7 @@ export default function Hosteldetails(props) {
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${slug}`,
 			});
 			console.log(res);
-			setResidence(res.data.data);
-			res.data.data.images.forEach((el) => {
+			await res.data.data.images.forEach((el) => {
 				gimages.push({
 					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
 					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
@@ -30,7 +29,7 @@ export default function Hosteldetails(props) {
 					thumbnailWidth: 20,
 				});
 			});
-			gimages.push({
+			await gimages.push({
 				original: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
 				thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
 				// orginalHeight: 80,
@@ -38,6 +37,7 @@ export default function Hosteldetails(props) {
 				thumbnailHeight: 40,
 				thumbnailWidth: 20,
 			});
+			setResidence(res.data.data);
 		};
 
 		!residence && fetchData();

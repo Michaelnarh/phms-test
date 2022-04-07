@@ -13,6 +13,7 @@ router
 
 router.route("/:slug").get(areaMPController.getAreaMP);
 router
+	.route("/:id")
 	.patch(
 		areaMPController.uploadImage,
 		areaMPController.resizeImage,

@@ -24,8 +24,8 @@ export default function Hostels(props) {
 		fetchHostels();
 	}, [page, limit]);
 
-	const handleView = async (id) => {
-		// navigate(`details/${id}`);
+	const handleView = async (slug) => {
+		navigate(`details/${slug}`);
 	};
 	const handleEdit = async (id) => {
 		const res = await axios({
@@ -69,7 +69,7 @@ export default function Hostels(props) {
 									<td className="table-inline-flex">
 										<FaEye
 											size={20}
-											onClick={() => handleView(item._id)}
+											onClick={() => handleView(item.slug)}
 											color="var(--darkBlue)"
 											title="View"
 										/>

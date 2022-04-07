@@ -88,9 +88,10 @@ exports.updateAreaMP = async (req, res) => {
 // get ad particular AreaMP
 exports.getAreaMP = async (req, res) => {
 	try {
-		const areaMP = await (
-			await (await AreaMP.findById({ slug: req.params.slug })).populate("zone")
-		).populate("tutor");
+		const areaMP = await AreaMP.findOne({ slug: req.params.slug }).populate([
+			"zone",
+			"tutor",
+		]);
 		res.status(200).json({
 			status: "success",
 			data: areaMP,

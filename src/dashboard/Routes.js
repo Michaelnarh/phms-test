@@ -59,7 +59,7 @@ function MainLayout() {
 				<Route path="hostels" element={<HostelsViews />}>
 					<Route index element={<Hostels />} />
 					<Route path="add" element={<AddHostel />} />
-					<Route path="details/:id" element={<ShowHostel />} />
+					<Route path="details/:slug" element={<ShowHostel />} />
 				</Route>
 				<Route path="homestels" element={<HomestelsViews />}>
 					<Route index element={<Homestels />} />

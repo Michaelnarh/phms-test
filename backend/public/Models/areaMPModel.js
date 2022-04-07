@@ -13,6 +13,7 @@ const mpSchema = mongooose.Schema({
 	zone: { type: Schema.Types.ObjectId, ref: "Zone" },
 	tutor: { type: Schema.Types.ObjectId, ref: "SeniorTutor" },
 	image: { type: String },
+	slug: { type: String },
 });
 
 module.exports = mongooose.model("AreaMP", mpSchema);

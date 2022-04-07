@@ -15,7 +15,12 @@ export default function Index(props) {
 						color="var(--darkBlue)"
 						onClick={() => navigate(-1)}
 					/>
-					<button className=" btn mb-1 ">ADD AREA-MP</button>
+					<button
+						className=" btn mb-1"
+						onClick={() => navigate("/admin/area-mps/add")}
+					>
+						ADD AREA-MP
+					</button>
 				</div>
 				<Outlet />
 			</div>

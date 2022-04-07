@@ -310,6 +310,9 @@ th {
 	justify-content: space-between;
 	/* align-self: flex-end; */
 	align-items: center;
+	margin-bottom: 12px;
+	/* background-color: var(--lightShadow); */
+	padding: 8px;
 }
 
 /* form-styles */
