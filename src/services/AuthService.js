@@ -15,7 +15,7 @@ export class AuthService {
 		});
 		if (res.data.status === "success") {
 			localStorage.setItem("jwt", res.data.token);
-			localStorage.setItem("currentUser", JSON.stringify(res.data.user));
+			// localStorage.setItem("currentUser", JSON.stringify(res.data.user));
 			return res;
 		}
 		if (res.data.status === "failed") {

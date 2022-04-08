@@ -18,13 +18,11 @@ export default function Hosteldetails(props) {
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${slug}`,
 			});
-			console.log(res);
+
 			await res.data.data.images.forEach((el) => {
 				gimages.push({
 					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
 					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
-					// orginalHeight: 80,
-					// orginalWidth: 100,
 					thumbnailHeight: 40,
 					thumbnailWidth: 20,
 				});
@@ -32,8 +30,6 @@ export default function Hosteldetails(props) {
 			await gimages.push({
 				original: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
 				thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
-				// orginalHeight: 80,
-				// orginalWidth: 100,
 				thumbnailHeight: 40,
 				thumbnailWidth: 20,
 			});

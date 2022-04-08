@@ -495,7 +495,6 @@ export function FormStepper({ children, ...props }) {
 				console.log(props);
 				if (isLastPage()) {
 					await props.onSubmit(values);
-					props.resetForm();
 				}
 			}}
 		>

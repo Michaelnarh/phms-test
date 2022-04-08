@@ -31,11 +31,11 @@ function Login(props) {
 		try {
 			console.log(values.password);
 			const res = await authService.Login(values);
-			authStore.setUser(res.data.user);
+			// authStore.setUser(res.data.user);
 			authStore.setIsLoggedIn(true);
-			if (roles.includes(res.data.user.role)) {
-				authStore.setIsAdmin(true);
-			}
+			// if (roles.includes(res.data.user.role)) {
+			// 	authStore.setIsAdmin(true);
+			// }
 			localStorage.setItem("dumb", res.data.user._id);
 			navigate("/admin/dashboard");
 		} catch (err) {
