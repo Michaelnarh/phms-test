@@ -8,9 +8,9 @@ export default function Index(props) {
 	return (
 		<>
 			<div className="page-container mt-3">
-				<Toptitle page="Locations" />
+				<Toptitle page="Facilities" />
 				<div className="content-left-side">
-					<div> 
+					<div>
 						<MdArrowBack
 							size={40}
 							color="var(--darkBlue)"
@@ -20,9 +20,9 @@ export default function Index(props) {
 					<div>
 						<button
 							className=" btn mb-1 "
-							onClick={() => navigate("/admin/locations/add")}
+							onClick={() => navigate("/admin/facilities/add")}
 						>
-							ADD LOCATION
+							ADD FACILITY
 						</button>
 					</div>
 				</div>

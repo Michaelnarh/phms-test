@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const facilitySchema = mongoose.Schema({
 	name: { type: String, required: [true, "Facility name required"] },
-	number: { type: String, default: 0 },
+	description: { type: String },
 	createdAt: { type: Date, default: Date.now() },
 	updatedAt: { type: Date, default: Date.now() },
 });

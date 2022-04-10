@@ -249,6 +249,14 @@ th {
 	display: flex;
 	justify-content: space-between;
 }
+.location-info-dash {
+	background-color: rgba(164, 31, 197, 0.6);
+	padding: 20px 40px;
+	color: var(--mainWhite);
+	min-height: 250px;
+	top: 10px;
+	right: 50px;
+}
 
 .divider {
 	border: 1px solid #ccc;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
-import { useParams, useNavigate } from "react-router-dom";
 
 export default function Editsnrtutors(props) {
 	const { slug } = useParams();
@@ -186,12 +186,6 @@ export default function Editsnrtutors(props) {
 										}}
 									/>
 									<ErrorMessage name="image" render={renderError} />
-									{/* <button
-										className="btn-danger p-3"
-										onClick={() => handleDelete(tutor._id)}
-									>
-										Delete
-									</button> */}
 								</div>
 							</div>
 						</div>

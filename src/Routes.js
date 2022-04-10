@@ -20,6 +20,7 @@ import SnrTutorsViews from "./dashboard/views/snrTutors/Index";
 import SnrTutors from "./dashboard/views/snrTutors/SnrTutors";
 import AddSnrTutors from "./dashboard/views/snrTutors/AddSnrTutor";
 import EditTutor from "./dashboard/views/snrTutors/EditSnrTutors";
+import ShowTutor from "./dashboard/views/snrTutors/ShowTutor";
 
 //import nss personnel views
 // import NssPersonnels from "./views/NssPersonnels";
@@ -33,7 +34,10 @@ import AreaMps from "./dashboard/views/areaMp/AreaMps";
 import AddMp from "./dashboard/views/areaMp/AddAreaMp";
 import EditMp from "./dashboard/views/areaMp/EditAreaMP";
 
-import Facilities from "./dashboard/views/Facilities";
+import FacilityViews from "./dashboard/views/facility/Index";
+import Facilities from "./dashboard/views/facility/Facilities";
+import AddFacility from "./dashboard/views/facility/AddFacility";
+
 import NotFoundPage from "./dashboard/views/404Page";
 
 // import Zones Views
@@ -108,14 +112,20 @@ function MainLayout() {
 				<Route path="snr-tutors" element={<SnrTutorsViews />}>
 					<Route index element={<SnrTutors />} />
 					<Route path="add" element={<AddSnrTutors />} />
-					<Route path=":slug" element={<EditTutor />} />
+					<Route path=":slug" element={<ShowTutor />} />
+					<Route path=":slug/edit" element={<EditTutor />} />
 				</Route>
 				<Route path="nss-personnels" element={<NssPersonnelViews />}>
 					<Route index element={<NssPersonnels />} />
 					<Route path="add" element={<AddPersonnel />} />
 					<Route path=":slug" element={<EditPersonnel />} />
 				</Route>
-				<Route path="facilities" element={<Facilities />} />
+				<Route path="facilities" element={<FacilityViews />}>
+					<Route index element={<Facilities />} />
+					<Route path="add" element={<AddFacility />} />
+					<Route path=":slug" element={<EditPersonnel />} />
+				</Route>
+
 				<Route path="*" element={<NotFoundPage />} />
 			</Route>
 		</Routes>

@@ -45,6 +45,36 @@ export const SideBarItems = [
 		},
 	},
 	{
+		name: "Locations",
+		href: "locations",
+		icon: <FaUser size={20} color="var(--mainWhite)" />,
+		children: {
+			name: "Add Location",
+			href: "locations/add",
+			icon: <FaPlus size={10} color="var(--mainWhite)" />,
+		},
+	},
+	{
+		name: "Classes",
+		href: "classes",
+		icon: <FaUser size={20} color="var(--mainWhite)" />,
+		children: {
+			name: "Add Location",
+			href: "locations/add",
+			icon: <FaPlus size={10} color="var(--mainWhite)" />,
+		},
+	},
+	{
+		name: "Hostel Facilities",
+		href: "facilities",
+		icon: <FaUser size={20} color="var(--mainWhite)" />,
+		children: {
+			name: "Add Hostel",
+			href: "facilities/add",
+			icon: <FaPlus size={10} color="var(--mainWhite)" />,
+		},
+	},
+	{
 		name: "Senior Tutors",
 		href: "snr-tutors",
 		icon: <FaUserCheck size={20} color="var(--mainWhite)" />,
@@ -81,26 +111,6 @@ export const SideBarItems = [
 		children: {
 			name: "Add Hostel",
 			href: "national-mp/add",
-			icon: <FaPlus size={10} color="var(--mainWhite)" />,
-		},
-	},
-	{
-		name: "Hostel Facilities",
-		href: "facilities",
-		icon: <FaUser size={20} color="var(--mainWhite)" />,
-		children: {
-			name: "Add Hostel",
-			href: "facilities/add",
-			icon: <FaPlus size={10} color="var(--mainWhite)" />,
-		},
-	},
-	{
-		name: "Locations",
-		href: "locations",
-		icon: <FaUser size={20} color="var(--mainWhite)" />,
-		children: {
-			name: "Add Location",
-			href: "locations/add",
 			icon: <FaPlus size={10} color="var(--mainWhite)" />,
 		},
 	},

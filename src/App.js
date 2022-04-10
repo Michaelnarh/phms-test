@@ -13,9 +13,6 @@ import MainLayout from "./Routes";
 function App() {
 	return (
 		<>
-			{/* {token && user?.role === "admin" ? <DashLayout /> : <Layout />} */}
-			{/* <Route path="*" element={<Navigate to="/admin/login" />} /> */}
-
 			<MainLayout />
 		</>
 	);

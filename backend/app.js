@@ -12,6 +12,7 @@ const nssPRouter = require("./public/Routes/nssPRoute");
 const facilityRouter = require("./public/Routes/facilityRoute");
 const mpRouter = require("./public/Routes/mpRoute");
 const areampRouter = require("./public/Routes/areaMPRoute");
+const classRouter = require("./public/Routes/classRoute");
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
@@ -37,6 +38,7 @@ app.use("/api/v1/senior-tutors", tutorRouter);
 app.use("/api/v1/nss-personnels", nssPRouter);
 app.use("/api/v1/mps", mpRouter);
 app.use("/api/v1/area-mps", areampRouter);
+app.use("/api/v1/classes", classRouter);
 
 //request which are undefined.
 app.all("*", (req, res, next) => {

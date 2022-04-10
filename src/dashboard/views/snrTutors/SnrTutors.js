@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Divisiontitle from "../DivisionTitle";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function Snrtutors(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	const [tutors, setTutors] = useState([]);
-	const { slug } = useParams();
 	const navigate = useNavigate();
 	useEffect(() => {
 		const fetchTutors = async () => {
@@ -35,7 +34,7 @@ export default function Snrtutors(props) {
 										<img
 											src={`${url}/snr-tutors/${item.image}`}
 											className="img-fluid"
-											alt="..."
+											alt={item.name}
 											style={{ width: 300, height: 250 }}
 										/>
 									) : (
@@ -50,7 +49,7 @@ export default function Snrtutors(props) {
 									<div>
 										<p className="tutor-name">{item.name}</p>
 										<p>{item.contact}</p>
-										<p>{item.zone ? item.zone.name : "N/A"}</p>
+										<p>{item.zone ? item.zone?.name : "N/A"}</p>
 									</div>
 
 									<button
