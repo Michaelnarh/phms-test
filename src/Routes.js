@@ -37,6 +37,7 @@ import EditMp from "./dashboard/views/areaMp/EditAreaMP";
 import FacilityViews from "./dashboard/views/facility/Index";
 import Facilities from "./dashboard/views/facility/Facilities";
 import AddFacility from "./dashboard/views/facility/AddFacility";
+import EditFacility from "./dashboard/views/facility/EditFacility";
 
 import NotFoundPage from "./dashboard/views/404Page";
 
@@ -125,7 +126,7 @@ function MainLayout() {
 					<Route path="facilities" element={<FacilityViews />}>
 						<Route index element={<Facilities />} />
 						<Route path="add" element={<AddFacility />} />
-						<Route path=":slug" element={<EditPersonnel />} />
+						<Route path=":id" element={<EditFacility />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />
 				</Route>

@@ -1,0 +1,95 @@
+import React, { useState, useEffect } from "react";
+import * as Yup from "yup";
+import axios from "axios";
+import { renderError } from "../../utils/ModuleFunctions";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useParams } from "react-router-dom";
+export default function AddFacility(props) {
+	const [facility, setFacility] = useState();
+	const { id } = useParams();
+	useEffect(() => {
+		const fetchFacility = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/zones/${id}`,
+			});
+			setFacility(res.data.data);
+		};
+		!facility && fetchFacility();
+	});
+	const validationSchema = Yup.object({
+		name: Yup.string().required("Facility Name is Required"),
+		description: Yup.string().nullable(),
+	});
+
+	const initialValues = {
+		name: facility && (facility.name ?? ""),
+		description: facility && (facility.description ?? ""),
+	};
+	const onSubmit = async (values) => {
+		console.log(values);
+
+		const res = await axios({
+			method: "post",
+			url: `${process.env.REACT_APP_API_URL}/api/v1/facilities`,
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: values,
+		});
+		if (res.data.status === "success") {
+			window.location.assign("/admin/facilities");
+		}
+	};
+	return (
+		<>
+			<Formik
+				enableReinitialize={true}
+				initialValues={initialValues}
+				validationSchema={validationSchema}
+				onSubmit={async (values, { resetForm }) => {
+					await onSubmit(values);
+					resetForm();
+				}}
+			>
+				<Form>
+					<div className="row">
+						<div className="col-md-6 col-sm-12">
+							<Field
+								type="text"
+								className="form-control"
+								placeholder="Name"
+								name="name"
+							/>
+							<p className="eg-text">
+								<span className="required">*</span> Example: CCTV Camera
+							</p>
+							<ErrorMessage name="name" render={renderError} />
+						</div>
+						<div className="col-md-6 col-sm-12">
+							<Field
+								type="text"
+								as="textarea"
+								name="description"
+								className="form-control"
+								placeholder="Short description of the Facility"
+							/>
+							<p className="eg-text">
+								{" "}
+								<span className="required">*</span> Example: check for good
+								security
+							</p>
+							<ErrorMessage name="description" render={renderError} />
+						</div>
+					</div>
+
+					<div className="mt-3">
+						<button type="submit" className="btn is-primary">
+							Submit
+						</button>
+					</div>
+				</Form>
+			</Formik>
+		</>
+	);
+}
