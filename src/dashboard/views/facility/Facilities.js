@@ -36,7 +36,7 @@ export default function Zones(props) {
 		setPage(p.selected + 1);
 		setLimit(limit);
 	};
-
+	console.log(facilities);
 	return (
 		<>
 			<div className="table-container">
@@ -45,18 +45,18 @@ export default function Zones(props) {
 						<tr>
 							<th>ID</th>
 							<th>Name</th>
-							<th>Price Ranges</th>
 							<th>Description</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						{facilities &&
+						{facilities.length > 0 &&
 							facilities.map((item) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
 									<td>{item.name}</td>
-									<td>{item.priceRange}</td>
+									<td>{item?.description ?? "N/A"}</td>
+
 									<td className="table-inline-flex">
 										<FaEye
 											size={20}

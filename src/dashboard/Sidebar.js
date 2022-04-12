@@ -9,7 +9,6 @@ import Dropdownmenu from "./utils/DropDownMenu";
 function Sidebar(props) {
 	const authService = new AuthService();
 	const [user, setUser] = useState();
-	const y = new Date();
 	const url = `${process.env.REACT_APP_API_URL}/images/users`;
 	const id = localStorage.getItem("dumb");
 	const jwt = localStorage.getItem("jwt");

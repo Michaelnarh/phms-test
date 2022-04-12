@@ -38,7 +38,7 @@ export default function Addhostel(props) {
 		// 	fetchFacilities();
 		// }
 	});
-	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+	// const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
 	const [lat, setlat] = useState(-11.121);
 	const [lng, setlng] = useState(21.2122);
@@ -91,7 +91,7 @@ export default function Addhostel(props) {
 		femaleCapacity: null,
 	};
 
-	const onSubmit = async (values) => {
+	const handleSubmit = async (values) => {
 		console.log(values);
 		let formData = new FormData();
 		values.gpsAddress.coordinates[1] = lat; //insert latitude data
@@ -145,7 +145,7 @@ export default function Addhostel(props) {
 					validationSchema={validationSchema}
 					initialValues={initialValues}
 					onSubmit={async (values, { resetForm }) => {
-						await onSubmit(values);
+						await handleSubmit(values);
 						resetForm();
 					}}
 				>
@@ -419,54 +419,52 @@ export default function Addhostel(props) {
 							</div>
 						</div>
 					</FormikStep>
-					<FormikStep>
-						<div className="row mt-3">
-							<div className="col-md-6 col-sm-12">
-								<h5> Facilities</h5>
-								{facilities &&
-									facilities.map((item) => (
-										<div key={item._id} className="form-check">
-											<Field
-												className="form-check-input"
-												type="checkbox"
-												name="facilites"
-												value={item._id}
-											/>
-											<label>{item.name}</label>
-										</div>
-									))}
-							</div>
-
-							{({ values, setFieldValue }) => (
+					{({ values, setFieldValue }) => ({
+						/* <FormikStep>
+							<div className="row mt-3">
+								<div className="col-md-6 col-sm-12">
+									<h5> Facilities</h5>
+									{facilities &&
+										facilities.map((item) => (
+											<div key={item._id} className="form-check">
+												<Field
+													className="form-check-input"
+													type="checkbox"
+													name="facilites"
+													value={item._id}
+												/>
+												<label>{item.name}</label>
+											</div>
+										))}
+								</div>
 								<div className="col-md-6 col-sm-12">
 									<label>upload Cover</label>
 									<input
 										type="file"
 										className="form-control"
-										placeholder="Load cover Image"
 										onChange={(e) => {
 											setFieldValue("coverImage", e.currentTarget.files[0]);
 										}}
 									/>
 									<ErrorMessage name="coverImage" render={renderError} />
 								</div>
-							)}
-						</div>
-						<div className="mx-5 mt-3 mb-2">
-							<div {...getRootProps()}>
-								<input {...getInputProps()} />
-								{isDragActive ? (
-									<p> drop of files </p>
-								) : (
-									<p className=" p-2">Click to Load images here</p>
-								)}
 							</div>
-							{accepted &&
-								accepted.map((file, i) => {
-									return <Thumb key={i} file={file} />;
-								})}
-						</div>
-					</FormikStep>
+							<div className="mx-5 mt-3 mb-2">
+								<div {...getRootProps()}>
+									<input {...getInputProps()} />
+									{isDragActive ? (
+										<p> drop of files </p>
+									) : (
+										<p className=" p-2">Click to Load images here</p>
+									)}
+								</div>
+								{accepted &&
+									accepted.map((file, i) => {
+										return <Thumb key={i} file={file} />;
+									})}
+							</div>
+						</FormikStep> */
+					})}
 				</FormStepper>
 			</div>
 		</>
@@ -490,36 +488,34 @@ export function FormStepper({ children, ...props }) {
 	return (
 		<Formik
 			{...props}
-			validationSchema={currentChild.props.validationSchema}
+			validationSchema={currentChild.props?.validationSchema}
 			onSubmit={async (values) => {
 				console.log(props);
-				if (isLastPage()) {
-					await props.onSubmit(values);
+				if (isLastPage() && props) {
+					await props?.onSubmit(values);
 				}
 			}}
 		>
-			{({ isSubmitting }) => (
-				<Form>
-					{currentChild}
+			<Form>
+				{currentChild}
 
-					{step > 0 ? (
-						<button
-							style={{ marginRight: 12 }}
-							onClick={() => setStep((s) => s - 1)}
-							className="btn px-3 py-2"
-						>
-							Back
-						</button>
-					) : null}
+				{step > 0 ? (
 					<button
-						type="submit"
-						onClick={() => setStep((s) => s + 1)}
-						className="btn  py-2 px-3"
+						style={{ marginRight: 12 }}
+						onClick={() => setStep((s) => s - 1)}
+						className="btn px-3 py-2"
 					>
-						{isSubmitting ? "Submitting" : isLastPage() ? "Submit" : "Next"}
+						Back
 					</button>
-				</Form>
-			)}
+				) : null}
+				<button
+					type="submit"
+					onClick={() => setStep((s) => s + 1)}
+					className="btn  py-2 px-3"
+				>
+					{isLastPage() ? "Submit" : "Next"}
+				</button>
+			</Form>
 		</Formik>
 	);
 }

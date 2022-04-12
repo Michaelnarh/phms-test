@@ -21,7 +21,6 @@ const residenceSchema = mongoose.Schema({
 	portersContact: { type: String },
 	coverImage: { type: String },
 	images: [{ type: String }],
-	facilities: [{ type: Object }],
 	bookingLink: { type: String },
 	gpsAddress: {
 		type: { type: String, default: "Point", enum: ["Point"] },
@@ -37,6 +36,7 @@ const residenceSchema = mongoose.Schema({
 	femaleCapacity: { type: Number },
 	regDate: { type: Date },
 	registered: { type: Boolean },
+	class: { type: mongoose.Schema.Types.ObjectId, ref: "Class" },
 	addedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 	createAt: { type: Date, default: Date.now() },
 	updadtedAt: { type: Date },

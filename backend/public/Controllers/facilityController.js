@@ -1,4 +1,5 @@
 const Facility = require("../Models/facilityModel");
+const ApiFeatures = require("../utils/APIfeatures");
 
 //create new Facility
 exports.createFacility = async (req, res) => {
@@ -55,10 +56,17 @@ exports.getFacility = async (req, res) => {
 
 exports.getAllFacilities = async (req, res) => {
 	try {
-		const zones = await Facility.find();
+		const facilities = await Facility.find().countDocuments();
+
+		const feature = new ApiFeatures(Facility.find(), req.query)
+			.filter()
+			.paginate(25);
+
+		const current_facilities = await feature.query;
 		res.status(200).json({
 			status: "success",
-			message: zones,
+			total: facilities,
+			data: current_facilities,
 		});
 	} catch (err) {
 		res.status(400).json({

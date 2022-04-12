@@ -28,16 +28,7 @@ function Login(props) {
 
 	const handleSubmit = async (values) => {
 		try {
-			console.log(values.password);
-			const res = await authService.Login(values);
-			// authStore.setUser(res.data.user);
-			console.log(res.data);
-			authStore.setIsLoggedIn(true);
-			// if (roles.includes(res.data.user.role)) {
-			// 	authStore.setIsAdmin(true);
-			// }
-			localStorage.setItem("dumb", res.data.user._id);
-			navigate("/admin/dashboard");
+			await authService.Login(values);
 		} catch (err) {
 			console.log(err);
 			setError(err.message);

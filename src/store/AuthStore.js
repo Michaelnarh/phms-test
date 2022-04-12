@@ -10,7 +10,7 @@ class AuthStore {
 	token = localStorage.getItem("jwt");
 	isLoggedIn = false;
 	isAdmin = false;
-	user = localStorage.getItem("currentUser");
+	user = JSON.parse(localStorage.getItem("user"));
 
 	//get functions
 	getToken = () => this.token;

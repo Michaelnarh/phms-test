@@ -4,26 +4,14 @@ import axios from "axios";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 export default function AddFacility(props) {
-	const [zones, setZones] = useState([]);
-	useEffect(() => {
-		const fetchZones = async () => {
-			const res = await axios({
-				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
-			});
-			setZones(res.data.data);
-		};
-		fetchZones();
-	});
-
 	const validationSchema = Yup.object({
-		name: Yup.string().required("Location Name is Required"),
-		zone: Yup.string().nullable(),
+		name: Yup.string().required("Facility Name is Required"),
+		description: Yup.string().nullable(),
 	});
 
 	const initialValues = {
 		name: "",
-		zone: "",
+		description: "",
 	};
 	const onSubmit = async (values) => {
 		console.log(values);
@@ -61,33 +49,27 @@ export default function AddFacility(props) {
 								name="name"
 							/>
 							<p className="eg-text">
-								<span className="required">*</span> Example: Bomso
+								<span className="required">*</span> Example: CCTV Camera
 							</p>
 							<ErrorMessage name="name" render={renderError} />
 						</div>
-
 						<div className="col-md-6 col-sm-12">
 							<Field
-								as="select"
-								className="form-select"
-								placeholder="Location"
-								name="zone"
-							>
-								<option>Select Zone</option>
-								{zones &&
-									zones.map((item) => (
-										<option key={item._id} value={item._id}>
-											{item.name}
-										</option>
-									))}
-							</Field>
+								type="text"
+								as="textarea"
+								name="description"
+								className="form-control"
+								placeholder="Short description of the Facility"
+							/>
 							<p className="eg-text">
 								{" "}
-								<span className="required">*</span> Example: Ayeduase-North
+								<span className="required">*</span> Example: check for good
+								security
 							</p>
-							<ErrorMessage name="location" render={renderError} />
+							<ErrorMessage name="description" render={renderError} />
 						</div>
 					</div>
+
 					<div className="mt-3">
 						<button type="submit" className="btn is-primary">
 							Submit

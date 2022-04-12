@@ -62,6 +62,7 @@ import HelpDesk from "./pages/HelpDesk";
 //import navigatin routes
 
 import { ContextStore } from "./store/ContextStore";
+import RequireAuth from "./store/RequireAuth";
 
 function MainLayout() {
 	const { authStore } = useContext(ContextStore);
@@ -82,51 +83,52 @@ function MainLayout() {
 
 			{/* these are the admin routes */}
 			<Route path="/admin/login" element={<Login />} />
-			<Route path="/admin/register" element={<Register />} />
 
-			<Route path="/admin" element={<DashLayout />}>
-				<Route path="dashboard" element={<DashBoard />} />
-				<Route path="hostels" element={<HostelsViews />}>
-					<Route index element={<Hostels />} />
-					<Route path="add" element={<AddHostel />} />
-					<Route path="details/:slug" element={<ShowHostel />} />
+			<Route element={<RequireAuth />}>
+				<Route path="/admin/register" element={<Register />} />
+				<Route path="/admin" element={<DashLayout />}>
+					<Route path="dashboard" element={<DashBoard />} />
+					<Route path="hostels" element={<HostelsViews />}>
+						<Route index element={<Hostels />} />
+						<Route path="add" element={<AddHostel />} />
+						<Route path="details/:slug" element={<ShowHostel />} />
+					</Route>
+					<Route path="homestels" element={<HomestelsViews />}>
+						<Route index element={<Homestels />} />
+					</Route>
+					<Route path="zones" element={<ZonesViews />}>
+						<Route index element={<Zones />} />
+						<Route path="add" element={<AddZone />} />
+						<Route path=":id" element={<EditZone />} />
+					</Route>
+					<Route path="locations" element={<LocationViews />}>
+						<Route index element={<Locations />} />
+						<Route path="add" element={<AddLocation />} />
+						<Route path=":id" element={<EditLocation />} />
+					</Route>
+					<Route path="area-mps" element={<AreaMpViews />}>
+						<Route index element={<AreaMps />} />
+						<Route path="add" element={<AddMp />} />
+						<Route path=":slug" element={<EditMp />} />
+					</Route>
+					<Route path="snr-tutors" element={<SnrTutorsViews />}>
+						<Route index element={<SnrTutors />} />
+						<Route path="add" element={<AddSnrTutors />} />
+						<Route path=":slug" element={<ShowTutor />} />
+						<Route path=":slug/edit" element={<EditTutor />} />
+					</Route>
+					<Route path="nss-personnels" element={<NssPersonnelViews />}>
+						<Route index element={<NssPersonnels />} />
+						<Route path="add" element={<AddPersonnel />} />
+						<Route path=":slug" element={<EditPersonnel />} />
+					</Route>
+					<Route path="facilities" element={<FacilityViews />}>
+						<Route index element={<Facilities />} />
+						<Route path="add" element={<AddFacility />} />
+						<Route path=":slug" element={<EditPersonnel />} />
+					</Route>
+					<Route path="*" element={<NotFoundPage />} />
 				</Route>
-				<Route path="homestels" element={<HomestelsViews />}>
-					<Route index element={<Homestels />} />
-				</Route>
-				<Route path="zones" element={<ZonesViews />}>
-					<Route index element={<Zones />} />
-					<Route path="add" element={<AddZone />} />
-					<Route path=":id" element={<EditZone />} />
-				</Route>
-				<Route path="locations" element={<LocationViews />}>
-					<Route index element={<Locations />} />
-					<Route path="add" element={<AddLocation />} />
-					<Route path=":id" element={<EditLocation />} />
-				</Route>
-				<Route path="area-mps" element={<AreaMpViews />}>
-					<Route index element={<AreaMps />} />
-					<Route path="add" element={<AddMp />} />
-					<Route path=":slug" element={<EditMp />} />
-				</Route>
-				<Route path="snr-tutors" element={<SnrTutorsViews />}>
-					<Route index element={<SnrTutors />} />
-					<Route path="add" element={<AddSnrTutors />} />
-					<Route path=":slug" element={<ShowTutor />} />
-					<Route path=":slug/edit" element={<EditTutor />} />
-				</Route>
-				<Route path="nss-personnels" element={<NssPersonnelViews />}>
-					<Route index element={<NssPersonnels />} />
-					<Route path="add" element={<AddPersonnel />} />
-					<Route path=":slug" element={<EditPersonnel />} />
-				</Route>
-				<Route path="facilities" element={<FacilityViews />}>
-					<Route index element={<Facilities />} />
-					<Route path="add" element={<AddFacility />} />
-					<Route path=":slug" element={<EditPersonnel />} />
-				</Route>
-
-				<Route path="*" element={<NotFoundPage />} />
 			</Route>
 		</Routes>
 	);
