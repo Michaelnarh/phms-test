@@ -1,7 +1,8 @@
 const mongooose = require("mongoose");
 const { Schema } = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
-const mpSchema = mongooose.Schema({
+const areaMpSchema = mongooose.Schema({
 	name: { type: String, required: [true, "Name field is required"] },
 	email: {
 		type: String,
@@ -16,4 +17,5 @@ const mpSchema = mongooose.Schema({
 	slug: { type: String },
 });
 
-module.exports = mongooose.model("AreaMP", mpSchema);
+areaMpSchema.plugin(uniqueValidator);
+module.exports = mongooose.model("AreaMP", areaMpSchema);

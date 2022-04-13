@@ -87,18 +87,23 @@ exports.createResidence = async (req, res) => {
 		let facility_id;
 		let facility_count;
 
+		/* an array object like this 
+
+				facilities[{id[9088009], count:3},{id[9088909], count:1}] 
+		*/
 		//loop through the facilities
 		if (req.body.facilities.length > 0) {
 			await Promise.all(
 				req.body.facilities.map(async (item) => {
-					facility_id = item.id;
-					facility_count = item.num;
-
-					await ResidenceFacilityTable.create({
-						residence: residence_id,
-						facility: facility_id,
-						count: facility_count,
-					});
+					if (item?.id[0]) {
+						facility_id = item?.id[0];
+						facility_count = item.num;
+						await ResidenceFacilityTable.create({
+							residence: residence_id,
+							facility: facility_id,
+							count: facility_count,
+						});
+					}
 				})
 			);
 		}

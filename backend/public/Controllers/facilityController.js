@@ -7,7 +7,7 @@ exports.createFacility = async (req, res) => {
 		const newFacility = await Facility.create(req.body);
 		res.status(201).json({
 			status: "success",
-			newFacility,
+			data: newFacility,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -23,7 +23,10 @@ exports.updateFacility = async (req, res) => {
 		throw Error("Facility  not identified");
 	}
 	try {
-		const facility = await Facility.findByIdAndUpdate(req.params.id, req.body);
+		const facility = await Facility.findByIdAndUpdate(req.params.id, req.body, {
+			runValidators: true,
+			new: true,
+		});
 		res.status(201).json({
 			status: "success",
 			facility,
@@ -42,7 +45,7 @@ exports.getFacility = async (req, res) => {
 		const facility = await Facility.findById(req.params.id);
 		res.status(200).json({
 			status: "success",
-			facility,
+			data: facility,
 		});
 	} catch (err) {
 		res.status(400).json({

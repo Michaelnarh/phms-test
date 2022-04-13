@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const uniqueValidator = require("mongoose-unique-validator");
 const seniourTutorSchema = mongoose.Schema({
 	name: {
 		type: String,
@@ -17,4 +17,5 @@ const seniourTutorSchema = mongoose.Schema({
 	slug: { type: String },
 	zone: { type: mongoose.Schema.Types.ObjectId, ref: "Zone" },
 });
+seniourTutorSchema.plugin(uniqueValidator);
 module.exports = mongoose.model("SeniorTutor", seniourTutorSchema);

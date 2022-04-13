@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const uniqueValidator = require("mongoose-unique-validator");
 const residenceSchema = mongoose.Schema({
 	name: {
 		type: String,
@@ -42,6 +42,7 @@ const residenceSchema = mongoose.Schema({
 	updadtedAt: { type: Date },
 });
 
+residenceSchema.plugin(uniqueValidator);
 residenceSchema.virtual("reviews", {
 	foreignField: "residence ",
 	localField: "_id",

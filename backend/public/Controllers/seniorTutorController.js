@@ -150,3 +150,50 @@ exports.deleteSeniorTutor = async (req, res, next) => {
 		});
 	}
 };
+
+exports.handleDeActivate = async (req, res, next) => {
+	try {
+		const tutor = await SeniorTutor.findByIdAndUpdate(
+			req.params.id,
+			{
+				isCurrent: false,
+			},
+			{
+				new: true,
+			}
+		);
+
+		res.status(200).json({
+			status: "success",
+			data: tutor,
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "failed",
+			message: err.message,
+		});
+	}
+};
+exports.handleActivate = async (req, res, next) => {
+	try {
+		const tutor = await SeniorTutor.findByIdAndUpdate(
+			req.params.id,
+			{
+				isCurrent: true,
+			},
+			{
+				new: true,
+			}
+		);
+
+		res.status(200).json({
+			status: "success",
+			data: tutor,
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "failed",
+			message: err.message,
+		});
+	}
+};

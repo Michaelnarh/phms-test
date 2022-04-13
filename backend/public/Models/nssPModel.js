@@ -1,5 +1,6 @@
 const mongooose = require("mongoose");
 const { Schema } = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const nssPersonnelSchema = mongooose.Schema({
 	name: { type: String, required: [true, "Name field is required"] },
@@ -15,4 +16,5 @@ const nssPersonnelSchema = mongooose.Schema({
 	image: { type: String },
 });
 
+nssPersonnelSchema.plugin(uniqueValidator);
 module.exports = mongooose.model("NSSPersonnel", nssPersonnelSchema);

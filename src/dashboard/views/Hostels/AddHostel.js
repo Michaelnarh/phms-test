@@ -10,7 +10,7 @@ export default function Addhostel(props) {
 	const [coverImage] = useState("");
 	const [accepted, setAccepted] = useState([]);
 	const [locations, setLocations] = useState([]);
-	const [facilities, setFacilities] = useState([]);
+	const [facilityArr, setFacilityArr] = useState([]);
 
 	const onDrop = useCallback((acceptedFiles) => {
 		setAccepted(acceptedFiles);
@@ -29,16 +29,16 @@ export default function Addhostel(props) {
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/facilities`,
 			});
-			setFacilities(res.data.data);
+			setFacilityArr(res.data.data);
 		};
 		if (locations.length === 0) {
 			fetchLocations();
 		}
-		// if (facilities.length === 0) {
-		// 	fetchFacilities();
-		// }
+		if (facilityArr.length === 0) {
+			fetchFacilities();
+		}
 	});
-	// const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
 	const [lat, setlat] = useState(-11.121);
 	const [lng, setlng] = useState(21.2122);
@@ -167,10 +167,13 @@ export default function Addhostel(props) {
 					>
 						<div className="row">
 							<div className="col-md-4 col-sm-12">
+								<label>
+									<b>Residence Name</b>
+								</label>
 								<Field
 									type="text"
 									className="form-control"
-									placeholder=" Residence Name"
+									// placeholder=" Residence Name"
 									name="name"
 								/>
 								<p className="eg-text">
@@ -179,6 +182,9 @@ export default function Addhostel(props) {
 								<ErrorMessage name="name" render={renderError} />
 							</div>
 							<div className="col-md-4 col-sm-12 ">
+								<label>
+									<b>Type of Residence</b>
+								</label>
 								<Field
 									as="select"
 									name="residenceType"
@@ -197,10 +203,13 @@ export default function Addhostel(props) {
 								<ErrorMessage name="residenceType" render={renderError} />
 							</div>
 							<div className="col-md-4 col-sm-12">
+								<label>
+									<b>Residence Location</b>
+								</label>
 								<Field
 									as="select"
 									className="form-select"
-									placeholder="Location"
+									// placeholder="Location"
 									name="location"
 								>
 									<option> select location</option>
@@ -220,17 +229,23 @@ export default function Addhostel(props) {
 						</div>
 						<div className="row mt-3">
 							<div className="col-md-4 col-sm-12">
+								<label>
+									<b>GhanaPost GPS Address</b>
+								</label>
 								<Field
 									type="text"
 									name="digitalAddress"
 									className="form-control"
-									placeholder="GA-2324-3423"
+									// placeholder="GA-2324-3423"
 									aria-label="digitalAddress"
 								/>
 								<p className="eg-text">Example: AK-1310-3223, use GhanaPost</p>
 								<ErrorMessage name="digitalAddress" render={renderError} />
 							</div>
 							<div className="col-md-4 col-sm-12">
+								<label>
+									<b>Latitude and Longitude</b>
+								</label>
 								<Field
 									type="number"
 									className="form-control"
@@ -251,6 +266,9 @@ export default function Addhostel(props) {
 								<ErrorMessage name="lng" render={renderError} />
 							</div>
 							<div className="col-md-4 col-sm-12">
+								<label>
+									<b>Booking Link URL</b>
+								</label>
 								<Field
 									type="url"
 									className="form-control"
@@ -280,10 +298,13 @@ export default function Addhostel(props) {
 					<FormikStep>
 						<div className="row mt-3">
 							<div className="col-md-6 col-sm-12">
+								<label>
+									<b>Owner's Name</b>
+								</label>
 								<Field
 									type="text"
 									className="form-control"
-									placeholder="Owner's Name"
+									// placeholder="Owner's Name"
 									name="ownersName"
 								/>
 								<p className="eg-text">
@@ -293,11 +314,14 @@ export default function Addhostel(props) {
 								<ErrorMessage name="ownersName" render={renderError} />
 							</div>
 							<div className="col-md-6 col-sm-12">
+								<label>
+									<b>Owners' Contact</b>
+								</label>
 								<Field
 									type="tel"
 									name="ownersContact"
 									className="form-control"
-									placeholder="Owner's Contact"
+									// placeholder="Owner's Contact"
 									aria-label="ownersContact"
 								/>
 								<p className="eg-text">
@@ -309,10 +333,13 @@ export default function Addhostel(props) {
 						</div>
 						<div className="row mt-3">
 							<div className="col-md-6 col-sm-12">
+								<label>
+									<b>Manger's Name</b>
+								</label>
 								<Field
 									type="text"
 									className="form-control"
-									placeholder="Manager's Name"
+									// placeholder="Manager's Name"
 									name="managersName"
 								/>
 								<p className="eg-text">
@@ -322,10 +349,13 @@ export default function Addhostel(props) {
 								<ErrorMessage name="managersName" render={renderError} />
 							</div>
 							<div className="col-md-6 col-sm-12">
+								<label>
+									<b>Manager's Contact</b>
+								</label>
 								<Field
 									type="tel"
 									className="form-control"
-									placeholder="Manger's Contact"
+									// placeholder="Manger's Contact"
 									aria-label="managersContact"
 									name="managersContact"
 								/>
@@ -337,10 +367,13 @@ export default function Addhostel(props) {
 							</div>
 							<div className="row mt-3">
 								<div className="col-md-6 col-sm-12">
+									<label>
+										<b>Porter's Name</b>
+									</label>
 									<Field
 										type="text"
 										className="form-control"
-										placeholder="Porter's Name"
+										// placeholder="Porter's Name"
 										name="portersName"
 									/>
 									<p className="eg-text">
@@ -350,11 +383,14 @@ export default function Addhostel(props) {
 									<ErrorMessage name="portersName" render={renderError} />
 								</div>
 								<div className="col-md-6 col-sm-12">
+									<label>
+										<b>Porter's Contact</b>
+									</label>
 									<Field
 										type="tel"
 										name="portersContact"
 										className="form-control"
-										placeholder="Porter's Contact"
+										// placeholder="Porter's Contact"
 										aria-label="portersContact"
 									/>
 									<p className="eg-text">
@@ -370,24 +406,30 @@ export default function Addhostel(props) {
 					<FormikStep>
 						<div className="row">
 							<div className="col-md-6 col-sm-12">
+								<label>
+									<b>Total Number of Rooms</b>
+								</label>
 								<Field
 									type="number"
 									name="roomsTotal"
 									className="form-control"
-									placeholder="Total Number of Rooms"
+									// placeholder="Total Number of Rooms"
 								/>
 								<p className="eg-text">
 									{" "}
-									<span className="required">*</span> Example: 100
+									<span className="required">*</span> Example: 25
 								</p>
 								<ErrorMessage name="roomsCapacity" render={renderError} />
 							</div>
 							<div className="col-md-6 col-sm-12">
+								<label>
+									<b>Total Number of Bed Spaces</b>
+								</label>
 								<Field
 									type="number"
 									name="totalBedspaces"
 									className="form-control"
-									placeholder="Total Bed Spaces"
+									// placeholder="Total Bed Spaces"
 								/>
 								<p className="eg-text">
 									{" "}
@@ -398,10 +440,13 @@ export default function Addhostel(props) {
 						</div>
 						<div className="row">
 							<div className="col-md-6 col-sm-12">
+								<label>
+									<b>Males Capacity</b>
+								</label>
 								<Field
 									type="number"
 									className="form-control"
-									placeholder="Male Capacity"
+									// placeholder="Male Capacity"
 									name="maleCapacity"
 								/>
 								<p className="eg-text">
@@ -411,10 +456,13 @@ export default function Addhostel(props) {
 								<ErrorMessage name="maleCapacity" render={renderError} />
 							</div>
 							<div className="col-md-6 col-sm-12">
+								<label>
+									<b>Females Capacity</b>
+								</label>
 								<Field
 									type="number"
 									className="form-control"
-									placeholder="Femaile Capacity"
+									// placeholder="Femaile Capacity"
 									name="femaleCapacity"
 								/>
 								<p className="eg-text">
@@ -424,58 +472,78 @@ export default function Addhostel(props) {
 								<ErrorMessage name="femaleCapacity" render={renderError} />
 							</div>
 						</div>
-
-						<FieldArray
-							name="facilities"
-							render={(arrayHelpers) => <div></div>}
-						/>
+						<div>
+							<FieldArray
+								name="facilites"
+								render={(arrayHelpers) => (
+									<div>
+										{facilityArr?.length > 0 &&
+											facilityArr.map((name, i) => {
+												return (
+													<div key={i} className="row">
+														<div className="col-md-4 col-sm-6 col-mb-3">
+															<label>
+																<Field
+																	name={`facilities[${i}].id`}
+																	type="checkbox"
+																	value={facilityArr[i].id}
+																/>
+																<span style={{ marginLeft: 4 }}>
+																	<b>{facilityArr[i].name}</b>
+																</span>
+															</label>
+														</div>
+														<div className="col-md-2 col-sm-6 mb-3 ml-3">
+															<Field
+																type="number"
+																className="form-control"
+																name={`facilities[${i}].count`}
+															/>
+														</div>
+													</div>
+												);
+											})}
+									</div>
+								)}
+							/>
+						</div>
 					</FormikStep>
-					{({ values, setFieldValue }) => ({
-						/* <FormikStep>
-							<div className="row mt-3">
-								<div className="col-md-6 col-sm-12">
-									<h5> Facilities</h5>
-									{facilities &&
-										facilities.map((item) => (
-											<div key={item._id} className="form-check">
-												<Field
-													className="form-check-input"
-													type="checkbox"
-													name="facilites"
-													value={item._id}
-												/>
-												<label>{item.name}</label>
-											</div>
-										))}
+					<FormikStep>
+						{({ values, setFieldValue }) => (
+							<div>
+								<div className="row mt-3">
+									<div className="col-md-6 col-sm-12">
+										<label>upload Cover</label>
+										<input
+											type="file"
+											className="form-control"
+											onChange={(e) => {
+												setFieldValue("coverImage", e.currentTarget.files[0]);
+											}}
+										/>
+										<ErrorMessage name="coverImage" render={renderError} />
+									</div>
 								</div>
-								<div className="col-md-6 col-sm-12">
-									<label>upload Cover</label>
-									<input
-										type="file"
-										className="form-control"
-										onChange={(e) => {
-											setFieldValue("coverImage", e.currentTarget.files[0]);
-										}}
-									/>
-									<ErrorMessage name="coverImage" render={renderError} />
+
+								<div className="mx-5 mt-3 mb-2">
+									{
+										<div {...getRootProps()}>
+											<input {...getInputProps()} />
+											{isDragActive ? (
+												<p> drop of files </p>
+											) : (
+												<p className=" p-2">Click to Load images here</p>
+											)}
+										</div>
+									}
+									{accepted &&
+										accepted.map((file, i) => {
+											return <Thumb key={i} file={file} />;
+										})}
 								</div>
 							</div>
-							<div className="mx-5 mt-3 mb-2">
-								<div {...getRootProps()}>
-									<input {...getInputProps()} />
-									{isDragActive ? (
-										<p> drop of files </p>
-									) : (
-										<p className=" p-2">Click to Load images here</p>
-									)}
-								</div>
-								{accepted &&
-									accepted.map((file, i) => {
-										return <Thumb key={i} file={file} />;
-									})}
-							</div>
-						</FormikStep> */
-					})}
+						)}
+					</FormikStep>
 				</FormStepper>
 			</div>
 		</>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import MapComponent from "../maps/Maps";
 
 export default function Showtutor(props) {
@@ -19,6 +20,30 @@ export default function Showtutor(props) {
 		!tutor && fetchTutor();
 	});
 
+	const handleDeActivate = async (id) => {
+		try {
+			const res = await axios({
+				method: "patch",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/de-activate/${id}`,
+			});
+			console.log(res.data.dat);
+			setTutor(res.data.data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	const handleActivate = async (id) => {
+		try {
+			const res = await axios({
+				method: "patch",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/activate/${id}`,
+			});
+			console.log(res.data.dat);
+			setTutor(res.data.data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 	return (
 		<>
 			<div className="page-container mb-3">
@@ -55,6 +80,24 @@ export default function Showtutor(props) {
 										<span className="mr-3">Zone:</span>
 										{tutor.zone ? tutor.zone.name : "N/A"}
 									</p>
+								</div>
+								<div>
+									{/* { only visible to administrators only} */}
+									{tutor?.isCurrent ? (
+										<Button
+											onClick={() => handleDeActivate(tutor._id)}
+											variant="danger"
+										>
+											De-Aactivate
+										</Button>
+									) : (
+										<Button
+											onClick={() => handleActivate(tutor._id)}
+											variant="warning"
+										>
+											Activate
+										</Button>
+									)}
 								</div>
 							</div>
 						)}

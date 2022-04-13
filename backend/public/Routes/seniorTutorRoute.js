@@ -3,6 +3,8 @@ const seniorTutorController = require("../Controllers/seniorTutorController");
 const authController = require("../Controllers/authController");
 const router = express.Router();
 
+router.route("/de-activate/:id").patch(seniorTutorController.handleDeActivate);
+router.route("/activate/:id").patch(seniorTutorController.handleActivate);
 router
 	.route("/")
 	.post(

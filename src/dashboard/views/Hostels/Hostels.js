@@ -43,6 +43,7 @@ export default function Hostels(props) {
 			<div className="content-top-flex">
 				{hostels && <SearchForm data={hostels} type="Hostel" />}
 			</div>
+
 			<div className="table-container">
 				<table>
 					<thead>
@@ -60,12 +61,12 @@ export default function Hostels(props) {
 							hostels.map((item, i) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
-									<td>{item.name}</td>
-									<td>{item.location ? item.location.name : "N/A"}</td>
+									<td>{item?.name}</td>
+									<td>{item?.location ? item.location.name : "N/A"}</td>
 									<td>
-										{item.location.zone ? item.location.zone.name : "N/A"}
+										{item?.location.zone ? item.location.zone.name : "N/A"}
 									</td>
-									<td>{item.digitalAddress}</td>
+									<td>{item?.digitalAddress ?? "N/A"}</td>
 									<td className="table-inline-flex">
 										<FaEye
 											size={20}

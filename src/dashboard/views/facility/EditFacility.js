@@ -11,7 +11,7 @@ export default function AddFacility(props) {
 		const fetchFacility = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones/${id}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/facilities/${id}`,
 			});
 			setFacility(res.data.data);
 		};
@@ -30,8 +30,8 @@ export default function AddFacility(props) {
 		console.log(values);
 
 		const res = await axios({
-			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/facilities`,
+			method: "patch",
+			url: `${process.env.REACT_APP_API_URL}/api/v1/facilities/${id}`,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -41,6 +41,7 @@ export default function AddFacility(props) {
 			window.location.assign("/admin/facilities");
 		}
 	};
+
 	return (
 		<>
 			<Formik

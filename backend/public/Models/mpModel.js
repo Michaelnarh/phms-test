@@ -1,5 +1,6 @@
 const mongooose = require("mongoose");
 const { Schema } = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const mpSchema = mongooose.Schema({
 	name: { type: String, required: [true, "Name field is required"] },
@@ -13,4 +14,5 @@ const mpSchema = mongooose.Schema({
 	image: { type: String },
 });
 
+mpSchema.plugin(uniqueValidator);
 module.exports = mongooose.model("MP", mpSchema);

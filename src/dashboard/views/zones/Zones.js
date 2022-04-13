@@ -55,7 +55,11 @@ export default function Zones(props) {
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
 									<td>{item.name}</td>
-									<td>{item.tutor ? item.tutor.name : "N/A"}</td>
+									{item.tutor?.isCurrent ? (
+										<td>{item.tutor ? item.tutor.name : "N/A"}</td>
+									) : (
+										<td> N/A</td>
+									)}
 									<td className="table-inline-flex">
 										<FaEye
 											size={20}
