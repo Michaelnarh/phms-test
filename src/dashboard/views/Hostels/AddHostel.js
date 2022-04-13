@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import { useDropzone } from "react-dropzone";
 import Thumb from "../../utils/Thumb";
@@ -80,7 +80,12 @@ export default function Addhostel(props) {
 		portersContact: "",
 		ownersName: "",
 		ownersContact: "",
-		facilities: [],
+		facilities: [
+			{
+				id: "",
+				num: 0,
+			},
+		],
 		registered: false,
 		regDate: Date,
 		images: [],
@@ -111,7 +116,6 @@ export default function Addhostel(props) {
 		formData.append("ownersName", values.ownersName);
 		formData.append("ownersContact", values.ownersContact);
 
-		formData.append("facilities", values.facilities);
 		formData.append("roomsTotal", values.roomsTotal);
 		formData.append("totalBedspaces", values.totalBedspaces);
 		formData.append("maleCapacity", values.maleCapacity);
@@ -121,7 +125,9 @@ export default function Addhostel(props) {
 		accepted.forEach((el) => {
 			formData.append("images", el);
 		});
+
 		console.log(formData.entries());
+
 		try {
 			const res = await axios({
 				method: "post",
@@ -418,6 +424,11 @@ export default function Addhostel(props) {
 								<ErrorMessage name="femaleCapacity" render={renderError} />
 							</div>
 						</div>
+
+						<FieldArray
+							name="facilities"
+							render={(arrayHelpers) => <div></div>}
+						/>
 					</FormikStep>
 					{({ values, setFieldValue }) => ({
 						/* <FormikStep>

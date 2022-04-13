@@ -26,7 +26,7 @@ export default function Snrtutors(props) {
 			<div className="page-container mt-3">
 				<Divisiontitle title="CURRENT SENIOR TUTORS" />
 				<div className="tutors-flex">
-					{tutors &&
+					{tutors?.length > 0 &&
 						tutors.map((item) => {
 							return (
 								<div key={item._id} className="tutors-card">
@@ -67,7 +67,7 @@ export default function Snrtutors(props) {
 				<div>
 					<Divisiontitle title="PAST SENIOR TUTORS" />
 					<div className="tutors-flex">
-						{tutors &&
+						{tutors?.length > 0 &&
 							tutors
 								.filter((person) => !person.isCurrent)
 								.map((item) => {

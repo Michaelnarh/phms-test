@@ -50,7 +50,7 @@ export default function Zones(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{facilities.length > 0 &&
+						{facilities?.length > 0 &&
 							facilities.map((item) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>

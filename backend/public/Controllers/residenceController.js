@@ -1,4 +1,5 @@
 const Residence = require("../Models/residenceModel");
+const ResidenceFacilityTable = require("../Models/residenceFacilityTable");
 const Zone = require("../Models/ZoneModel");
 const Location = require("../Models/locationModel");
 const SnrTutor = require("../Models/seniorTutorModel");
@@ -80,6 +81,29 @@ exports.createResidence = async (req, res) => {
 		// console.log(req.body);
 		req.body.slug = await slugify(req.body.name, { lower: true });
 		const newResidence = await Residence.create(req.body);
+
+		// ancd create with that residnce id
+		let residence_id = newResidence._id;
+		let facility_id;
+		let facility_count;
+
+		//loop through the facilities
+		if (req.body.facilities.length > 0) {
+			await Promise.all(
+				req.body.facilities.map(async (item) => {
+					facility_id = item.id;
+					facility_count = item.num;
+
+					await ResidenceFacilityTable.create({
+						residence: residence_id,
+						facility: facility_id,
+						count: facility_count,
+					});
+				})
+			);
+		}
+		// const facility_count= facility.count;
+
 		res.status(201).json({
 			status: "success",
 			newResidence,

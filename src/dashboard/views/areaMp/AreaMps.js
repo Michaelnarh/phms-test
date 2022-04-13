@@ -28,7 +28,7 @@ export default function AreaMPs(props) {
 			<div className="page-container mt-3">
 				<Divisiontitle title="CURRENT AREA MPS" />
 				<div className="tutors-flex">
-					{areaMps &&
+					{areaMps?.length > 0 &&
 						areaMps.map((item) => {
 							return (
 								<div key={item._id} className="tutors-card">
@@ -70,7 +70,7 @@ export default function AreaMPs(props) {
 				<div>
 					<Divisiontitle title="PAST AREA MPS" />
 					<div className="tutors-flex">
-						{areaMps &&
+						{areaMps?.length > 0 &&
 							areaMps
 								.filter((person) => !person.isCurrent)
 								.map((item) => {

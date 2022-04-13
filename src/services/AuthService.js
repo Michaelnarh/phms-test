@@ -17,6 +17,8 @@ export class AuthService {
 			localStorage.setItem("jwt", res.data.token);
 			localStorage.setItem("user", JSON.stringify(res.data.user));
 			localStorage.setItem("dumb", res.data.user._id);
+			console.log("login successful");
+			window.location.assign("/admin/dashboard");
 			return res;
 		}
 		if (res.data.status === "failed") {

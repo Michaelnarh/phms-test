@@ -56,7 +56,7 @@ export default function Hostels(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{hostels &&
+						{hostels?.length > 0 &&
 							hostels.map((item, i) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>

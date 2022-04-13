@@ -15,7 +15,7 @@ export default function Showhostel(props) {
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${slug}`,
 			});
 			console.log(res);
-			await res.data.data.images.forEach((el) => {
+			await res.data.data?.images?.forEach((el) => {
 				gimages.push({
 					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
 					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
@@ -34,7 +34,7 @@ export default function Showhostel(props) {
 		};
 
 		!hostel && fetchData();
-	});
+	},[]);
 
 	return (
 		<>

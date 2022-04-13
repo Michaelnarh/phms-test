@@ -26,7 +26,7 @@ export default function NssPersonnels(props) {
 			<div className="page-container mt-3">
 				<Divisiontitle title="CURRENT SERVICE PERSONNELS" />
 				<div className="tutors-flex">
-					{personnels &&
+					{personnels?.length > 0 &&
 						personnels.map((item) => {
 							return (
 								<div key={item._id} className="tutors-card">
@@ -69,7 +69,7 @@ export default function NssPersonnels(props) {
 				<div>
 					<Divisiontitle title="PAST SERVICE PERSONNELS" />
 					<div className="tutors-flex">
-						{personnels &&
+						{personnels?.length > 0 &&
 							personnels
 								.filter((person) => !person.isCurrent)
 								.map((item) => {
