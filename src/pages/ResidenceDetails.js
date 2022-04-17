@@ -19,7 +19,7 @@ export default function Hosteldetails(props) {
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${slug}`,
 			});
 
-			await res.data.data.images.forEach((el) => {
+			await res.data.data?.images?.forEach((el) => {
 				gimages.push({
 					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
 					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
@@ -27,12 +27,14 @@ export default function Hosteldetails(props) {
 					thumbnailWidth: 20,
 				});
 			});
-			await gimages.push({
-				original: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
-				thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
-				thumbnailHeight: 40,
-				thumbnailWidth: 20,
-			});
+			if (res.data?.data?.coverImage) {
+				await gimages.push({
+					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
+					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
+					thumbnailHeight: 40,
+					thumbnailWidth: 20,
+				});
+			}
 			setResidence(res.data.data);
 		};
 
@@ -45,13 +47,13 @@ export default function Hosteldetails(props) {
 					<div className="col-md-4 col-lg-6 col-sm-12 mb-2">
 						<div className="text-center align-center">
 							{gimages.length === 0 ? (
-								<ImageGallery items={gimages} />
-							) : (
 								<img
 									src={`${url}/90ef/cover-image-1646409988773.jpeg`}
 									alt="..."
 									style={{ height: 200, width: 300 }}
 								/>
+							) : (
+								<ImageGallery items={gimages} />
 							)}
 						</div>
 						<div className="row">

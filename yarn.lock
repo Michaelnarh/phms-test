@@ -1614,11 +1614,6 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
-"@tweenjs/tween.js@^18.1.2":
-  version "18.6.4"
-  resolved "https://registry.yarnpkg.com/@tweenjs/tween.js/-/tween.js-18.6.4.tgz#40a3d0a93647124872dec8e0fd1bd5926695b6ca"
-  integrity sha512-lB9lMjuqjtuJrx7/kOkqQBtllspPIN+96OvTCeJ2j5FEzinoAXTdAMFnDAQT1KVPRlnYfBrqxtqP66vDM40xxQ==
-
 "@types/aria-query@^4.2.0":
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@types/aria-query/-/aria-query-4.2.2.tgz#ed4e0ad92306a704f9fb132a0cfcf77486dbe2bc"
@@ -7402,21 +7397,6 @@ react-image-gallery@^1.2.7:
   resolved "https://registry.yarnpkg.com/react-image-gallery/-/react-image-gallery-1.2.7.tgz#2dfb83c52f32828a5340ca565f91bca58241fcfe"
   integrity sha512-ts7yMWykvZhslGMuvVAUk7a1dJIx9QtIwK6Clv8dOGxPsJid92FRrLvXbZDvkYcUyj48sHalnBhqU6mZNCB2jg==
 
-react-image-magnifiers@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/react-image-magnifiers/-/react-image-magnifiers-1.4.0.tgz#0472e93491d5a199a278d4efc855f03542214601"
-  integrity sha512-ZszHusdsYteccKGysHXUOgLRGtHqfRYuG1koHh3VAvuhrzF4BEs1Ot5tSe1WA2v+EsjAEfYcrRyi/Is4QDD61A==
-  dependencies:
-    prop-types "^15.7.2"
-    react-input-position "^1.3.1"
-
-react-input-position@^1.3.1:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/react-input-position/-/react-input-position-1.3.2.tgz#4e1f3b671eb41c0bd9f232846b94328263a7b65b"
-  integrity sha512-0RsvWZ+pBpFki1N4CF7dWWKgQpejQuf9qjrBVdXRE315kk6HBEVk1f8rsod6Rpo88vxPwj5FcBnn7ZlTNq+JRA==
-  dependencies:
-    prop-types "^15.7.2"
-
 react-is@^16.13.1, react-is@^16.3.2, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -7523,14 +7503,6 @@ react-scripts@5.0.0:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
-
-react-slideshow-image@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/react-slideshow-image/-/react-slideshow-image-3.7.0.tgz#46c71e67074f1703f63ef60b63279716d2edeccf"
-  integrity sha512-RNV5Ak76fWiG3rkmtWeUxtQtsaCtq1L6ysFYLpjw1n/mPPaFmDQ7Jz3m1l6g7+5Sydy3ivs3Q5wK38uGYF2eSA==
-  dependencies:
-    "@tweenjs/tween.js" "^18.1.2"
-    resize-observer-polyfill "^1.5.1"
 
 react-transition-group@^4.4.1:
   version "4.4.2"
@@ -7714,11 +7686,6 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
-
-resize-observer-polyfill@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
-  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
@@ -8158,6 +8125,11 @@ spdy@^4.0.2:
     http-deceiver "^1.2.7"
     select-hose "^2.0.0"
     spdy-transport "^3.0.0"
+
+spinners-react@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/spinners-react/-/spinners-react-1.0.6.tgz#b7e43d6097fa30107718df718108f3586d50088f"
+  integrity sha512-5J3sPZ9xogVA3CbLjFD3vTWhcuHb+mKFSBBEm5c8+8JSdPGweLQ6sPU+SD51FwZ2lqHks8DpiLk/lyLUa70oJA==
 
 sprintf-js@~1.0.2:
   version "1.0.3"

@@ -43,10 +43,18 @@ const residenceSchema = mongoose.Schema({
 });
 
 residenceSchema.plugin(uniqueValidator);
-residenceSchema.virtual("reviews", {
-	foreignField: "residence ",
-	localField: "_id",
-});
+residenceSchema.virtual(
+	"reviews",
+	{
+		localField: "_id",
+		foreignField: "residence ",
+		count: true,
+	},
+	{
+		toJSON: { virtuals: true }, //ensure json populate
+		toObject: { virtuals: true }, //ensure to object populate
+	}
+);
 
 residenceSchema.index({ gpsAddress: "2dsphere" });
 

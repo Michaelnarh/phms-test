@@ -5,8 +5,10 @@ import { useDropzone } from "react-dropzone";
 import Thumb from "../../utils/Thumb";
 import * as Yup from "yup";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Addhostel(props) {
+	const navigate = useNavigate();
 	const [coverImage] = useState("");
 	const [accepted, setAccepted] = useState([]);
 	const [locations, setLocations] = useState([]);
@@ -97,7 +99,6 @@ export default function Addhostel(props) {
 	};
 
 	const handleSubmit = async (values) => {
-		console.log(values);
 		let formData = new FormData();
 		values.gpsAddress.coordinates[1] = lat; //insert latitude data
 		values.gpsAddress.coordinates[0] = lng; //insert longitude data
@@ -139,6 +140,7 @@ export default function Addhostel(props) {
 			});
 			setAccepted([]);
 			values.coverImage = "";
+			navigate("/admin/hostels");
 		} catch (err) {
 			console.log(err);
 		}
@@ -148,16 +150,16 @@ export default function Addhostel(props) {
 		<>
 			<div className="container">
 				<FormStepper
-					validationSchema={validationSchema}
 					initialValues={initialValues}
-					onSubmit={async (values, { resetForm }) => {
+					onSubmit={async (values) => {
 						await handleSubmit(values);
-						resetForm();
 					}}
 				>
 					<FormikStep
 						validationSchema={Yup.object({
-							name: Yup.string().required("Residence is Required"),
+							name: Yup.string("must be a string")
+								.min(5, "Name is too short must be 5 characters and above")
+								.required("Residence is Required"),
 							residenceType: Yup.string().required(
 								"Residence Type is required"
 							),
@@ -191,9 +193,9 @@ export default function Addhostel(props) {
 									className="form-select"
 									aria-label="Default select example"
 								>
-									<option>Select Residence Type</option>
-									<option value="Hostel">HOSTEL</option>
-									<option value="Homestel">HOMESTEL</option>
+									<option vallue="">Select Residence Type</option>
+									<option value="Hostel">Hostel</option>
+									<option value="Homestel">Homestel</option>
 									<option value="Other">Other</option>
 								</Field>
 								<p className="eg-text">
@@ -508,9 +510,10 @@ export default function Addhostel(props) {
 							/>
 						</div>
 					</FormikStep>
+
 					<FormikStep>
-						{({ values, setFieldValue }) => (
-							<div>
+						<div>
+							{({ values, setFieldValue }) => (
 								<div className="row mt-3">
 									<div className="col-md-6 col-sm-12">
 										<label>upload Cover</label>
@@ -524,26 +527,26 @@ export default function Addhostel(props) {
 										<ErrorMessage name="coverImage" render={renderError} />
 									</div>
 								</div>
-
-								<div className="mx-5 mt-3 mb-2">
-									{
-										<div {...getRootProps()}>
-											<input {...getInputProps()} />
-											{isDragActive ? (
-												<p> drop of files </p>
-											) : (
-												<p className=" p-2">Click to Load images here</p>
-											)}
-										</div>
-									}
-									{accepted &&
-										accepted.map((file, i) => {
-											return <Thumb key={i} file={file} />;
-										})}
-								</div>
+							)}
+							<div className="mx-5 mt-3 mb-2">
+								{
+									<div {...getRootProps()}>
+										<input {...getInputProps()} />
+										{isDragActive ? (
+											<p> drop of files </p>
+										) : (
+											<p className=" p-2">Click to Load images here</p>
+										)}
+									</div>
+								}
+								{accepted &&
+									accepted.map((file, i) => {
+										return <Thumb key={i} file={file} />;
+									})}
 							</div>
-						)}
+						</div>
 					</FormikStep>
+					{/* )} */}
 				</FormStepper>
 			</div>
 		</>
@@ -557,7 +560,8 @@ export function FormikStep({ children }) {
 export function FormStepper({ children, ...props }) {
 	const childrenArray = React.Children.toArray(children);
 	const [step, setStep] = useState(0);
-	const [completed, setCompleted] = useState(false);
+	const [isSubmitting, setSubmit] = useState(false);
+	// const [completed, setCompleted] = useState(false);
 	const currentChild = childrenArray[step];
 
 	function isLastPage() {
@@ -568,10 +572,15 @@ export function FormStepper({ children, ...props }) {
 		<Formik
 			{...props}
 			validationSchema={currentChild.props?.validationSchema}
-			onSubmit={async (values) => {
-				console.log(props);
-				if (isLastPage() && props) {
-					await props?.onSubmit(values);
+			onSubmit={async (values, { resetForm }) => {
+				if (isLastPage()) {
+					console.log(values);
+					setSubmit(true);
+					props.onSubmit(values);
+					resetForm();
+					setSubmit(false);
+				} else {
+					setStep((s) => s + 1);
 				}
 			}}
 		>
@@ -581,6 +590,7 @@ export function FormStepper({ children, ...props }) {
 				{step > 0 ? (
 					<button
 						style={{ marginRight: 12 }}
+						disabled={isSubmitting}
 						onClick={() => setStep((s) => s - 1)}
 						className="btn px-3 py-2"
 					>
@@ -589,10 +599,10 @@ export function FormStepper({ children, ...props }) {
 				) : null}
 				<button
 					type="submit"
-					onClick={() => setStep((s) => s + 1)}
+					disabled={isSubmitting}
 					className="btn  py-2 px-3"
 				>
-					{isLastPage() ? "Submit" : "Next"}
+					{isSubmitting ? "Submitting" : isLastPage() ? "Submit" : "Next"}
 				</button>
 			</Form>
 		</Formik>

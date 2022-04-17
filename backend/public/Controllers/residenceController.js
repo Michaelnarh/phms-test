@@ -92,7 +92,7 @@ exports.createResidence = async (req, res) => {
 				facilities[{id[9088009], count:3},{id[9088909], count:1}] 
 		*/
 		//loop through the facilities
-		if (req.body.facilities.length > 0) {
+		if (req.body?.facilities?.length > 0) {
 			await Promise.all(
 				req.body.facilities.map(async (item) => {
 					if (item?.id[0]) {

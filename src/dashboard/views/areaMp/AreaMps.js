@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Divisiontitle from "../DivisionTitle";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 export default function AreaMPs(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	const [areaMps, setAreaMps] = useState([]);
@@ -27,6 +28,7 @@ export default function AreaMPs(props) {
 		<>
 			<div className="page-container mt-3">
 				<Divisiontitle title="CURRENT AREA MPS" />
+
 				<div className="tutors-flex">
 					{areaMps?.length > 0 &&
 						areaMps.map((item) => {
@@ -69,36 +71,72 @@ export default function AreaMPs(props) {
 				<hr />
 				<div>
 					<Divisiontitle title="PAST AREA MPS" />
-					<div className="tutors-flex">
-						{areaMps?.length > 0 &&
-							areaMps
-								.filter((person) => !person.isCurrent)
-								.map((item) => {
-									return (
-										<div key={item._id} className="tutors-card">
-											<img
-												src={`${url}/snrtutors/gh.jpg`}
-												className="img-fluid"
-												alt="..."
-												style={{ width: 350, height: 250 }}
-											/>
-											<div>
-												<p className="tutor-name">{item.name}</p>
-												<p>{item.zone ? item.zone.name : "N/A"}</p>
-												<p>{item.tutor ? item.tutor.name : "N/A"}</p>
-											</div>
-
-											<button
-												className="btn form-control"
-												onClick={() => navigate(`/admin/area-mps/${item.slug}`)}
-											>
-												{" "}
-												View
-											</button>
-										</div>
-									);
-								})}
-					</div>
+					<table>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Image</th>
+								<th>Name</th>
+								<th>Contact</th>
+								<th>Zone</th>
+								<th>Senior Tutor</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{areaMps?.length > 0 &&
+								areaMps
+									.filter((person) => !person.isCurrent)
+									.map((item) => {
+										return (
+											<tr>
+												<td>{item._id.slice(20, 24)}</td>
+												<td>
+													{item.image ? (
+														<img
+															src={`${url}/area-mps/${item.image}`}
+															className="img-fluid"
+															alt="..."
+															style={{ width: 50, height: 50 }}
+														/>
+													) : (
+														<img
+															src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
+															className="img-fluid"
+															alt="..."
+															style={{ width: 50, height: 50 }}
+														/>
+													)}
+												</td>
+												<td> {item.name}</td>
+												<td> {item.contact}</td>
+												<td>{item.zone ? item.zone.name : "N/A"}</td>
+												<td>{item.tutor ? item.tutor.name : "N/A"}</td>
+												<td className="table-inline-flex">
+													<FaEye
+														size={20}
+														// onClick={() => handleView(item._id)}
+														color="var(--darkBlue)"
+														title="View"
+													/>
+													<FaPen
+														size={20}
+														// onClick={() => handleEdit(item._id)}
+														color="var(--mainOrange)"
+														title="Edit"
+													/>
+													<FaMinusCircle
+														onClick={() => console.log("delete")}
+														size={20}
+														color="var(--mainRed)"
+														title="Delete"
+													/>
+												</td>
+											</tr>
+										);
+									})}
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</>
