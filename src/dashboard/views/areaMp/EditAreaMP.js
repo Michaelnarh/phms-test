@@ -49,7 +49,7 @@ export default function EditAreamp(props) {
 			.email("TextField must be an Email")
 			.required("Senior Tutor's email is required"),
 		contact: Yup.string().required("Contact is required"),
-		// zone: Yup.string().required("Zone is required"),
+		isCurrent: Yup.boolean().nullable(),
 		image: Yup.string().nullable(),
 	});
 
@@ -59,6 +59,7 @@ export default function EditAreamp(props) {
 		contact: areaMp && (areaMp.contact ?? ""),
 		zone: areaMp && (areaMp.zone._id ?? ""),
 		tutor: areaMp && (areaMp.tutor._id ?? ""),
+		isCurrent: areaMp && (areaMp.isCurrent ?? ""),
 		image: areaMp && (areaMp.image ?? ""),
 	};
 	const onSubmit = async (values) => {
@@ -68,6 +69,7 @@ export default function EditAreamp(props) {
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
 		formData.append("zone", values.zone);
+		formData.append("isCurrent", values.isCurrent);
 		formData.append("image", values.image);
 
 		const res = await axios({
@@ -195,7 +197,7 @@ export default function EditAreamp(props) {
 										/>
 									)}
 								</div>
-								<div className="col-md-6 col-sm-12">
+								<div className="col-md-3 col-sm-12">
 									<label>Load Profile Image</label>
 									<input
 										type="file"
@@ -205,6 +207,26 @@ export default function EditAreamp(props) {
 										}}
 									/>
 									<ErrorMessage name="image" render={renderError} />
+								</div>
+								<div className="col-md-3 col-sm-12 ">
+									<label>
+										<b>Current Status</b>
+									</label>
+									<Field
+										as="select"
+										name="isCurrent"
+										className="form-select"
+										aria-label="Default select example"
+									>
+										<option>Select Status</option>
+										<option value={true}>Current</option>
+										<option value={false}>Past</option>
+									</Field>
+									<p className="eg-text">
+										{" "}
+										<span className="required">*</span> Example: Current
+									</p>
+									<ErrorMessage name="isCurrent" render={renderError} />
 								</div>
 							</div>
 						</div>

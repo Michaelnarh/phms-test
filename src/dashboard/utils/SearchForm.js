@@ -43,7 +43,7 @@ export default function Searchform(props) {
 			data: data,
 		});
 
-		navigate(`details/${res.data.data[0]._id}`);
+		navigate(`details/${res.data?.data[0]?.slug}`);
 	};
 
 	return (
@@ -73,7 +73,8 @@ export default function Searchform(props) {
 							<>
 								<div key={item._id}>
 									<h5
-										className="suggest-list"
+										style={{ color: "blue" }}
+										className="suggest-list-dash"
 										onClick={() => onSuggestion(item.name)}
 									>
 										{item.name}

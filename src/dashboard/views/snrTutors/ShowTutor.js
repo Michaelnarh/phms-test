@@ -38,7 +38,6 @@ export default function Showtutor(props) {
 				method: "patch",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/activate/${id}`,
 			});
-			console.log(res.data.dat);
 			setTutor(res.data.data);
 		} catch (err) {
 			console.log(err);

@@ -34,7 +34,7 @@ export default function Hostels(props) {
 					<Searchbox type="Homestels" data={homestels} />
 				</div>
 				<div className="hostel-flex my-5">
-					{homestels &&
+					{homestels?.length > 0 &&
 						homestels.map((item, index) => {
 							return (
 								<>

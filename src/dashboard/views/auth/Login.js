@@ -7,9 +7,7 @@ import * as Yup from "yup";
 
 function Login(props) {
 	const authService = new AuthService();
-	const navigate = useNavigate();
 	const [error, setError] = useState("");
-	const { authStore } = useContext(ContextStore);
 	const validationSchema = Yup.object({
 		email: Yup.string()
 			.email("input field must be an email")
@@ -52,7 +50,9 @@ function Login(props) {
 							<h3> Admin LogIn</h3>
 							<div className="container">
 								<div className="ro">
-									<p className="text-danger p-2">{error}</p>
+									{/* {setTimeout(() => { */}
+									<p className="text-danger text-center p-2">{error}</p>;
+									{/* }, 4000)} */}
 									<div className=" col-md-4 col-sm-12 mx-auto">
 										<Field
 											type="email"

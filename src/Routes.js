@@ -39,6 +39,11 @@ import Facilities from "./dashboard/views/facility/Facilities";
 import AddFacility from "./dashboard/views/facility/AddFacility";
 import EditFacility from "./dashboard/views/facility/EditFacility";
 
+import ClassViews from "./dashboard/views/classses/Index";
+import Classes from "./dashboard/views/classses/AllClasses";
+import AddClass from "./dashboard/views/classses/AddClass";
+import EditClass from "./dashboard/views/classses/EditClass.";
+
 import NotFoundPage from "./dashboard/views/404Page";
 
 // import Zones Views
@@ -57,7 +62,7 @@ import EditLocation from "./dashboard/views/locations/EditLocation";
 import Layout from "./Layout";
 import Home from "./pages/Home";
 import Uhostels from "./pages/Hostels";
-import Uhomestels from "./pages/Hostels";
+import Uhomestels from "./pages/Homestels";
 import ResidenceDetails from "./pages/ResidenceDetails";
 import HelpDesk from "./pages/HelpDesk";
 //import navigatin routes
@@ -127,6 +132,11 @@ function MainLayout() {
 						<Route index element={<Facilities />} />
 						<Route path="add" element={<AddFacility />} />
 						<Route path=":id" element={<EditFacility />} />
+					</Route>
+					<Route path="classes" element={<ClassViews />}>
+						<Route index element={<Classes />} />
+						<Route path="add" element={<AddClass />} />
+						<Route path=":id" element={<EditClass />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />
 				</Route>

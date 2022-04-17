@@ -31,42 +31,44 @@ export default function AreaMPs(props) {
 
 				<div className="tutors-flex">
 					{areaMps?.length > 0 &&
-						areaMps.map((item) => {
-							return (
-								<div key={item._id} className="tutors-card">
-									{item.image ? (
-										<img
-											src={`${url}/area-mps/${item.image}`}
-											className="img-fluid"
-											alt="..."
-											style={{ width: 300, height: 250 }}
-										/>
-									) : (
-										<img
-											src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
-											className="img-fluid"
-											alt="..."
-											style={{ width: 300, height: 250 }}
-										/>
-									)}
+						areaMps
+							.filter((person) => person.isCurrent)
+							.map((item) => {
+								return (
+									<div key={item._id} className="tutors-card">
+										{item.image ? (
+											<img
+												src={`${url}/area-mps/${item.image}`}
+												className="img-fluid"
+												alt="..."
+												style={{ width: 300, height: 250 }}
+											/>
+										) : (
+											<img
+												src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
+												className="img-fluid"
+												alt="..."
+												style={{ width: 300, height: 250 }}
+											/>
+										)}
 
-									<div>
-										<p className="tutor-name">{item.name}</p>
-										<p>{item.contact}</p>
-										<p>{item.zone ? item.zone.name : "N/A"}</p>
-										<p>{item.tutor ? item.tutor.name : "N/A"}</p>
+										<div>
+											<p className="tutor-name">{item.name}</p>
+											<p>{item.contact}</p>
+											<p>{item.zone ? item.zone.name : "N/A"}</p>
+											<p>{item.tutor ? item.tutor.name : "N/A"}</p>
+										</div>
+
+										<button
+											onClick={() => navigate(`/admin/area-mps/${item.slug}`)}
+											className="btn form-control"
+										>
+											{" "}
+											View
+										</button>
 									</div>
-
-									<button
-										onClick={() => navigate(`/admin/area-mps/${item.slug}`)}
-										className="btn form-control"
-									>
-										{" "}
-										View
-									</button>
-								</div>
-							);
-						})}
+								);
+							})}
 				</div>
 				<hr />
 				<div>
@@ -115,13 +117,17 @@ export default function AreaMPs(props) {
 												<td className="table-inline-flex">
 													<FaEye
 														size={20}
-														// onClick={() => handleView(item._id)}
+														onClick={() =>
+															navigate(`/admin/area-mps/${item.slug}`)
+														}
 														color="var(--darkBlue)"
 														title="View"
 													/>
 													<FaPen
 														size={20}
-														// onClick={() => handleEdit(item._id)}
+														onClick={() =>
+															navigate(`/admin/area-mps/${item.slug}`)
+														}
 														color="var(--mainOrange)"
 														title="Edit"
 													/>

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Zones(props) {
 	const navigate = useNavigate();
-	const [facilities, setFacility] = useState([]);
+	const [classes, setClass] = useState([]);
 	const [pageCount] = useState(1);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(25);
@@ -14,14 +14,14 @@ export default function Zones(props) {
 		const fetchFacility = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/facilities?page=${page}&limit=${limit}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/classes?page=${page}&limit=${limit}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
 			});
 
 			// setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
-			setFacility(res.data.data);
+			setClass(res.data.data);
 		};
 		fetchFacility();
 	}, [page, limit]);
@@ -29,26 +29,14 @@ export default function Zones(props) {
 	const handleView = async (id) => {
 		// navigate(`details/${id}`);
 	};
-	const handleDelete = async (id) => {
-		const res = await axios({
-			method: "delete",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/facilities/${id}`,
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
-
-		alert(JSON.stringify(res.data.message));
-		navigate(`/admin/facilities`);
-	};
 	const handleEdit = async (id) => {
-		navigate(`/admin/facilities/${id}`);
+		navigate(`/admin/classes/${id}`);
 	};
 	const handlePageClick = (p) => {
 		setPage(p.selected + 1);
 		setLimit(limit);
 	};
-	console.log(facilities);
+	console.log(classes);
 	return (
 		<>
 			<div className="table-container">
@@ -58,16 +46,18 @@ export default function Zones(props) {
 							<th>ID</th>
 							<th>Name</th>
 							<th>Description</th>
+							<th>Prince Range</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						{facilities?.length > 0 &&
-							facilities.map((item) => (
+						{classes?.length > 0 &&
+							classes.map((item) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
 									<td>{item.name}</td>
-									<td>{item?.description?.slice(0, 20) + "..." ?? "N/A"}</td>
+									<td>{item?.description.slice(0, 20) ?? "N/A"}</td>
+									<td>{item?.priceRange ?? "N/A"}</td>
 
 									<td className="table-inline-flex">
 										<FaEye
@@ -83,7 +73,7 @@ export default function Zones(props) {
 											title="Edit"
 										/>
 										<FaMinusCircle
-											onClick={() => handleDelete(item._id)}
+											onClick={() => console.log("delete")}
 											size={20}
 											color="var(--mainRed)"
 											title="Delete"

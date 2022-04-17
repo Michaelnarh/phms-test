@@ -3,9 +3,10 @@ import axios from "axios";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditPersonnel(props) {
+	const navigate = useNavigate();
 	const { slug } = useParams();
 	const [tutors, setTutors] = useState([]);
 	const [personnel, setPersonnel] = useState();
@@ -38,6 +39,7 @@ export default function EditPersonnel(props) {
 			.email("TextField must be an Email")
 			.required("Personnel email is required"),
 		contact: Yup.string().required("Contact is required"),
+		isCurrent: Yup.boolean().nullable(),
 		// zone: Yup.string().required("Zone is required"),
 		image: Yup.string().nullable(),
 	});
@@ -46,6 +48,7 @@ export default function EditPersonnel(props) {
 		name: personnel && (personnel.name ?? ""),
 		email: personnel && (personnel.email ?? ""),
 		contact: personnel && (personnel.contact ?? ""),
+		isCurrent: personnel && (personnel.isCurrent ?? ""),
 		tutor: personnel && (personnel.tutor ? personnel.tutor._id : ""),
 		image: personnel && (personnel.image ?? ""),
 	};
@@ -56,16 +59,21 @@ export default function EditPersonnel(props) {
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
 		formData.append("tutor", values.tutor);
+		formData.append("isCurrent", values.isCurrent);
 		formData.append("image", values.image);
 
-		const res = await axios({
-			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/nss-personnels/${personnel._id}`,
-			headers: {
-				accept: "application/json",
-			},
-			data: formData,
-		});
+		try {
+			const res = await axios({
+				method: "patch",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/nss-personnels/${personnel._id}`,
+				headers: {
+					accept: "application/json",
+				},
+				data: formData,
+			});
+			setPersonnel(res.data.data);
+			navigate("/admin/nss-personnels");
+		} catch (err) {}
 	};
 
 	return (
@@ -162,7 +170,7 @@ export default function EditPersonnel(props) {
 										/>
 									)}
 								</div>
-								<div className="col-md-6 col-sm-12">
+								<div className="col-md-3 col-sm-12">
 									<label>Load Profile Image</label>
 									<input
 										type="file"
@@ -172,6 +180,26 @@ export default function EditPersonnel(props) {
 										}}
 									/>
 									<ErrorMessage name="image" render={renderError} />
+								</div>
+								<div className="col-md-3 col-sm-12 ">
+									<label>
+										<b>Current Status</b>
+									</label>
+									<Field
+										as="select"
+										name="isCurrent"
+										className="form-select"
+										aria-label="Default select example"
+									>
+										<option>Select Status</option>
+										<option value={true}>Current</option>
+										<option value={false}>Past</option>
+									</Field>
+									<p className="eg-text">
+										{" "}
+										<span className="required">*</span> Example: Current
+									</p>
+									<ErrorMessage name="isCurrent" render={renderError} />
 								</div>
 							</div>
 						</div>

@@ -85,11 +85,10 @@ export default function Dashboard(props) {
 					"Content-Type": "application/json",
 				},
 			});
-			// console.log(res.data.data);
 			setData(res.data.data);
 		};
 		fetchData();
-	});
+	}, []);
 	return (
 		<>
 			<div className=" page-container mt-3 mb-3  ">

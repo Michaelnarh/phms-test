@@ -60,7 +60,7 @@ export const SideBarItems = [
 		icon: <FaUser size={20} color="var(--mainWhite)" />,
 		children: {
 			name: "Add Location",
-			href: "locations/add",
+			href: "classes/add",
 			icon: <FaPlus size={10} color="var(--mainWhite)" />,
 		},
 	},

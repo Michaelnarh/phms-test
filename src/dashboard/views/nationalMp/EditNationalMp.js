@@ -19,7 +19,7 @@ export default function EditNationalMp(props) {
 		};
 
 		!nmp && fetchNationalMps();
-	});
+	}, []);
 
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Residence is Required"),
@@ -27,7 +27,7 @@ export default function EditNationalMp(props) {
 			.email("TextField must be an Email")
 			.required("Senior Tutor's email is required"),
 		contact: Yup.string().required("Contact is required"),
-		// zone: Yup.string().required("Zone is required"),
+		isCurrent: Yup.boolean().nullable(),
 		image: Yup.string().nullable(),
 	});
 
@@ -44,6 +44,7 @@ export default function EditNationalMp(props) {
 		formData.append("name", values.name);
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
+		formData.append("isCurrent", values.isCurrent);
 		formData.append("image", values.image);
 
 		const res = await axios({

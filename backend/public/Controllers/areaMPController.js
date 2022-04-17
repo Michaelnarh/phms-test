@@ -71,7 +71,7 @@ exports.updateAreaMP = async (req, res) => {
 		throw Error("AreaMP  not identified");
 	}
 	try {
-		req.body.slug = await slugify(req.body.slug, { lower: true });
+		req.body.slug = await slugify(req.body.name, { lower: true });
 		const areaMP = await AreaMP.findByIdAndUpdate(req.params.id, req.body);
 		res.status(201).json({
 			status: "success",

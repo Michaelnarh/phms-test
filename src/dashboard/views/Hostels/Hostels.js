@@ -59,7 +59,7 @@ export default function Hostels(props) {
 					</h5>
 				</div>
 			</div>
-			{!+isLoading ? (
+			{!isLoading ? (
 				<>
 					<div className="content-top-flex">
 						{hostels && <SearchForm data={hostels} type="Hostel" />}
