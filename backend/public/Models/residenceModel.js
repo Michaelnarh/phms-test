@@ -28,34 +28,40 @@ const residenceSchema = mongoose.Schema({
 		address: String,
 		description: String,
 	},
-	rating: { type: Number, max: 5, default: 3.2 },
 	distance: { type: String },
 	roomsTotal: { type: Number },
 	totalBedspaces: { type: Number },
 	maleCapacity: { type: Number },
 	femaleCapacity: { type: Number },
-	regDate: { type: Date },
 	registered: { type: Boolean },
 	class: { type: mongoose.Schema.Types.ObjectId, ref: "Class" },
-	addedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+	addedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // admin login route can only add hostel
+	ratingAverage: {
+		type: Number,
+		default: 4.5,
+		set: (val) => Math.round(val * 10) / 10,
+	},
+	ratingQuantity: { type: Number, default: 0 },
 	createAt: { type: Date, default: Date.now() },
-	updadtedAt: { type: Date },
+	updadtedAt: { type: Date, default: Date.now() },
 });
 
-residenceSchema.plugin(uniqueValidator);
-residenceSchema.virtual(
-	"reviews",
-	{
-		localField: "_id",
-		foreignField: "residence ",
-		count: true,
-	},
-	{
-		toJSON: { virtuals: true }, //ensure json populate
-		toObject: { virtuals: true }, //ensure to object populate
-	}
+residenceSchema.virtual("reviews", {
+	ref: "Review",
+	localField: "_id",
+	foreignField: "residence",
+	// count: true,
+});
+residenceSchema.set(
+	"toJSON",
+	{ virtuals: true } //ensure json populate
+);
+residenceSchema.set(
+	"toObject",
+	{ virtuals: true } //ensure to object populate
 );
 
 residenceSchema.index({ gpsAddress: "2dsphere" });
 
+residenceSchema.plugin(uniqueValidator);
 module.exports = mongoose.model("Residence", residenceSchema);

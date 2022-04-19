@@ -80,18 +80,37 @@ exports.createResidence = async (req, res) => {
 	try {
 		// console.log(req.body);
 		req.body.slug = await slugify(req.body.name, { lower: true });
+
+		const coordinates = [];
+		coordinates[0] = parseFloat(req.body.lng);
+		coordinates[1] = parseFloat(req.body.lat);
+		req.body.gpsAddress = {
+			type: "Point",
+			coordinates,
+		};
+		// console.log(req.body.gpsAddress);
 		const newResidence = await Residence.create(req.body);
 
-		// ancd create with that residnce id
+		// and create with that residnce id
 		let residence_id = newResidence._id;
 		let facility_id;
 		let facility_count;
 
-		/* an array object like this 
+		/* an array object like this
 
-				facilities[{id[9088009], count:3},{id[9088909], count:1}] 
+				facilities[{id[9088009], count:3},{id[9088909], count:1}]
 		*/
 		//loop through the facilities
+		let facilities = [];
+		facilities = req.body.facilities;
+		let object = {};
+		facilities.forEach((value, key) => (object[key] = value));
+
+		let json = JSON.stringify(object);
+		const newJson = JSON.stringify(Object.fromEntries(facilities));
+		console.log(json);
+		console.log(newJson);
+
 		if (req.body?.facilities?.length > 0) {
 			await Promise.all(
 				req.body.facilities.map(async (item) => {
@@ -155,10 +174,9 @@ exports.getResidence = async (req, res) => {
 	try {
 		const residence = await Residence.findOne({
 			slug: req.params.slug,
-		}).populate([
-			{ path: "reviews" },
-			{ path: "location", populate: { path: "zone" } },
-		]);
+		})
+			.populate("reviews")
+			.populate([{ path: "location", populate: { path: "zone" } }]);
 
 		res.status(200).json({
 			status: "success",
@@ -295,7 +313,6 @@ exports.getStatistics = async (req, res) => {
 		}).countDocuments();
 
 		const zones_num = await Zone.find().countDocuments();
-
 		const location_num = await Location.find().countDocuments();
 		const nssP_num = await NssPersonnel.find().countDocuments();
 		const snr_tutors_num = await SnrTutor.find().countDocuments();

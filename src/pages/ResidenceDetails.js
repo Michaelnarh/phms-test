@@ -20,12 +20,14 @@ export default function Hosteldetails(props) {
 			});
 
 			await res.data.data?.images?.forEach((el) => {
-				gimages.push({
-					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
-					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
-					thumbnailHeight: 40,
-					thumbnailWidth: 20,
-				});
+				if (el) {
+					gimages.push({
+						original: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
+						thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
+						thumbnailHeight: 40,
+						thumbnailWidth: 20,
+					});
+				}
 			});
 			if (res.data?.data?.coverImage) {
 				await gimages.push({
@@ -45,35 +47,39 @@ export default function Hosteldetails(props) {
 			<div className="container mt-5 ">
 				<div className="row ">
 					<div className="col-md-4 col-lg-6 col-sm-12 mb-2">
-						<div className="text-center align-center">
-							{gimages.length === 0 ? (
-								<img
-									src={`${url}/90ef/cover-image-1646409988773.jpeg`}
-									alt="..."
-									style={{ height: 200, width: 300 }}
-								/>
-							) : (
-								<ImageGallery items={gimages} />
-							)}
-						</div>
-						<div className="row">
-							<div className="col-md-6 col-lg-6 col-sm-12">
-								<ComomentsModal />
-							</div>
-							<div className="col-md-6 col-lg-6 col-sm-12">
-								{residence && (
-									// <CustomButton
-									<a
-										rel="noopener noreferrer"
-										href={`http://${residence.bookingLink}`}
-										target="_blank"
-									>
-										Link Here
-									</a>
-									// </CustomButton>
-								)}
-							</div>
-						</div>
+						{residence && (
+							<>
+								<div className="text-center align-center">
+									{gimages.length === 0 ? (
+										<img
+											src={`${url}/90ef/cover-image-1646409988773.jpeg`}
+											alt="..."
+											style={{ height: 200, width: 300 }}
+										/>
+									) : (
+										<ImageGallery items={gimages} />
+									)}
+								</div>
+								<div className="row">
+									<div className="col-md-6 col-lg-6 col-sm-12">
+										<ComomentsModal id={residence?._id} />
+									</div>
+									<div className="col-md-6 col-lg-6 col-sm-12">
+										{residence && (
+											<CustomButton>
+												<a
+													rel="noopener noreferrer"
+													href={`http://${residence?.bookingLink}`}
+													target="_blank"
+												>
+													Link Here
+												</a>
+											</CustomButton>
+										)}
+									</div>
+								</div>
+							</>
+						)}
 					</div>
 					<div className="col-md-8 col-lg-6 col-sm-12">
 						<div>
@@ -93,7 +99,7 @@ export default function Hosteldetails(props) {
 									<p>
 										{" "}
 										{residence &&
-											(residence.location ? residence.location.name : "N/A")}
+											(residence.location ? residence.location?.name : "N/A")}
 									</p>
 								</div>
 								<div className="text-center">
@@ -101,7 +107,7 @@ export default function Hosteldetails(props) {
 									<p>
 										{residence &&
 											(residence.location
-												? residence.location.zone.name
+												? residence?.location?.zone?.name
 												: "N/A")}
 									</p>
 								</div>

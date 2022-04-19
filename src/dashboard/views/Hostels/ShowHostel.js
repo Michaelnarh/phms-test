@@ -16,12 +16,14 @@ export default function Showhostel(props) {
 			});
 
 			await res.data.data?.images?.forEach((el) => {
-				gimages.push({
-					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
-					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
-					thumbnailHeight: 40,
-					thumbnailWidth: 20,
-				});
+				if (el) {
+					gimages.push({
+						original: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
+						thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${el}`,
+						thumbnailHeight: 40,
+						thumbnailWidth: 20,
+					});
+				}
 			});
 			if (res.data.data.coverImage) {
 				await gimages.push({

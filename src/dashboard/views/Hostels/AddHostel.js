@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Addhostel(props) {
 	const navigate = useNavigate();
-	const [coverImage] = useState("");
+	const [coverImage, setCoverImage] = useState("");
 	const [accepted, setAccepted] = useState([]);
 	const [locations, setLocations] = useState([]);
 	const [facilityArr, setFacilityArr] = useState([]);
@@ -42,9 +42,6 @@ export default function Addhostel(props) {
 	});
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-	const [lat, setlat] = useState(-11.121);
-	const [lng, setlng] = useState(21.2122);
-
 	// const isLatitude = (num) => isFinite(num) && Math.abs(num) <= 90;
 	// const isLongitude = (num) => isFinite(num) && Math.abs(num) <= 180;
 
@@ -71,9 +68,8 @@ export default function Addhostel(props) {
 		name: "",
 		residenceType: "",
 		location: "",
-		gpsAddress: {
-			coordinates: [parseFloat(lng), parseFloat(lat)],
-		},
+		lat: null,
+		lng: null,
 		digitalAddress: "",
 		bookingLink: "",
 		managersName: "",
@@ -98,17 +94,20 @@ export default function Addhostel(props) {
 		femaleCapacity: null,
 	};
 
+	const handleCoverUpload = (e) => {
+		setCoverImage(e.currentTarget.files[0]);
+	};
+
 	const handleSubmit = async (values) => {
 		let formData = new FormData();
-		values.gpsAddress.coordinates[1] = lat; //insert latitude data
-		values.gpsAddress.coordinates[0] = lng; //insert longitude data
+		// values.coordinates[1] = values.lat; //insert latitude data
+		// values.coordinates[0] = values.lng; //insert longitude data
 
 		formData.append("name", values.name);
 		formData.append("residenceType", values.residenceType);
 		formData.append("location", values.location);
 		formData.append("digitalAddress", values.digitalAddress);
 		formData.append("bookingLink", values.bookingLink);
-		formData.append("gpsAddress", values.gpsAddress);
 
 		formData.append("managersName", values.managersName);
 		formData.append("managersContact", values.managersContact);
@@ -121,13 +120,14 @@ export default function Addhostel(props) {
 		formData.append("totalBedspaces", values.totalBedspaces);
 		formData.append("maleCapacity", values.maleCapacity);
 		formData.append("femaleCapacity", values.femaleCapacity);
+		formData.append("facilities", values.facilities);
+		formData.append("lng", values.lng);
+		formData.append("lat", values.lat);
 
-		formData.append("coverImage", values.coverImage);
+		formData.append("coverImage", coverImage);
 		accepted.forEach((el) => {
 			formData.append("images", el);
 		});
-
-		console.log(formData.entries());
 
 		try {
 			const res = await axios({
@@ -165,6 +165,12 @@ export default function Addhostel(props) {
 							),
 							location: Yup.string().required("Location is Required"),
 							digitalAddress: Yup.string().nullable(),
+							bookingLink: Yup.string()
+								.matches(
+									/((http?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+									"Please Enter a correct url!"
+								)
+								.nullable(),
 						})}
 					>
 						<div className="row">
@@ -252,11 +258,11 @@ export default function Addhostel(props) {
 									type="number"
 									className="form-control"
 									placeholder="+/-90 Latitude"
-									// value={alt}
+									// value={lat}
 									// onChange={(e) => setlt(e.target.value)}
 									name="lat"
 								/>
-								<ErrorMessage name="alt" render={renderError} />
+								<ErrorMessage name="lat" render={renderError} />
 								<Field
 									type="number"
 									className="form-control"
@@ -297,7 +303,28 @@ export default function Addhostel(props) {
 						</div>
 						<hr className="my-3" />
 					</FormikStep>
-					<FormikStep>
+					<FormikStep
+						validationSchema={Yup.object({
+							ownersName: Yup.string("Must be a String")
+								.min(5, "Should be 5 letters and above")
+								.nullable(),
+							ownersContact: Yup.string("Must be a String")
+								.min(10, "Should be telephone number")
+								.nullable(),
+							managersName: Yup.string("Must be a String")
+								.min(5, "Should be 5 letters and above")
+								.nullable(),
+							managersContact: Yup.string("Must be a String")
+								.min(10, "Should be telephone number")
+								.nullable(),
+							portersName: Yup.string("Must be a String")
+								.min(5, "Should be 5 letters and above")
+								.nullable(),
+							portersContact: Yup.string("Must be a String")
+								.min(10, "Should be telephone number")
+								.nullable(),
+						})}
+					>
 						<div className="row mt-3">
 							<div className="col-md-6 col-sm-12">
 								<label>
@@ -405,7 +432,14 @@ export default function Addhostel(props) {
 							<hr className="my-3" />
 						</div>
 					</FormikStep>
-					<FormikStep>
+					<FormikStep
+						validationSchema={Yup.object({
+							totalBedspaces: Yup.number("must be a number").nullable(),
+							roomsTotal: Yup.number("must be a number").nullable(),
+							femaleCapacity: Yup.number("must be a number").nullable(),
+							maleCapacity: Yup.number("must be a number").nullable(),
+						})}
+					>
 						<div className="row">
 							<div className="col-md-6 col-sm-12">
 								<label>
@@ -421,7 +455,7 @@ export default function Addhostel(props) {
 									{" "}
 									<span className="required">*</span> Example: 25
 								</p>
-								<ErrorMessage name="roomsCapacity" render={renderError} />
+								<ErrorMessage name="roomsTotal" render={renderError} />
 							</div>
 							<div className="col-md-6 col-sm-12">
 								<label>
@@ -437,7 +471,7 @@ export default function Addhostel(props) {
 									{" "}
 									<span className="required">*</span> Example: 100
 								</p>
-								<ErrorMessage name="roomsCapacity" render={renderError} />
+								<ErrorMessage name="totalBedspaces" render={renderError} />
 							</div>
 						</div>
 						<div className="row">
@@ -488,7 +522,7 @@ export default function Addhostel(props) {
 																<Field
 																	name={`facilities[${i}].id`}
 																	type="checkbox"
-																	value={facilityArr[i].id}
+																	value={facilityArr[i]._id}
 																/>
 																<span style={{ marginLeft: 4 }}>
 																	<b>{facilityArr[i].name}</b>
@@ -499,7 +533,7 @@ export default function Addhostel(props) {
 															<Field
 																type="number"
 																className="form-control"
-																name={`facilities[${i}].count`}
+																name={`facilities[${i}].num`}
 															/>
 														</div>
 													</div>
@@ -513,21 +547,18 @@ export default function Addhostel(props) {
 
 					<FormikStep>
 						<div>
-							{({ values, setFieldValue }) => (
-								<div className="row mt-3">
-									<div className="col-md-6 col-sm-12">
-										<label>upload Cover</label>
-										<input
-											type="file"
-											className="form-control"
-											onChange={(e) => {
-												setFieldValue("coverImage", e.currentTarget.files[0]);
-											}}
-										/>
-										<ErrorMessage name="coverImage" render={renderError} />
-									</div>
+							<div className="row mt-3">
+								<div className="col-md-6 col-sm-12">
+									<label>upload Cover</label>
+									<input
+										type="file"
+										className="form-control"
+										onChange={(e) => handleCoverUpload(e)}
+									/>
+									<ErrorMessage name="coverImage" render={renderError} />
 								</div>
-							)}
+							</div>
+
 							<div className="mx-5 mt-3 mb-2">
 								{
 									<div {...getRootProps()}>
@@ -575,10 +606,8 @@ export function FormStepper({ children, ...props }) {
 			onSubmit={async (values, { resetForm }) => {
 				if (isLastPage()) {
 					console.log(values);
-					setSubmit(true);
 					props.onSubmit(values);
 					resetForm();
-					setSubmit(false);
 				} else {
 					setStep((s) => s + 1);
 				}
@@ -590,7 +619,6 @@ export function FormStepper({ children, ...props }) {
 				{step > 0 ? (
 					<button
 						style={{ marginRight: 12 }}
-						disabled={isSubmitting}
 						onClick={() => setStep((s) => s - 1)}
 						className="btn px-3 py-2"
 					>
