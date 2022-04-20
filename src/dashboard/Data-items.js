@@ -55,7 +55,7 @@ export const SideBarItems = [
 		},
 	},
 	{
-		name: "Classes",
+		name: "R Classes",
 		href: "classes",
 		icon: <FaUser size={20} color="var(--mainWhite)" />,
 		children: {
@@ -65,7 +65,7 @@ export const SideBarItems = [
 		},
 	},
 	{
-		name: "Hostel Facilities",
+		name: "R Facilities",
 		href: "facilities",
 		icon: <FaUser size={20} color="var(--mainWhite)" />,
 		children: {

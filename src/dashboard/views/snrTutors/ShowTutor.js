@@ -46,23 +46,28 @@ export default function Showtutor(props) {
 	return (
 		<>
 			<div className="page-container mb-3">
+				<div className=" mx-5 my-5">
+					<div className="col-md-11 col-sm-11">
+						<MapComponent />
+					</div>
+				</div>
 				<div className="tutor-card">
 					<div className="row">
 						{tutor && (
-							<div className="col-md-4 col-sm-12">
+							<div className="col-md-3 col-sm-12">
 								{tutor.image ? (
 									<img
 										src={`${url}/snr-tutors/${tutor.image}`}
 										className="img-fluid"
 										alt="..."
-										style={{ width: 250, height: 230 }}
+										style={{ width: 150, height: 130 }}
 									/>
 								) : (
 									<img
 										src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
 										className="img-fluid"
 										alt="..."
-										style={{ width: 250, height: 230 }}
+										style={{ width: 150, height: 130 }}
 									/>
 								)}
 								<div>
@@ -100,9 +105,6 @@ export default function Showtutor(props) {
 								</div>
 							</div>
 						)}
-						<div className="col-md-8 col-sm-12">
-							<MapComponent />
-						</div>
 					</div>
 				</div>
 			</div>

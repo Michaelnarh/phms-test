@@ -80,7 +80,6 @@ exports.createResidence = async (req, res) => {
 	try {
 		// console.log(req.body);
 		req.body.slug = await slugify(req.body.name, { lower: true });
-
 		const coordinates = [];
 		coordinates[0] = parseFloat(req.body.lng);
 		coordinates[1] = parseFloat(req.body.lat);
@@ -89,6 +88,7 @@ exports.createResidence = async (req, res) => {
 			coordinates,
 		};
 		// console.log(req.body.gpsAddress);
+		//
 		const newResidence = await Residence.create(req.body);
 
 		// and create with that residnce id
@@ -96,27 +96,24 @@ exports.createResidence = async (req, res) => {
 		let facility_id;
 		let facility_count;
 
+		let facilities = [];
+		facilities = JSON.parse(req.body.facilities);
+
 		/* an array object like this
 
 				facilities[{id[9088009], count:3},{id[9088909], count:1}]
 		*/
 		//loop through the facilities
-		let facilities = [];
-		facilities = req.body.facilities;
-		let object = {};
-		facilities.forEach((value, key) => (object[key] = value));
+		console.log(facilities);
 
-		let json = JSON.stringify(object);
-		const newJson = JSON.stringify(Object.fromEntries(facilities));
-		console.log(json);
-		console.log(newJson);
-
-		if (req.body?.facilities?.length > 0) {
+		if (facilities?.length > 0) {
 			await Promise.all(
-				req.body.facilities.map(async (item) => {
-					if (item?.id[0]) {
-						facility_id = item?.id[0];
-						facility_count = item.num;
+				facilities.map(async (item) => {
+					if (item?.id && item?.num) {
+						if (item?.id[0]) {
+							facility_id = item?.id[0];
+							facility_count = item.num;
+						}
 						await ResidenceFacilityTable.create({
 							residence: residence_id,
 							facility: facility_id,

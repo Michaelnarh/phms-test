@@ -34,7 +34,7 @@ const residenceSchema = mongoose.Schema({
 	maleCapacity: { type: Number },
 	femaleCapacity: { type: Number },
 	registered: { type: Boolean },
-	class: { type: mongoose.Schema.Types.ObjectId, ref: "Class" },
+	rClass: { type: mongoose.Schema.Types.ObjectId, ref: "Class" },
 	addedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // admin login route can only add hostel
 	ratingAverage: {
 		type: Number,

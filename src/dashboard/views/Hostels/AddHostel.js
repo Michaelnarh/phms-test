@@ -12,6 +12,7 @@ export default function Addhostel(props) {
 	const [coverImage, setCoverImage] = useState("");
 	const [accepted, setAccepted] = useState([]);
 	const [locations, setLocations] = useState([]);
+	const [RClass, setRClass] = useState([]);
 	const [facilityArr, setFacilityArr] = useState([]);
 
 	const onDrop = useCallback((acceptedFiles) => {
@@ -33,11 +34,21 @@ export default function Addhostel(props) {
 			});
 			setFacilityArr(res.data.data);
 		};
+		const fetchRClass = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/classes`,
+			});
+			setRClass(res.data.data);
+		};
 		if (locations.length === 0) {
 			fetchLocations();
 		}
 		if (facilityArr.length === 0) {
 			fetchFacilities();
+		}
+		if (facilityArr.length === 0) {
+			fetchRClass();
 		}
 	});
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -45,31 +56,12 @@ export default function Addhostel(props) {
 	// const isLatitude = (num) => isFinite(num) && Math.abs(num) <= 90;
 	// const isLongitude = (num) => isFinite(num) && Math.abs(num) <= 180;
 
-	const validationSchema = Yup.object({
-		name: Yup.string().required("Residence Name is Required"),
-		residenceType: Yup.string().required("Residence Type is required"),
-		location: Yup.string().required("Location is Required"),
-		digitalAddress: Yup.string().nullable(),
-		managersName: Yup.string().nullable(),
-		managersContact: Yup.string().nullable(),
-		portersName: Yup.string().nullable(),
-		portersContact: Yup.string().nullable(),
-		ownersName: Yup.string().nullable(),
-		ownersContact: Yup.string().nullable(),
-		bookingLink: Yup.string()
-			.matches(
-				/((http?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-				"Please Enter a correct url!"
-			)
-			.nullable(),
-	});
-
 	const initialValues = {
 		name: "",
 		residenceType: "",
 		location: "",
-		lat: null,
-		lng: null,
+		lat: "",
+		lng: "",
 		digitalAddress: "",
 		bookingLink: "",
 		managersName: "",
@@ -81,17 +73,16 @@ export default function Addhostel(props) {
 		facilities: [
 			{
 				id: "",
-				num: 0,
+				num: "",
 			},
 		],
-		registered: false,
-		regDate: Date,
+		rClass: "",
 		images: [],
 		coverImage: "",
-		roomsTotal: null,
-		totalBedspaces: null,
-		maleCapacity: null,
-		femaleCapacity: null,
+		roomsTotal: "",
+		totalBedspaces: "",
+		maleCapacity: "",
+		femaleCapacity: "",
 	};
 
 	const handleCoverUpload = (e) => {
@@ -102,6 +93,7 @@ export default function Addhostel(props) {
 		let formData = new FormData();
 		// values.coordinates[1] = values.lat; //insert latitude data
 		// values.coordinates[0] = values.lng; //insert longitude data
+		const facilities_str = JSON.stringify(values.facilities);
 
 		formData.append("name", values.name);
 		formData.append("residenceType", values.residenceType);
@@ -120,7 +112,8 @@ export default function Addhostel(props) {
 		formData.append("totalBedspaces", values.totalBedspaces);
 		formData.append("maleCapacity", values.maleCapacity);
 		formData.append("femaleCapacity", values.femaleCapacity);
-		formData.append("facilities", values.facilities);
+		formData.append("facilities", facilities_str);
+		formData.append("rClass", values.rClass);
 		formData.append("lng", values.lng);
 		formData.append("lat", values.lat);
 
@@ -151,8 +144,9 @@ export default function Addhostel(props) {
 			<div className="container">
 				<FormStepper
 					initialValues={initialValues}
-					onSubmit={async (values) => {
+					onSubmit={async (values, resetForm) => {
 						await handleSubmit(values);
+						resetForm();
 					}}
 				>
 					<FormikStep
@@ -160,10 +154,12 @@ export default function Addhostel(props) {
 							name: Yup.string("must be a string")
 								.min(5, "Name is too short must be 5 characters and above")
 								.required("Residence is Required"),
-							residenceType: Yup.string().required(
-								"Residence Type is required"
-							),
-							location: Yup.string().required("Location is Required"),
+							residenceType: Yup.string()
+								.min(2, "Required")
+								.required("Residence Type is required"),
+							location: Yup.string()
+								.min(2, "Required Field")
+								.required("Location is Required"),
 							digitalAddress: Yup.string().nullable(),
 							bookingLink: Yup.string()
 								.matches(
@@ -508,40 +504,64 @@ export default function Addhostel(props) {
 								<ErrorMessage name="femaleCapacity" render={renderError} />
 							</div>
 						</div>
-						<div>
-							<FieldArray
-								name="facilites"
-								render={(arrayHelpers) => (
-									<div>
-										{facilityArr?.length > 0 &&
-											facilityArr.map((name, i) => {
-												return (
-													<div key={i} className="row">
-														<div className="col-md-4 col-sm-6 col-mb-3">
-															<label>
+						<div className="row">
+							<div className="col-md-6 col-sm-12">
+								<FieldArray
+									name="facilites"
+									render={(arrayHelpers) => (
+										<div>
+											{facilityArr?.length > 0 &&
+												facilityArr.map((name, i) => {
+													return (
+														<div key={i} className="row">
+															<div className="col-md-6 col-sm-6 col-mb-3">
+																<label>
+																	<Field
+																		name={`facilities[${i}].id`}
+																		type="checkbox"
+																		value={facilityArr[i]._id}
+																	/>
+																	<span style={{ marginLeft: 4 }}>
+																		<b>{facilityArr[i].name}</b>
+																	</span>
+																</label>
+															</div>
+															<div className="col-md-3 col-sm-6 mb-3 ml-3">
 																<Field
-																	name={`facilities[${i}].id`}
-																	type="checkbox"
-																	value={facilityArr[i]._id}
+																	type="number"
+																	className="form-control"
+																	name={`facilities[${i}].num`}
 																/>
-																<span style={{ marginLeft: 4 }}>
-																	<b>{facilityArr[i].name}</b>
-																</span>
-															</label>
+															</div>
 														</div>
-														<div className="col-md-2 col-sm-6 mb-3 ml-3">
-															<Field
-																type="number"
-																className="form-control"
-																name={`facilities[${i}].num`}
-															/>
-														</div>
-													</div>
-												);
-											})}
-									</div>
-								)}
-							/>
+													);
+												})}
+										</div>
+									)}
+								/>
+							</div>
+
+							<div className="col-md-6 col-sm-12 ">
+								<label>
+									<b>Type of Residence Class</b>
+								</label>
+								<Field
+									as="select"
+									name="rClass"
+									className="form-select"
+									aria-label="Default select example"
+								>
+									<option> Select Class </option>
+									{RClass &&
+										RClass.map((item) => (
+											<option key={item._id} value={item._id}>
+												{item.name}
+											</option>
+										))}
+								</Field>
+
+								<ErrorMessage name="rClass" render={renderError} />
+							</div>
 						</div>
 					</FormikStep>
 
@@ -606,8 +626,7 @@ export function FormStepper({ children, ...props }) {
 			onSubmit={async (values, { resetForm }) => {
 				if (isLastPage()) {
 					console.log(values);
-					props.onSubmit(values);
-					resetForm();
+					props.onSubmit(values, resetForm);
 				} else {
 					setStep((s) => s + 1);
 				}
@@ -618,19 +637,18 @@ export function FormStepper({ children, ...props }) {
 
 				{step > 0 ? (
 					<button
+						type="button"
 						style={{ marginRight: 12 }}
 						onClick={() => setStep((s) => s - 1)}
 						className="btn px-3 py-2"
 					>
 						Back
 					</button>
-				) : null}
-				<button
-					type="submit"
-					disabled={isSubmitting}
-					className="btn  py-2 px-3"
-				>
-					{isSubmitting ? "Submitting" : isLastPage() ? "Submit" : "Next"}
+				) : (
+					""
+				)}
+				<button type="submit" className="btn  py-2 px-3">
+					{isLastPage() ? "Submit" : "Next"}
 				</button>
 			</Form>
 		</Formik>

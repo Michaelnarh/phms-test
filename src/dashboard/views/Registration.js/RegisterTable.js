@@ -37,7 +37,7 @@ export default function RegisterTable(props) {
 		try {
 			const res = await axios({
 				method: "post",
-				url: `http://localhost:8080/api/request-salary/list`,
+				// url: `http://localhost:8080/api/request-salary/list`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -54,7 +54,7 @@ export default function RegisterTable(props) {
 		try {
 			const res = await axios({
 				method: "post",
-				url: `http://localhost:8080/api/request-salary/pay/${id}?token=${token}`,
+				// url: `http://localhost:8080/api/request-salary/pay/${id}?token=${token}`,
 				headers: {
 					"Content-Type": "application/json",
 				},

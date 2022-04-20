@@ -41,8 +41,8 @@ export default function MapComponent() {
 
 	const defaultProps = {
 		center: {
-			lat: 6.672387,
-			lng: -1.56323,
+			lat: 6.67563,
+			lng: -1.55323,
 		},
 		zoom: 11,
 	};
@@ -66,8 +66,8 @@ export default function MapComponent() {
 				}}
 			>
 				{makers}
-				{/* {isMapLoaded && <Polylinecomponent map={map} maps={maps} />} */}
-				{/* {info && <Locationinfo info={info} />} */}
+				{isMapLoaded && <Polylinecomponent map={map} maps={maps} />}
+				{info && <Locationinfo info={info} />}
 			</GoogleMapReact>
 		</div>
 	);
