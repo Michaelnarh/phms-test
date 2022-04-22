@@ -3,14 +3,13 @@ import { FaCheckDouble } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import * as Yup from "yup";
-import { renderError } from "../../utils/Utils";
+// import { renderError } from "../../utils/Utils";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
-export default function RegisterTable(props) {
+export default function RegisteredTable(props) {
 	const [employees, setEmployees] = useState([]);
 	const [em_month, setEmMonth] = useState([]);
 	const [em_year, setYear] = useState([]);
-	const [token, setToken] = useState();
 
 	const months = [
 		{ key: "January" },
@@ -26,10 +25,6 @@ export default function RegisterTable(props) {
 		{ key: "November" },
 		{ key: "December" },
 	];
-	useEffect(() => {
-		const token = localStorage.getItem("tkn");
-		setToken(token);
-	}, []);
 
 	const handleSearch = async (values) => {
 		setEmMonth(values.month);
@@ -68,7 +63,6 @@ export default function RegisterTable(props) {
 			});
 
 			setEmployees([...curr_emp]);
-			alert.show("Salary Paid");
 		} catch (err) {
 			console.log(err);
 		}
@@ -112,7 +106,7 @@ export default function RegisterTable(props) {
 									))}
 								</Field>
 
-								<ErrorMessage name="month" render={renderError} />
+								{/* <ErrorMessage name="month" render={renderError} /> */}
 							</div>
 							<div className="col-md-5 coll-sm-12">
 								<Field
@@ -129,7 +123,7 @@ export default function RegisterTable(props) {
 									<option value={2019}> 2019</option>
 								</Field>
 
-								<ErrorMessage name="year" render={renderError} />
+								{/* <ErrorMessage name="year" render={renderError} /> */}
 							</div>
 							<div className="col-md-2 col-sm-12">
 								<Button type="submit " variant="success">
@@ -153,10 +147,10 @@ export default function RegisterTable(props) {
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Location</th>
-							<th>Salary</th>
+							<th>Residence Name</th>
+							<th>Zone</th>
+							<th>Date Registered</th>
+							<th>Registration Status</th>
 							<th className="text-center">Action</th>
 						</tr>
 					</thead>
@@ -172,13 +166,16 @@ export default function RegisterTable(props) {
 
 									<td className="text-center">
 										{item.status === 1 ? (
-											<Button variant="danger">Paid</Button>
+											<Button variant="danger" disabled>
+												{" "}
+												Registered{" "}
+											</Button>
 										) : (
 											<Button
 												variant="success"
 												onClick={() => paySalary(item._id)}
 											>
-												Pay Salary
+												Register
 											</Button>
 										)}
 									</td>

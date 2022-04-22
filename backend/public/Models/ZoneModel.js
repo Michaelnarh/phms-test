@@ -13,4 +13,5 @@ const ZoneSchema = mongoose.Schema({
 
 ZoneSchema.plugin(uniqueValidator);
 
+
 module.exports = mongoose.model("Zone", ZoneSchema);

@@ -75,6 +75,11 @@ export const SideBarItems = [
 		},
 	},
 	{
+		name: "Registration",
+		href: "registration",
+		icon: <FaUser size={20} color="var(--mainWhite)" />,
+	},
+	{
 		name: "Senior Tutors",
 		href: "snr-tutors",
 		icon: <FaUserCheck size={20} color="var(--mainWhite)" />,

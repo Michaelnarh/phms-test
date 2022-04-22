@@ -16,6 +16,7 @@ import HomestelsViews from "./dashboard/views/homestels/Index";
 import Homestels from "./dashboard/views/homestels/Homestel";
 import AddHomestel from "./dashboard/views/homestels/AddHomestel";
 
+// import senior tutors views
 import SnrTutorsViews from "./dashboard/views/snrTutors/Index";
 import SnrTutors from "./dashboard/views/snrTutors/SnrTutors";
 import AddSnrTutors from "./dashboard/views/snrTutors/AddSnrTutor";
@@ -29,22 +30,23 @@ import NssPersonnels from "./dashboard/views/nssPersonnel/NssPersonnels";
 import AddPersonnel from "./dashboard/views/nssPersonnel/AddPersonnel";
 import EditPersonnel from "./dashboard/views/nssPersonnel/EditPersonnel";
 
+// import area mps views
 import AreaMpViews from "./dashboard/views/areaMp/Index";
 import AreaMps from "./dashboard/views/areaMp/AreaMps";
 import AddMp from "./dashboard/views/areaMp/AddAreaMp";
 import EditMp from "./dashboard/views/areaMp/EditAreaMP";
 
+// import facilities views
 import FacilityViews from "./dashboard/views/facility/Index";
 import Facilities from "./dashboard/views/facility/Facilities";
 import AddFacility from "./dashboard/views/facility/AddFacility";
 import EditFacility from "./dashboard/views/facility/EditFacility";
 
+//import classes views
 import ClassViews from "./dashboard/views/classses/Index";
 import Classes from "./dashboard/views/classses/AllClasses";
 import AddClass from "./dashboard/views/classses/AddClass";
 import EditClass from "./dashboard/views/classses/EditClass.";
-
-import NotFoundPage from "./dashboard/views/404Page";
 
 // import Zones Views
 import ZonesViews from "./dashboard/views/zones/Index";
@@ -57,6 +59,12 @@ import LocationViews from "./dashboard/views/locations/Index";
 import Locations from "./dashboard/views/locations/Locations";
 import AddLocation from "./dashboard/views/locations/AddLocation";
 import EditLocation from "./dashboard/views/locations/EditLocation";
+
+import RegistrationViews from "./dashboard/views/Registration/Index";
+import RegisterTable from "./dashboard/views/Registration/RegisterTable";
+import RegisteredTable from "./dashboard/views/Registration/ResgiteredTable";
+
+import NotFoundPage from "./dashboard/views/404Page";
 
 // import of public routes
 import Layout from "./Layout";
@@ -137,6 +145,10 @@ function MainLayout() {
 						<Route index element={<Classes />} />
 						<Route path="add" element={<AddClass />} />
 						<Route path=":id" element={<EditClass />} />
+					</Route>
+					<Route path="registration" element={<RegistrationViews />}>
+						<Route index element={<RegisteredTable />} />
+						<Route path="register" element={<RegisterTable />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />
 				</Route>
