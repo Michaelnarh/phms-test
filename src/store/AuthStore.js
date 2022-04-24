@@ -8,12 +8,14 @@ class AuthStore {
 	}
 
 	token = localStorage.getItem("jwt");
+	id = localStorage.getItem("dumb");
 	isLoggedIn = false;
 	isAdmin = false;
 	user = JSON.parse(localStorage.getItem("user"));
 
 	//get functions
 	getToken = () => this.token;
+	getId = () => this.id;
 	getIsLoggedIn = () => this.isLoggedIn;
 	getIsAdmin = () => this.isAdmin;
 	getUser = () => this.user;

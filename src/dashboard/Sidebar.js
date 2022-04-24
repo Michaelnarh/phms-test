@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { MdSettings } from "react-icons/md";
 import { SideBarItems } from "./Data-items";
 import { observer } from "mobx-react";
 import { AuthService } from "../services/AuthService";
 import Dropdownmenu from "./utils/DropDownMenu";
+import { ContextStore } from "./../store/ContextStore";
 
 function Sidebar(props) {
 	const authService = new AuthService();
+	const { authStore } = useContext(ContextStore);
 	const [user, setUser] = useState();
 	const url = `${process.env.REACT_APP_API_URL}/images/users`;
-	const id = localStorage.getItem("dumb");
-	const jwt = localStorage.getItem("jwt");
+	const id = authStore.getId();
+	const jwt = authStore.getToken();
 	useEffect(() => {
 		if (id && jwt) {
 			const fetchUser = async () => {

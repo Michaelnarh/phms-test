@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { Routes, Route } from "react-router-dom";
 import DashLayout from "./dashboard/DashLayout";
 import Login from "./dashboard/views/auth/Login";
 import Register from "./dashboard/views/auth/Register";
@@ -14,7 +14,7 @@ import ShowHostel from "./dashboard/views/hostels/ShowHostel";
 // import of Homestel views
 import HomestelsViews from "./dashboard/views/homestels/Index";
 import Homestels from "./dashboard/views/homestels/Homestel";
-import AddHomestel from "./dashboard/views/homestels/AddHomestel";
+// import AddHomestel from "./dashboard/views/homestels/AddHomestel";
 
 // import senior tutors views
 import SnrTutorsViews from "./dashboard/views/snrTutors/Index";
@@ -33,7 +33,7 @@ import EditPersonnel from "./dashboard/views/nssPersonnel/EditPersonnel";
 // import area mps views
 import AreaMpViews from "./dashboard/views/areaMp/Index";
 import AreaMps from "./dashboard/views/areaMp/AreaMps";
-import AddMp from "./dashboard/views/areaMp/AddAreaMp";
+import AddAreaMp from "./dashboard/views/areaMp/AddAreaMP";
 import EditMp from "./dashboard/views/areaMp/EditAreaMP";
 
 // import facilities views
@@ -122,7 +122,7 @@ function MainLayout() {
 					</Route>
 					<Route path="area-mps" element={<AreaMpViews />}>
 						<Route index element={<AreaMps />} />
-						<Route path="add" element={<AddMp />} />
+						<Route path="add" element={<AddAreaMp />} />
 						<Route path=":slug" element={<EditMp />} />
 					</Route>
 					<Route path="snr-tutors" element={<SnrTutorsViews />}>

@@ -51,7 +51,7 @@ exports.getRegisteredResidences = async (req, res) => {
 		const academic_year = req.params.academic_year;
 
 		const filterZone = (item) => {
-			return item?.location?.zone?.id === zone_id;
+			return item?.residennce?.location?.zone?.id === zone_id;
 		};
 
 		const filterRegistered = (arr, year) => {
@@ -60,19 +60,25 @@ exports.getRegisteredResidences = async (req, res) => {
 			});
 		};
 
-		const residences = await Residence.find().populate({
-			path: "location",
-			populate: { path: "zone" },
-		});
 		const acedemichYear = await AcademicYear.find({ slug: academic_year });
 
-		const currentZones = residences.filter(filterZone());
+		const currentregisteredResidenceByYear = RegistrationTable.find({
+			acedemichYear: acedemichYear?._id,
+			status: 1,
+		}).populate({
+			path: "residence",
+			select: "location",
+			populate: { path: "zone" },
+		});
 
-		const registeredResidences = filterRegistered(currentZones, acedemichYear);
+		const currentResidenceRegisteredByZone =
+			currentregisteredResidenceByYear.filter(filterZone());
+
+		// const registeredResidences = filterRegistered(currentZones, acedemichYear);
 
 		res.status(201).json({
 			status: "success",
-			data: registeredResidences,
+			data: currentResidenceRegisteredByZone,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -80,24 +86,47 @@ exports.getRegisteredResidences = async (req, res) => {
 			message: err.message,
 		});
 	}
-	const zone_id = req.params.zone_id;
-	const academic_year = req.params.academic_year;
-	const filterZone = (item) => {
-		return item?.location?.zone?.id === zone_id;
-	};
+};
 
-	const filterRegistered = (arr, year) => {
-		return arr.filter(function (el) {
-			return el?._id === year?._id;
+exports.displayUnregisteredResidences = async (req, res) => {
+	try {
+		const zone_id = req.params.zone_id;
+		const academic_year = req.params.academic_year;
+
+		const filterZone = (item) => {
+			return item?.residennce?.location?.zone?.id === zone_id;
+		};
+
+		const filterRegistered = (arr, year) => {
+			return arr.filter(function (el) {
+				return el?._id === year?._id;
+			});
+		};
+
+		const acedemichYear = await AcademicYear.find({ slug: academic_year });
+
+		const currentregisteredResidenceByYear = await RegistrationTable.find({
+			acedemichYear: acedemichYear?._id,
+			status: 1,
+		}).populate({
+			path: "residence",
+			select: "location",
+			populate: { path: "zone" },
 		});
-	};
 
-	const residences = await Residence.find().populate({
-		path: "location",
-		populate: { path: "zone" },
-	});
-	const acedemichYear = await AcademicYear.find({ slug: academic_year });
-	const currentZones = residences.filter(filterZone());
+		const currentResidenceRegisteredByZone =
+			currentregisteredResidenceByYear.filter(filterZone());
 
-	const registeredResidences = filterRegistered(currentZones, acedemichYear);
+		// const registeredResidences = filterRegistered(currentZones, acedemichYear);
+
+		res.status(201).json({
+			status: "success",
+			data: currentResidenceRegisteredByZone,
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "error",
+			message: err.message,
+		});
+	}
 };

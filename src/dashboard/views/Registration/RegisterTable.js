@@ -3,7 +3,7 @@ import { FaCheckDouble } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import * as Yup from "yup";
-// import { renderError } from "../../utils/Utils";
+import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 export default function RegisterTable(props) {
