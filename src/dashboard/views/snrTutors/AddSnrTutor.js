@@ -15,7 +15,7 @@ export default function Addsnrtutor(props) {
 			setZones(res.data.data);
 		};
 		fetchZones();
-	});
+	}, []);
 
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Name is Required"),

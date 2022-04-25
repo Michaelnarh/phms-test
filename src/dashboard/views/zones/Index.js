@@ -14,7 +14,9 @@ export default function Index(props) {
 						color="var(--darkBlue)"
 						onClick={() => navigate(-1)}
 					/>
-					<button className=" btn mb-1 ">ADD ZONE</button>
+					<button className=" btn mb-1 " onClick={() => navigate("add")}>
+						ADD ZONE
+					</button>
 				</div>
 				<Outlet />
 			</div>

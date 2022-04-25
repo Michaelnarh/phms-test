@@ -6,14 +6,14 @@ import Register from "./dashboard/views/auth/Register";
 import DashBoard from "./dashboard/views/DashBoard";
 
 //import of hostel views
-import HostelsViews from "./dashboard/views/hostels/Index";
-import Hostels from "./dashboard/views/hostels/Hostels";
-import AddHostel from "./dashboard/views/hostels/AddHostel";
-import ShowHostel from "./dashboard/views/hostels/ShowHostel";
+import ResidenceViews from "./dashboard/views/Residence/ResidenceIndex";
+import Residences from "./dashboard/views/Residence/Residences";
+import AddResidence from "./dashboard/views/Residence/AddResidence";
+import ShowResidence from "./dashboard/views/Residence/ShowResidence";
 
 // import of Homestel views
-import HomestelsViews from "./dashboard/views/homestels/Index";
-import Homestels from "./dashboard/views/homestels/Homestel";
+// import HomestelsViews from "./dashboard/views/homestels/Index";
+// import Homestels from "./dashboard/views/homestels/Homestel";
 // import AddHomestel from "./dashboard/views/homestels/AddHomestel";
 
 // import senior tutors views
@@ -102,14 +102,14 @@ function MainLayout() {
 				<Route path="/admin/register" element={<Register />} />
 				<Route path="/admin" element={<DashLayout />}>
 					<Route path="dashboard" element={<DashBoard />} />
-					<Route path="hostels" element={<HostelsViews />}>
-						<Route index element={<Hostels />} />
-						<Route path="add" element={<AddHostel />} />
-						<Route path="details/:slug" element={<ShowHostel />} />
+					<Route path="hostels" element={<ResidenceViews />}>
+						<Route index element={<Residences />} />
+						<Route path="add" element={<AddResidence />} />
+						<Route path="details/:slug" element={<ShowResidence />} />
 					</Route>
-					<Route path="homestels" element={<HomestelsViews />}>
+					{/* <Route path="homestels" element={<HomestelsViews />}>
 						<Route index element={<Homestels />} />
-					</Route>
+					</Route> */}
 					<Route path="zones" element={<ZonesViews />}>
 						<Route index element={<Zones />} />
 						<Route path="add" element={<AddZone />} />

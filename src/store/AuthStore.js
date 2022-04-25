@@ -17,7 +17,12 @@ class AuthStore {
 	getToken = () => this.token;
 	getId = () => this.id;
 	getIsLoggedIn = () => this.isLoggedIn;
-	getIsAdmin = () => this.isAdmin;
+	getIsAdmin = () => {
+		const allowedRoles = ["admin", "supervisor", "maintainer"];
+		const user = this.getUser();
+
+		return allowedRoles.includes(user?.role);
+	};
 	getUser = () => this.user;
 
 	//setters

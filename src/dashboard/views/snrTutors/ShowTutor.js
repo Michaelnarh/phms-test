@@ -6,7 +6,7 @@ import MapComponent from "../maps/Maps";
 
 export default function Showtutor(props) {
 	const { slug } = useParams();
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const [tutor, setTutor] = useState();
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {

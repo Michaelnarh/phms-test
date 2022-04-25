@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Toptitle from "../TopTitle";
 import { MdArrowBack } from "react-icons/md";
 
-export default function Index(props) {
+export default function ResidenceIndex(props) {
 	const navigate = useNavigate();
 	return (
 		<>

@@ -45,4 +45,30 @@ userSchema.methods.passwordChanged = async (jwtTimeStamp) => {
 
 	return false;
 };
-module.exports = mongoose.model("User", userSchema);
+
+let User = mongoose.model("User", userSchema);
+User.exists({ email: "Admin@gmail.com" }).then((result) => {
+	if (!result) {
+		User.insertMany(
+			[
+				{
+					username: "michael narh",
+					email: "Admin@gmail.com",
+					password: "micihaelnarh",
+					passwordConfirm: "michaelnarh",
+				},
+				{
+					username: "James Mensah",
+					email: "maintainer@gmail.com",
+					password: "drjames",
+					passwordConfirm: "drjames",
+				},
+			],
+			function (err) {
+				console.log(err);
+			}
+		);
+	}
+});
+
+module.exports = User;

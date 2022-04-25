@@ -58,8 +58,13 @@ reviewSchema.pre(/findOneAnd/, async function (next) {
 	this.review = await this.findOne();
 	next();
 });
+
+reviewSchema.prev("remove", function (next) {
+	Residence.remove({ review: this._id });
+	next();
+});
+
 reviewSchema.post(/findOneAnd/, async function () {
 	await this.review.constructor.calcAverageRating(this.review.residence);
 });
-
 module.exports = mongoose.model("Review", reviewSchema);

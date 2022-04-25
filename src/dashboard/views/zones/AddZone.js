@@ -16,7 +16,7 @@ export default function Addzone(props) {
 			setTutors(res.data.data);
 		};
 		fetchTutors();
-	});
+	}, []);
 
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Zone Name is Required"),

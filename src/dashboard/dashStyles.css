@@ -343,6 +343,11 @@ th {
 	justify-self: center;
 	justify-items: center;
 }
+.login-background{
+	background-color: bisque;
+	height: '100vh';
+	min-height : '100vh';
+}
 .center-center-signup {
 	display: flex;
 	align-items: center;

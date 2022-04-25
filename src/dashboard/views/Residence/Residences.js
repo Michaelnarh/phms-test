@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import SearchForm from "../../utils/SearchForm";
 import { SpinnerCircular } from "spinners-react";
 
-export default function Hostels(props) {
+export default function Residences(props) {
 	const navigate = useNavigate();
 	const [hostels, setHostels] = useState([]);
 	const [pageCount, setPageCount] = useState(0);

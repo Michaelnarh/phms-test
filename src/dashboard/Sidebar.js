@@ -29,7 +29,7 @@ function Sidebar(props) {
 		} else {
 			window.location.assign("/admin/login");
 		}
-	});
+	}, []);
 	return (
 		<>
 			<div className="main-sidebar">

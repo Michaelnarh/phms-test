@@ -66,7 +66,7 @@ export default function MapComponent() {
 				}}
 			>
 				{makers}
-				{isMapLoaded && <Polylinecomponent map={map} maps={maps} />}
+				{/* {isMapLoaded && <Polylinecomponent map={map} maps={maps} />} */}
 				{info && <Locationinfo info={info} />}
 			</GoogleMapReact>
 		</div>

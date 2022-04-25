@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { renderError } from "../../utils/ModuleFunctions";
+import { AuthService } from "../../../services/AuthService";
+
 export default function Register(props) {
+	const [error, setError] = useState("");
+	const authService = new AuthService();
 	const validationSchema = Yup.object({
 		username: Yup.string().required("Email is Required"),
 		email: Yup.string()
@@ -29,18 +35,12 @@ export default function Register(props) {
 
 	const handleSubmit = async (values) => {
 		alert(JSON.stringify(process.env.REACT_APP_API_URL));
-		console.log(process.env);
-		alert(JSON.stringify(values, null, 2));
-		const res = await axios({
-			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/users/signup`,
-
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: JSON.stringify(values),
-		});
-		console.log(res);
+		try {
+			await authService.signUp(values);
+		} catch (err) {
+			console.log(err);
+			setError(err.message);
+		}
 	};
 	return (
 		<>

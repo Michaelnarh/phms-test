@@ -1,8 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { ContextStore } from "../../../store/ContextStore";
 import { AuthService } from "../../../services/AuthService";
-import { useNavigate } from "react-router-dom";
+import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
 
 function Login(props) {
@@ -22,8 +21,6 @@ function Login(props) {
 		password: "",
 	};
 
-	const renderError = (message) => <p className="text-danger">{message}</p>;
-
 	const handleSubmit = async (values) => {
 		try {
 			await authService.Login(values);
@@ -35,66 +32,79 @@ function Login(props) {
 
 	return (
 		<>
-			<Formik
-				enableReinitialize={true}
-				initialValues={initialValues}
-				validationSchema={validationSchema}
-				onSubmit={async (values, { resetForm }) => {
-					await handleSubmit(values);
-					resetForm();
+			<div
+				style={{
+					backgroundCcolor: "blue",
+					height: "100vh",
+					minHeight: "100vh",
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
 				}}
 			>
-				<Form>
-					<div className="container  ">
-						<div className="center-center-login">
-							<h3> Admin LogIn</h3>
-							<div className="container">
-								<div className="ro">
-									{/* {setTimeout(() => { */}
-									<p className="text-danger text-center p-2">{error}</p>;
-									{/* }, 4000)} */}
-									<div className=" col-md-4 col-sm-12 mx-auto">
-										<Field
-											type="email"
-											className="form-control"
-											placeholder="email"
-											name="email"
-											autoComplete="true"
-										/>
-										<p className="eg-text">
-											<span className="required">*</span> Example:
-											netuser@gmail.com
-										</p>
-										<ErrorMessage name="email" render={renderError} />
-									</div>
-									<div className=" mx-auto col-md-4 col-sm-12">
-										<Field
-											type="password"
-											className="form-control"
-											placeholder="password"
-											autoComplete="true"
-											aria-label="location"
-											name="password"
-										/>
-										<p className="eg-text">
-											<span className="required">*</span>
-										</p>
-										<ErrorMessage name="password" render={renderError} />
-									</div>
-									<div className="col-md-4 col-sm-12 mx-auto">
-										<button
-											type="submit"
-											className="btn form-control text-center mt-3"
-										>
-											Submit
-										</button>
+				<Formik
+					enableReinitialize={true}
+					initialValues={initialValues}
+					validationSchema={validationSchema}
+					onSubmit={async (values, { resetForm }) => {
+						await handleSubmit(values);
+						resetForm();
+					}}
+				>
+					<Form>
+						<div className="container">
+							<div className="center-center-login">
+								<h3> Admin LogIn</h3>
+								<div className="container">
+									<div className="ro">
+										{/* {setTimeout(() => { */}
+										<p className="text-danger text-center p-2">{error}</p>;
+										{/* }, 4000)} */}
+										<div className=" col-md-4 col-sm-12 mx-auto">
+											<Field
+												type="email"
+												className="form-control"
+												placeholder="email"
+												name="email"
+												autoComplete="true"
+											/>
+											<p className="eg-text">
+												<span className="required">*</span> Example:
+												netuser@gmail.com
+											</p>
+											<ErrorMessage name="email" render={renderError} />
+										</div>
+										<div className=" mx-auto col-md-4 col-sm-12">
+											<Field
+												type="password"
+												className="form-control"
+												placeholder="password"
+												autoComplete="true"
+												aria-label="location"
+												name="password"
+											/>
+											<p className="eg-text">
+												<span className="required">*</span>
+											</p>
+											<ErrorMessage name="password" render={renderError} />
+										</div>
+										<div className="col-md-4 col-sm-12 mx-auto">
+											<button
+												type="submit"
+												className="btn form-control text-center mt-3"
+											>
+												Submit
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</Form>
-			</Formik>
+					</Form>
+				</Formik>
+			</div>
 		</>
 	);
 }
