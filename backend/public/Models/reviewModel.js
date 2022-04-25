@@ -59,7 +59,7 @@ reviewSchema.pre(/findOneAnd/, async function (next) {
 	next();
 });
 
-reviewSchema.prev("remove", function (next) {
+reviewSchema.pre("remove", function (next) {
 	Residence.remove({ review: this._id });
 	next();
 });

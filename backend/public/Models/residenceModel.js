@@ -1,4 +1,9 @@
 const mongoose = require("mongoose");
+const Review = require("./reviewModel");
+const User = require("./userModel");
+const RegistrationTable = require("./registrationTable");
+const RClass = require("./classModel");
+
 const uniqueValidator = require("mongoose-unique-validator");
 const residenceSchema = mongoose.Schema({
 	name: {
@@ -60,6 +65,11 @@ residenceSchema.set(
 	"toObject",
 	{ virtuals: true } //ensure to object populate
 );
+
+residenceSchema.pre("removoe", function (next) {
+	RegistrationTable.remove({ residence: this._id });
+	RClass.remove({ residence: this._id });
+});
 
 residenceSchema.index({ gpsAddress: "2dsphere" });
 

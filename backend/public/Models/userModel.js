@@ -49,25 +49,27 @@ userSchema.methods.passwordChanged = async (jwtTimeStamp) => {
 let User = mongoose.model("User", userSchema);
 User.exists({ email: "Admin@gmail.com" }).then((result) => {
 	if (!result) {
-		User.insertMany(
-			[
-				{
-					username: "michael narh",
-					email: "Admin@gmail.com",
-					password: "micihaelnarh",
-					passwordConfirm: "michaelnarh",
-				},
-				{
-					username: "James Mensah",
-					email: "maintainer@gmail.com",
-					password: "drjames",
-					passwordConfirm: "drjames",
-				},
-			],
-			function (err) {
-				console.log(err);
-			}
-		);
+		User.insertMany([
+			{
+				username: "michael narh",
+				email: "Admin@gmail.com",
+				password: `$2a$12$1ncp/8WGWxXp4L9f9yEff.AlSdTtPVDst34Uwom6CP7Te7t.LEKyO`,
+				passwordConfirm: `$2a$12$1ncp/8WGWxXp4L9f9yEff.AlSdTtPVDst34Uwom6CP7Te7t.LEKyO`,
+				role: "admin",
+			},
+			{
+				username: "James Mensah",
+				email: "maintainer@gmail.com",
+				password: `$2a$12$2SYZIsURiQv0G6ed66TnI.Y/BZEAoJEtQr2er1sKAptjBxs2aq7Q6`,
+				passwordConfirm: `$2a$12$2SYZIsURiQv0G6ed66TnI.Y/BZEAoJEtQr2er1sKAptjBxs2aq7Q6
+				`,
+				role: "maintainer",
+			},
+		])
+			.then({})
+			.catch((e) => {
+				console.log(e);
+			});
 	}
 });
 

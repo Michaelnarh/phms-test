@@ -19,7 +19,7 @@ export default function Residences(props) {
 		const fetchHostels = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/hostels?page=${page}&limit=${limit}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/?page=${page}&limit=${limit}`,
 			});
 
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
@@ -62,7 +62,7 @@ export default function Residences(props) {
 			{!isLoading ? (
 				<>
 					<div className="content-top-flex">
-						{hostels && <SearchForm data={hostels} type="Hostel" />}
+						{hostels && <SearchForm data={hostels} type="Residence" />}
 					</div>
 
 					<div className="table-container">

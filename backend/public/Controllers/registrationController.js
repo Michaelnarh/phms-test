@@ -4,12 +4,13 @@ const Residence = require("../Models/residenceModel");
 
 exports.registerResidence = async (req, res) => {
 	const residenceId = req.params.residenceId;
-	const { _id } = await AcademicYear.findByOne({ slug: req.params.year_slug });
+	const { _id } = await AcademicYear.findOne({ slug: req.params.year_slug });
 
 	try {
 		await RegistrationTable.create({
 			residence: residenceId,
 			academicYear: _id,
+			addedBy: req.body.user,
 		});
 		res.status(201).json({
 			status: "success",
@@ -25,7 +26,7 @@ exports.registerResidence = async (req, res) => {
 
 exports.disabledRegistration = async (req, res) => {
 	const residenceId = req.params.residenceId;
-	const { _id } = await AcademicYear.findByOne({ slug: req.params.year_slug });
+	const { _id } = await AcademicYear.findOne({ slug: req.params.year_slug });
 
 	try {
 		await RegistrationTable.create({
@@ -35,7 +36,7 @@ exports.disabledRegistration = async (req, res) => {
 		});
 		res.status(201).json({
 			status: "success",
-			data: "registraion successful",
+			data: "disabled successful",
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -50,35 +51,35 @@ exports.getRegisteredResidences = async (req, res) => {
 		const zone_id = req.params.zone_id;
 		const academic_year = req.params.academic_year;
 
-		const filterZone = (item) => {
-			return item?.residennce?.location?.zone?.id === zone_id;
-		};
+		const acedemichYear = await AcademicYear.findOne({ slug: academic_year });
 
-		const filterRegistered = (arr, year) => {
-			return arr.filter(function (el) {
-				return el?._id === year?._id;
-			});
-		};
-
-		const acedemichYear = await AcademicYear.find({ slug: academic_year });
-
-		const currentregisteredResidenceByYear = RegistrationTable.find({
+		const currentRegisteredResidencesByYear = await RegistrationTable.find({
 			acedemichYear: acedemichYear?._id,
 			status: 1,
 		}).populate({
 			path: "residence",
-			select: "location",
-			populate: { path: "zone" },
+			populate: { path: "location", populate: { path: "zone" } },
 		});
 
-		const currentResidenceRegisteredByZone =
-			currentregisteredResidenceByYear.filter(filterZone());
+		const zoneArray = [];
+		currentRegisteredResidencesByYear.forEach((item) => {
+			if (item?.residence?.location?.zone?.id === zone_id) {
+				const data = {
+					name: item?.residence.name,
 
-		// const registeredResidences = filterRegistered(currentZones, acedemichYear);
+					zone: item?.residence?.location?.zone?.name,
+
+					createdAt: item?.updatedAt || item?.createdAt,
+
+					status: item?.status,
+				};
+				zoneArray.push(data);
+			}
+		});
 
 		res.status(201).json({
 			status: "success",
-			data: currentResidenceRegisteredByZone,
+			data: zoneArray,
 		});
 	} catch (err) {
 		res.status(400).json({

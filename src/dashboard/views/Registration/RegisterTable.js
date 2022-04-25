@@ -5,41 +5,52 @@ import axios from "axios";
 import * as Yup from "yup";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import AcademicYearModal from "./AcademicYearModal";
 
 export default function RegisterTable(props) {
 	const [employees, setEmployees] = useState([]);
-	const [em_month, setEmMonth] = useState([]);
-	const [em_year, setYear] = useState([]);
+	const [Residences, setResidences] = useState([]);
+	const [academic_year, setAcademicYear] = useState([]);
+	const [year_selected, setYearSelected] = useState();
+	const [selected_zone, setSelectedZone] = useState();
+	const [zones, setZones] = useState([]);
 
-	const months = [
-		{ key: "January" },
-		{ key: "February" },
-		{ key: "March" },
-		{ key: "April" },
-		{ key: "May" },
-		{ key: "June" },
-		{ key: "July" },
-		{ key: "August" },
-		{ key: "September" },
-		{ key: "October" },
-		{ key: "November" },
-		{ key: "December" },
-	];
+	useEffect(() => {
+		const fetchZones = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+			});
+			setZones(res.data.data);
+		};
+		const fetchYears = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/academic-year`,
+			});
+			setAcademicYear(res.data.data);
+		};
+		if (zones?.length === 0) {
+			fetchZones();
+		}
+		if (academic_year?.length === 0) {
+			fetchYears();
+		}
+	});
 
 	const handleSearch = async (values) => {
-		setEmMonth(values.month);
-		setYear(values.year);
+		setYearSelected(values.years);
+		setSelectedZone(values.zone);
 		try {
 			const res = await axios({
-				method: "post",
-				// url: `http://localhost:8080/api/request-salary/list`,
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/registration/${values.zone}/${values.years}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
-				data: values,
 			});
 			console.log(res.data);
-			setEmployees(res.data);
+			setResidences(res.data.data);
 		} catch (err) {
 			console.log(err);
 		}
@@ -49,7 +60,7 @@ export default function RegisterTable(props) {
 		try {
 			const res = await axios({
 				method: "post",
-				// url: `http://localhost:8080/api/request-salary/pay/${id}?token=${token}`,
+				url: ``,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -69,13 +80,13 @@ export default function RegisterTable(props) {
 	};
 
 	const validationSchema = Yup.object({
-		month: Yup.string().required("Month is required"),
-		year: Yup.string().required("Year is required"),
+		zone: Yup.string().required("zone is required"),
+		years: Yup.string().required("academic year is required"),
 	});
 
 	const initialValues = {
-		month: em_month ?? 0,
-		year: em_year ?? 2022,
+		zone: "",
+		years: "",
 	};
 	return (
 		<>
@@ -91,78 +102,71 @@ export default function RegisterTable(props) {
 				>
 					<Form>
 						<div className="row">
-							<div className="col-md-5 coll-sm-12">
+							<div className="col-md-4 coll-sm-12">
 								<Field
 									as="select"
 									className="form-select"
 									placeholder="Location"
-									name="month"
+									name="zone"
 								>
-									<option> Select Month</option>
-									{months.map((item, i) => (
-										<option key={i} value={i + 1}>
-											{item.key}
+									<option> Select Zone</option>
+									{zones.map((item, i) => (
+										<option key={item._id} value={item._id}>
+											{item.name}
 										</option>
 									))}
 								</Field>
 
-								{/* <ErrorMessage name="month" render={renderError} /> */}
+								<ErrorMessage name="zone" render={renderError} />
 							</div>
-							<div className="col-md-5 coll-sm-12">
+							<div className="col-md-4 coll-sm-12">
 								<Field
 									as="select"
 									className="form-select"
 									placeholder="Location"
-									name="year"
+									name="years"
 								>
-									<option> Select Year</option>
-									<option value={2023}> 2023</option>
-									<option value={2022}> 2022</option>
-									<option value={2021}> 2021</option>
-									<option value={2020}> 2020</option>
-									<option value={2019}> 2019</option>
+									<option> Select Academic</option>
+									{academic_year.map((item) => (
+										<option key={item._id} value={item?.slug}>
+											{item.years}
+										</option>
+									))}
 								</Field>
 
-								{/* <ErrorMessage name="year" render={renderError} /> */}
+								<ErrorMessage name="years" render={renderError} />
 							</div>
 							<div className="col-md-2 col-sm-12">
 								<Button type="submit " variant="success">
 									Search
 								</Button>
 							</div>
+							<div className="col-md-2 col-sm-12">
+								<AcademicYearModal />
+							</div>
 						</div>
 					</Form>
 				</Formik>
-				<div>
-					{employees.length > 0 ? (
-						<h3 className="text-center text-success">
-							Request Month <span>{em_month}</span> and Year{" "}
-							<span>{em_year}</span>{" "}
-						</h3>
-					) : (
-						""
-					)}
-				</div>
+				<div></div>
 				<table className="mt-4">
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Location</th>
-							<th>Salary</th>
+							<th>Residence Name</th>
+							<th>Zone</th>
+							<th>Date Registered</th>
+							<th>Registration Status</th>
 							<th className="text-center">Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						{employees.length > 0 &&
-							employees.map((item, i) => (
-								<tr key={item.employee?._id}>
+						{Residences.length > 0 &&
+							Residences.map((item, i) => (
+								<tr key={item?._id}>
 									<td>{i + 1}</td>
-									<td>{item.employee?.firstName}</td>
-									<td>{item.employee?.lastName}</td>
-									<td>{item.employee?.location?.name}</td>
-									<td>{item.employee?.salary}</td>
+									<td>{item.name}</td>
+									<td>{item?.zone}</td>
+									<td>{item.createdAt}</td>
 
 									<td className="text-center">
 										{item.status === 1 ? (

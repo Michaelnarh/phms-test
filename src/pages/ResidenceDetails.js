@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MapComponent from "./components/MapsComponent";
 import { useParams } from "react-router-dom";
 import { CustomButton } from "./components/stylecomponents";
-import ComomentsModal from "./components/CommentsModal";
+import CommentsModal from "./components/CommentsModal";
 import ImageGallery from "react-image-gallery";
 import axios from "axios";
 
@@ -76,7 +76,7 @@ export default function Hosteldetails(props) {
 								</div>
 								<div className="row">
 									<div className="col-md-6 col-lg-6 col-sm-12">
-										<ComomentsModal id={residence?._id} />
+										<CommentsModal id={residence?._id} />
 									</div>
 									<div className="col-md-6 col-lg-6 col-sm-12">
 										{residence && (

@@ -17,9 +17,9 @@ export default function ResidenceIndex(props) {
 					/>
 					<button
 						className=" btn mb-1 "
-						onClick={() => navigate("/admin/hostels/add")}
+						onClick={() => navigate("/admin/residences/add")}
 					>
-						ADD HOSTEL
+						ADD RESIDENCE
 					</button>
 				</div>
 				<Outlet />

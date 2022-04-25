@@ -3,7 +3,7 @@ import { Button, Modal, Form } from "react-bootstrap";
 import { CustomButton } from "./stylecomponents";
 import { FaStar } from "react-icons/fa";
 import axios from "axios";
-const ComomentsModal = (props) => {
+const CommentsModal = (props) => {
 	const { id } = props;
 	const userId = localStorage.getItem("dumb");
 	const [show, setShow] = useState(false);
@@ -100,4 +100,4 @@ const ComomentsModal = (props) => {
 	);
 };
 
-export default ComomentsModal;
+export default CommentsModal;

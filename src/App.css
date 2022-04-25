@@ -77,6 +77,18 @@ a {
 	font-size: 1.8rem;
 }
 
+.footer-style{
+	/* margin-top: 100px; */
+	/* position:absolute; */
+	height: calc(100% - 60px);
+	overflow: hidden;
+	/* left:0; */
+	/* bottom:0; */
+	/* right:0; */
+}
+.footer-text{
+	color:var(--lightBlue);
+}
 /***
 hostel and homestel images
 */

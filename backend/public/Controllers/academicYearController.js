@@ -2,7 +2,7 @@ const AcademicYear = require("../Models/academicYearModel");
 const ApiFeatures = require("../utils/APIfeatures");
 
 //create new AcademicYear
-exports.createAcademicYea = async (req, res) => {
+exports.createAcademicYear = async (req, res) => {
 	try {
 		const newAcademicYear = await AcademicYear.create(req.body);
 		res.status(201).json({
@@ -65,10 +65,7 @@ exports.getAcademicYear = async (req, res) => {
 exports.getAllAcademicYears = async (req, res) => {
 	try {
 		// const zones = AcademicYear.find();
-		const feature = new ApiFeatures(
-			AcademicYear.find().populate(["tutor"]),
-			req.query
-		)
+		const feature = new ApiFeatures(AcademicYear.find(), req.query)
 			.filter()
 			.paginate(25);
 

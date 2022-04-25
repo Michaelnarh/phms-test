@@ -102,7 +102,7 @@ function MainLayout() {
 				<Route path="/admin/register" element={<Register />} />
 				<Route path="/admin" element={<DashLayout />}>
 					<Route path="dashboard" element={<DashBoard />} />
-					<Route path="hostels" element={<ResidenceViews />}>
+					<Route path="residences" element={<ResidenceViews />}>
 						<Route index element={<Residences />} />
 						<Route path="add" element={<AddResidence />} />
 						<Route path="details/:slug" element={<ShowResidence />} />
@@ -147,8 +147,8 @@ function MainLayout() {
 						<Route path=":id" element={<EditClass />} />
 					</Route>
 					<Route path="registration" element={<RegistrationViews />}>
-						<Route index element={<RegisteredTable />} />
-						<Route path="register" element={<RegisterTable />} />
+						<Route index element={<RegisterTable />} />
+						<Route path="registered" element={<RegisteredTable />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />
 				</Route>

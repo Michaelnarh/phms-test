@@ -12,4 +12,5 @@ const facilitySchema = mongoose.Schema({
 	updatedAt: { type: Date, default: Date.now() },
 });
 facilitySchema.plugin(uniqueValidator);
+
 module.exports = mongoose.model("Facility", facilitySchema);

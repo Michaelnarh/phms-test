@@ -15,8 +15,8 @@ export const SideBarItems = [
 		icon: <FaSignal size={20} color="var(--mainWhite)" />,
 	},
 	{
-		name: "Hostels",
-		href: "hostels",
+		name: "Residences",
+		href: "residences",
 		icon: <FaHome size={20} color="var(--mainWhite)" />,
 		children: {
 			name: "Add Hostel",
@@ -24,16 +24,16 @@ export const SideBarItems = [
 			icon: <FaPlus size={10} color="var(--mainWhite)" />,
 		},
 	},
-	{
-		name: "Homestels",
-		href: "homestels",
-		icon: <FaBuffer size={20} color="var(--mainWhite)" />,
-		children: {
-			name: "Add Homestel",
-			href: "homestels/add",
-			icon: <FaPlus size={10} color="var(--mainWhite)" />,
-		},
-	},
+	// {
+	// 	name: "Homestels",
+	// 	href: "homestels",
+	// 	icon: <FaBuffer size={20} color="var(--mainWhite)" />,
+	// 	children: {
+	// 		name: "Add Homestel",
+	// 		href: "homestels/add",
+	// 		icon: <FaPlus size={10} color="var(--mainWhite)" />,
+	// 	},
+	// },
 	{
 		name: "Zones",
 		href: "zones",
@@ -57,7 +57,7 @@ export const SideBarItems = [
 	{
 		name: "R Classes",
 		href: "classes",
-		icon: <FaUser size={20} color="var(--mainWhite)" />,
+		icon: <FaBuffer size={20} color="var(--mainWhite)" />,
 		children: {
 			name: "Add Location",
 			href: "classes/add",

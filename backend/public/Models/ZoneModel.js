@@ -16,10 +16,9 @@ ZoneSchema.plugin(uniqueValidator);
 
 let Zone = mongoose.model("Zone", ZoneSchema);
 
-// let User = mongoose.model("User", userSchema);
 Zone.exists({ name: "Ayeduase-North" }).then((result) => {
 	if (!result) {
-		Zone.create(
+		Zone.insertOne(
 			{
 				name: "Ayeduase-North",
 			},
@@ -27,9 +26,14 @@ Zone.exists({ name: "Ayeduase-North" }).then((result) => {
 			function (err) {
 				console.log(err);
 			}
-		);
+		)
+			.then({})
+			.catch((e) => {
+				console.log(e);
+			});
 	}
 });
+
 ZoneSchema.pre("remove", function (next) {
 	Residence.remove({ zone: this._id });
 	next();

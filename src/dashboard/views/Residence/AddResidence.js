@@ -41,16 +41,16 @@ export default function Addhostel(props) {
 			});
 			setRClass(res.data.data);
 		};
-		if (locations.length === 0) {
-			fetchLocations();
-		}
-		if (facilityArr.length === 0) {
-			fetchFacilities();
-		}
-		if (facilityArr.length === 0) {
-			fetchRClass();
-		}
-	});
+		// if (locations.length === 0) {
+		fetchLocations();
+		// }
+		// if (facilityArr.length === 0) {
+		fetchFacilities();
+		// }
+		// if (facilityArr.length === 0) {
+		fetchRClass();
+		// }
+	}, []);
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
 	// const isLatitude = (num) => isFinite(num) && Math.abs(num) <= 90;
@@ -133,7 +133,7 @@ export default function Addhostel(props) {
 			});
 			setAccepted([]);
 			values.coverImage = "";
-			navigate("/admin/hostels");
+			navigate("/admin/residences");
 		} catch (err) {
 			console.log(err);
 		}
