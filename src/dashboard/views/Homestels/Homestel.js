@@ -60,7 +60,7 @@ export default function Homestel(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{homestels &&
+						{homestels.length > 0 &&
 							homestels.map((item) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>

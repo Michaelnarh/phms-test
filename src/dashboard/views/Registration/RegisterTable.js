@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { FaCheckDouble } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import axios from "axios";
@@ -6,8 +6,13 @@ import * as Yup from "yup";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import AcademicYearModal from "./AcademicYearModal";
+import { useNavigate } from "react-router-dom";
+import { ContextStore } from "./../../../store/ContextStore";
 
 export default function RegisterTable(props) {
+	const { authStore } = useContext(ContextStore);
+	const [user] = useState(JSON.parse(localStorage.getItem("user")));
+	const navigate = useNavigate();
 	const [employees, setEmployees] = useState([]);
 	const [Residences, setResidences] = useState([]);
 	const [academic_year, setAcademicYear] = useState([]);
@@ -56,24 +61,25 @@ export default function RegisterTable(props) {
 		}
 	};
 
-	const paySalary = async (id) => {
+	const handleRegister = async (id) => {
 		try {
 			const res = await axios({
 				method: "post",
-				url: ``,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/registration/register/${year_selected}/${id}/${user?._id}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
 			});
-			const curr_emp = employees;
-			console.log(res.data, employees);
-			curr_emp.forEach((el) => {
-				if (el.employee._id === res.data?.rs?.employee) {
-					el.status = res.data.rs?.status;
+			let curr_residences = Residences;
+			// console.log(res.data, employees);
+			curr_residences.forEach((el) => {
+				if (el._id === res.data._id) {
+					el.status = res.data?.status;
+					el.createdAt = res.data?.createdAt;
 				}
 			});
 
-			setEmployees([...curr_emp]);
+			setResidences([...curr_residences]);
 		} catch (err) {
 			console.log(err);
 		}
@@ -88,9 +94,12 @@ export default function RegisterTable(props) {
 		zone: "",
 		years: "",
 	};
+	console.log("my user", user);
 	return (
 		<>
+			<Button onClick={() => navigate("registered")}>Registered</Button>
 			<div className="table-container">
+				<h2 className="text-center mb-4">UnRegistered Residences Area</h2>
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}
@@ -177,7 +186,7 @@ export default function RegisterTable(props) {
 										) : (
 											<Button
 												variant="success"
-												onClick={() => paySalary(item._id)}
+												onClick={() => handleRegister(item._id)}
 											>
 												Register
 											</Button>

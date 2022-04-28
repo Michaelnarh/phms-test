@@ -7,13 +7,23 @@ export default function AddClass(props) {
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Residence Class Name is Required"),
 		description: Yup.string().nullable(),
-		priceRange: Yup.string().nullable(),
+		category: Yup.object({
+			oneInOne: Yup.string().required("An amount is required"),
+			twoInOne: Yup.string().required("An amount is required"),
+			threeInOne: Yup.string().required("An amount is required"),
+			fourInOne: Yup.string().required("An amount is required"),
+		}),
 	});
 
 	const initialValues = {
 		name: "",
 		description: "",
-		priceRange: "",
+		category: {
+			oneInOne: "",
+			twoInOne: "",
+			threeInOne: "",
+			fourInOne: "",
+		},
 	};
 	const onSubmit = async (values) => {
 		console.log(values);
@@ -44,6 +54,9 @@ export default function AddClass(props) {
 				<Form>
 					<div className="row">
 						<div className="col-md-6 col-sm-12">
+							<label>
+								<b>Class Name</b>
+							</label>
 							<Field
 								type="text"
 								className="form-control"
@@ -56,6 +69,9 @@ export default function AddClass(props) {
 							<ErrorMessage name="name" render={renderError} />
 						</div>
 						<div className="col-md-6 col-sm-12">
+							<label>
+								<b>Class Description</b>
+							</label>
 							<Field
 								type="text"
 								as="textarea"
@@ -69,17 +85,58 @@ export default function AddClass(props) {
 
 					<div className="row">
 						<div className="col-md-6 col-sm-12">
+							<label>
+								<b>One In One Room</b>
+								<span className="required">*</span>
+							</label>
 							<Field
 								type="text"
-								name="priceRange"
+								name="category.oneInOne"
 								className="form-control"
-								placeholder="Residence Price Range"
 							/>
-							<p className="eg-text">
-								{" "}
-								<span className="required">*</span> Example: 2500-3000
-							</p>
-							<ErrorMessage name="priceRange" render={renderError} />
+							<p className="eg-text"> Example: 2500-3000</p>
+							<ErrorMessage name="category.oneInOne" render={renderError} />
+						</div>
+						<div className="col-md-6 col-sm-12">
+							<label>
+								<b>Two In One Room </b>
+								<span className="required">*</span>
+							</label>
+							<Field
+								type="text"
+								name="category.twoInOne"
+								className="form-control"
+							/>
+							<p className="eg-text"> Example: 2500-3000</p>
+							<ErrorMessage name="category.twoInOne" render={renderError} />
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-md-6 col-sm-12">
+							<label>
+								<b>Three In One Room</b>
+								<span className="required">*</span>
+							</label>
+							<Field
+								type="text"
+								name="category.threeInOne"
+								className="form-control"
+							/>
+							<p className="eg-text"> Example: 2500-3000</p>
+							<ErrorMessage name="category.threeInOne" render={renderError} />
+						</div>
+						<div className="col-md-6 col-sm-12">
+							<label>
+								<b>Four In One Room</b>
+								<span className="required">*</span>
+							</label>
+							<Field
+								type="text"
+								name="category.fourInOne"
+								className="form-control"
+							/>
+							<p className="eg-text"> Example: 2500-3000</p>
+							<ErrorMessage name="category.fourInOne" render={renderError} />
 						</div>
 					</div>
 

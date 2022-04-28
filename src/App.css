@@ -30,14 +30,27 @@ a {
 	color: var(--mainBlack);
 	text-decoration: none !important;
 }
+.margin-top{
+	margin-top: 80px;
+}
+.sticky-navbar{
+	top:0;
+	position: sticky;
+	position: -webkit-sticky;
+	background-color: rgb(255, 254, 254);
+	z-index: 9999;
+
+}
 .nav-flex {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-	/* overflow: hidden; */
+	overflow: hidden;
+	/* margin-bottom: 20px; */
 	height: 80px;
 	/* position: fixed; */
+	z-index: 9999;
 	box-shadow: var(--darkShadow);
 }
 .nav-flex ul {
@@ -77,17 +90,49 @@ a {
 	font-size: 1.8rem;
 }
 
+.user-area{
+	background-color: #0a6e23;
+	color: var(--mainWhite);
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+}
+
+.main-arrangement{
+	display: flex;
+	flex:1;
+	flex-direction: column;
+}
+
+.footer-desk{
+	justify-content: flex-end;
+	justify-self: flex-end;
+}
+
 .footer-style{
 	/* margin-top: 100px; */
 	/* position:absolute; */
-	height: calc(100% - 60px);
-	overflow: hidden;
+	background-blend-mode: screen;
+	/* padding: 100px; */
+	/* position: relative; */
+	/* background-size: contain; */
+	/* width: 100%; */
+	/* background-image: url("./images/footer-wave-1.svg"); */
+	/* background-repeat: no-repeat; */
+	/* background-size: auto; */
+	display: block;
+	
 	/* left:0; */
 	/* bottom:0; */
 	/* right:0; */
 }
 .footer-text{
-	color:var(--lightBlue);
+	color:var(--mainWhite);
+	position: relative;
+	bottom: -250px;
+	/* margin-left: auto; */
+	/* margin-right: auto; */
+
 }
 /***
 hostel and homestel images
@@ -118,6 +163,23 @@ hostel and homestel images
 	width: 300px;
 	box-sizing: border-box;
 	height: 350px;
+}
+.top-svg-detail-page{
+	z-index: -89;
+
+
+
+}
+.facility-flex{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.facility-names{
+	flex:70%
+}
+.facility-count{
+	flex:30%
 }
 .details-residence-bg {
 	background-color: var(--mainWhite);
@@ -195,7 +257,10 @@ hostel and homestel images
 .details-header {
 	font-weight: 500;
 	font-size: 3.2rem;
-	color: var(--darkBlue);
+	color: var(--mainOrange);
+	z-index: 1;
+	position: relative;
+	margin-top:25;
 }
 
 .hostel-flex {

@@ -33,17 +33,14 @@ export default function Residences(props) {
 	const handleView = async (slug) => {
 		navigate(`details/${slug}`);
 	};
-	const handleEdit = async (id) => {
-		const res = await axios({
-			method: "get",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${id}`,
-		});
-		console.log(res.data);
+	const handleEdit = async (slug) => {
+		navigate(`${slug}/edit`);
 	};
 	const handlePageClick = (p) => {
 		setPage(p.selected + 1);
 		setLimit(limit);
 	};
+
 	return (
 		<>
 			<div className="page-number">
@@ -84,9 +81,7 @@ export default function Residences(props) {
 											<td>{item._id.slice(20, 24)}</td>
 											<td>{item?.name}</td>
 											<td>{item?.location ? item.location.name : "N/A"}</td>
-											<td>
-												{item?.location.zone ? item.location.zone.name : "N/A"}
-											</td>
+											<td>{item?.location?.zone?.name ?? "N/A"}</td>
 											<td>{item?.digitalAddress ?? "N/A"}</td>
 											<td className="table-inline-flex">
 												<FaEye
@@ -97,7 +92,7 @@ export default function Residences(props) {
 												/>
 												<FaPen
 													size={20}
-													onClick={() => handleEdit("edit")}
+													onClick={() => handleEdit(item.slug)}
 													color="var(--mainOrange)"
 													title="Edit"
 												/>

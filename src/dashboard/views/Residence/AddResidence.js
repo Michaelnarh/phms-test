@@ -100,6 +100,7 @@ export default function Addhostel(props) {
 		formData.append("location", values.location);
 		formData.append("digitalAddress", values.digitalAddress);
 		formData.append("bookingLink", values.bookingLink);
+		formData.append("description", values.description);
 
 		formData.append("managersName", values.managersName);
 		formData.append("managersContact", values.managersContact);
@@ -625,7 +626,6 @@ export function FormStepper({ children, ...props }) {
 			validationSchema={currentChild.props?.validationSchema}
 			onSubmit={async (values, { resetForm }) => {
 				if (isLastPage()) {
-					console.log(values);
 					props.onSubmit(values, resetForm);
 				} else {
 					setStep((s) => s + 1);

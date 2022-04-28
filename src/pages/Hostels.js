@@ -15,7 +15,6 @@ export default function Hostels(props) {
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/hostels?page=${page}&limit=${limit}`,
 			});
-			console.log(res.data.total);
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
 			setHostels(res.data.data);
 		};
@@ -27,10 +26,9 @@ export default function Hostels(props) {
 		setPage(p.selected + 1);
 		setLimit(limit);
 	};
-	console.log(hostels);
 	return (
 		<>
-			<div className="container">
+			<div className="container margin-top">
 				<div>
 					<Searchbox type="Hostel" data={hostels} />
 				</div>

@@ -30,7 +30,6 @@ export default function Searchbox(props) {
 	};
 	const handleSearch = async (text) => {
 		if (!text) return;
-		console.log("searching...", text);
 		var data = JSON.stringify({
 			search: `${text}`,
 		});

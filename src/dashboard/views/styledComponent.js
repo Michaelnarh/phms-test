@@ -12,7 +12,7 @@ export const CustomButton = styled.div`
 		// background-image: linear-gradient(
 		// 	to right,
 		// 	var(--darkBlue),
-		// 	var(--mainOrange)
+		// 	var(--mainWhite)
 		// );
 	}
 `;

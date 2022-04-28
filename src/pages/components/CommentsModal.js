@@ -46,6 +46,7 @@ const CommentsModal = (props) => {
 				onHide={handleClose}
 				backdrop="static"
 				keyboard={false}
+				className="margin-top"
 			>
 				<Modal.Header closeButton>
 					<Modal.Title>Leave a Comment </Modal.Title>

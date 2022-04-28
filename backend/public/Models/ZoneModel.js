@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Residence = require("./residenceModel");
+const Location = require("./locationModel");
 const uniqueValidator = require("mongoose-unique-validator");
 const ZoneSchema = mongoose.Schema({
 	name: {
@@ -18,15 +19,26 @@ let Zone = mongoose.model("Zone", ZoneSchema);
 
 Zone.exists({ name: "Ayeduase-North" }).then((result) => {
 	if (!result) {
-		Zone.insertOne(
+		Zone.insertMany([
 			{
 				name: "Ayeduase-North",
 			},
-
-			function (err) {
-				console.log(err);
-			}
-		)
+			{
+				name: "Ayeduase-South",
+			},
+			{
+				name: "Kotei-Gyinyase",
+			},
+			{
+				name: "Newsite-Boadi-Emena",
+			},
+			{
+				name: "Bomso-Ahinsan",
+			},
+			{
+				name: "Gaza-Kentikrono",
+			},
+		])
 			.then({})
 			.catch((e) => {
 				console.log(e);
@@ -36,6 +48,7 @@ Zone.exists({ name: "Ayeduase-North" }).then((result) => {
 
 ZoneSchema.pre("remove", function (next) {
 	Residence.remove({ zone: this._id });
+	Location.remove({ zone: this._id });
 	next();
 });
 

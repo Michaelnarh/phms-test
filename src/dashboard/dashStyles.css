@@ -323,6 +323,17 @@ th {
 	padding: 8px;
 }
 
+.facility-flex{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.facility-names{
+	flex:70%
+}
+.facility-count{
+	flex:30%
+}
 /* form-styles */
 .eg-text {
 	color: rgb(156, 151, 151);

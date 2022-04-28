@@ -8,6 +8,14 @@ import {
 	FaPlus,
 } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
+import { AiFillWindows } from "react-icons/ai";
+import {
+	IoIosFingerPrint,
+	IoMdCog,
+	IoIosLocate,
+	IoIosPerson,
+	IoIosStar,
+} from "react-icons/io";
 export const SideBarItems = [
 	{
 		name: "Dashboard",
@@ -47,7 +55,7 @@ export const SideBarItems = [
 	{
 		name: "Locations",
 		href: "locations",
-		icon: <FaUser size={20} color="var(--mainWhite)" />,
+		icon: <IoIosLocate size={20} color="var(--mainWhite)" />,
 		children: {
 			name: "Add Location",
 			href: "locations/add",
@@ -67,7 +75,7 @@ export const SideBarItems = [
 	{
 		name: "R Facilities",
 		href: "facilities",
-		icon: <FaUser size={20} color="var(--mainWhite)" />,
+		icon: <IoMdCog size={20} color="var(--mainWhite)" />,
 		children: {
 			name: "Add Hostel",
 			href: "facilities/add",
@@ -77,7 +85,7 @@ export const SideBarItems = [
 	{
 		name: "Registration",
 		href: "registration",
-		icon: <FaUser size={20} color="var(--mainWhite)" />,
+		icon: <IoIosFingerPrint size={20} color="var(--mainWhite)" />,
 	},
 	{
 		name: "Senior Tutors",
@@ -102,7 +110,7 @@ export const SideBarItems = [
 	{
 		name: "Area MPs",
 		href: "area-mps",
-		icon: <FaUser size={20} color="var(--mainWhite)" />,
+		icon: <IoIosPerson size={20} color="var(--mainWhite)" />,
 		children: {
 			name: "Add Area-Mp",
 			href: "area-mps/add",
@@ -112,11 +120,16 @@ export const SideBarItems = [
 	{
 		name: "National MPs",
 		href: "national-mp",
-		icon: <FaUser size={20} color="var(--mainWhite)" />,
+		icon: <IoIosStar size={20} color="var(--mainWhite)" />,
 		children: {
 			name: "Add Hostel",
 			href: "national-mp/add",
 			icon: <FaPlus size={10} color="var(--mainWhite)" />,
 		},
+	},
+	{
+		name: "Reports",
+		href: "reports",
+		icon: <AiFillWindows size={20} color="var(--mainWhite)" />,
 	},
 ];

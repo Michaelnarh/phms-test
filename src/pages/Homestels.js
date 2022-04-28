@@ -3,6 +3,7 @@ import Residence from "./components/Residence";
 import Searchbox from "./components/SearchBox";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
+import noData from "../images/no-data.svg";
 
 export default function Hostels(props) {
 	const [homestels, setHomestels] = useState([]);
@@ -29,19 +30,30 @@ export default function Hostels(props) {
 	};
 	return (
 		<>
-			<div className="container">
+			<div className="container margin-top">
 				<div>
 					<Searchbox type="Homestels" data={homestels} />
 				</div>
 				<div className="hostel-flex my-5">
-					{homestels?.length > 0 &&
+					{homestels?.length === 0 ? (
+						<>
+							<img
+								className="text-center"
+								src={noData}
+								alt="..."
+								style={{ width: 250, height: 250 }}
+							/>{" "}
+							<br />
+						</>
+					) : (
 						homestels.map((item, index) => {
 							return (
 								<>
 									<Residence residence={item} key={index} />
 								</>
 							);
-						})}
+						})
+					)}
 				</div>
 				<ReactPaginate
 					breakLabel="..."

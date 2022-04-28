@@ -1,85 +1,104 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { FaCheckDouble } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import * as Yup from "yup";
-// import { renderError } from "../../utils/Utils";
+import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { IoIosCheckmarkCircle, IoIosLock } from "react-icons/io";
+import AcademicYearModal from "./AcademicYearModal";
+import { ContextStore } from "./../../../store/ContextStore";
+import blankData from "../../images/blank_svg.svg";
 
 export default function RegisteredTable(props) {
+	const { authStore } = useContext(ContextStore);
+	const [user] = useState(JSON.parse(localStorage.getItem("user")));
 	const [employees, setEmployees] = useState([]);
-	const [em_month, setEmMonth] = useState([]);
-	const [em_year, setYear] = useState([]);
+	const [Residences, setResidences] = useState([]);
+	const [academic_year, setAcademicYear] = useState([]);
+	const [year_selected, setYearSelected] = useState();
+	const [selected_zone, setSelectedZone] = useState();
 
-	const months = [
-		{ key: "January" },
-		{ key: "February" },
-		{ key: "March" },
-		{ key: "April" },
-		{ key: "May" },
-		{ key: "June" },
-		{ key: "July" },
-		{ key: "August" },
-		{ key: "September" },
-		{ key: "October" },
-		{ key: "November" },
-		{ key: "December" },
-	];
+	const [zones, setZones] = useState([]);
+
+	useEffect(() => {
+		const fetchZones = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+			});
+			setZones(res.data.data);
+		};
+		const fetchYears = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/academic-year`,
+			});
+			setAcademicYear(res.data.data);
+		};
+		if (zones?.length === 0) {
+			fetchZones();
+		}
+		if (academic_year?.length === 0) {
+			fetchYears();
+		}
+	});
 
 	const handleSearch = async (values) => {
-		setEmMonth(values.month);
-		setYear(values.year);
+		setYearSelected(values.years);
+		setSelectedZone(values.zone);
 		try {
 			const res = await axios({
-				method: "post",
-				// url: `http://localhost:8080/api/request-salary/list`,
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/registration/reg/${values.zone}/${values.years}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
-				data: values,
 			});
-			console.log(res.data);
-			setEmployees(res.data);
+
+			setResidences(res.data.data);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
-	const paySalary = async (id) => {
+	const handleDisabled = async (id) => {
 		try {
 			const res = await axios({
 				method: "post",
-				// url: `http://localhost:8080/api/request-salary/pay/${id}?token=${token}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/registration/register/${year_selected}/${id}/${user?._id}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
 			});
-			const curr_emp = employees;
-			console.log(res.data, employees);
-			curr_emp.forEach((el) => {
-				if (el.employee._id === res.data?.rs?.employee) {
-					el.status = res.data.rs?.status;
+			let curr_residences = Residences;
+			// console.log(res.data, employees);
+			curr_residences.forEach((el) => {
+				if (el._id === res.data._id) {
+					el.status = res.data?.status;
+					el.createdAt = res.data?.createdAt;
 				}
 			});
 
-			setEmployees([...curr_emp]);
+			setResidences([...curr_residences]);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
 	const validationSchema = Yup.object({
-		month: Yup.string().required("Month is required"),
-		year: Yup.string().required("Year is required"),
+		zone: Yup.string().required("zone is required"),
+		years: Yup.string().required("academic year is required"),
 	});
 
 	const initialValues = {
-		month: em_month ?? 0,
-		year: em_year ?? 2022,
+		zone: selected_zone ?? "",
+		years: year_selected ?? "",
 	};
 	return (
 		<>
 			<div className="table-container">
+				<h2 className="text-center mb-4"> Registered Residences Area</h2>
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}
@@ -91,98 +110,105 @@ export default function RegisteredTable(props) {
 				>
 					<Form>
 						<div className="row">
-							<div className="col-md-5 coll-sm-12">
+							<div className="col-md-4 coll-sm-12">
 								<Field
 									as="select"
 									className="form-select"
 									placeholder="Location"
-									name="month"
+									name="zone"
 								>
-									<option> Select Month</option>
-									{months.map((item, i) => (
-										<option key={i} value={i + 1}>
-											{item.key}
+									<option> Select Zone</option>
+									{zones.map((item, i) => (
+										<option key={item._id} value={item._id}>
+											{item.name}
 										</option>
 									))}
 								</Field>
 
-								{/* <ErrorMessage name="month" render={renderError} /> */}
+								<ErrorMessage name="zone" render={renderError} />
 							</div>
-							<div className="col-md-5 coll-sm-12">
+							<div className="col-md-4 coll-sm-12">
 								<Field
 									as="select"
 									className="form-select"
 									placeholder="Location"
-									name="year"
+									name="years"
 								>
-									<option> Select Year</option>
-									<option value={2023}> 2023</option>
-									<option value={2022}> 2022</option>
-									<option value={2021}> 2021</option>
-									<option value={2020}> 2020</option>
-									<option value={2019}> 2019</option>
+									<option> Select Academic</option>
+									{academic_year.map((item) => (
+										<option key={item._id} value={item?.slug}>
+											{item.years}
+										</option>
+									))}
 								</Field>
 
-								{/* <ErrorMessage name="year" render={renderError} /> */}
+								<ErrorMessage name="years" render={renderError} />
 							</div>
 							<div className="col-md-2 col-sm-12">
 								<Button type="submit " variant="success">
 									Search
 								</Button>
 							</div>
+							<div className="col-md-2 col-sm-12">
+								<AcademicYearModal />
+							</div>
 						</div>
 					</Form>
 				</Formik>
 				<div>
-					{employees.length > 0 ? (
-						<h3 className="text-center text-success">
-							Request Month <span>{em_month}</span> and Year{" "}
-							<span>{em_year}</span>{" "}
-						</h3>
-					) : (
-						""
-					)}
+					<h3 className="text-center">Search Results</h3>
+					<p></p>
 				</div>
-				<table className="mt-4">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Residence Name</th>
-							<th>Zone</th>
-							<th>Date Registered</th>
-							<th>Registration Status</th>
-							<th className="text-center">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						{employees.length > 0 &&
-							employees.map((item, i) => (
-								<tr key={item.employee?._id}>
+				{Residences.length === 0 ? (
+					<div className="text-center">
+						<img src={blankData} width={300} height={350} alt="...." />
+					</div>
+				) : (
+					<table className="mt-4">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Residence Name</th>
+								<th>Zone</th>
+								<th>Date Registered</th>
+								<th>Registration Status</th>
+								<th className="text-center">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{Residences.map((item, i) => (
+								<tr key={item?._id}>
 									<td>{i + 1}</td>
-									<td>{item.employee?.firstName}</td>
-									<td>{item.employee?.lastName}</td>
-									<td>{item.employee?.location?.name}</td>
-									<td>{item.employee?.salary}</td>
+									<td>{item.name}</td>
+									<td>{item?.zone}</td>
+									<td>{item.createdAt}</td>
 
 									<td className="text-center">
 										{item.status === 1 ? (
 											<Button variant="danger" disabled>
 												{" "}
 												Registered{" "}
+												<span>
+													<IoIosCheckmarkCircle size={15} />
+												</span>
 											</Button>
 										) : (
 											<Button
 												variant="success"
-												onClick={() => paySalary(item._id)}
+												onClick={() => handleDisabled(item._id)}
 											>
 												Register
 											</Button>
 										)}
 									</td>
+									<td className="text-center">
+										<IoIosLock size={25} color="orange" />
+									</td>
 								</tr>
 							))}
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+				)}
 			</div>
 		</>
 	);

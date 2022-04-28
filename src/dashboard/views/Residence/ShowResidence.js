@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ImageGallery from "react-image-gallery";
+import { IoIosCheckmarkCircle } from "react-icons/io";
 
 export default function Showhostel(props) {
 	let { slug } = useParams();
 	const [hostel, setHostel] = useState();
+	const [facilities, setFacilities] = useState([]);
 	const [gimages] = useState([]);
 
 	useEffect(() => {
@@ -35,6 +37,7 @@ export default function Showhostel(props) {
 			}
 			setHostel(res.data.data);
 			setHostel(res.data.data);
+			setFacilities(res.data.facilities);
 		};
 
 		!hostel && fetchData();
@@ -56,17 +59,14 @@ export default function Showhostel(props) {
 							) : (
 								<ImageGallery items={gimages} />
 							)}
-							{/* show images gallery */}
 						</div>
 						<div className="col-md-7 col-sm-12">
-							<h3 className="text-center">{hostel.name}</h3>
+							<h3 className="text-center">
+								<b>{hostel.name}</b>
+							</h3>
 							<div className="container">
 								<h5>Description</h5>
-								<p>
-									display of multiple images display of multiple imagesdisplay
-									of multiple imagesdisplay of multiple images display of
-									multiple images display of multiple images
-								</p>
+								<p>{hostel?.description ?? "N/A"}</p>
 							</div>
 							<div className="show-flex-display">
 								<div className="text-center">
@@ -105,6 +105,30 @@ export default function Showhostel(props) {
 									<p>{hostel.digitalAddress ?? "N/A"}</p>
 								</div>
 							</div>
+						</div>
+						<div className="col-md-6 ">
+							<h2>
+								<b>Facilites </b>
+							</h2>
+							{facilities.length === 0 ? (
+								<>
+									<h3>Not Available</h3>
+								</>
+							) : (
+								facilities.map((item) => {
+									return (
+										<div key={item._id} className="facility-flex">
+											<div className="facility-names">
+												<IoIosCheckmarkCircle size={30} color="green" />
+												<span className="ml-3">{item?.facility?.name}</span>
+											</div>
+											<div className="facility-count">
+												<p>{item?.count}</p>
+											</div>
+										</div>
+									);
+								})
+							)}
 						</div>
 					</div>
 				)}

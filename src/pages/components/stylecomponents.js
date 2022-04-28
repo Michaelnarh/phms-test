@@ -11,8 +11,12 @@ export const CustomButton = styled.p`
 		background-image: linear-gradient(
 			to right,
 			var(--darkBlue),
-			var(--mainOrange)
+			var(--mainWhite)
 		);
+	}
+	@media (max-width: 768px) {
+		boder-radius: 6px;
+		font-size: 12px;
 	}
 `;
 

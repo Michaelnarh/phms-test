@@ -8,6 +8,7 @@ const Facility = require("../Models/facilityModel");
 const AreaMp = require("../Models/mpModel");
 const AppError = require("../utils/AppError");
 const ApiFeatures = require("../utils/APIfeatures");
+
 //import of of special modules
 const sharp = require("sharp");
 const multer = require("multer");
@@ -175,9 +176,14 @@ exports.getResidence = async (req, res) => {
 			.populate("reviews")
 			.populate([{ path: "location", populate: { path: "zone" } }]);
 
+		const facilities = await ResidenceFacilityTable.find({
+			residence: residence?._id,
+		}).populate({ path: "facility" });
+
 		res.status(200).json({
 			status: "success",
 			data: residence,
+			facilities,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -191,7 +197,10 @@ exports.getResidence = async (req, res) => {
 exports.getAllResidence = async (req, res) => {
 	try {
 		const features = new ApiFeatures(
-			Residence.find().populate("location"),
+			Residence.find().populate({
+				path: "location",
+				populate: { path: "zone" },
+			}),
 			req.query
 		)
 			.filter()

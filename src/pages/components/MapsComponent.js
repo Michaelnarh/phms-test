@@ -52,8 +52,6 @@ export default function MapComponent() {
 		setMaps(maps);
 		setIsMapLoaoded(true);
 	};
-
-	console.log(info);
 	return (
 		<div style={{ height: "80vh", width: "100%" }}>
 			<GoogleMapReact

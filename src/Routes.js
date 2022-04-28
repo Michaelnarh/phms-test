@@ -9,6 +9,7 @@ import DashBoard from "./dashboard/views/DashBoard";
 import ResidenceViews from "./dashboard/views/Residence/ResidenceIndex";
 import Residences from "./dashboard/views/Residence/Residences";
 import AddResidence from "./dashboard/views/Residence/AddResidence";
+import EditResidence from "./dashboard/views/Residence/EditResidence";
 import ShowResidence from "./dashboard/views/Residence/ShowResidence";
 
 // import of Homestel views
@@ -106,6 +107,7 @@ function MainLayout() {
 						<Route index element={<Residences />} />
 						<Route path="add" element={<AddResidence />} />
 						<Route path="details/:slug" element={<ShowResidence />} />
+						<Route path=":slug/edit" element={<EditResidence />} />
 					</Route>
 					{/* <Route path="homestels" element={<HomestelsViews />}>
 						<Route index element={<Homestels />} />

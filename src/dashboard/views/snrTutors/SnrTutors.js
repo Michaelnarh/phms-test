@@ -15,7 +15,6 @@ export default function Snrtutors(props) {
 					"Content-Type": "application/json",
 				},
 			});
-			console.log(res.data.total);
 			setTutors(res.data.data);
 		};
 		fetchTutors();

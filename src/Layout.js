@@ -8,8 +8,15 @@ export default function Layout(props) {
 		<>
 			<div>
 				<Navbar />
-				<Outlet />
-				<Footer />
+				{/* diisplay of other compoenents */}
+				<div className="main-arrangement">
+					<div>
+						<Outlet />
+					</div>
+					<div className="footer-desk">
+						<Footer />
+					</div>
+				</div>
 			</div>
 		</>
 	);

@@ -23,4 +23,4 @@ const registrationSchema = mongoose.Schema({
 });
 
 registrationSchema.plugin(uniqueValidator);
-module.exports = mongoose.model("Registraion", registrationSchema);
+module.exports = mongoose.model("Registration", registrationSchema);

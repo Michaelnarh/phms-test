@@ -9,7 +9,6 @@ const academicYearSchema = mongoose.Schema({
 		required: true,
 		unique: true,
 	},
-
 	years: { type: String, required: true },
 	slug: { type: String },
 	createdAt: { type: Date, default: Date.now() },

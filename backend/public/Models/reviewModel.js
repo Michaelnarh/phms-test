@@ -36,7 +36,7 @@ reviewSchema.statics.calcAverageRating = async function (residenceId) {
 			},
 		},
 	]);
-
+	console.log(stats);
 	if (stats[0].length > 0) {
 		await Residence.findByIdAndUpdate(residenceId, {
 			ratingAverage: stats[0]?.avgRating,
@@ -59,12 +59,12 @@ reviewSchema.pre(/findOneAnd/, async function (next) {
 	next();
 });
 
+reviewSchema.post(/findOneAnd/, async function () {
+	await this.review.constructor.calcAverageRating(this.review.residence);
+});
+
 reviewSchema.pre("remove", function (next) {
 	Residence.remove({ review: this._id });
 	next();
-});
-
-reviewSchema.post(/findOneAnd/, async function () {
-	await this.review.constructor.calcAverageRating(this.review.residence);
 });
 module.exports = mongoose.model("Review", reviewSchema);

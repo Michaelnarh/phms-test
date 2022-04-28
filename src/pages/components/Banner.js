@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function Banner(props) {
 	return (
 		<>
-			<div className="row mx-5">
+			<div className="row mx-5 top-margin">
 				<div className="col-md-6 mt-5">
 					<h1 className="banner-header">Private Residence Management System</h1>
 					<Divider />
@@ -17,12 +17,12 @@ export default function Banner(props) {
 						easy room booking and information concerning your Residences.
 					</p>
 					<div className="row">
-						<div className="col-sm-6 col-md-6">
+						<div className="col-md-6 col-sm-6">
 							<Link to="/help-desk">
 								<CustomButton textColor="#fff">Get Help</CustomButton>
 							</Link>
 						</div>
-						<div className="col-sm-6 col-md-6">
+						<div className="col-sm-6 col-sm-6">
 							<Link to="/hostels">
 								<CustomButton textColor="#fff">Browse Hostels</CustomButton>
 							</Link>

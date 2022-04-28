@@ -45,8 +45,10 @@ export default function Zones(props) {
 						<tr>
 							<th>ID</th>
 							<th>Name</th>
-							<th>Description</th>
-							<th>Prince Range</th>
+							<th>4 -in- 1</th>
+							<th>3 -in- 1 </th>
+							<th>2 -in- 1</th>
+							<th>1 -in- 1</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -56,8 +58,12 @@ export default function Zones(props) {
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
 									<td>{item.name}</td>
-									<td>{item?.description.slice(0, 20) ?? "N/A"}</td>
-									<td>{item?.priceRange ?? "N/A"}</td>
+
+									<td>{item?.category?.fourInOne ?? "N/A"}</td>
+									<td>{item?.category?.threeInOne ?? "N/A"}</td>
+									<td>{item?.category?.twoInOne ?? "N/A"}</td>
+
+									<td>{item?.category?.oneInOne ?? "N/A"}</td>
 
 									<td className="table-inline-flex">
 										<FaEye

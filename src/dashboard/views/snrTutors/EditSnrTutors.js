@@ -51,14 +51,12 @@ export default function Editsnrtutors(props) {
 		image: tutor && (tutor.image ?? ""),
 	};
 	const onSubmit = async (values) => {
-		console.log(values);
 		var formData = new FormData();
 		formData.append("name", values.name);
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
 		formData.append("zone", values.zone);
 		formData.append("image", values.image);
-		console.log(formData.entries());
 
 		const res = await axios({
 			method: "patch",

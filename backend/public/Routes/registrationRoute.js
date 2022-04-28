@@ -2,7 +2,7 @@ const registrationController = require("../Controllers/registrationController");
 const express = require("express");
 const router = express.Router();
 router.post(
-	"/register/:year_slug/:residenceId",
+	"/register/:year_slug/:residenceId/:user_id",
 	registrationController.registerResidence
 );
 router.post(
@@ -10,8 +10,12 @@ router.post(
 	registrationController.disabledRegistration
 );
 router.get(
-	"/:zone_id/:academic_year",
+	"/reg/:zone_id/:academic_year",
 	registrationController.getRegisteredResidences
+);
+router.get(
+	"/unreg/:zone_id/:academic_year",
+	registrationController.disabledRegistration
 );
 
 module.exports = router;
