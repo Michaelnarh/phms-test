@@ -59,7 +59,7 @@ exports.getZone = async (req, res) => {
 exports.getAllZones = async (req, res) => {
 	try {
 		// const zones = Zone.find();
-		const feature = new ApiFeatures(Zone.find().populate(["tutor"]), req.query)
+		const feature = new ApiFeatures(Zone.find({}).populate("tutor"), req.query)
 			.filter()
 			.paginate(25);
 

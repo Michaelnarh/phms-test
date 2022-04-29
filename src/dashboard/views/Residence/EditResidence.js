@@ -14,7 +14,7 @@ export default function EditResidence(props) {
 	const [accepted, setAccepted] = useState([]);
 	const [locations, setLocations] = useState([]);
 	const [RClass, setRClass] = useState([]);
-	const [Residence, setResidence] = useState();
+	const [residence, setResidence] = useState();
 	const [facilityArr, setFacilityArr] = useState([]);
 
 	const onDrop = useCallback((acceptedFiles) => {
@@ -51,42 +51,40 @@ export default function EditResidence(props) {
 			setRClass(res.data.data);
 		};
 
-		fetchResidence();
-		// if (locations.length === 0) {
-		fetchLocations();
-		// }
-		// if (facilityArr.length === 0) {
-		fetchFacilities();
-		// }
-		// if (facilityArr.length === 0) {
-		fetchRClass();
+		!residence && fetchResidence();
 
-		// }
-	}, []);
+		if (locations.length === 0) {
+			fetchLocations();
+		}
+		if (facilityArr.length === 0) {
+			fetchFacilities();
+		}
+		if (facilityArr.length === 0) {
+			fetchRClass();
+		}
+	});
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-	console.log(Residence.name);
-
+	console.log(residence && residence?.name);
 	const initialValues = {
-		// name: "michael",
-		name: Residence?.name ?? "",
-		residenceType: Residence && (Residence?.residenceType ?? ""),
-		location: Residence && (Residence?.location ?? ""),
-		lat: Residence && (Residence?.gpsAddress?.lat ?? ""),
-		lng: Residence && (Residence?.gpsAddress?.lng ?? ""),
-		digitalAddress: Residence && (Residence?.digitalAddress ?? ""),
-		bookingLink: Residence && (Residence?.bookingLink ?? ""),
-		managersName: Residence && (Residence?.managersName ?? ""),
-		managersContact: Residence && (Residence?.managersContact ?? ""),
-		portersName: Residence && (Residence?.portersName ?? ""),
-		portersContact: Residence && (Residence?.portersContact ?? ""),
-		ownersName: Residence && (Residence?.ownersName ?? ""),
-		ownersContact: Residence && (Residence?.ownersContact ?? ""),
-		rClass: Residence && (Residence?.rClass ?? ""),
-		roomsTotal: Residence && (Residence?.roomsTotal ?? ""),
-		totalBedspaces: Residence && (Residence?.totalBedspaces ?? ""),
-		maleCapacity: Residence && (Residence?.maleCapacity ?? ""),
-		femaleCapacity: Residence && (Residence?.femaleCapacity ?? ""),
+		name: residence && (residence?.name ?? ""),
+		residenceType: residence && (residence?.residenceType ?? ""),
+		location: residence && (residence?.location ?? ""),
+		lat: residence && (residence?.gpsAddress?.lat ?? ""),
+		lng: residence && (residence?.gpsAddress?.lng ?? ""),
+		digitalAddress: residence && (residence?.digitalAddress ?? ""),
+		bookingLink: residence && (residence?.bookingLink ?? ""),
+		managersName: residence && (residence?.managersName ?? ""),
+		managersContact: residence && (residence?.managersContact ?? ""),
+		portersName: residence && (residence?.portersName ?? ""),
+		portersContact: residence && (residence?.portersContact ?? ""),
+		ownersName: residence && (residence?.ownersName ?? ""),
+		ownersContact: residence && (residence?.ownersContact ?? ""),
+		rClass: residence && (residence?.rClass ?? ""),
+		roomsTotal: residence && (residence?.roomsTotal ?? ""),
+		totalBedspaces: residence && (residence?.totalBedspaces ?? ""),
+		maleCapacity: residence && (residence?.maleCapacity ?? ""),
+		femaleCapacity: residence && (residence?.femaleCapacity ?? ""),
+		description: residence && (residence?.description ?? ""),
 
 		images: [],
 		facilities: [
@@ -102,7 +100,7 @@ export default function EditResidence(props) {
 		setCoverImage(e.currentTarget.files[0]);
 	};
 
-	const handleSubmit = async (values) => {
+	const handleSubmit = async (values, resetForm) => {
 		let formData = new FormData();
 		// values.coordinates[1] = values.lat; //insert latitude data
 		// values.coordinates[0] = values.lng; //insert longitude data
@@ -145,6 +143,7 @@ export default function EditResidence(props) {
 				},
 				data: formData,
 			});
+			resetForm();
 			setAccepted([]);
 			values.coverImage = "";
 			navigate("/admin/residences");
@@ -159,8 +158,7 @@ export default function EditResidence(props) {
 				<FormStepper
 					initialValues={initialValues}
 					onSubmit={async (values, resetForm) => {
-						await handleSubmit(values);
-						resetForm();
+						await handleSubmit(values, resetForm);
 					}}
 				>
 					<FormikStep
@@ -209,7 +207,7 @@ export default function EditResidence(props) {
 									className="form-select"
 									aria-label="Default select example"
 								>
-									<option vallue="">Select Residence Type</option>
+									{/* <option vallue="">Select Residence Type</option> */}
 									<option value="Hostel">Hostel</option>
 									<option value="Homestel">Homestel</option>
 									<option value="Other">Other</option>
@@ -230,7 +228,7 @@ export default function EditResidence(props) {
 									// placeholder="Location"
 									name="location"
 								>
-									<option> select location</option>
+									{/* <option> select location</option> */}
 									{locations &&
 										locations.map((item) => (
 											<option key={item._id} value={item._id}>

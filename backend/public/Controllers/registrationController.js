@@ -1,40 +1,55 @@
 const AcademicYear = require("../Models/academicYearModel");
 const RegistrationTable = require("../Models/registrationTable");
 const Residence = require("../Models/residenceModel");
+const SortBy = require("../utils/sort");
 
 exports.registerResidence = async (req, res) => {
 	const residenceId = req.params.residenceId;
 	const academicYear = await AcademicYear.findOne({
 		slug: req.params.year_slug,
 	});
-	console.log(academicYear);
-	try {
-		console.log(academicYear);
-		const regTable = await RegistrationTable.create({
-			residence: residenceId,
-			academicYear: academicYear?._id,
-			addedBy: req.params.user_id,
-		});
 
-		// const newRegistered = Residence.findById(residenceId).populate({
-		// 	path: "location",
-		// 	populate: { path: "zone" },
-		// });
-		res.status(201).json({
-			status: "success",
-			data: {
-				_id: residenceId,
+	//check if exist registered residences
+	const checkRegistered = await RegistrationTable.findOne({
+		academicYear: { _id: `${academicYear?._id}` },
 
-				createdAt: regTable?.createdAt,
+		residence: { _id: `${residenceId}` },
+	});
 
-				status: regTable?.status,
-			},
-		});
-	} catch (err) {
+	if (checkRegistered) {
 		res.status(400).json({
 			status: "error",
-			message: err.message,
+			message: "Residence already registered",
 		});
+	} else {
+		try {
+			console.log(academicYear);
+			const regTable = await RegistrationTable.create({
+				residence: residenceId,
+				academicYear: academicYear?._id,
+				addedBy: req.params.user_id,
+			});
+
+			// const newRegistered = Residence.findById(residenceId).populate({
+			// 	path: "location",
+			// 	populate: { path: "zone" },
+			// });
+			res.status(201).json({
+				status: "success",
+				data: {
+					_id: residenceId,
+
+					createdAt: regTable?.createdAt,
+
+					status: regTable?.status,
+				},
+			});
+		} catch (err) {
+			res.status(400).json({
+				status: "error",
+				message: err.message,
+			});
+		}
 	}
 };
 
@@ -69,13 +84,13 @@ exports.getRegisteredResidences = async (req, res) => {
 
 		const academicYear = await AcademicYear.findOne({ slug: academic_year });
 		const currentRegisteredResidencesByYear = await RegistrationTable.find({
-			academicYear: academicYear?._id,
+			academicYear: { _id: `${academicYear?._id}` },
 			status: 1,
 		}).populate({
 			path: "residence",
 			populate: { path: "location", populate: { path: "zone" } },
 		});
-
+		// console.log(currentRegisteredResidencesByYear);
 		const zoneArray = [];
 		currentRegisteredResidencesByYear.forEach((item) => {
 			if (
@@ -122,32 +137,18 @@ exports.displayUnregisteredResidences = async (req, res) => {
 			path: "residence",
 			populate: { path: "location", populate: { path: "zone" } },
 		});
+		// console.log(currentRegisteredResidencesByYear);
 
 		const residences = await Residence.find({}).populate({
 			path: "location",
 			populate: { path: "zone" },
 		});
-		// const lookup = await Residence.aggregate([
-		// 	{
-		// 		$lookup: {
-		// 			from: "Registration",
-		// 			let: { _id: "$_id", name: "$name" },
-		// 			pipeline: [
-		// 				{ $match: { $expr: { $and: [{ $eq: ["$_id", "$$_id"] }] } } },
-		// 			],
-		// 			as: "data",
-		// 		},
-		// 	},
-		// 	{ $match: { data: [] } },
-		// 	{ $project: { data: 0, _id: 0 } },
-		// ]);
-
-		// console.log(lookup);
 
 		let zoneArray = [];
+		const regZoneArray = [];
 
 		residences.forEach((item) => {
-			if (currentRegisteredResidencesByYear.length === 0) {
+			if (item?.location?.zone?._id.toString() === zone_id.toString()) {
 				const data = {
 					_id: item?._id,
 
@@ -160,61 +161,69 @@ exports.displayUnregisteredResidences = async (req, res) => {
 					status: 0,
 				};
 				zoneArray.push(data);
-			} else {
-				currentRegisteredResidencesByYear.forEach((el) => {
-					if (item?._id.toString() === el?.residence.toString()) {
-						//do nothing
-					} else {
-						const data = {
-							_id: item?._id,
-
-							name: item?.name,
-
-							zone_id: item?.location?.zone?._id,
-
-							zone: item?.location?.zone?.name,
-
-							status: 0,
-						};
-						zoneArray.push(data);
-					}
-				});
 			}
 		});
 
-		// console.log(zoneArray);
+		// get all registered residences by zone
+		currentRegisteredResidencesByYear.forEach((el) => {
+			if (el.residence?.location?.zone?._id.toString() === zone_id.toString()) {
+				const data = {
+					_id: el?.residence?._id,
+
+					name: el?.residence?.name,
+
+					zone_id: el?.residence?.location?.zone?._id,
+
+					zone: el?.residence?.location?.zone?.name,
+
+					status: 1,
+				};
+				regZoneArray.push(data);
+			}
+		});
 
 		//remove duplicate from the array
 		const newZoneArray = zoneArray.filter(
 			(value, index, self) =>
 				index === self.findIndex((t) => t.name === value.name)
 		);
+		//remove duplicate in reg array if any
+		const newRegZoneArray = regZoneArray.filter(
+			(value, index, self) =>
+				index === self.findIndex((t) => t.name === value.name)
+		);
 
-		//filter for a particular zone only ie returns
-		function isZone(item) {
-			return item.zone_id.toString() === zone_id.toString();
-		}
-
-		const myarray = newZoneArray?.filter(isZone);
-
-		let unRegisteredArray = [];
-		console.log(currentRegisteredResidencesByYear);
-		myarray.forEach((el) => {
-			currentRegisteredResidencesByYear.forEach((o) => {
-				if (el?._id.toString() !== o.residence?._id.toString()) {
-					unRegisteredArray.push(el);
+		const indexes = [];
+		newZoneArray.forEach((el, i) => {
+			newRegZoneArray.forEach((o, j) => {
+				if (el._id.toString() === o._id.toString()) {
+					indexes.push(i);
+					// newZoneArray.splice(i, 1);
 				}
 			});
 		});
 
-		const data = unRegisteredArray.filter(
-			(value, index, self) =>
-				index ===
-				self.findIndex((t) => t._id.toString() === value._id.toString())
-		);
+		// remove object based on a particular index
+		let count = 0;
+		for (let i = 0; i < indexes.length; i++) {
+			if (i === indexes[i]) {
+				count++;
+				newZoneArray.splice(i, 1);
+			} else {
+				newZoneArray.splice(indexes[i] - count, 1);
+				count++;
+			}
+		}
+
+		//sort array baseed on names
+		const mySort = new SortBy(newZoneArray);
+		const sortedArray = mySort.byName();
+
+		console.log(sortedArray);
+
 		res.status(201).json({
 			status: "success",
-			data: unRegisteredArray,
+			data: sortedArray.arr,
 		});
 	} catch (err) {
 		res.status(400).json({

@@ -35,11 +35,7 @@ export default function Hostels(props) {
 				<div className="hostel-flex my-5">
 					{hostels &&
 						hostels.map((item, index) => {
-							return (
-								<>
-									<Residence residence={item} key={index} />
-								</>
-							);
+							return <Residence residence={item} key={item._id} />;
 						})}
 				</div>
 

@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const Review = require("./reviewModel");
-const User = require("./userModel");
 const RegistrationTable = require("./registrationTable");
 const RClass = require("./classModel");
 

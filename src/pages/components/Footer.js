@@ -17,7 +17,7 @@ export function Footer(props) {
 						</ul>
 						</div>
 					</div> */}
-					<div>
+					<div className="footer-bottom">
 						<div className=" footer-text mt-2 text-center">
 							Copyright &copy; {new Date().getFullYear()} Made with Love by{" "}
 							<b>SuperLax Technologies &reg;</b>{" "}

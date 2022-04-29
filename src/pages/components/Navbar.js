@@ -5,10 +5,11 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import Logo from "../../images/logo-knust.png";
 import profile from "../../images/profile_pic.jpg";
 import LogInModal from "./auth/Login";
-const isUser = false;
+import AuthStore from "../../store/AuthStore";
 
 export default function Navbar(props) {
 	const [isDrawerOpen, setDrawer] = useState(false);
+	const auth = new AuthStore();
 	return (
 		<>
 			<nav className="sticky-navbar">
@@ -52,7 +53,7 @@ export default function Navbar(props) {
 						</li>
 					</ul>
 					<ul className="mr-3">
-						{isUser ? (
+						{auth.getToken() ? (
 							<img
 								src={profile}
 								alt="..."

@@ -28,6 +28,7 @@
     "react-paginate": "^8.1.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-spinners": "^0.11.0",
     "spinners-react": "^1.0.6",
     "styled-components": "^5.3.3",
     "universal-cookie": "^4.0.4",
@@ -57,5 +58,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@emotion/babel-plugin": "^11.9.2"
   }
 }

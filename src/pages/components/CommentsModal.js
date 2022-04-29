@@ -5,7 +5,7 @@ import { FaStar } from "react-icons/fa";
 import axios from "axios";
 const CommentsModal = (props) => {
 	const { id } = props;
-	const userId = localStorage.getItem("dumb");
+	const user = JSON.parse(localStorage.getItem("user"));
 	const [show, setShow] = useState(false);
 	const [rating, setRating] = useState(0);
 	const [text, setText] = useState("");
@@ -13,7 +13,7 @@ const CommentsModal = (props) => {
 	const handleShow = () => setShow(true);
 
 	const handleComment = async () => {
-		console.log(text, rating, userId, id);
+		console.log(text, rating, user, id);
 		if (rating === 0) {
 		} else {
 			const res = await axios({
@@ -24,7 +24,7 @@ const CommentsModal = (props) => {
 				},
 				data: {
 					review: text,
-					author: userId,
+					author: user?._id,
 					residence: id,
 					rating: rating,
 				},

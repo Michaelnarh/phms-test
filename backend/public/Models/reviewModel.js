@@ -30,7 +30,7 @@ reviewSchema.statics.calcAverageRating = async function (residenceId) {
 		{ $match: { residence: residenceId } },
 		{
 			$group: {
-				_id: "$residence}",
+				_id: "$residence",
 				nRating: { $sum: 1 },
 				avgRating: { $avg: "$rating" },
 			},
@@ -38,15 +38,15 @@ reviewSchema.statics.calcAverageRating = async function (residenceId) {
 	]);
 	console.log(stats);
 	if (stats[0].length > 0) {
-		await Residence.findByIdAndUpdate(residenceId, {
-			ratingAverage: stats[0]?.avgRating,
-			ratingQuantity: stats[0]?.nRating,
-		});
+		// await Residence.findByIdAndUpdate(residenceId, {
+		// 	ratingAverage: stats[0]?.avgRating,
+		// 	ratingQuantity: stats[0]?.nRating,
+		// });
 	} else {
-		await Residence.findByIdAndUpdate(residenceId, {
-			ratingAverage: 4.5,
-			ratingQuantity: 0,
-		});
+		// await Residence.findByIdAndUpdate(residenceId, {
+		// 	ratingAverage: 4.5,
+		// 	ratingQuantity: 0,
+		// });
 	}
 };
 

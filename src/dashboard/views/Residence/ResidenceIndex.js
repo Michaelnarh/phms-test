@@ -8,7 +8,7 @@ export default function ResidenceIndex(props) {
 	return (
 		<>
 			<div className="page-container mt-3">
-				<Toptitle page="Hostels" />
+				<Toptitle page="Residences" />
 				<div className="content-left-side">
 					<MdArrowBack
 						size={40}

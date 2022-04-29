@@ -98,40 +98,58 @@ a {
 	height: 50px;
 }
 
-.main-arrangement{
-	display: flex;
-	flex:1;
-	flex-direction: column;
+
+.spinner-style{
+	justify-content: center;
+	align-items: center;
+	margin-left: auto;
+
 }
 
-.footer-desk{
-	justify-content: flex-end;
-	justify-self: flex-end;
+
+.footer-bottom{
+	bottom:0;
+	/* position:sticky;
+	position: -webkit-sticky; */
+	/* width: 100%; */
+	/* z-index: -100; */
+	position: relative
+
+
 }
 
 .footer-style{
 	/* margin-top: 100px; */
 	/* position:absolute; */
-	background-blend-mode: screen;
+	/* display: block; */
+	/* background-blend-mode: screen; */
+	/* background-image: url("./images/footer-wave-1.svg"); */
+
+	/* background-size: cover; */
 	/* padding: 100px; */
 	/* position: relative; */
 	/* background-size: contain; */
 	/* width: 100%; */
-	/* background-image: url("./images/footer-wave-1.svg"); */
+
 	/* background-repeat: no-repeat; */
 	/* background-size: auto; */
-	display: block;
 	
 	/* left:0; */
 	/* bottom:0; */
 	/* right:0; */
 }
 .footer-text{
-	color:var(--mainWhite);
-	position: relative;
-	bottom: -250px;
+	color:var(--mainBlack);
+	/* top: 78px; */
+	/* position: absolute; */
+	/* margin-top: 11,5rem !important; */
+	margin-left: 24px;
+	/* position: relative; */
+	/* bottom: -250px; */
 	/* margin-left: auto; */
 	/* margin-right: auto; */
+;
+
 
 }
 /***
@@ -165,10 +183,15 @@ hostel and homestel images
 	height: 350px;
 }
 .top-svg-detail-page{
-	z-index: -89;
+	z-index: -2;
+	/* position: relative; */
 
 
 
+}
+.detail-component{
+	/* position: absolute; */
+	
 }
 .facility-flex{
 	display: flex;
@@ -346,6 +369,10 @@ hostel and homestel images
 	}
 	.details-header {
 		font-size: 2.3rem;
+	}
+	.footer-text{
+		margin-top: 9.5rem !important;
+		margin-left: 13px;
 	}
 }
 

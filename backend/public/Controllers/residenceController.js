@@ -6,8 +6,10 @@ const SnrTutor = require("../Models/seniorTutorModel");
 const NssPersonnel = require("../Models/nssPModel");
 const Facility = require("../Models/facilityModel");
 const AreaMp = require("../Models/mpModel");
+const RegistrationTable = require("../Models/registrationTable");
 const AppError = require("../utils/AppError");
 const ApiFeatures = require("../utils/APIfeatures");
+const SortBy = require("../utils/sort");
 
 //import of of special modules
 const sharp = require("sharp");
@@ -173,7 +175,7 @@ exports.getResidence = async (req, res) => {
 		const residence = await Residence.findOne({
 			slug: req.params.slug,
 		})
-			.populate("reviews")
+			.populate({ path: "reviews" })
 			.populate([{ path: "location", populate: { path: "zone" } }]);
 
 		const facilities = await ResidenceFacilityTable.find({
@@ -204,6 +206,7 @@ exports.getAllResidence = async (req, res) => {
 			req.query
 		)
 			.filter()
+			.sort()
 			.paginate(25);
 		const residences = await features.query;
 
@@ -227,6 +230,13 @@ exports.deleteResidence = async (req, res, next) => {
 		const residence_id = req.params.id;
 		if (!residence_id)
 			throw new Error("Hostel id is required for this operation");
+		const regArray = await RegistrationTable.find({ residence: residence_id });
+
+		Promise.all(
+			regArray.map(
+				async (el) => await RegistrationTable.findOneAndDelete({ _id: el?._id })
+			)
+		);
 		const residence = await Residence.findById(residence_id);
 		await Residence.findByIdAndDelete(residence_id);
 		res.status(200).json({
@@ -346,4 +356,42 @@ exports.getStatistics = async (req, res) => {
 			message: err.message,
 		});
 	}
+};
+
+exports.getZonalGpsAdrress = async (req, res) => {
+	const zone_id = req.params.zone_id;
+	try {
+		const residences = await Residence.find().populate({
+			path: "location",
+			populate: { path: "zone" },
+		});
+		let zoneArray = [];
+		residences.forEach((item) => {
+			if (
+				item?.location?.zone?._id.toString() === req.params.zone_id.toString()
+			) {
+				const data = {
+					_id: item?._id,
+
+					name: item?.name,
+
+					zone_id: item?.location?.zone?._id,
+
+					gpsAddress: item?.gpsAddress,
+				};
+				zoneArray.push(data);
+			}
+		});
+
+		res.status(200).json({
+			status: "success",
+			data: zoneArray,
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: "error",
+			message: err.message,
+		});
+	}
+	//
 };

@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
-import { FaCheckDouble } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import * as Yup from "yup";
@@ -7,13 +6,11 @@ import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { IoIosCheckmarkCircle, IoIosLock } from "react-icons/io";
 import AcademicYearModal from "./AcademicYearModal";
-import { ContextStore } from "./../../../store/ContextStore";
 import blankData from "../../images/blank_svg.svg";
+// import { ContextStore } from "./../../../store/ContextStore";
 
 export default function RegisteredTable(props) {
-	const { authStore } = useContext(ContextStore);
 	const [user] = useState(JSON.parse(localStorage.getItem("user")));
-	const [employees, setEmployees] = useState([]);
 	const [Residences, setResidences] = useState([]);
 	const [academic_year, setAcademicYear] = useState([]);
 	const [year_selected, setYearSelected] = useState();
@@ -177,7 +174,7 @@ export default function RegisteredTable(props) {
 						</thead>
 						<tbody>
 							{Residences.map((item, i) => (
-								<tr key={item?._id}>
+								<tr key={item?.name}>
 									<td>{i + 1}</td>
 									<td>{item.name}</td>
 									<td>{item?.zone}</td>

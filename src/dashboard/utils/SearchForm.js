@@ -70,17 +70,15 @@ export default function Searchform(props) {
 				{suggestions &&
 					suggestions.slice(0, 6).map((item, index) => {
 						return (
-							<>
-								<div key={item._id}>
-									<h5
-										style={{ color: "blue" }}
-										className="suggest-list-dash"
-										onClick={() => onSuggestion(item.name)}
-									>
-										{item.name}
-									</h5>
-								</div>
-							</>
+							<div key={item._id}>
+								<h5
+									style={{ color: "blue" }}
+									className="suggest-list-dash"
+									onClick={() => onSuggestion(item.name)}
+								>
+									{item.name}
+								</h5>
+							</div>
 						);
 					})}
 			</div>

@@ -89,7 +89,7 @@ export default function Addhostel(props) {
 		setCoverImage(e.currentTarget.files[0]);
 	};
 
-	const handleSubmit = async (values) => {
+	const handleSubmit = async (values, resetForm) => {
 		let formData = new FormData();
 		// values.coordinates[1] = values.lat; //insert latitude data
 		// values.coordinates[0] = values.lng; //insert longitude data
@@ -132,6 +132,7 @@ export default function Addhostel(props) {
 				},
 				data: formData,
 			});
+			resetForm();
 			setAccepted([]);
 			values.coverImage = "";
 			navigate("/admin/residences");
@@ -146,8 +147,7 @@ export default function Addhostel(props) {
 				<FormStepper
 					initialValues={initialValues}
 					onSubmit={async (values, resetForm) => {
-						await handleSubmit(values);
-						resetForm();
+						await handleSubmit(values, resetForm);
 					}}
 				>
 					<FormikStep
@@ -196,7 +196,7 @@ export default function Addhostel(props) {
 									className="form-select"
 									aria-label="Default select example"
 								>
-									<option vallue="">Select Residence Type</option>
+									{/* <option vallue="">Select Residence Type</option> */}
 									<option value="Hostel">Hostel</option>
 									<option value="Homestel">Homestel</option>
 									<option value="Other">Other</option>
@@ -217,7 +217,7 @@ export default function Addhostel(props) {
 									// placeholder="Location"
 									name="location"
 								>
-									<option> select location</option>
+									{/* <option> select location</option> */}
 									{locations &&
 										locations.map((item) => (
 											<option key={item._id} value={item._id}>

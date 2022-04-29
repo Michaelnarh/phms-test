@@ -16,7 +16,6 @@ export default function Hostels(props) {
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/homestels?page=${page}&limit=${limit}`,
 			});
-			console.log(res.data.total);
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
 			setHomestels(res.data.data);
 		};
@@ -47,11 +46,7 @@ export default function Hostels(props) {
 						</>
 					) : (
 						homestels.map((item, index) => {
-							return (
-								<>
-									<Residence residence={item} key={index} />
-								</>
-							);
+							return <Residence residence={item} key={item?._id} />;
 						})
 					)}
 				</div>

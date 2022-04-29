@@ -2,7 +2,6 @@ import React from "react";
 import { MdLocationOn } from "react-icons/md";
 import { IoMdWalk } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 export default function Residence(props) {
 	const navigate = useNavigate();
 

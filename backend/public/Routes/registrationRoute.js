@@ -15,7 +15,7 @@ router.get(
 );
 router.get(
 	"/unreg/:zone_id/:academic_year",
-	registrationController.disabledRegistration
+	registrationController.displayUnregisteredResidences
 );
 
 module.exports = router;

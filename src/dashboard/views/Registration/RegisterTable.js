@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
-import { FaCheckDouble } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import * as Yup from "yup";
@@ -7,13 +6,12 @@ import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import AcademicYearModal from "./AcademicYearModal";
 import { useNavigate } from "react-router-dom";
-import { ContextStore } from "./../../../store/ContextStore";
+// import { ContextStore } from "./../../../store/ContextStore";
 
 export default function RegisterTable(props) {
-	const { authStore } = useContext(ContextStore);
+	// const { authStore } = useContext(ContextStore);
 	const [user] = useState(JSON.parse(localStorage.getItem("user")));
 	const navigate = useNavigate();
-	const [employees, setEmployees] = useState([]);
 	const [Residences, setResidences] = useState([]);
 	const [academic_year, setAcademicYear] = useState([]);
 	const [year_selected, setYearSelected] = useState();
@@ -49,7 +47,7 @@ export default function RegisterTable(props) {
 		try {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/registration/${values.zone}/${values.years}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/registration/unreg/${values.zone}/${values.years}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -71,11 +69,12 @@ export default function RegisterTable(props) {
 				},
 			});
 			let curr_residences = Residences;
-			// console.log(res.data, employees);
+			console.log(res.data);
+			const rs = res.data;
 			curr_residences.forEach((el) => {
-				if (el._id === res.data._id) {
-					el.status = res.data?.status;
-					el.createdAt = res.data?.createdAt;
+				if (el?._id === rs?._id) {
+					el.status = rs?.status;
+					el.createdAt = rs?.createdAt;
 				}
 			});
 
@@ -91,8 +90,8 @@ export default function RegisterTable(props) {
 	});
 
 	const initialValues = {
-		zone: "",
-		years: "",
+		zone: selected_zone ?? "",
+		years: year_selected ?? "",
 	};
 	console.log("my user", user);
 	return (

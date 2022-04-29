@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import MapComponent from "./components/MapsComponent";
 import { useParams } from "react-router-dom";
-import { CustomButton } from "./components/stylecomponents";
 import CommentsModal from "./components/CommentsModal";
 import ImageGallery from "react-image-gallery";
 import axios from "axios";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import AuthStore from "./../store/AuthStore";
+import LogInModal from "./components/auth/Login";
+import Iframe from "./components/utils/Iframe";
 
 export default function Hosteldetails(props) {
 	const [residence, setResidence] = useState();
+	const auth = new AuthStore();
 	const [facilities, setFacilities] = useState([]);
 	const [gimages] = useState([]);
 	let { slug } = useParams();
@@ -65,7 +68,7 @@ export default function Hosteldetails(props) {
 					d="M0,160L48,181.3C96,203,192,245,288,256C384,267,480,245,576,229.3C672,213,768,203,864,181.3C960,160,1056,128,1152,112C1248,96,1344,96,1392,96L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
 				></path>
 			</svg> */}
-				<div className="container mt-5 ">
+				<div className="container mt-5 detail-component">
 					<div className="row ">
 						<div className="col-md-4 col-lg-6 col-sm-12 mb-2">
 							{residence && (
@@ -82,9 +85,16 @@ export default function Hosteldetails(props) {
 										)}
 									</div>
 									<div className="row">
-										<div className="col-md-6 col-lg-6 col-sm-12">
-											<CommentsModal id={residence?._id} />
-										</div>
+										{auth.getToken() ? (
+											<div className="col-md-6 col-lg-6 col-sm-12">
+												<CommentsModal id={residence?._id} />
+											</div>
+										) : (
+											<div className="col-md-6 col-lg-6 col-sm-12">
+												<LogInModal />
+											</div>
+										)}
+
 										{/* <div className="col-md-6 col-lg-6 col-sm-12">
 											{residence && (
 												<CustomButton>
@@ -187,8 +197,16 @@ export default function Hosteldetails(props) {
 								)}
 							</div>
 							<div className="col-md-6">
-								<div className="">
-									<MapComponent isMarkerShown={true} />
+								{/* <MapComponent isMarkerShown={true} /> */}
+								<div>
+									{/* <iframe
+										width={600}
+										height={300}
+										src={`https://www.google.com/maps/place/Amen+Main+Hostel/@6.6717611,-1.5620566,17z/data=!3m1!4b1!4m5!3m4!1s0xfdb947d543e1dcd:0xe15e8d5cf504de5!8m2!3d6.6716668!4d-1.5599803=&output=embed`}
+										title="my-location"
+										style={{"visibility:visible"}}
+									/> */}
+									<Iframe />
 								</div>
 							</div>
 						</div>

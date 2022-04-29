@@ -3,6 +3,7 @@ import { FaChartPie } from "react-icons/fa";
 import { Doughnut, Bar } from "react-chartjs-2";
 import Toptitle from "./TopTitle";
 import axios from "axios";
+import CustomSpinner from "../utils/CustomSpinner";
 
 const data = {
 	datasets: [
@@ -75,8 +76,10 @@ const options = {
 };
 
 export default function Dashboard(props) {
+	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState({});
 	useEffect(() => {
+		setIsLoading(true);
 		const fetchData = async () => {
 			const res = await axios({
 				method: "get",
@@ -86,107 +89,116 @@ export default function Dashboard(props) {
 				},
 			});
 			setData(res.data.data);
+			setIsLoading(false);
 		};
-		fetchData();
+
+		const timer = setTimeout(() => fetchData(), 2000);
+
+		return () => clearTimeout(timer);
 	}, []);
 	return (
 		<>
 			<div className=" page-container mt-3 mb-3  ">
 				<Toptitle page="Home" />
-				<div className="card">
-					<div className="card-box-flex">
-						<div className="card-box">
-							<div className="card-box-inlineflex">
-								<div>
-									<p>HOSTELS</p>
-									<h1>{data.hostels_num}</h1>
-								</div>
-								<div>
-									<FaChartPie size={58} color="green" />
-								</div>
-							</div>
-						</div>
-						<div className="card-box">
-							<div className="card-box-inlineflex">
-								<div>
-									<p>HOMESTELS</p>
-									<h1>{data.homestels_num}</h1>
-								</div>
-								<div>
-									<FaChartPie size={58} color="red" />
+				{isLoading ? (
+					<CustomSpinner type="beat" />
+				) : (
+					<div className="card">
+						<div className="card-box-flex">
+							<div className="card-box">
+								<div className="card-box-inlineflex">
+									<div>
+										<p>HOSTELS</p>
+										<h1>{data.hostels_num}</h1>
+									</div>
+									<div>
+										<FaChartPie size={58} color="green" />
+									</div>
 								</div>
 							</div>
-						</div>
-						<div className="card-box">
-							<div className="card-box-inlineflex">
-								<div>
-									<p>REGISTERED HOSTELS</p>
-									<h1>{data.reg_hostels_num}</h1>
-								</div>
-								<div>
-									<FaChartPie size={58} color="orange" />
-								</div>
-							</div>
-						</div>
-						<div className="card-box">
-							<div className="card-box-inlineflex">
-								<div>
-									<p>REGISTERED HOMESTELS</p>
-									<h1>{data.reg_homestels_num}</h1>
-								</div>
-								<div>
-									<FaChartPie size={58} color="purple" />
+							<div className="card-box">
+								<div className="card-box-inlineflex">
+									<div>
+										<p>HOMESTELS</p>
+										<h1>{data.homestels_num}</h1>
+									</div>
+									<div>
+										<FaChartPie size={58} color="red" />
+									</div>
 								</div>
 							</div>
-						</div>
-						<div className="card-box">
-							<div className="card-box-inlineflex">
-								<div>
-									<p>ZONES / CONSTITUENCIES</p>
-									<h1>{data.zones_num}</h1>
-								</div>
-								<div>
-									<FaChartPie size={58} color="purple" />
-								</div>
-							</div>
-						</div>
-						<div className="card-box">
-							<div className="card-box-inlineflex">
-								<div>
-									<p>SENIOR TUTORS</p>
-									<h1>{data.snr_tutors_num}</h1>
-								</div>
-								<div>
-									<FaChartPie size={58} color="purple" />
+							<div className="card-box">
+								<div className="card-box-inlineflex">
+									<div>
+										<p>REGISTERED HOSTELS</p>
+										<h1>{data.reg_hostels_num}</h1>
+									</div>
+									<div>
+										<FaChartPie size={58} color="orange" />
+									</div>
 								</div>
 							</div>
-						</div>
-						<div className="card-box">
-							<div className="card-box-inlineflex">
-								<div>
-									<p>NSS PERSONNELS</p>
-									<h1>{data.nssP_num}</h1>
-								</div>
-								<div>
-									<FaChartPie size={58} color="purple" />
+							<div className="card-box">
+								<div className="card-box-inlineflex">
+									<div>
+										<p>REGISTERED HOMESTELS</p>
+										<h1>{data.reg_homestels_num}</h1>
+									</div>
+									<div>
+										<FaChartPie size={58} color="purple" />
+									</div>
 								</div>
 							</div>
-						</div>
-						<div className="card-box">
-							<div className="card-box-inlineflex">
-								<div>
-									<p>AREA MPS</p>
-									<h1>{data.area_mp_num}</h1>
+							<div className="card-box">
+								<div className="card-box-inlineflex">
+									<div>
+										<p>ZONES / CONSTITUENCIES</p>
+										<h1>{data.zones_num}</h1>
+									</div>
+									<div>
+										<FaChartPie size={58} color="purple" />
+									</div>
 								</div>
-								<div>
-									<FaChartPie size={58} color="purple" />
+							</div>
+							<div className="card-box">
+								<div className="card-box-inlineflex">
+									<div>
+										<p>SENIOR TUTORS</p>
+										<h1>{data.snr_tutors_num}</h1>
+									</div>
+									<div>
+										<FaChartPie size={58} color="purple" />
+									</div>
+								</div>
+							</div>
+							<div className="card-box">
+								<div className="card-box-inlineflex">
+									<div>
+										<p>NSS PERSONNELS</p>
+										<h1>{data.nssP_num}</h1>
+									</div>
+									<div>
+										<FaChartPie size={58} color="purple" />
+									</div>
+								</div>
+							</div>
+							<div className="card-box">
+								<div className="card-box-inlineflex">
+									<div>
+										<p>AREA MPS</p>
+										<h1>{data.area_mp_num}</h1>
+									</div>
+									<div>
+										<FaChartPie size={58} color="purple" />
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					{/* <Bar data={data} width={3} height={3} options={options} /> */}
-					{/* <h1 style={{ marginBottom: 55 }}>Page 1</h1> */}
-				</div>
+				)}
+
+				{/* <Bar data={data} width={3} height={3} options={options} /> */}
+				{/* <h1 style={{ marginBottom: 55 }}>Page 1</h1> */}
 			</div>
 		</>
 	);
