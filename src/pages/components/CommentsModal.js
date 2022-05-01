@@ -9,12 +9,18 @@ const CommentsModal = (props) => {
 	const [show, setShow] = useState(false);
 	const [rating, setRating] = useState(0);
 	const [text, setText] = useState("");
+	const [err, setError] = useState("");
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
 	const handleComment = async () => {
 		console.log(text, rating, user, id);
-		if (rating === 0) {
+		if (!text) {
+			setError("Comment Message is Required");
+		} else if (rating === 0) {
+			setError("Rating is Required");
+		} else if (rating === 0 || !text) {
+			setError("Rating and Comment is Required");
 		} else {
 			const res = await axios({
 				method: "post",
@@ -52,6 +58,7 @@ const CommentsModal = (props) => {
 					<Modal.Title>Leave a Comment </Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
+					{err && <p className="text-danger">{err}</p>}
 					<FaStar
 						size={35}
 						onClick={() => setRating(1)}

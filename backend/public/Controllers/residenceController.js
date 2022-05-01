@@ -175,7 +175,7 @@ exports.getResidence = async (req, res) => {
 		const residence = await Residence.findOne({
 			slug: req.params.slug,
 		})
-			.populate({ path: "reviews" })
+			.populate({ path: "reviews", sort: "-createdAt" })
 			.populate([{ path: "location", populate: { path: "zone" } }]);
 
 		const facilities = await ResidenceFacilityTable.find({

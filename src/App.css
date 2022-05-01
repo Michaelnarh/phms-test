@@ -100,13 +100,16 @@ a {
  /* padding: 12px; */
  /* margin-left: 12; */
  position: absolute;
- /* overflow-x: hidden; */
- z-index: 1000;
+ overflow-x: hidden;
+ z-index: 1000000;
  flex-direction: column;
  border: 1px solid #e5e5e5;
  background-color: white;
  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 
+}
+.dropdown-item:hover{
+	cursor: pointer;
 }
 
 .user-area{
@@ -350,6 +353,9 @@ hostel and homestel images
 @media screen and (max-width: 992px) {
 	.nav-inline-flex {
 		display: none;
+	}
+	.nav-profile{
+		display:none;
 	}
 	.nav-bars {
 		display: block;

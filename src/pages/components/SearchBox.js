@@ -67,16 +67,14 @@ export default function Searchbox(props) {
 					<div className="suggestions-area">
 						{suggestions.slice(0, 7).map((item, index) => {
 							return (
-								<>
-									<div key={index}>
-										<h5
-											className="suggest-list"
-											onClick={() => onSuggestion(item.name)}
-										>
-											{item.name}
-										</h5>
-									</div>
-								</>
+								<div key={item?._id}>
+									<h5
+										className="suggest-list"
+										onClick={() => onSuggestion(item.name)}
+									>
+										{item.name}
+									</h5>
+								</div>
 							);
 						})}
 					</div>

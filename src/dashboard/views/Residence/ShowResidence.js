@@ -58,9 +58,10 @@ export default function Showhostel(props) {
 						<div className="col-md-5 col-sm-12 ">
 							{gimages.length === 0 ? (
 								<img
-									src={`${process.env.REACT_APP_API_URL}/images/90ed/cover-image-1646411339799.jpeg`}
-									height={250}
-									width={350}
+									src={`${process.env.REACT_APP_API_URL}/images/90ef/cover-image-1646410873734.jpeg`}
+									className="img-fluid"
+									height={220}
+									width={450}
 									alt="..."
 								/>
 							) : (
@@ -119,28 +120,6 @@ export default function Showhostel(props) {
 						</div>
 						<div className="row">
 							<div className="col-md-6 col-sm-12 ">
-								<h2>
-									<b>Facilities </b>
-								</h2>
-								{facilities.length === 0 ? (
-									<>
-										<p>Not Available</p>
-									</>
-								) : (
-									facilities.map((item) => {
-										return (
-											<div key={item._id} className="facility-flex">
-												<div className="facility-names">
-													<IoIosCheckmarkCircle size={30} color="green" />
-													<span className="ml-3">{item?.facility?.name}</span>
-												</div>
-												<div className="facility-count">
-													<p>{item?.count}</p>
-												</div>
-											</div>
-										);
-									})
-								)}
 								<div>
 									<h2>Statistics</h2>
 									<div className="facility-flex">
@@ -149,7 +128,7 @@ export default function Showhostel(props) {
 											<span className="ml-3">Bed Spaces Total:</span>
 										</div>
 										<div className="facility-count">
-											<p>{Residence.totalBedSapces ?? "N/A"}</p>
+											<p>{Residence.totalBedspaces ?? "N/A"}</p>
 										</div>
 									</div>
 									<div className="facility-flex">
@@ -180,6 +159,28 @@ export default function Showhostel(props) {
 										</div>
 									</div>
 								</div>
+								<h2>
+									<b>Facilities </b>
+								</h2>
+								{facilities.length === 0 ? (
+									<>
+										<p>Not Available</p>
+									</>
+								) : (
+									facilities.map((item) => {
+										return (
+											<div key={item._id} className="facility-flex">
+												<div className="facility-names">
+													<IoIosCheckmarkCircle size={30} color="green" />
+													<span className="ml-3">{item?.facility?.name}</span>
+												</div>
+												<div className="facility-count">
+													<p>{item?.count}</p>
+												</div>
+											</div>
+										);
+									})
+								)}
 							</div>
 							<div className="col-md-6 col-sm-12">
 								<h2>
@@ -190,7 +191,7 @@ export default function Showhostel(props) {
 										<img src={blankData} width={300} height={350} alt="...." />
 									</div>
 								) : (
-									Residence.reviews.map((comment, i) => (
+									Residence.reviews.slice(0, 8).map((comment, i) => (
 										<div className="review-box" key={i}>
 											<p className="review-comments">
 												<span>
@@ -208,6 +209,7 @@ export default function Showhostel(props) {
 											<p>
 												<b>By:</b> <span>{comment.author?.username}</span>{" "}
 											</p>
+											<li>{comment.createdAt}</li>
 										</div>
 									))
 								)}

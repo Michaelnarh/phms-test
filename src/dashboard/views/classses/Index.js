@@ -8,7 +8,7 @@ export default function Index(props) {
 	return (
 		<>
 			<div className="page-container mt-3">
-				<Toptitle page="Hostel Classes" />
+				<Toptitle page="Residence Classes" />
 				<div className="content-left-side">
 					<div>
 						<MdArrowBack

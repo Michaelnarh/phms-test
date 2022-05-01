@@ -36,6 +36,22 @@ class SortBy {
 		});
 		return this;
 	}
+	byDate() {
+		this.arr.sort(function (a, b) {
+			const timeA = a.createdAt; // ignore upper and lowercase
+			const timeB = b.createdAt; // ignore upper and lowercase
+			if (timeA < timeB) {
+				return -1;
+			}
+			if (timeA > timeB) {
+				return 1;
+			}
+
+			// names must be equal
+			return 0;
+		});
+		return this;
+	}
 }
 
 module.exports = SortBy;

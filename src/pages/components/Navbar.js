@@ -10,6 +10,7 @@ import { Dropdown } from "react-bootstrap";
 
 export default function Navbar(props) {
 	const [isDrawerOpen, setDrawer] = useState(false);
+	const [isDropDownOpen, setDropDown] = useState(false);
 	const auth = new AuthStore();
 	return (
 		<>
@@ -53,32 +54,37 @@ export default function Navbar(props) {
 							</NavLink>
 						</li>
 					</ul>
-					<ul style={{ marginRight: 12 }}>
+					<ul className="nav-profile" style={{ marginRight: 12 }}>
 						{auth.getToken() ? (
 							<>
-								<Dropdown>
-									<Dropdown.Toggle id="dropdown-basic">
-										<img
-											src={profile}
-											alt="..."
-											style={{
-												width: 40,
-												height: 40,
-												borderRadius: "50%",
-												marginRight: 14,
-											}}
-										/>
-									</Dropdown.Toggle>
-									<Dropdown.Menu className="user-dropdown-menu">
-										<Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-										<Dropdown.Item href="#/action-2">
-											Another action
-										</Dropdown.Item>
-										<Dropdown.Item href="#/action-3">
-											Something else
-										</Dropdown.Item>
-									</Dropdown.Menu>
-								</Dropdown>
+								{/* <Dropdown> */}
+								<Dropdown.Toggle
+									id="dropdown-basic"
+									onClick={() => setDropDown(!isDropDownOpen)}
+								>
+									<img
+										src={profile}
+										alt="..."
+										style={{
+											width: 40,
+											height: 40,
+											borderRadius: "50%",
+											marginRight: 14,
+										}}
+									/>
+								</Dropdown.Toggle>
+								{isDropDownOpen && (
+									<div className="user-dropdown-menu">
+										<li
+											className="dropdown-item"
+											onClick={() => alert("will logout", setDropDown(false))}
+										>
+											Log Out
+										</li>
+									</div>
+								)}
+
+								{/* </Dropdown> */}
 							</>
 						) : (
 							<ul className="nav-inline-flex">

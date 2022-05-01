@@ -12,13 +12,13 @@ function LogInModal() {
 	const [error, setError] = useState("");
 
 	const validationSchema = Yup.object({
-		username: Yup.string().required("username is Required"),
+		username: Yup.string().required("Username is Required"),
 		referenceNumber: Yup.number()
 			.min(7, "Must be 8 Digits")
 			.required("Refernce Number is Required"),
 		password: Yup.string()
 			.min(2, "character too short, should be 5 and above")
-			.required("Password Required"),
+			.required("Password is Required"),
 	});
 
 	const initialValues = {

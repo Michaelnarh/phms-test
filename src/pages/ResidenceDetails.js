@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MapComponent from "./components/MapsComponent";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CommentsModal from "./components/CommentsModal";
 import ImageGallery from "react-image-gallery";
 import axios from "axios";
@@ -8,8 +8,10 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import AuthStore from "./../store/AuthStore";
 import LogInModal from "./components/auth/Login";
 import Iframe from "./components/utils/Iframe";
+import { Button } from "react-bootstrap";
 
 export default function Hosteldetails(props) {
+	const navigate = useNavigate();
 	const [residence, setResidence] = useState();
 	const auth = new AuthStore();
 	const [facilities, setFacilities] = useState([]);
@@ -24,6 +26,14 @@ export default function Hosteldetails(props) {
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${slug}`,
 			});
 
+			if (res.data?.data?.coverImage) {
+				await gimages.push({
+					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
+					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
+					thumbnailHeight: 40,
+					thumbnailWidth: 20,
+				});
+			}
 			await res.data.data?.images?.forEach((el) => {
 				if (el) {
 					gimages.push({
@@ -34,14 +44,6 @@ export default function Hosteldetails(props) {
 					});
 				}
 			});
-			if (res.data?.data?.coverImage) {
-				await gimages.push({
-					original: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
-					thumbnail: `${process.env.REACT_APP_API_URL}/images/${slug}/${res.data.data.coverImage}`,
-					thumbnailHeight: 40,
-					thumbnailWidth: 20,
-				});
-			}
 			setResidence(res.data.data);
 			setFacilities(res.data.facilities);
 		};
@@ -196,6 +198,9 @@ export default function Hosteldetails(props) {
 										);
 									})
 								)}
+								<Button className="mt-4" onClick={() => navigate(-1)}>
+									Go Back
+								</Button>
 							</div>
 							<div className="col-md-6">
 								{/* <MapComponent isMarkerShown={true} /> */}
