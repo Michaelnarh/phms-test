@@ -6,6 +6,7 @@ import Logo from "../../images/logo-knust.png";
 import profile from "../../images/profile_pic.jpg";
 import LogInModal from "./auth/Login";
 import AuthStore from "../../store/AuthStore";
+import { Dropdown } from "react-bootstrap";
 
 export default function Navbar(props) {
 	const [isDrawerOpen, setDrawer] = useState(false);
@@ -52,18 +53,33 @@ export default function Navbar(props) {
 							</NavLink>
 						</li>
 					</ul>
-					<ul className="mr-3">
+					<ul style={{ marginRight: 12 }}>
 						{auth.getToken() ? (
-							<img
-								src={profile}
-								alt="..."
-								style={{
-									width: 40,
-									height: 40,
-									borderRadius: "50%",
-									marginRight: 14,
-								}}
-							/>
+							<>
+								<Dropdown>
+									<Dropdown.Toggle id="dropdown-basic">
+										<img
+											src={profile}
+											alt="..."
+											style={{
+												width: 40,
+												height: 40,
+												borderRadius: "50%",
+												marginRight: 14,
+											}}
+										/>
+									</Dropdown.Toggle>
+									<Dropdown.Menu className="user-dropdown-menu">
+										<Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+										<Dropdown.Item href="#/action-2">
+											Another action
+										</Dropdown.Item>
+										<Dropdown.Item href="#/action-3">
+											Something else
+										</Dropdown.Item>
+									</Dropdown.Menu>
+								</Dropdown>
+							</>
 						) : (
 							<ul className="nav-inline-flex">
 								<li>

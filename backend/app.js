@@ -15,6 +15,7 @@ const areampRouter = require("./public/Routes/areaMPRoute");
 const classRouter = require("./public/Routes/classRoute");
 const registrationRouter = require("./public/Routes/registrationRoute");
 const academicYearRouter = require("./public/Routes/acdemicYearRoute");
+const reportRouter = require("./public/Routes/reportsRoute");
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
@@ -43,6 +44,7 @@ app.use("/api/v1/area-mps", areampRouter);
 app.use("/api/v1/classes", classRouter);
 app.use("/api/v1/registration", registrationRouter);
 app.use("/api/v1/academic-year", academicYearRouter);
+app.use("/api/v1/reports", reportRouter);
 
 //request which are undefined.
 app.all("*", (req, res, next) => {

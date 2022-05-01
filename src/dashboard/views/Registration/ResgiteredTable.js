@@ -168,7 +168,7 @@ export default function RegisteredTable(props) {
 								<th>Residence Name</th>
 								<th>Zone</th>
 								<th>Date Registered</th>
-								<th>Registration Status</th>
+								<th className="text-center">Registration Status</th>
 								<th className="text-center">Action</th>
 							</tr>
 						</thead>

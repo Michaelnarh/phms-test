@@ -112,9 +112,11 @@ exports.getRegisteredResidences = async (req, res) => {
 			(value, index, self) =>
 				index === self.findIndex((t) => t.name === value.name)
 		);
+		const newSort = new SortBy(data);
+		const sortedArr = newSort.byName();
 		res.status(201).json({
 			status: "success",
-			data: data,
+			data: sortedArr.arr,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -198,7 +200,6 @@ exports.displayUnregisteredResidences = async (req, res) => {
 			newRegZoneArray.forEach((o, j) => {
 				if (el._id.toString() === o._id.toString()) {
 					indexes.push(i);
-					// newZoneArray.splice(i, 1);
 				}
 			});
 		});

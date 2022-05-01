@@ -78,7 +78,8 @@ export default function Hosteldetails(props) {
 											<img
 												src={`${url}/90ef/cover-image-1646409988773.jpeg`}
 												alt="..."
-												style={{ height: 200, width: 300 }}
+												className="img-fluid"
+												style={{ height: 300, width: 550 }}
 											/>
 										) : (
 											<ImageGallery items={gimages} />

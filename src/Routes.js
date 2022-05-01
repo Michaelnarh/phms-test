@@ -65,6 +65,8 @@ import RegistrationViews from "./dashboard/views/Registration/Index";
 import RegisterTable from "./dashboard/views/Registration/RegisterTable";
 import RegisteredTable from "./dashboard/views/Registration/ResgiteredTable";
 
+import Reports from "./dashboard/views/Reports/Reports";
+
 import NotFoundPage from "./dashboard/views/404Page";
 
 // import of public routes
@@ -151,6 +153,9 @@ function MainLayout() {
 					<Route path="registration" element={<RegistrationViews />}>
 						<Route index element={<RegisterTable />} />
 						<Route path="registered" element={<RegisteredTable />} />
+					</Route>
+					<Route path="reports" element={<Reports />}>
+						<Route index element={<Reports />} />
 					</Route>
 					<Route path="*" element={<NotFoundPage />} />
 				</Route>

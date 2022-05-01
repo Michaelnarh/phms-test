@@ -50,7 +50,8 @@ a {
 	/* margin-bottom: 20px; */
 	height: 80px;
 	/* position: fixed; */
-	z-index: 9999;
+	/* overflow-y: hidden; */
+	z-index: 999;
 	box-shadow: var(--darkShadow);
 }
 .nav-flex ul {
@@ -88,6 +89,24 @@ a {
 	color: var(--darkBlue);
 	font-weight: 300;
 	font-size: 1.8rem;
+}
+.user-dropdown-menu{
+ /* width: 100px; */
+ /* height: 50px; */
+ /* background-color: var(--mainWhite); */
+ /* border: 1px solid var(--mainBlack); */
+ /* z-index: 2; */
+ /* min-width: 150px; */
+ /* padding: 12px; */
+ /* margin-left: 12; */
+ position: absolute;
+ /* overflow-x: hidden; */
+ z-index: 1000;
+ flex-direction: column;
+ border: 1px solid #e5e5e5;
+ background-color: white;
+ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+
 }
 
 .user-area{

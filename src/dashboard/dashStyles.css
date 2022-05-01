@@ -188,6 +188,7 @@ th {
 	flex: 80%;
 	justify-content: center;
 	place-content: center;
+	color:rgb(163, 226, 228);
 }
 .icon {
 	flex: 20%;

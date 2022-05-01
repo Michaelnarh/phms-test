@@ -35,7 +35,7 @@ export default function Navbar(props) {
 						<li>
 							<MdLogout
 								size={30}
-								onClick={() => localStorage.removeItem("dumb")}
+								onClick={() => alert("not fixed yet")}
 								color="var(--darkBlue)"
 							/>
 						</li>
