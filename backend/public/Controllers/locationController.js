@@ -62,6 +62,7 @@ exports.getAllLocations = async (req, res) => {
 		const locations = await Location.find().populate("zone");
 
 		res.status(200).json({
+			total: locations.length,
 			status: "success",
 			data: locations,
 		});

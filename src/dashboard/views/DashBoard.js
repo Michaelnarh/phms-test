@@ -101,7 +101,7 @@ export default function Dashboard(props) {
 			<div className=" page-container mt-3 mb-3  ">
 				<Toptitle page="Home" />
 				{isLoading ? (
-					<CustomSpinner type="beat" />
+					<CustomSpinner type="hash" />
 				) : (
 					<div className="card">
 						<div className="card-box-flex">

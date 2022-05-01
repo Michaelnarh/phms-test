@@ -3,6 +3,7 @@ import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import CustomSpinner from "../../utils/CustomSpinner";
 
 export default function Locations(props) {
 	const navigate = useNavigate();
@@ -10,7 +11,9 @@ export default function Locations(props) {
 	const [pageCount, setPageCount] = useState(0);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(25);
+	const [isLoading, setIsLoading] = useState(false);
 	useEffect(() => {
+		setIsLoading(true);
 		const fetchLocations = async () => {
 			const res = await axios({
 				method: "get",
@@ -18,11 +21,17 @@ export default function Locations(props) {
 			});
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
 			setLocations(res.data.data);
+			setIsLoading(false);
 		};
-		fetchLocations();
+
+		const timer = setTimeout(() => fetchLocations(), 2000);
+
+		return () => clearTimeout(timer);
 	}, [page, limit]);
 
-	const handleView = async (id) => {};
+	const handleView = async (id) => {
+		navigate(`/admin/locations/${id}`);
+	};
 	const handleEdit = async (id) => {
 		navigate(`/admin/locations/${id}`);
 		// console.log(res.data);
@@ -43,7 +52,9 @@ export default function Locations(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{locations &&
+						{locations === 0 ? (
+							<tr></tr>
+						) : (
 							locations.map((item) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
@@ -71,9 +82,11 @@ export default function Locations(props) {
 										/>
 									</td>
 								</tr>
-							))}
+							))
+						)}
 					</tbody>
 				</table>
+				<CustomSpinner isLoading={isLoading} type="circle" />
 				<ReactPaginate
 					breakLabel="..."
 					nextLabel="Next >>"

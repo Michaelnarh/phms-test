@@ -7,10 +7,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { IoIosCheckmarkCircle, IoIosLock } from "react-icons/io";
 import AcademicYearModal from "./AcademicYearModal";
 import blankData from "../../images/blank_svg.svg";
+import CustomSpinner from "../../utils/CustomSpinner";
 // import { ContextStore } from "./../../../store/ContextStore";
 
 export default function RegisteredTable(props) {
 	const [user] = useState(JSON.parse(localStorage.getItem("user")));
+	const [isLoading, setIsLoading] = useState(false);
 	const [Residences, setResidences] = useState([]);
 	const [academic_year, setAcademicYear] = useState([]);
 	const [year_selected, setYearSelected] = useState();
@@ -44,6 +46,7 @@ export default function RegisteredTable(props) {
 	const handleSearch = async (values) => {
 		setYearSelected(values.years);
 		setSelectedZone(values.zone);
+		setIsLoading(true);
 		try {
 			const res = await axios({
 				method: "get",
@@ -54,6 +57,7 @@ export default function RegisteredTable(props) {
 			});
 
 			setResidences(res.data.data);
+			setTimeout(() => setIsLoading(false), 2000);
 		} catch (err) {
 			console.log(err);
 		}
@@ -156,9 +160,12 @@ export default function RegisteredTable(props) {
 					<h3 className="text-center">Search Results</h3>
 					<p></p>
 				</div>
-				{Residences.length === 0 ? (
+				{isLoading ? (
+					<CustomSpinner type="circle" />
+				) : Residences.length === 0 ? (
 					<div className="text-center">
 						<img src={blankData} width={300} height={350} alt="...." />
+						<p className="text-center">No Data Available</p>
 					</div>
 				) : (
 					<table className="mt-4">
@@ -199,6 +206,7 @@ export default function RegisteredTable(props) {
 										)}
 									</td>
 									<td className="text-center">
+										<p oncClick={() => handleDisabled(item?._id)}></p>
 										<IoIosLock size={25} color="orange" />
 									</td>
 								</tr>

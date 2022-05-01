@@ -23,7 +23,6 @@ exports.registerResidence = async (req, res) => {
 		});
 	} else {
 		try {
-			console.log(academicYear);
 			const regTable = await RegistrationTable.create({
 				residence: residenceId,
 				academicYear: academicYear?._id,
@@ -103,6 +102,8 @@ exports.getRegisteredResidences = async (req, res) => {
 
 					createdAt: item?.updatedAt || item?.createdAt,
 
+					reg_id: item?._id,
+
 					status: item?.status,
 				};
 				zoneArray.push(data);
@@ -133,7 +134,7 @@ exports.displayUnregisteredResidences = async (req, res) => {
 
 		const academicYear = await AcademicYear.findOne({ slug: academic_year });
 		const currentRegisteredResidencesByYear = await RegistrationTable.find({
-			academicYear: academicYear?._id,
+			academicYear: { _id: `${academicYear?._id}` },
 			status: 1,
 		}).populate({
 			path: "residence",
@@ -198,7 +199,7 @@ exports.displayUnregisteredResidences = async (req, res) => {
 		const indexes = [];
 		newZoneArray.forEach((el, i) => {
 			newRegZoneArray.forEach((o, j) => {
-				if (el._id.toString() === o._id.toString()) {
+				if (el.name.toString() === o.name.toString()) {
 					indexes.push(i);
 				}
 			});
@@ -208,8 +209,8 @@ exports.displayUnregisteredResidences = async (req, res) => {
 		let count = 0;
 		for (let i = 0; i < indexes.length; i++) {
 			if (i === indexes[i]) {
+				newZoneArray.splice(0, 1);
 				count++;
-				newZoneArray.splice(i, 1);
 			} else {
 				newZoneArray.splice(indexes[i] - count, 1);
 				count++;
@@ -219,8 +220,6 @@ exports.displayUnregisteredResidences = async (req, res) => {
 		//sort array baseed on names
 		const mySort = new SortBy(newZoneArray);
 		const sortedArray = mySort.byName();
-
-		console.log(sortedArray);
 
 		res.status(201).json({
 			status: "success",

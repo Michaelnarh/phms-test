@@ -21,7 +21,7 @@ export default function CustomSpinner({ isLoading, color, type }) {
 	return (
 		<div className="spinner-style">
 			{type === "circle" ? (
-				<CircleLoader
+				<ClipLoader
 					color={`${color ? color : "#90b7ce"}`}
 					loading={isLoading}
 					css={override}
@@ -34,7 +34,7 @@ export default function CustomSpinner({ isLoading, color, type }) {
 					css={override}
 					size={150}
 				/>
-			) : type == "bar" ? (
+			) : type === "bar" ? (
 				<BarLoader
 					color={`${color ? color : "#90b7ce"}`}
 					loading={isLoading}
@@ -49,7 +49,7 @@ export default function CustomSpinner({ isLoading, color, type }) {
 					size={150}
 				/>
 			) : (
-				<ClipLoader
+				<CircleLoader
 					color={`${color ? color : "#90b7ce"}`}
 					loading={isLoading}
 					css={override}

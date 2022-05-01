@@ -3,14 +3,17 @@ import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import CustomSpinner from "../../utils/CustomSpinner";
 
 export default function Zones(props) {
 	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(false);
 	const [facilities, setFacility] = useState([]);
 	const [pageCount] = useState(1);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(25);
 	useEffect(() => {
+		setIsLoading(true);
 		const fetchFacility = async () => {
 			const res = await axios({
 				method: "get",
@@ -22,8 +25,12 @@ export default function Zones(props) {
 
 			// setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
 			setFacility(res.data.data);
+			setIsLoading(false);
 		};
-		fetchFacility();
+
+		const timer = setTimeout(() => fetchFacility(), 2000);
+
+		return () => clearTimeout(timer);
 	}, [page, limit]);
 
 	const handleView = async (id) => {
@@ -48,7 +55,6 @@ export default function Zones(props) {
 		setPage(p.selected + 1);
 		setLimit(limit);
 	};
-	console.log(facilities);
 	return (
 		<>
 			<div className="table-container">
@@ -61,8 +67,11 @@ export default function Zones(props) {
 							<th>Action</th>
 						</tr>
 					</thead>
+
 					<tbody>
-						{facilities?.length > 0 &&
+						{facilities?.length == 0 ? (
+							<tr></tr>
+						) : (
 							facilities.map((item) => (
 								<tr key={item._id}>
 									<td>{item._id.slice(20, 24)}</td>
@@ -90,9 +99,11 @@ export default function Zones(props) {
 										/>
 									</td>
 								</tr>
-							))}
+							))
+						)}
 					</tbody>
 				</table>
+				<CustomSpinner isLoading={isLoading} type="circle" />
 				<ReactPaginate
 					breakLabel="..."
 					nextLabel="Next >>"

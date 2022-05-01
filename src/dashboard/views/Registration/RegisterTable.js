@@ -6,11 +6,14 @@ import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import AcademicYearModal from "./AcademicYearModal";
 import { useNavigate } from "react-router-dom";
+import blankData from "../../images/blank_svg.svg";
+import CustomSpinner from "../../utils/CustomSpinner";
 // import { ContextStore } from "./../../../store/ContextStore";
 
 export default function RegisterTable(props) {
 	// const { authStore } = useContext(ContextStore);
 	const [user] = useState(JSON.parse(localStorage.getItem("user")));
+	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 	const [Residences, setResidences] = useState([]);
 	const [academic_year, setAcademicYear] = useState([]);
@@ -44,6 +47,7 @@ export default function RegisterTable(props) {
 	const handleSearch = async (values) => {
 		setYearSelected(values.years);
 		setSelectedZone(values.zone);
+		setIsLoading(true);
 		try {
 			const res = await axios({
 				method: "get",
@@ -54,6 +58,7 @@ export default function RegisterTable(props) {
 			});
 			console.log(res.data);
 			setResidences(res.data.data);
+			setTimeout(() => setIsLoading(false), 2000);
 		} catch (err) {
 			console.log(err);
 		}
@@ -68,17 +73,17 @@ export default function RegisterTable(props) {
 					"Content-Type": "application/json",
 				},
 			});
-			let curr_residences = Residences;
+
 			console.log(res.data);
-			const rs = res.data;
-			curr_residences.forEach((el) => {
+			const rs = res.data.data;
+			Residences.forEach((el) => {
 				if (el?._id === rs?._id) {
 					el.status = rs?.status;
 					el.createdAt = rs?.createdAt;
 				}
 			});
 
-			setResidences([...curr_residences]);
+			setResidences([...Residences]);
 		} catch (err) {
 			console.log(err);
 		}
@@ -93,7 +98,7 @@ export default function RegisterTable(props) {
 		zone: selected_zone ?? "",
 		years: year_selected ?? "",
 	};
-	console.log("my user", user);
+	console.log(Residences);
 	return (
 		<>
 			<Button onClick={() => navigate("registered")}>Registered</Button>
@@ -155,46 +160,54 @@ export default function RegisterTable(props) {
 						</div>
 					</Form>
 				</Formik>
-				<div></div>
-				<table className="mt-4">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>Residence Name</th>
-							<th>Zone</th>
-							<th>Date Registered</th>
-							<th>Registration Status</th>
-							<th className="text-center">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						{Residences.length > 0 &&
-							Residences.map((item, i) => (
-								<tr key={item?._id}>
-									<td>{i + 1}</td>
-									<td>{item.name}</td>
-									<td>{item?.zone}</td>
-									<td>{item.createdAt}</td>
+				{isLoading ? (
+					<CustomSpinner type="circle" />
+				) : Residences.length === 0 ? (
+					<div className="text-center">
+						<img src={blankData} width={300} height={350} alt="...." />
+						<p className="text-center">No Data Available</p>
+					</div>
+				) : (
+					<table className="mt-4">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Residence Name</th>
+								<th>Zone</th>
+								<th>Date Registered</th>
+								<th>Registration Status</th>
+								<th className="text-center">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{Residences.length > 0 &&
+								Residences.map((item, i) => (
+									<tr key={item?._id}>
+										<td>{i + 1}</td>
+										<td>{item.name}</td>
+										<td>{item?.zone}</td>
+										<td>{item.createdAt}</td>
 
-									<td className="text-center">
-										{item.status === 1 ? (
-											<Button variant="danger" disabled>
-												{" "}
-												Registered{" "}
-											</Button>
-										) : (
-											<Button
-												variant="success"
-												onClick={() => handleRegister(item._id)}
-											>
-												Register
-											</Button>
-										)}
-									</td>
-								</tr>
-							))}
-					</tbody>
-				</table>
+										<td className="text-center">
+											{item.status === 1 ? (
+												<Button variant="danger" disabled>
+													{" "}
+													Registered{" "}
+												</Button>
+											) : (
+												<Button
+													variant="success"
+													onClick={() => handleRegister(item._id)}
+												>
+													Register
+												</Button>
+											)}
+										</td>
+									</tr>
+								))}
+						</tbody>
+					</table>
+				)}
 			</div>
 		</>
 	);
