@@ -8,7 +8,7 @@ export default function HelpDesk(props) {
 			<div className="container mt-5">
 				<div className="row">
 					<div className="col-md-4 col-lg-4 col-sm-12">
-						<img src={helpDesk} className="img-fluid m-3" alt="...." />
+						<img src={helpDesk} className="img-fluid" alt="...." />
 					</div>
 					<div className="col-md-8 col-lg-8 col-sm-12">
 						<p>

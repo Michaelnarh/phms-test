@@ -1,4 +1,7 @@
+import { Navigate } from "react-router-dom";
 import axios from "axios";
+import Cookie from "universal-cookie";
+const cookie = new Cookie();
 
 export class AuthService {
 	Login = async (payload) => {
@@ -14,11 +17,12 @@ export class AuthService {
 			data: payload,
 		});
 		if (res.data.status === "success") {
+			console.log(res.data);
 			localStorage.setItem("jwt", res.data.token);
+			cookie.set("jwt", res.data.token);
 			localStorage.setItem("user", JSON.stringify(res.data.user));
 			localStorage.setItem("dumb", res.data.user._id);
 			console.log("login successful");
-			window.location.assign("/admin/dashboard");
 			return res;
 		}
 		if (res.data.status === "failed") {

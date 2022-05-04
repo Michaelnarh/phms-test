@@ -93,7 +93,7 @@ export default function Hosteldetails(props) {
 												<CommentsModal id={residence?._id} />
 											</div>
 										) : (
-											<div className="col-md-6 col-lg-6 col-sm-12">
+											<div className=" my-3 col-md-6 col-lg-6 col-sm-12">
 												<LogInModal />
 											</div>
 										)}

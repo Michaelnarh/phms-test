@@ -91,7 +91,7 @@ export default function AreaMPs(props) {
 										<th>Contact</th>
 										<th>Zone</th>
 										<th>Senior Tutor</th>
-										<th>Action</th>
+										<th className="text-center">Actions</th>
 									</tr>
 								</thead>
 								<tbody>

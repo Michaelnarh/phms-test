@@ -71,7 +71,7 @@ export default function Residences(props) {
 									<th>Location</th>
 									<th>Zone/Constituency</th>
 									<th>Digital Address</th>
-									<th>Action</th>
+									<th className="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>

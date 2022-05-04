@@ -24,12 +24,14 @@ export default function Residence(props) {
 						{residence.coverImage ? (
 							<img
 								src={`${url}/${residence.slug}/${residence.coverImage}`}
+								className="img-fluid"
 								alt="..."
 								style={{ height: "200px", width: "300px" }}
 							/>
 						) : (
 							<img
 								src={`${url}/90ef/cover-image-1646409988773.jpeg`}
+								className="img-fluid"
 								alt="..."
 								style={{ height: 200, width: 300 }}
 							/>

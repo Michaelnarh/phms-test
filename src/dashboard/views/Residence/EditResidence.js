@@ -145,12 +145,14 @@ export default function EditResidence(props) {
 		try {
 			const res = await axios({
 				method: "post",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${residence?._id}`,
 				headers: {
 					accept: "application/json",
 				},
 				data: formData,
 			});
+
+			console.log(res.data);
 			resetForm();
 			setAccepted([]);
 			values.coverImage = "";

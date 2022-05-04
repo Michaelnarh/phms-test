@@ -1,7 +1,13 @@
 const express = require("express");
 const bodyparser = require("body-parser");
-const globalErrorHandler = require("./public/utils/errorController");
+const cookies = require("cookie-parser");
+const xclean = require("xss-clean");
+const hpp = require("hpp");
+const helmet = require("helmet");
+const sanitize = require("express-mongo-sanitize");
+const morgan = require("morgan");
 const cors = require("cors");
+const globalErrorHandler = require("./public/utils/errorController");
 const userRouter = require("./public/Routes/userRoute");
 const residenceRouter = require("./public/Routes/residenceRoute");
 const zoneRouter = require("./public/Routes/zoneRoute");
@@ -19,7 +25,18 @@ const reportRouter = require("./public/Routes/reportsRoute");
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
+app.use(function (req, res, next) {
+	res.header("Access-Control-Allow-Origin", req.headers.origin);
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept"
+	);
+	next();
+});
 app.use(bodyparser.json());
+app.use(cookies());
+app.use(hpp());
+app.use(xclean());
 
 app.use(express.static("public"));
 app.use("/images", express.static("images"));

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { MdSettings } from "react-icons/md";
 import { NavLink, Link } from "react-router-dom";
 import { SideBarItems } from "./Data-items";
 import { observer } from "mobx-react";
@@ -95,7 +96,7 @@ function Drawer(props) {
 					})}
 				</div>
 				<div className="sidebar-bottom">
-					<h6>next page</h6>
+					<MdSettings size={30} color={"var(--mainWhite)"} />
 				</div>
 			</div>
 		</>

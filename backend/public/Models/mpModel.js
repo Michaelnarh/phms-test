@@ -10,6 +10,7 @@ const mpSchema = mongooose.Schema({
 		unique: true,
 	},
 	contact: { type: String },
+	academicYear: { type: String },
 	isCurrent: { type: Boolean, default: true },
 	image: { type: String },
 });

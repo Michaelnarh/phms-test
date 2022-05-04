@@ -147,8 +147,17 @@ exports.updateResidence = async (req, res, next) => {
 	}
 	try {
 		if (req.body.name) {
-			// req.body.slug = await slugify(req.body.name, { lower: true });
+			req.body.slug = await slugify(req.body.name, { lower: true });
 		}
+
+		const coordinates = [];
+		coordinates[0] = parseFloat(req.body.lng);
+		coordinates[1] = parseFloat(req.body.lat);
+		req.body.gpsAddress = {
+			type: "Point",
+			coordinates,
+		};
+
 		const residence = await Residence.findByIdAndUpdate(
 			req.params.id,
 			req.body,
@@ -157,6 +166,46 @@ exports.updateResidence = async (req, res, next) => {
 				// runValidators: true,
 			}
 		);
+
+		let residence_id = req.params.id;
+		let facility_id;
+		let facility_count;
+
+		const incomeFacilities = JSON.parse(req.body.facilities);
+		// console.log(incomeFacilities);
+		// let facilities = [];
+		const facilities = await ResidenceFacilityTable.find({
+			residence: req.params.id,
+		}).populate({ path: "facility" });
+
+		// console.log(facilities);
+		if (facilities.length > 0) {
+			if (incomeFacilities?.length > 0) {
+				await Promise.all(
+					incomeFacilities.map(async (item) => {
+						console.log("hit here 1");
+						facilities.map(async (el) => {
+							if (item?.id && item?.num) {
+								if (item?.id[0] === el?.facility?._id.toString()) {
+									console.log("hit here c2");
+									facility_count = item.num;
+									await ResidenceFacilityTable.findOneAndUpdate(
+										{
+											residence: { _id: residence_id },
+											facility: { _id: item?.id[0] },
+										},
+
+										{
+											count: facility_count,
+										}
+									);
+								}
+							}
+						});
+					})
+				);
+			}
+		}
 		res.status(201).json({
 			status: "success",
 			residence,
@@ -175,7 +224,7 @@ exports.getResidence = async (req, res) => {
 		const residence = await Residence.findOne({
 			slug: req.params.slug,
 		})
-			.populate({ path: "reviews", sort: "-createdAt" })
+			.populate({ path: "reviews", options: { sort: { _id: -1 } } })
 			.populate([{ path: "location", populate: { path: "zone" } }]);
 
 		const facilities = await ResidenceFacilityTable.find({

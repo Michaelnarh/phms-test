@@ -42,7 +42,11 @@ function LogInModal() {
 	};
 	return (
 		<>
-			<Button onClick={() => handleShow()} variant="success">
+			<Button
+				style={{ borderColor: "#fff", borderSize: "1px", marginBottom: "8px" }}
+				onClick={() => handleShow()}
+				variant=""
+			>
 				Login
 			</Button>
 			<Modal

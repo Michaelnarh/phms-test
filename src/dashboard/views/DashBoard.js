@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { FaChartPie } from "react-icons/fa";
+import { FaChartPie, FaUserCheck } from "react-icons/fa";
+import {
+	MdOutlineVerifiedUser,
+	MdVerifiedUser,
+	MdLocationOn,
+	MdHouse,
+	MdApartment,
+	MdAppRegistration,
+} from "react-icons/md";
 import { Doughnut, Bar } from "react-chartjs-2";
 import Toptitle from "./TopTitle";
 import axios from "axios";
@@ -78,6 +86,7 @@ const options = {
 export default function Dashboard(props) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState({});
+	const [reports, setReports] = useState();
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchData = async () => {
@@ -91,11 +100,24 @@ export default function Dashboard(props) {
 			setData(res.data.data);
 			setIsLoading(false);
 		};
+		const fetchReports = async () => {
+			const res = await axios({
+				method: "get",
+				url: `${process.env.REACT_APP_API_URL}/api/v1/reports/statistics`,
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			setReports(res.data.data);
+			console.log(res.data);
+		};
+
+		!reports && fetchReports();
 
 		const timer = setTimeout(() => fetchData(), 2000);
 
 		return () => clearTimeout(timer);
-	}, []);
+	}, [reports]);
 	return (
 		<>
 			<div className=" page-container mt-3 mb-3  ">
@@ -112,7 +134,7 @@ export default function Dashboard(props) {
 										<h1>{data.hostels_num}</h1>
 									</div>
 									<div>
-										<FaChartPie size={58} color="green" />
+										<MdApartment size={58} color="green" />
 									</div>
 								</div>
 							</div>
@@ -123,7 +145,7 @@ export default function Dashboard(props) {
 										<h1>{data.homestels_num}</h1>
 									</div>
 									<div>
-										<FaChartPie size={58} color="red" />
+										<MdHouse size={58} color="red" />
 									</div>
 								</div>
 							</div>
@@ -131,7 +153,7 @@ export default function Dashboard(props) {
 								<div className="card-box-inlineflex">
 									<div>
 										<p>REGISTERED HOSTELS</p>
-										<h1>{data.reg_hostels_num}</h1>
+										<h1>{reports && reports?.hostelsCount}</h1>
 									</div>
 									<div>
 										<FaChartPie size={58} color="orange" />
@@ -142,7 +164,7 @@ export default function Dashboard(props) {
 								<div className="card-box-inlineflex">
 									<div>
 										<p>REGISTERED HOMESTELS</p>
-										<h1>{data.reg_homestels_num}</h1>
+										<h1>{reports && reports?.homestelsCount}</h1>
 									</div>
 									<div>
 										<FaChartPie size={58} color="purple" />
@@ -156,7 +178,7 @@ export default function Dashboard(props) {
 										<h1>{data.zones_num}</h1>
 									</div>
 									<div>
-										<FaChartPie size={58} color="purple" />
+										<MdLocationOn size={58} color="purple" />
 									</div>
 								</div>
 							</div>
@@ -167,7 +189,7 @@ export default function Dashboard(props) {
 										<h1>{data.snr_tutors_num}</h1>
 									</div>
 									<div>
-										<FaChartPie size={58} color="purple" />
+										<FaUserCheck size={58} color="purple" />
 									</div>
 								</div>
 							</div>
@@ -178,7 +200,7 @@ export default function Dashboard(props) {
 										<h1>{data.nssP_num}</h1>
 									</div>
 									<div>
-										<FaChartPie size={58} color="purple" />
+										<MdOutlineVerifiedUser size={58} color="purple" />
 									</div>
 								</div>
 							</div>
@@ -189,7 +211,7 @@ export default function Dashboard(props) {
 										<h1>{data.area_mp_num}</h1>
 									</div>
 									<div>
-										<FaChartPie size={58} color="purple" />
+										<MdAppRegistration size={58} color="purple" />
 									</div>
 								</div>
 							</div>

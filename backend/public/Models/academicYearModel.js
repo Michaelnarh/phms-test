@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
+const Registration = require("./registrationTable");
+const NationalMp = require("./mpModel");
 const slugify = require("slugify");
-const { string } = require("yup");
 
 const academicYearSchema = mongoose.Schema({
 	name: {
@@ -20,6 +21,10 @@ academicYearSchema.plugin(uniqueValidator);
 academicYearSchema.pre("save", async function (next) {
 	this.slug = slugify(this.name, { lower: true });
 	next();
+});
+
+academicYearSchema.pre("remove", function () {
+	Registration.remove({ academicYear: this._id });
 });
 
 module.exports = mongoose.model("AcademicYear", academicYearSchema);

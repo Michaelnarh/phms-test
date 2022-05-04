@@ -5,6 +5,7 @@
 	--offWhite: #f7f7f7;
 	--mainBlack: #222;
 	--mainGrey: #ececec;
+	--darkBlue: #219580;
 	--darkBlue: #0a6e23;
 	/* --darkBlue: #7e3232; */
 	/* --darkBlue: #0d2150; */
@@ -16,7 +17,7 @@
 	--mainSpacing: 2px;
 	--tqColor: #56ca90d0;
 	--lightShadow: 2px 5px 3px 0px rgba(163, 136, 136, 0.5);
-	--whiteShadow: 2px 2px 3px 0px rgba(250, 248, 248, 0.685);
+	--whiteShadow: 2px 2px 3px 0px rgba(72, 233, 216, 0.707);
 	--darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
 	--mainTransition: all 0.3s linear;
 }
@@ -27,7 +28,7 @@
 }
 
 a {
-	color: var(--mainBlack);
+
 	text-decoration: none !important;
 }
 .margin-top{
@@ -38,6 +39,7 @@ a {
 	position: sticky;
 	position: -webkit-sticky;
 	background-color: rgb(255, 254, 254);
+	/* background-color: #0a6e23; */
 	z-index: 9999;
 
 }
@@ -71,9 +73,21 @@ a {
 }
 .drawer {
 	display: none;
+	background-color: #0a6e23;
+	width: 360px;
+	position: relative;
+	align-self: flex-end;
+	border-bottom-left-radius: 26px;
+	border-top-left-radius: 26px;
+	border-bottom-right-radius: 26px;
+	top:0;
+	position: sticky;
+	position: -webkit-sticky;
+	z-index: 1000000;
 }
 .drawer-item {
 	text-align: center;
+	color:#fff !important
 }
 
 .nav-active {
@@ -91,8 +105,8 @@ a {
 	font-size: 1.8rem;
 }
 .user-dropdown-menu{
- /* width: 100px; */
- /* height: 50px; */
+ width: 100px;
+ /* he: 50px; */
  /* background-color: var(--mainWhite); */
  /* border: 1px solid var(--mainBlack); */
  /* z-index: 2; */
@@ -102,7 +116,8 @@ a {
  position: absolute;
  overflow-x: hidden;
  z-index: 1000000;
- flex-direction: column;
+ margin-top: 75px;
+ /* flex-direction: column; */
  border: 1px solid #e5e5e5;
  background-color: white;
  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
@@ -165,7 +180,10 @@ a {
 	/* top: 78px; */
 	/* position: absolute; */
 	/* margin-top: 11,5rem !important; */
-	margin-left: 24px;
+	/* margin-left: 24px; */
+	margin-top: auto;
+	margin-bottom: 15px;
+	position: relative
 	/* position: relative; */
 	/* bottom: -250px; */
 	/* margin-left: auto; */
@@ -203,6 +221,11 @@ hostel and homestel images
 	width: 300px;
 	box-sizing: border-box;
 	height: 350px;
+}
+.residence:hover{
+	box-shadow: var(--whiteShadow);
+	transition: var(--mainTransition);
+	
 }
 .top-svg-detail-page{
 	z-index: -2;
@@ -262,15 +285,16 @@ hostel and homestel images
 	text-align: center;
 	box-shadow: var(--lightShadow);
 	border: 12px;
-	width: 450px;
-	background-color: var(--darkBlue);
+	/* width: 450px; */
+	background-color: rgb(252, 251, 251);
 	margin-left: auto;
+	border-radius: 50px;
 	margin-right: auto;
 	margin-top: 5px;
-	z-index: 1000;
+	/* z-index: 1000; */
 }
 .suggest-list {
-	color: var(--mainWhite);
+	color: var(--mainBlack);
 }
 .suggest-list:hover {
 	cursor: pointer;
@@ -367,16 +391,24 @@ hostel and homestel images
 		box-shadow: var(--darkShadow);
 	}
 	.drawer {
+		transition: all 1.3ms ease-in;
 		display: block;
-		margin-top: 12px;
+		/* margin-top: 12px; */
+		margin-left: auto;
+		z-index: 10000;
 		background-image: linear-gradient(
 			to bottom,
 			var(--darkblue),
 			var(--lightBlue)
 		);
 	}
+	.user-dropdown-menu{
+		margin-top: 0;
+	}
 	.drawer-item {
 		display: block;
+		padding:8px;
+		color: #fff !important;
 		justify-content: center;
 	}
 	.banner-header {
@@ -401,6 +433,17 @@ hostel and homestel images
 	}
 }
 
+@media screen and (max-width: 280px) {
+	.drawer {
+		width: 240px;
+	}
+	.residence{
+		width: 250px;
+	}
+	.suggest-list{
+		width: fit-content;
+	}
+}
 @keyframes App-logo-spin {
 	from {
 		transform: rotate(0deg);

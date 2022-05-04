@@ -52,7 +52,7 @@ export default function Zones(props) {
 							<th>ID</th>
 							<th>Zone/Constituency</th>
 							<th>Senior Tutor In Charge</th>
-							<th>Action</th>
+							<th className="text-center">Actions</th>
 						</tr>
 					</thead>
 					<tbody>

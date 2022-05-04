@@ -56,7 +56,7 @@ export default function Zones(props) {
 							<th>3 -in- 1 </th>
 							<th>2 -in- 1</th>
 							<th>1 -in- 1</th>
-							<th>Action</th>
+							<th className="text-center">Actions</th>
 						</tr>
 					</thead>
 					<tbody>

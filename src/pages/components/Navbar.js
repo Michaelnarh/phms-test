@@ -54,11 +54,12 @@ export default function Navbar(props) {
 							</NavLink>
 						</li>
 					</ul>
-					<ul className="nav-profile" style={{ marginRight: 12 }}>
+					<ul className="nav-inline-flex" style={{ marginRight: 12 }}>
 						{auth.getToken() ? (
 							<>
 								{/* <Dropdown> */}
 								<Dropdown.Toggle
+									style={{ backgroundColr: "#ccc", color: "#ccc" }}
 									id="dropdown-basic"
 									onClick={() => setDropDown(!isDropDownOpen)}
 								>

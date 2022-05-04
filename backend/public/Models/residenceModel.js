@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const RegistrationTable = require("./registrationTable");
 const RClass = require("./classModel");
+const Reviews = require("./reviewModel");
+const ResidenceFacility = require("./residenceFacilityTable");
 
 const uniqueValidator = require("mongoose-unique-validator");
 const residenceSchema = mongoose.Schema({
@@ -67,6 +69,10 @@ residenceSchema.set(
 residenceSchema.pre("removoe", function (next) {
 	RegistrationTable.remove({ residence: this._id });
 	RClass.remove({ residence: this._id });
+	Reviews.remove({ residence: this._id });
+	ResidenceFacility.remove({ residence: this._id });
+
+	next();
 });
 
 residenceSchema.index({ gpsAddress: "2dsphere" });

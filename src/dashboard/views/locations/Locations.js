@@ -48,7 +48,7 @@ export default function Locations(props) {
 							<th>ID</th>
 							<th>Location</th>
 							<th>Zone/Constituency</th>
-							<th>Action</th>
+							<th className="text-center">Actions</th>
 						</tr>
 					</thead>
 					<tbody>

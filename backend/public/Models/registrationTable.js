@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
+const User = require("./userModel");
 
 const registrationSchema = mongoose.Schema({
 	residence: {
@@ -23,4 +24,5 @@ const registrationSchema = mongoose.Schema({
 });
 
 registrationSchema.plugin(uniqueValidator);
+
 module.exports = mongoose.model("Registration", registrationSchema);

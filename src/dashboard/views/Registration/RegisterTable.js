@@ -132,7 +132,7 @@ export default function RegisterTable(props) {
 
 								<ErrorMessage name="zone" render={renderError} />
 							</div>
-							<div className="col-md-4 coll-sm-12">
+							<div className="col-md-4 coll-sm-12 sm-view">
 								<Field
 									as="select"
 									className="form-select"
@@ -149,7 +149,7 @@ export default function RegisterTable(props) {
 
 								<ErrorMessage name="years" render={renderError} />
 							</div>
-							<div className="col-md-2 col-sm-12">
+							<div className="col-md-2 col-sm-12 mb-3">
 								<Button type="submit " variant="success">
 									Search
 								</Button>
@@ -176,7 +176,7 @@ export default function RegisterTable(props) {
 								<th>Zone</th>
 								<th>Date Registered</th>
 								<th>Registration Status</th>
-								<th className="text-center">Action</th>
+								<th className="text-center">Actions</th>
 							</tr>
 						</thead>
 						<tbody>

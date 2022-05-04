@@ -9,7 +9,9 @@ import {
 	IoMdHome,
 	IoMdMale,
 	IoMdFemale,
+	IoMdCalendar,
 } from "react-icons/io";
+import { ReviewSModal } from "./ReviewsModa";
 
 export default function Showhostel(props) {
 	let { slug } = useParams();
@@ -191,7 +193,7 @@ export default function Showhostel(props) {
 										<img src={blankData} width={300} height={350} alt="...." />
 									</div>
 								) : (
-									Residence.reviews.slice(0, 8).map((comment, i) => (
+									Residence.reviews.slice(0, 5).map((comment, i) => (
 										<div className="review-box" key={i}>
 											<p className="review-comments">
 												<span>
@@ -209,9 +211,19 @@ export default function Showhostel(props) {
 											<p>
 												<b>By:</b> <span>{comment.author?.username}</span>{" "}
 											</p>
-											<li>{comment.createdAt}</li>
+											<ul>
+												{" "}
+												<IoMdCalendar />
+												{comment.createdAt}
+											</ul>
 										</div>
 									))
+								)}
+								{Residence.reviews.length > 5 && (
+									<ReviewSModal
+										reviews={Residence.reviews}
+										name={Residence.name}
+									/>
 								)}
 							</div>
 						</div>

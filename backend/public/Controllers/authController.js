@@ -28,7 +28,7 @@ exports.SignUp = async (req, res) => {
 		res.status(201).json({
 			status: "success",
 			user: user,
-			token,
+			token: token,
 		});
 	} catch (err) {
 		res.status(500).json({
@@ -99,7 +99,7 @@ exports.protected = async (req, res, next) => {
 		token = req.cookies.jwt;
 	}
 	if (!token) {
-		return next(new AppError("Acess Denied", 401));
+		return next(new AppError("Acess Denied You are not logged In", 401));
 	}
 	//verify token
 	const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);

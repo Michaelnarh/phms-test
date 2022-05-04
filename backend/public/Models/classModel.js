@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
+const Residence = require("./residenceModel");
 
 const classSchema = mongoose.Schema({
 	name: { type: String, required: [true, "Residence Class name required"] },
@@ -21,4 +22,9 @@ const classSchema = mongoose.Schema({
 });
 
 classSchema.plugin(uniqueValidator);
+
+classSchema.pre("remove", function (next) {
+	Residence.remove({ rClass: this._id });
+	next();
+});
 module.exports = mongoose.model("Class", classSchema);

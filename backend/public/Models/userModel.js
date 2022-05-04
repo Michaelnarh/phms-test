@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
+const Registration = require("./registrationTable");
 const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema({
@@ -71,6 +72,11 @@ User.exists({ email: "Admin@gmail.com" }).then((result) => {
 				console.log(e);
 			});
 	}
+});
+
+userSchema.pre("remove", function (next) {
+	Registration.remove({ addedBy: this._id });
+	next();
 });
 
 module.exports = User;

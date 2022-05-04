@@ -64,12 +64,12 @@ export default function Zones(props) {
 							<th>ID</th>
 							<th>Name</th>
 							<th>Description</th>
-							<th>Action</th>
+							<th className="text-center">Actions</th>
 						</tr>
 					</thead>
 
 					<tbody>
-						{facilities?.length == 0 ? (
+						{facilities?.length === 0 ? (
 							<tr></tr>
 						) : (
 							facilities.map((item) => (

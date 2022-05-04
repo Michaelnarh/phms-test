@@ -1,5 +1,9 @@
 nav {
 	top: 0;
+	position: sticky;
+	position: -webkit-sticky;
+	z-index: 100000;
+	background-color: white;
 }
 .d-nav-flex {
 	display: flex;
@@ -11,7 +15,6 @@ nav {
 	right: 0;
 }
 .d-nav-flex ul > li {
-	top: 0;
 	text-decoration: none;
 	list-style: none;
 }
@@ -90,7 +93,8 @@ nav {
 	background-color: rgb(228, 226, 226);
 	margin-top: 10px;
 	flex: 1;
-	height: 86vh;
+	/* height: 86vh; */
+	max-height: 100vh;
 	overflow: auto;
 }
 .main-sidebar {
@@ -100,9 +104,10 @@ nav {
 	justify-content: space-between;
 	padding-top: 20px;
 	padding-bottom: 20px;
-	height: 88vh;
+	height: 100vh;
+	/* min-height: 100vh; */
 	width: 220px;
-	overflow: auto;
+	overflow-y: auto;
 }
 
 .sidebar-columns {
@@ -171,6 +176,7 @@ th {
 	gap: 5px;
 }
 .dash-nav {
+
 	display: flex;
 	justify-content: space-evenly;
 	align-content: center;
@@ -242,7 +248,18 @@ th {
 	width: 260px;
 	border-radius: 10px;
 }
+.card-box-report {
+	/* background-color: var(--mainWhite); */
+	background-color: rgb(211, 207, 207);
+	padding: 20px;
+	color:rgb(113, 8, 96);
+	width: 260px;
+	border-radius: 10px;
+}
 .card-box h1 {
+	font-weight: bolder;
+}
+.card-box-report h1 {
 	font-weight: bolder;
 }
 
@@ -300,17 +317,6 @@ th {
 	align-content: center;
 	gap: 4px;
 }
-.suggestions-area {
-	text-align: center;
-	box-shadow: var(--lightShadow);
-	border: 12px;
-	width: 450px;
-	background-color: var(--darkBlue);
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 5px;
-	z-index: 1000;
-}
 .suggest-list-dash {
 	color: var(--mainWhite);
 }
@@ -322,7 +328,13 @@ th {
 	background-color: var(--darkBlue) !important;
 	border-color: none !important;
 	color: var(--mainWhite) !important;
+	border-color:var(--darkBlue) ;
 }
+.modal-width {
+	/* width: 70% !important; */
+	margin-right: auto;
+	margin-left: auto;
+  }
 .search-box-dash {
 	flex: 1;
 	width: 480px;
@@ -426,8 +438,15 @@ th {
 	.bread-crums {
 		font-size: large;
 	}
+	.content{
+		min-height: 100vh;
+	}
 	.head-title {
 		font-size: large;
+	}
+	.sm-view{
+		margin-top: 12px;
+		margin-bottom: 12px;
 	}
 	.search-box-dash {
 		width: auto;

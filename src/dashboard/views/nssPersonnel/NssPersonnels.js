@@ -79,7 +79,7 @@ export default function NssPersonnels(props) {
 								<th>Name</th>
 								<th>Contact</th>
 								<th>Senior Tutor</th>
-								<th>Action</th>
+								<th className="text-center">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
