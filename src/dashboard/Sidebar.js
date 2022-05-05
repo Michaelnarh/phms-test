@@ -10,32 +10,38 @@ import { ContextStore } from "./../store/ContextStore";
 function Sidebar(props) {
 	const authService = new AuthService();
 	const { authStore } = useContext(ContextStore);
-	const [user, setUser] = useState();
 	const url = `${process.env.REACT_APP_API_URL}/images/users`;
 	const id = authStore.getId();
 	const jwt = authStore.getToken();
+	const user = authStore.getUser();
+
 	useEffect(() => {
 		if (id && jwt) {
 			const fetchUser = async () => {
 				try {
 					const res = await authService.getUser(id);
-					setUser(res.data.user);
+
+					console.log(user);
 				} catch (err) {
 					console.log(err);
 				}
 			};
 
 			!user && fetchUser();
+			authService.authVerify(jwt);
 		} else {
 			window.location.assign("/admin/login");
+			console.log("redirect");
 		}
-	}, []);
+		// authService.authVerify(jwt);
+	});
+
 	return (
 		<>
 			<div className="main-sidebar">
 				<div className="sidebar-columns">
 					<div className="dash-user">
-						{user && user.image ? (
+						{user && user?.image ? (
 							<img
 								src={`${url}/${user.image}`}
 								className="img-fluid"

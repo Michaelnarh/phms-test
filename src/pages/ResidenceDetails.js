@@ -8,6 +8,7 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import AuthStore from "./../store/AuthStore";
 import LogInModal from "./components/auth/Login";
 import Iframe from "./components/utils/Iframe";
+import { ToastContainer } from "react-toastify";
 import { Button } from "react-bootstrap";
 
 export default function Hosteldetails(props) {
@@ -71,6 +72,7 @@ export default function Hosteldetails(props) {
 				></path>
 			</svg> */}
 				<div className="container mt-5 detail-component">
+					<ToastContainer style={{ marginTop: 90 }} />
 					<div className="row ">
 						<div className="col-md-4 col-lg-6 col-sm-12 mb-2">
 							{residence && (

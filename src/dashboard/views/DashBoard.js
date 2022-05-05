@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaChartPie, FaUserCheck } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
 import {
 	MdOutlineVerifiedUser,
 	MdVerifiedUser,
@@ -99,6 +100,7 @@ export default function Dashboard(props) {
 			});
 			setData(res.data.data);
 			setIsLoading(false);
+			toast.success("You are welcome");
 		};
 		const fetchReports = async () => {
 			const res = await axios({
@@ -126,6 +128,7 @@ export default function Dashboard(props) {
 					<CustomSpinner type="hash" />
 				) : (
 					<div className="card">
+						<ToastContainer style={{ marginTop: 90 }} className="top-margin" />
 						<div className="card-box-flex">
 							<div className="card-box">
 								<div className="card-box-inlineflex">

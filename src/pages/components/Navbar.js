@@ -12,6 +12,13 @@ export default function Navbar(props) {
 	const [isDrawerOpen, setDrawer] = useState(false);
 	const [isDropDownOpen, setDropDown] = useState(false);
 	const auth = new AuthStore();
+	const handleLogOut = () => {
+		localStorage.removeItem("dumb");
+		localStorage.removeItem("user");
+		localStorage.removeItem("id");
+		localStorage.removeItem("jwt");
+		window.location.assign("/");
+	};
 	return (
 		<>
 			<nav className="sticky-navbar">
@@ -42,7 +49,7 @@ export default function Navbar(props) {
 								to="/homestels"
 								className={(navData) => (navData.isActive ? "nav-active" : "")}
 							>
-								Hometels
+								Homestels
 							</NavLink>
 						</li>
 						<li>
@@ -78,7 +85,7 @@ export default function Navbar(props) {
 									<div className="user-dropdown-menu">
 										<li
 											className="dropdown-item"
-											onClick={() => alert("will logout", setDropDown(false))}
+											onClick={() => handleLogOut()}
 										>
 											Log Out
 										</li>
@@ -90,7 +97,7 @@ export default function Navbar(props) {
 						) : (
 							<ul className="nav-inline-flex">
 								<li>
-									<LogInModal />
+									<LogInModal setDrawer={isDrawerOpen} />
 								</li>
 							</ul>
 						)}

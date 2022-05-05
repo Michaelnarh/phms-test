@@ -125,7 +125,7 @@ nav {
 
 .active-sidebar {
 	font-weight: 600;
-	color: aqua !important;
+	color: rgb(220, 92, 18) !important;
 }
 #bg-active {
 	background-color: rgb(10, 10, 39);
@@ -194,7 +194,7 @@ th {
 	flex: 80%;
 	justify-content: center;
 	place-content: center;
-	color:rgb(163, 226, 228);
+	color:rgb(191, 222, 222);
 }
 .icon {
 	flex: 20%;

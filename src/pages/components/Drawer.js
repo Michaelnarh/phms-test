@@ -8,6 +8,14 @@ export default function Drawer(props) {
 	const { setDrawer } = props;
 	const auth = new AuthStore();
 	const [isDropDownOpen, setDropDown] = useState(false);
+	const handleLogOut = () => {
+		localStorage.removeItem("dumb");
+		localStorage.removeItem("user");
+		localStorage.removeItem("id");
+		localStorage.removeItem("jwt");
+		setDropDown(false);
+		window.location.assign("/");
+	};
 	return (
 		<ul className="drawer">
 			<li className="drawer-item">
@@ -37,7 +45,7 @@ export default function Drawer(props) {
 					className={(navData) => (navData.isActive ? "active" : "")}
 					onClick={() => setDrawer(false)}
 				>
-					Hometels
+					Homestels
 				</NavLink>
 			</li>
 			<li className="drawer-item">
@@ -70,17 +78,14 @@ export default function Drawer(props) {
 						</Dropdown.Toggle>
 						{isDropDownOpen && (
 							<div className="user-dropdown-menu">
-								<li
-									className="dropdown-item"
-									onClick={() => alert("will logout", setDropDown(false))}
-								>
+								<li className="dropdown-item" onClick={() => handleLogOut()}>
 									Log Out
 								</li>
 							</div>
 						)}
 					</>
 				) : (
-					<LogInModal />
+					<LogInModal func={setDrawer} />
 				)}
 			</ul>
 		</ul>

@@ -57,4 +57,5 @@ makePersistable(this, {
 	properties: ["user", "isLoggedIn", "isAdmin"],
 	storage: window.localStorage,
 });
+
 export default AuthStore;

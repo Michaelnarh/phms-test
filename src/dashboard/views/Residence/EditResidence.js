@@ -12,7 +12,7 @@ export default function EditResidence(props) {
 	const navigate = useNavigate();
 	const { slug } = useParams();
 	const [isLoading, setIsLoading] = useState(false);
-	const [coverImage, setCoverImage] = useState("");
+	const [coverImage, setCoverImage] = useState();
 	const [accepted, setAccepted] = useState([]);
 	const [locations, setLocations] = useState([]);
 	const [RClass, setRClass] = useState([]);
@@ -136,8 +136,9 @@ export default function EditResidence(props) {
 		formData.append("rClass", values.rClass);
 		formData.append("lng", values.lng);
 		formData.append("lat", values.lat);
-
-		formData.append("coverImage", coverImage);
+		if (coverImage !== "" || coverImage !== null || coverImage !== undefined) {
+			formData.append("coverImage", coverImage);
+		}
 		accepted.forEach((el) => {
 			formData.append("images", el);
 		});

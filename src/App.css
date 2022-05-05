@@ -374,6 +374,11 @@ hostel and homestel images
 	padding: 10px;
 }
 
+.iframe-class{
+	width: 600px;
+	height: 450px;
+}
+
 @media screen and (max-width: 992px) {
 	.nav-inline-flex {
 		display: none;
@@ -430,6 +435,20 @@ hostel and homestel images
 	.footer-text{
 		margin-top: 9.5rem !important;
 		margin-left: 13px;
+	}
+	
+.iframe-class{
+	width: 350px;
+	height: 250px;
+	margin-top: 12px;
+}
+}
+
+@media screen and (max-width:667){
+	.iframe-class{
+		width: 400px;
+		height: 250px;
+		margin-top: 12px;
 	}
 }
 

@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { AuthService } from "../../../services/AuthService";
 import { renderError } from "../../utils/ModuleFunctions";
+import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 
 function Login(props) {
 	const authService = new AuthService();
-	const navigate = useNavigate();
+
 	const [error, setError] = useState("");
 	const validationSchema = Yup.object({
 		email: Yup.string()
@@ -26,10 +26,12 @@ function Login(props) {
 	const handleSubmit = async (values) => {
 		try {
 			await authService.Login(values);
-			navigate("/admin/dashboard");
+			toast("Successfully Login");
 		} catch (err) {
-			console.log(err);
 			setError(err.message);
+			toast.error(err.message, {
+				position: "top-center",
+			});
 		}
 	};
 
@@ -63,8 +65,9 @@ function Login(props) {
 								<div className="container">
 									<div className="ro">
 										{/* {setTimeout(() => { */}
-										<p className="text-danger text-center p-2">{error}</p>;
+										{/* <p className="text-danger text-center p-2">{error}</p> */}
 										{/* }, 4000)} */}
+										<ToastContainer />
 										<div className=" col-md-4 col-sm-12 mx-auto">
 											<Field
 												type="email"

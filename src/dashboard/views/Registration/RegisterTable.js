@@ -8,6 +8,8 @@ import AcademicYearModal from "./AcademicYearModal";
 import { useNavigate } from "react-router-dom";
 import blankData from "../../images/blank_svg.svg";
 import CustomSpinner from "../../utils/CustomSpinner";
+import { ToastContainer, toast } from "react-toastify";
+
 // import { ContextStore } from "./../../../store/ContextStore";
 
 export default function RegisterTable(props) {
@@ -82,10 +84,11 @@ export default function RegisterTable(props) {
 					el.createdAt = rs?.createdAt;
 				}
 			});
-
+			toast.success("Registered Successfully");
 			setResidences([...Residences]);
 		} catch (err) {
 			console.log(err);
+			toast.error(err.message);
 		}
 	};
 
@@ -104,6 +107,7 @@ export default function RegisterTable(props) {
 			<Button onClick={() => navigate("registered")}>Registered</Button>
 			<div className="table-container">
 				<h2 className="text-center mb-4">UnRegistered Residences Area</h2>
+				<ToastContainer style={{ marginTop: 90 }} />
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}

@@ -69,7 +69,7 @@ residenceSchema.set(
 residenceSchema.pre("removoe", function (next) {
 	RegistrationTable.remove({ residence: this._id });
 	RClass.remove({ residence: this._id });
-	Reviews.remove({ residence: this._id });
+	Reviews.updateOne({ $pull: { residence: this._id }, multi: true });
 	ResidenceFacility.remove({ residence: this._id });
 
 	next();

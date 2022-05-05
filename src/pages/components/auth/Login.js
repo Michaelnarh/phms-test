@@ -1,14 +1,18 @@
-import react, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { renderError } from "../utils/ModuleFunctions";
 import * as Yup from "yup";
 import axios from "axios";
 
-function LogInModal() {
+function LogInModal(props) {
+	console.log(props);
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
+	function handleShow() {
+		setShow(true);
+		// setDrawer(false);
+	}
 	const [error, setError] = useState("");
 
 	const validationSchema = Yup.object({
@@ -44,7 +48,7 @@ function LogInModal() {
 		<>
 			<Button
 				style={{ borderColor: "#fff", borderSize: "1px", marginBottom: "8px" }}
-				onClick={() => handleShow()}
+				onClick={() => handleShow(false)}
 				variant=""
 			>
 				Login

@@ -9,7 +9,6 @@ const AreaMp = require("../Models/mpModel");
 const RegistrationTable = require("../Models/registrationTable");
 const AppError = require("../utils/AppError");
 const ApiFeatures = require("../utils/APIfeatures");
-const SortBy = require("../utils/sort");
 
 //import of of special modules
 const sharp = require("sharp");
@@ -31,37 +30,39 @@ const multerFilter = async (req, file, cb) => {
 exports.resizeImage = async (req, res, next) => {
 	if (!req.files) return next();
 
-	const filename_cover = `cover-image-${Date.now()}.jpeg`;
 	if (req.body.name) {
-		const slug = slugify(req.body.name, { lower: true });
-		const dir = `public/images/${slug}`;
+		if (req.files["coverImage"] || req.files["images"]) {
+			const filename_cover = `cover-image-${Date.now()}.jpeg`;
+			const slug = slugify(req.body.name, { lower: true });
+			const dir = `public/images/${slug}`;
 
-		if (!fs.existsSync(dir)) {
-			fs.mkdirSync(dir);
-		}
+			if (!fs.existsSync(dir)) {
+				fs.mkdirSync(dir);
+			}
 
-		if (req.files["coverImage"]) {
-			await sharp(req.files["coverImage"][0].buffer)
-				.resize(700, 400)
-				.toFormat("jpeg")
-				.jpeg({ quality: 90 })
-				.toFile(`${dir}/${filename_cover}`);
-			req.body.coverImage = filename_cover;
-		}
+			if (req.files["coverImage"]) {
+				await sharp(req.files["coverImage"][0].buffer)
+					.resize(700, 400)
+					.toFormat("jpeg")
+					.jpeg({ quality: 90 })
+					.toFile(`${dir}/${filename_cover}`);
+				req.body.coverImage = filename_cover;
+			}
 
-		if (req.files["images"]) {
-			req.body.images = [];
-			await Promise.all(
-				req.files["images"].map(async (el) => {
-					const filename = `image-${Date.now()}.jpeg`;
-					await sharp(el.buffer)
-						.resize(700, 400)
-						.toFormat("jpeg")
-						.jpeg({ quality: 90 })
-						.toFile(`${dir}/${filename}`);
-					req.body.images.push(filename);
-				})
-			);
+			if (req.files["images"]) {
+				req.body.images = [];
+				await Promise.all(
+					req.files["images"].map(async (el) => {
+						const filename = `image-${Date.now()}.jpeg`;
+						await sharp(el.buffer)
+							.resize(700, 400)
+							.toFormat("jpeg")
+							.jpeg({ quality: 90 })
+							.toFile(`${dir}/${filename}`);
+						req.body.images.push(filename);
+					})
+				);
+			}
 		}
 	}
 	next();
@@ -91,7 +92,6 @@ exports.createResidence = async (req, res) => {
 			coordinates,
 		};
 		// console.log(req.body.gpsAddress);
-		//
 		const newResidence = await Residence.create(req.body);
 
 		// and create with that residnce id
@@ -105,7 +105,7 @@ exports.createResidence = async (req, res) => {
 		/* an array object like this
 
 				facilities[{id[9088009], count:3},{id[9088909], count:1}]
-		*/
+				*/
 		//loop through the facilities
 		console.log(facilities);
 
@@ -158,6 +158,9 @@ exports.updateResidence = async (req, res, next) => {
 			coordinates,
 		};
 
+		if (req.body.coverImage === "undefined") {
+			delete req.body.coverImage;
+		}
 		const residence = await Residence.findByIdAndUpdate(
 			req.params.id,
 			req.body,
@@ -168,8 +171,8 @@ exports.updateResidence = async (req, res, next) => {
 		);
 
 		let residence_id = req.params.id;
-		let facility_id;
 		let facility_count;
+		let obj = [];
 
 		const incomeFacilities = JSON.parse(req.body.facilities);
 		// console.log(incomeFacilities);
@@ -183,11 +186,10 @@ exports.updateResidence = async (req, res, next) => {
 			if (incomeFacilities?.length > 0) {
 				await Promise.all(
 					incomeFacilities.map(async (item) => {
-						console.log("hit here 1");
 						facilities.map(async (el) => {
 							if (item?.id && item?.num) {
 								if (item?.id[0] === el?.facility?._id.toString()) {
-									console.log("hit here c2");
+									obj.push(item?.id[0]);
 									facility_count = item.num;
 									await ResidenceFacilityTable.findOneAndUpdate(
 										{
@@ -206,6 +208,31 @@ exports.updateResidence = async (req, res, next) => {
 				);
 			}
 		}
+
+		console.log(obj);
+
+		obj.forEach((item, i) => {
+			incomeFacilities.map((el, j) => {
+				if (el?.id[0] === item) {
+					incomeFacilities.splice(j, 1);
+				}
+			});
+		});
+
+		await Promise.all(
+			incomeFacilities.map(async (item) => {
+				if (item?.id && item?.num) {
+					if (item?.id[0]) {
+						await ResidenceFacilityTable.create({
+							residence: residence_id,
+							facility: item?.id[0],
+							count: item.num,
+						});
+					}
+				}
+			})
+		);
+
 		res.status(201).json({
 			status: "success",
 			residence,
@@ -257,6 +284,7 @@ exports.getAllResidence = async (req, res) => {
 			.filter()
 			.sort()
 			.paginate(25);
+
 		const residences = await features.query;
 
 		res.status(200).json({
@@ -416,9 +444,7 @@ exports.getZonalGpsAdrress = async (req, res) => {
 		});
 		let zoneArray = [];
 		residences.forEach((item) => {
-			if (
-				item?.location?.zone?._id.toString() === req.params.zone_id.toString()
-			) {
+			if (item?.location?.zone?._id.toString() === zone_id.toString()) {
 				const data = {
 					_id: item?._id,
 

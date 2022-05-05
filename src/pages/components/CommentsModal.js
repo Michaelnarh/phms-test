@@ -2,6 +2,7 @@ import react, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { CustomButton } from "./stylecomponents";
 import { FaStar } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 const CommentsModal = (props) => {
 	const { id } = props;
@@ -21,6 +22,9 @@ const CommentsModal = (props) => {
 			setError("Rating is Required");
 		} else if (rating === 0 || !text) {
 			setError("Rating and Comment is Required");
+		} else if (!user) {
+			toast("You are not login in ");
+			setError("You are not login in ");
 		} else {
 			const res = await axios({
 				method: "post",
@@ -38,6 +42,7 @@ const CommentsModal = (props) => {
 			if (res.data?.status === "success") {
 				handleClose();
 				setText("");
+				toast.success("Message sent Successfully");
 				setRating(0);
 			}
 		}
@@ -56,6 +61,7 @@ const CommentsModal = (props) => {
 			>
 				<Modal.Header closeButton>
 					<Modal.Title>Leave a Comment </Modal.Title>
+					<ToastContainer />
 				</Modal.Header>
 				<Modal.Body>
 					{err && <p className="text-danger">{err}</p>}

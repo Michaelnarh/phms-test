@@ -6,23 +6,49 @@ import ReactPaginate from "react-paginate";
 
 export default function Hostels(props) {
 	const [hostels, setHostels] = useState([]);
+	const [residences, setResidences] = useState([]);
 	const [pageCount, setPageCount] = useState(0);
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(24);
+	const [limit, setLimit] = useState(6);
 	useEffect(() => {
 		const fetchHostels = async () => {
+			try {
+				const res = await axios({
+					method: "get",
+					url: `${process.env.REACT_APP_API_URL}/api/v1/residences/hostels?page=${page}&limit=${limit}`,
+				});
+				setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
+				setHostels(res.data.data);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		const fetchResidences = async () => {
 			const res = await axios({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/hostels?page=${page}&limit=${limit}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/hostels`,
 			});
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
-			setHostels(res.data.data);
+			setResidences(res.data.data);
 		};
-
+		fetchResidences();
 		fetchHostels();
 	}, [page, limit]);
 
+	useEffect(() => {
+		// setInterval(() => {
+		// 	const arr = hostels.sort(() => Math.random() - 0.5);
+		// 	setHostels(arr);
+		// }, 60000);
+		// 480000
+		// return () => clearInterval(timer);
+	});
+
 	const handlePageClick = (p) => {
+		// var low = 1;
+		// var high = pageCount;
+		// var result = Math.floor(Math.random() * (1 + high - low)) + low;
+		// setPage(result + 1);
 		setPage(p.selected + 1);
 		setLimit(limit);
 	};
@@ -30,7 +56,7 @@ export default function Hostels(props) {
 		<>
 			<div className="container margin-top">
 				<div>
-					<Searchbox type="Hostel" data={hostels} />
+					<Searchbox type="Hostel" data={residences} />
 				</div>
 				<div className="hostel-flex my-5">
 					{hostels &&
