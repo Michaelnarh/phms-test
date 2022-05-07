@@ -10,6 +10,7 @@ import LogInModal from "./components/auth/Login";
 import Iframe from "./components/utils/Iframe";
 import { ToastContainer } from "react-toastify";
 import { Button } from "react-bootstrap";
+import { CustomButton } from "./components/stylecomponents";
 
 export default function Hosteldetails(props) {
 	const navigate = useNavigate();
@@ -79,40 +80,40 @@ export default function Hosteldetails(props) {
 								<>
 									<div className="text-center align-center">
 										{gimages.length === 0 ? (
-											<img
-												src={`${url}/90ef/cover-image-1646409988773.jpeg`}
-												alt="..."
-												className="img-fluid"
-												style={{ height: 300, width: 550 }}
-											/>
+											<div style={{ marginRight: "auto" }}>
+												<img
+													src={`${url}/90ef/cover-image-1646409988773.jpeg`}
+													alt="..."
+													className="img-fluid"
+													style={{ height: 300 }}
+												/>
+											</div>
 										) : (
 											<ImageGallery items={gimages} />
 										)}
 									</div>
 									<div className="row">
-										{auth.getToken() ? (
-											<div className="col-md-6 col-lg-6 col-sm-12">
-												<CommentsModal id={residence?._id} />
-											</div>
-										) : (
-											<div className=" my-3 col-md-6 col-lg-6 col-sm-12">
-												<LogInModal />
-											</div>
-										)}
+										<div className="col-md-6 col-lg-6 col-sm-12">
+											<CommentsModal
+												auth={auth.getToken()}
+												id={residence?._id}
+											/>
+										</div>
 
-										{/* <div className="col-md-6 col-lg-6 col-sm-12">
+										<div className="col-md-6 col-lg-6 col-sm-12">
 											{residence && (
-												<CustomButton>
+												<CustomButton className="my-3">
 													<a
 														rel="noopener noreferrer"
+														style={{ color: "#fff" }}
 														href={`http://${residence?.bookingLink}`}
 														target="_blank"
 													>
-														Link Here
+														Book Now
 													</a>
 												</CustomButton>
 											)}
-										</div> */}
+										</div>
 									</div>
 								</>
 							)}
@@ -207,6 +208,12 @@ export default function Hosteldetails(props) {
 							<div className="col-md-6">
 								{/* <MapComponent isMarkerShown={true} /> */}
 								<div>
+									{residence?.gpsAddress?.coordinates[0] && (
+										<Iframe
+											lat={residence?.gpsAddress?.coordinates[0]}
+											lng={residence?.gpsAddress?.coordinates[1]}
+										/>
+									)}
 									{/* <iframe
 										width={600}
 										height={300}
@@ -214,7 +221,6 @@ export default function Hosteldetails(props) {
 										title="my-location"
 										style={{"visibility:visible"}}
 									/> */}
-									<Iframe />
 								</div>
 							</div>
 						</div>

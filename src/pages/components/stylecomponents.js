@@ -14,9 +14,9 @@ export const CustomButton = styled.p`
 			var(--mainWhite)
 		);
 	}
-	@media (max-width: 768px) {
+	@media (max-width: 962px) {
 		boder-radius: 6px;
-		font-size: 12px;
+		font-size: 8px;
 	}
 `;
 

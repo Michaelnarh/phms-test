@@ -9,7 +9,7 @@ export default function Hostels(props) {
 	const [residences, setResidences] = useState([]);
 	const [pageCount, setPageCount] = useState(0);
 	const [page, setPage] = useState(1);
-	const [limit, setLimit] = useState(6);
+	const [limit, setLimit] = useState(28);
 	useEffect(() => {
 		const fetchHostels = async () => {
 			try {

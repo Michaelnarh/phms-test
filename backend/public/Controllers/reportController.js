@@ -3,7 +3,7 @@ const RegistrationTable = require("../Models/registrationTable");
 const Residence = require("../Models/residenceModel");
 const fs = require("fs");
 const pdfkit = require("pdfkit-table");
-const pdfTable = require("pdfkit-table");
+const PDFDocument = require("pdfkit");
 const SortBy = require("../utils/sort");
 const myFormat = require("dateformat");
 
@@ -72,8 +72,8 @@ exports.getOwners = async (req, res) => {
 		};
 
 		const stream = res.writeHead(200, {
-			"Content-Type": "application/pdf",
-			"Content-Disposition": "attachment;filename=owners.pdf",
+			"Content-Type": "application/octet-stream",
+			"Content-Disposition": "inline;filename=owners.pdf",
 		});
 
 		pdfService(
@@ -673,4 +673,16 @@ exports.getRegisteredNumber = async (req, res) => {
 			message: err.message,
 		});
 	}
+};
+
+exports.testStram = async (req, res) => {
+	let pdfDoc = new PDFDocument();
+	pdfDoc.pipe(fs.createWriteStream("SampleDocument.pdf"));
+	pdfDoc.text("My Sample PDF Document");
+	pdfDoc.end();
+
+	const stream = res.writeHead(200, {
+		"Content-Type": "application/pdf",
+		"Content-Disposition": "attachment;filename=RegisteredResidences.pdf",
+	});
 };

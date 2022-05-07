@@ -16,8 +16,9 @@
 	--mainYellow: rgb(243, 191, 21);
 	--mainSpacing: 2px;
 	--tqColor: #56ca90d0;
-	--lightShadow: 2px 5px 3px 0px rgba(163, 136, 136, 0.5);
-	--whiteShadow: 2px 2px 3px 0px rgba(72, 233, 216, 0.707);
+	--lightShadow: 2px 5px 3px 0px rgba(162, 150, 150, 0.5);
+	--whiteShadow: 2px 2px 3px 0px rgba(40, 117, 109, 0.634);
+	/* --darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5); */
 	--darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
 	--mainTransition: all 0.3s linear;
 }
@@ -201,7 +202,7 @@ hostel and homestel images
 }
 
 .image-gallery {
-	width: 80%;
+	width: 100%;
 	height: 30%;
 }
 .image-gallery-slide img {
@@ -216,7 +217,7 @@ hostel and homestel images
 	/* height: 100vh; */
 }
 .residence {
-	box-shadow: var(--darkShadow);
+	box-shadow: var(--lightShadow);
 	padding: 0px;
 	width: 300px;
 	box-sizing: border-box;
@@ -435,6 +436,10 @@ hostel and homestel images
 	.footer-text{
 		margin-top: 9.5rem !important;
 		margin-left: 13px;
+	}
+	.image-gallery {
+		width: 100%;
+		height: 30%;
 	}
 	
 .iframe-class{

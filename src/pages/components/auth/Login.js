@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import axios from "axios";
 
 function LogInModal(props) {
-	console.log(props);
+	const { isLogin } = props;
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	function handleShow() {

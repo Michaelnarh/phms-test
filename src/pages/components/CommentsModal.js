@@ -1,18 +1,24 @@
-import react, { useState } from "react";
+import { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { CustomButton } from "./stylecomponents";
 import { FaStar } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import LogInModal from "./auth/Login";
 const CommentsModal = (props) => {
-	const { id } = props;
+	const { id, auth } = props;
 	const user = JSON.parse(localStorage.getItem("user"));
 	const [show, setShow] = useState(false);
+	const [isLogin, setIsLogin] = useState(false);
 	const [rating, setRating] = useState(0);
 	const [text, setText] = useState("");
 	const [err, setError] = useState("");
-	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
+
+	const handlechange = () => {
+		if (auth) {
+			setShow(!show);
+		}
+	};
 
 	const handleComment = async () => {
 		console.log(text, rating, user, id);
@@ -40,7 +46,7 @@ const CommentsModal = (props) => {
 				},
 			});
 			if (res.data?.status === "success") {
-				handleClose();
+				handlechange();
 				setText("");
 				toast.success("Message sent Successfully");
 				setRating(0);
@@ -49,12 +55,12 @@ const CommentsModal = (props) => {
 	};
 	return (
 		<>
-			<CustomButton className="my-3" onClick={handleShow}>
+			<CustomButton className="my-3" onClick={handlechange}>
 				Leave a Comment
 			</CustomButton>
 			<Modal
 				show={show}
-				onHide={handleClose}
+				onHide={handlechange}
 				backdrop="static"
 				keyboard={false}
 				className="margin-top"
@@ -102,7 +108,7 @@ const CommentsModal = (props) => {
 					</Form>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={() => handleClose()}>
+					<Button variant="secondary" onClick={() => handlechange()}>
 						Close
 					</Button>
 					<Button variant="primary" onClick={() => handleComment()}>

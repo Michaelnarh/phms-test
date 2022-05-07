@@ -49,7 +49,7 @@ export default function Residence(props) {
 							Location:
 						</b>
 						<span style={{ marginLeft: 5 }}>
-							{residence.location ? residence.location.name : "N/A"}
+							{residence.location ? residence?.location?.name : "N/A"}
 						</span>
 					</p>
 					<p>
@@ -59,7 +59,7 @@ export default function Residence(props) {
 						</b>
 						<span style={{ marginLeft: 5 }}>
 							{residence.distance
-								? `${residence.distance} minutes walk to campus`
+								? `${residence?.distance} minutes walk to campus`
 								: "N/A"}
 						</span>
 					</p>

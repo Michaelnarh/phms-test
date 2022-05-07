@@ -16,12 +16,11 @@ export default function NssPersonnels(props) {
 					"Content-Type": "application/json",
 				},
 			});
-			console.log(res.data.total);
 			setPersonnels(res.data.data);
 		};
 		fetchTutors();
 	}, []);
-	console.log(personnels);
+
 	return (
 		<>
 			<div className="page-container mt-3">
@@ -88,7 +87,7 @@ export default function NssPersonnels(props) {
 									.filter((person) => !person.isCurrent)
 									.map((item) => {
 										return (
-											<tr>
+											<tr key={item._id}>
 												<td>{item._id.slice(20, 24)}</td>
 												<td>
 													{item.image ? (

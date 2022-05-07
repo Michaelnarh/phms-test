@@ -6,18 +6,23 @@ import Logo from "../../images/logo-knust.png";
 import profile from "../../images/profile_pic.jpg";
 import LogInModal from "./auth/Login";
 import AuthStore from "../../store/AuthStore";
+import { AuthService } from "../../services/AuthService";
 import { Dropdown } from "react-bootstrap";
 
 export default function Navbar(props) {
 	const [isDrawerOpen, setDrawer] = useState(false);
 	const [isDropDownOpen, setDropDown] = useState(false);
+	const [isLogin, setIsLogin] = useState(false);
 	const auth = new AuthStore();
+	const authService = new AuthService();
 	const handleLogOut = () => {
-		localStorage.removeItem("dumb");
-		localStorage.removeItem("user");
-		localStorage.removeItem("id");
-		localStorage.removeItem("jwt");
+		authService.logOut();
 		window.location.assign("/");
+		// localStorage.removeItem("dumb");
+		// localStorage.removeItem("user");
+		// localStorage.removeItem("id");
+		// localStorage.removeItem("jwt");
+		// window.location.assign("/");
 	};
 	return (
 		<>
@@ -98,6 +103,13 @@ export default function Navbar(props) {
 							<ul className="nav-inline-flex">
 								<li>
 									<LogInModal setDrawer={isDrawerOpen} />
+									{/* <button
+										onClick={() => setIsLogin(true)}
+										className="btn text-white"
+										setDrawer={isDrawerOpen}
+									>
+										Log In
+									</button> */}
 								</li>
 							</ul>
 						)}

@@ -11,5 +11,6 @@ router.get("/hostels", reportController.getHostels);
 router.get("/homestels", reportController.getHomesls);
 router.get("/registered", reportController.geRegisteredResidences);
 router.get("/statistics", reportController.getRegisteredNumber);
+router.get("/test", reportController.testStram);
 
 module.exports = router;
