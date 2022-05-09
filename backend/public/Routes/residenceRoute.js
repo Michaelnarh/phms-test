@@ -2,13 +2,16 @@ const express = require("express");
 const residenceController = require("../Controllers/residenceController");
 const searchController = require("../Controllers/searchController");
 const authController = require("../Controllers/authController");
+
 const router = express.Router();
 //special routes
 /**get residence by type */
 router.route("/search").post(searchController.searchResidence);
 router.route("/hostels").get(residenceController.getHostels);
 router.route("/homestels").get(residenceController.getHomestels);
-router.route("/statistics").get(residenceController.getStatistics);
+router
+	.route("/statistics")
+	.get(authController.protected, residenceController.getStatistics);
 
 //get zonal addressess
 router
@@ -19,6 +22,13 @@ router
 	.route("/")
 	.get(residenceController.getAllResidence)
 	.post(
+		authController.protected,
+		authController.restrictTo(
+			"maintainer",
+			"admin",
+			"superAdmin",
+			"Supervisor"
+		),
 		residenceController.uploadImages,
 		residenceController.resizeImage,
 		residenceController.createResidence

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Divisiontitle from "../DivisionTitle";
-import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 export default function NssPersonnels(props) {
@@ -9,9 +9,9 @@ export default function NssPersonnels(props) {
 	const navigate = useNavigate();
 	useEffect(() => {
 		const fetchTutors = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/nss-personnels`,
+				url: `/api/v1/nss-personnels`,
 				headers: {
 					"Content-Type": "application/json",
 				},

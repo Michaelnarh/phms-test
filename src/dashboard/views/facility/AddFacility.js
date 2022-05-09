@@ -1,8 +1,8 @@
 import React from "react";
 import * as Yup from "yup";
-import axios from "axios";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import AxiosInstance from "../../utils/AxiosInstance";
 export default function AddFacility(props) {
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Facility Name is Required"),
@@ -16,9 +16,9 @@ export default function AddFacility(props) {
 	const onSubmit = async (values) => {
 		console.log(values);
 
-		const res = await axios({
+		const res = AxiosInstance({
 			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/facilities`,
+			url: `/api/v1/facilities`,
 			headers: {
 				"Content-Type": "application/json",
 			},

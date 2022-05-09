@@ -1,6 +1,6 @@
 import React from "react";
 import * as Yup from "yup";
-import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 export default function AddClass(props) {
@@ -28,9 +28,9 @@ export default function AddClass(props) {
 	const onSubmit = async (values) => {
 		console.log(values);
 
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/classes`,
+			url: `/api/v1/classes`,
 			headers: {
 				"Content-Type": "application/json",
 			},

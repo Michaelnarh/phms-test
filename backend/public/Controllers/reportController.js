@@ -618,7 +618,6 @@ exports.getRegisteredNumber = async (req, res) => {
 
 		// push object arry of the owners details
 
-		const tableArray = [];
 		let residencesCount = 0;
 		let hostelsCount = 0;
 		let homestelsCount = 0;

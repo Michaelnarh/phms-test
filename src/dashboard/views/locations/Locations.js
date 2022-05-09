@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import AxiosInstance from "../../utils/AxiosInstance";
 import CustomSpinner from "../../utils/CustomSpinner";
+import { useNavigate } from "react-router-dom";
 
 export default function Locations(props) {
 	const navigate = useNavigate();
@@ -15,9 +15,9 @@ export default function Locations(props) {
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchLocations = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/locations?page=${page}&limit=${limit}`,
+				url: `/api/v1/locations?page=${page}&limit=${limit}`,
 			});
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
 			setLocations(res.data.data);

@@ -1,6 +1,5 @@
-import react, { useState } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
-import axios from "axios";
+import { useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { IoIosStar } from "react-icons/io";
 
 export const ReviewSModal = ({ reviews, name }) => {

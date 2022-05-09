@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Divisiontitle from "../DivisionTitle";
-import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import CustomSpinner from "../../utils/CustomSpinner";
@@ -12,9 +12,9 @@ export default function AreaMPs(props) {
 	useEffect(() => {
 		const fetchAreaMps = async () => {
 			setIsLoading(true);
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/area-mps`,
+				url: `/api/v1/area-mps`,
 				headers: {
 					"Content-Type": "application/json",
 				},

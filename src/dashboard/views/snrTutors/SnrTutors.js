@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Divisiontitle from "../DivisionTitle";
-import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 export default function Snrtutors(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
@@ -8,7 +8,7 @@ export default function Snrtutors(props) {
 	const navigate = useNavigate();
 	useEffect(() => {
 		const fetchTutors = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
 				headers: {

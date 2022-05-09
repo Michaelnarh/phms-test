@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
-import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useParams } from "react-router-dom";
@@ -9,9 +9,9 @@ export default function AddFacility(props) {
 	const { id } = useParams();
 	useEffect(() => {
 		const fetchFacility = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/classes/${id}`,
+				url: `/api/v1/classes/${id}`,
 			});
 			setRClass(res.data.data);
 		};
@@ -41,9 +41,9 @@ export default function AddFacility(props) {
 	const onSubmit = async (values) => {
 		console.log(values);
 
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/classes/${id}`,
+			url: `/api/v1/classes/${id}`,
 			headers: {
 				"Content-Type": "application/json",
 			},

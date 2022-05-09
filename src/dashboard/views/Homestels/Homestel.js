@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import ReactPaginate from "react-paginate";
 import SearchForm from "../../utils/SearchForm";
 
@@ -12,7 +13,7 @@ export default function Homestel(props) {
 
 	useEffect(() => {
 		const fetchHomestels = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/homestels?page=${page}&limit=${limit}`,
 			});
@@ -24,14 +25,14 @@ export default function Homestel(props) {
 	}, [page, limit]);
 
 	const handleView = async (id) => {
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "get",
 			url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${id}`,
 		});
 		console.log(res.data);
 	};
 	const handleEdit = async (id) => {
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "get",
 			url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${id}`,
 		});

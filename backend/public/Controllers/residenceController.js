@@ -107,7 +107,7 @@ exports.createResidence = async (req, res) => {
 				facilities[{id[9088009], count:3},{id[9088909], count:1}]
 				*/
 		//loop through the facilities
-		console.log(facilities);
+		// console.log(facilities);
 
 		if (facilities?.length > 0) {
 			await Promise.all(
@@ -151,8 +151,8 @@ exports.updateResidence = async (req, res, next) => {
 		}
 
 		const coordinates = [];
-		coordinates[0] = parseFloat(req.body.lng);
-		coordinates[1] = parseFloat(req.body.lat);
+		coordinates[0] = parseFloat(req.body.lng); // logitude
+		coordinates[1] = parseFloat(req.body.lat); // latitude
 		req.body.gpsAddress = {
 			type: "Point",
 			coordinates,
@@ -308,10 +308,19 @@ exports.deleteResidence = async (req, res, next) => {
 		if (!residence_id)
 			throw new Error("Hostel id is required for this operation");
 		const regArray = await RegistrationTable.find({ residence: residence_id });
+		const facilityArray = await ResidenceFacilityTable.find({
+			residence: residence_id,
+		});
 
 		Promise.all(
 			regArray.map(
 				async (el) => await RegistrationTable.findOneAndDelete({ _id: el?._id })
+			)
+		);
+		Promise.all(
+			facilityArray.map(
+				async (el) =>
+					await ResidenceFacilityTable.findOneAndDelete({ _id: el?._id })
 			)
 		);
 		const residence = await Residence.findById(residence_id);

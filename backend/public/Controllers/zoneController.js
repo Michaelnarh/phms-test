@@ -83,9 +83,11 @@ exports.deleteZone = async (req, res, next) => {
 		if (!zone_id) throw new Error("Zone id is required for this operation");
 		const zone = await Zone.findById(zone_id);
 		await Zone.findByIdAndDelete(zone_id);
+		const zones = Zone.find();
 		res.status(200).json({
 			status: "success",
 			message: `The zone name  ${zone.name} is deleted successfully`,
+			data: zones,
 		});
 	} catch (err) {
 		res.status(400).json({

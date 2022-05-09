@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
-import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import CustomSpinner from "../../utils/CustomSpinner";
 
@@ -15,9 +15,9 @@ export default function Zones(props) {
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchClasses = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/classes?page=${page}&limit=${limit}`,
+				url: `/api/v1/classes?page=${page}&limit=${limit}`,
 				headers: {
 					"Content-Type": "application/json",
 				},

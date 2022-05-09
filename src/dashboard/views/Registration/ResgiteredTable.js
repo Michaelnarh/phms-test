@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import axios from "axios";
 import * as Yup from "yup";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { IoIosCheckmarkCircle, IoIosLock } from "react-icons/io";
@@ -22,14 +22,14 @@ export default function RegisteredTable(props) {
 
 	useEffect(() => {
 		const fetchZones = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
 			});
 			setZones(res.data.data);
 		};
 		const fetchYears = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/academic-year`,
 			});
@@ -48,9 +48,9 @@ export default function RegisteredTable(props) {
 		setSelectedZone(values.zone);
 		setIsLoading(true);
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/registration/reg/${values.zone}/${values.years}`,
+				url: `/api/v1/registration/reg/${values.zone}/${values.years}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -65,7 +65,7 @@ export default function RegisteredTable(props) {
 
 	const handleDisabled = async (id) => {
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "post",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/registration/register/${year_selected}/${id}/${user?._id}`,
 				headers: {

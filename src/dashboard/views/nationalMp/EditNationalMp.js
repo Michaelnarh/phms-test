@@ -4,6 +4,7 @@ import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
+import AxiosInstance from "../../utils/AxiosInstance";
 
 export default function EditNationalMp(props) {
 	const { slug } = useParams();
@@ -11,9 +12,9 @@ export default function EditNationalMp(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
 		const fetchNationalMps = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/${slug}`,
+				url: `/api/v1/senior-tutors/${slug}`,
 			});
 			setNmps(res.data.data);
 		};

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
@@ -8,9 +9,9 @@ export default function AddPersonnel(props) {
 	const [tutors, setTutots] = useState([]);
 	useEffect(() => {
 		const fetchZones = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+				url: `/api/v1/senior-tutors`,
 			});
 			setTutots(res.data.data);
 		};
@@ -45,9 +46,9 @@ export default function AddPersonnel(props) {
 
 		console.log(formData.entries());
 
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/nss-personnels`,
+			url: `/api/v1/nss-personnels`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 				accept: "application/json",

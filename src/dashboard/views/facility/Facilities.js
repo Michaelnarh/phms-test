@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import CustomSpinner from "../../utils/CustomSpinner";
 
@@ -15,9 +16,9 @@ export default function Zones(props) {
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchFacility = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/facilities?page=${page}&limit=${limit}`,
+				url: `/api/v1/facilities?page=${page}&limit=${limit}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -37,9 +38,9 @@ export default function Zones(props) {
 		// navigate(`details/${id}`);
 	};
 	const handleDelete = async (id) => {
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "delete",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/facilities/${id}`,
+			url: `/api/v1/facilities/${id}`,
 			headers: {
 				"Content-Type": "application/json",
 			},

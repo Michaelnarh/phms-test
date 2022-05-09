@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { useParams, useNavigate } from "react-router-dom";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
@@ -13,17 +14,17 @@ export default function Editsnrtutors(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
 		const fetchZones = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				url: `/api/v1/zones`,
 			});
 			setZones(res.data.data);
 		};
 
 		const fetchTutor = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/${slug}`,
+				url: `/api/v1/senior-tutors/${slug}`,
 			});
 			setTutor(res.data.data);
 		};
@@ -73,9 +74,9 @@ export default function Editsnrtutors(props) {
 		}
 	};
 	const handleDelete = async (id) => {
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "delete",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/${id}`,
+			url: `/api/v1/senior-tutors/${id}`,
 		});
 		if (res.data.status === "success") {
 			navigate("/admin/snr-tutors");

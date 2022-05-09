@@ -31,7 +31,6 @@ function Sidebar(props) {
 			authService.authVerify(jwt);
 		} else {
 			window.location.assign("/admin/login");
-			console.log("redirect");
 		}
 		// authService.authVerify(jwt);
 	});

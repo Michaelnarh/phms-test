@@ -66,16 +66,28 @@ residenceSchema.set(
 	{ virtuals: true } //ensure to object populate
 );
 
-residenceSchema.pre("removoe", function (next) {
-	RegistrationTable.remove({ residence: this._id });
-	RClass.remove({ residence: this._id });
-	Reviews.updateOne({ $pull: { residence: this._id }, multi: true });
-	ResidenceFacility.remove({ residence: this._id });
-
-	next();
-});
-
 residenceSchema.index({ gpsAddress: "2dsphere" });
 
 residenceSchema.plugin(uniqueValidator);
+
+residenceSchema.pre("remove", function (next) {
+	RegistrationTable.remove({ residence: this._id }, (err, data) => {
+		console.log("got here");
+		if (!err) {
+			console.log(data);
+		}
+	});
+	ResidenceFacility.remove({ residence: this._id }, (err, JSONstatus) => {
+		console.log("got here 2", this?._id);
+		if (!err) {
+			console.log(JSONstatus);
+		}
+		if (err) {
+			console.log(err);
+		}
+	});
+
+	Reviews.updateMany({ $pull: { residence: this._id }, multi: true });
+	next();
+});
 module.exports = mongoose.model("Residence", residenceSchema);

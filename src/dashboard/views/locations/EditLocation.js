@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
-import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useParams } from "react-router-dom";
@@ -10,16 +10,16 @@ export default function Addlocation(props) {
 	const { id } = useParams();
 	useEffect(() => {
 		const fetchZones = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				url: `/api/v1/zones`,
 			});
 			setZones(res.data.data);
 		};
 		const fetchLocation = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/locations/${id}`,
+				url: `/api/v1/locations/${id}`,
 			});
 			setLocation(res.data.data);
 		};
@@ -41,9 +41,9 @@ export default function Addlocation(props) {
 	const onSubmit = async (values) => {
 		console.log(values);
 
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/locations/${id}`,
+			url: `/api/v1/locations/${id}`,
 			headers: {
 				"Content-Type": "application/json",
 			},

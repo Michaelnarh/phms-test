@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import axios from "axios";
 import { renderError } from "../../utils/ModuleFunctions";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useParams } from "react-router-dom";
 import CustomSpinner from "../../utils/CustomSpinner";
@@ -12,9 +13,9 @@ export default function AddFacility(props) {
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchFacility = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/facilities/${id}`,
+				url: `/api/v1/facilities/${id}`,
 			});
 			setFacility(res.data.data);
 			setIsLoading(false);
@@ -36,9 +37,9 @@ export default function AddFacility(props) {
 	const onSubmit = async (values) => {
 		console.log(values);
 
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/facilities/${id}`,
+			url: `/api/v1/facilities/${id}`,
 			headers: {
 				"Content-Type": "application/json",
 			},

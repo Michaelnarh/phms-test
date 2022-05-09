@@ -3,8 +3,8 @@ import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import { useDropzone } from "react-dropzone";
 import Thumb from "../../utils/Thumb";
+import AxiosInstance from "../../utils/AxiosInstance";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import CustomSpinner from "../../utils/CustomSpinner";
 
@@ -27,32 +27,32 @@ export default function EditResidence(props) {
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchResidence = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${slug}`,
+				url: `/api/v1/residences/${slug}`,
 			});
 			setResidence(res.data.data);
 			setFacilityChecked(res.data.facilities);
 			setIsLoading(false);
 		};
 		const fetchLocations = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/locations`,
+				url: `/api/v1/locations`,
 			});
 			setLocations(res.data.data);
 		};
 		const fetchFacilities = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/facilities`,
+				url: `api/v1/facilities`,
 			});
 			setFacilityArr(res.data.data);
 		};
 		const fetchRClass = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/classes`,
+				url: `/api/v1/classes`,
 			});
 			setRClass(res.data.data);
 		};
@@ -77,8 +77,8 @@ export default function EditResidence(props) {
 		name: residence && (residence.name ?? ""),
 		residenceType: residence && (residence?.residenceType ?? ""),
 		location: residence && (residence?.location?._id ?? ""),
-		lat: residence && (residence?.gpsAddress?.coordinates[0] ?? ""),
-		lng: residence && (residence?.gpsAddress?.coordinates[1] ?? ""),
+		lng: residence && (residence?.gpsAddress?.coordinates[0] ?? ""),
+		lat: residence && (residence?.gpsAddress?.coordinates[1] ?? ""),
 		digitalAddress: residence && (residence?.digitalAddress ?? ""),
 		bookingLink: residence && (residence?.bookingLink ?? ""),
 		managersName: residence && (residence?.managersName ?? ""),
@@ -144,9 +144,9 @@ export default function EditResidence(props) {
 		});
 
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "post",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${residence?._id}`,
+				url: `/api/v1/residences/${residence?._id}`,
 				headers: {
 					accept: "application/json",
 				},

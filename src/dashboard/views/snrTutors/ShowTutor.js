@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import AxiosInstance from "../../utils/AxiosInstance";
+import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import MapComponent from "../maps/Maps";
 
 export default function Showtutor(props) {
 	const { slug } = useParams();
-	// const navigate = useNavigate();
 	const [tutor, setTutor] = useState();
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
 		const fetchTutor = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/${slug}`,
+				url: `/api/v1/senior-tutors/${slug}`,
 			});
 			setTutor(res.data.data);
 		};
@@ -22,9 +22,9 @@ export default function Showtutor(props) {
 
 	const handleDeActivate = async (id) => {
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "patch",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/de-activate/${id}`,
+				url: `/api/v1/senior-tutors/de-activate/${id}`,
 			});
 			setTutor(res.data.data);
 		} catch (err) {
@@ -33,9 +33,9 @@ export default function Showtutor(props) {
 	};
 	const handleActivate = async (id) => {
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "patch",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors/activate/${id}`,
+				url: `/api/v1/senior-tutors/activate/${id}`,
 			});
 			setTutor(res.data.data);
 		} catch (err) {

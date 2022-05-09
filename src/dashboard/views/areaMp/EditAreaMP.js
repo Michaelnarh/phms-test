@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
@@ -13,24 +13,24 @@ export default function EditAreamp(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
 		const fetchZones = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				url: `/api/v1/zones`,
 			});
 			setZones(res.data.data);
 		};
 		const fetchTutors = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+				url: `/api/v1/senior-tutors`,
 			});
 			setTutors(res.data.data);
 		};
 
 		const fetchAreaMp = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/area-mps/${slug}`,
+				url: `/api/v1/area-mps/${slug}`,
 			});
 			setAreaMp(res.data.data);
 		};
@@ -72,9 +72,9 @@ export default function EditAreamp(props) {
 		formData.append("isCurrent", values.isCurrent);
 		formData.append("image", values.image);
 
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/area-mps/${areaMp._id}`,
+			url: `/api/v1/area-mps/${areaMp._id}`,
 			headers: {
 				accept: "application/json",
 			},

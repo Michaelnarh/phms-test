@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import ImageGallery from "react-image-gallery";
 import blankData from "../../images/blank_svg.svg";
+import AxiosInstance from "../../utils/AxiosInstance";
 import {
 	IoIosCheckmarkCircle,
 	IoIosStar,
@@ -21,7 +22,7 @@ export default function Showhostel(props) {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
 				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${slug}`,
 			});

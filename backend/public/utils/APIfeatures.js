@@ -25,7 +25,7 @@ class APIFeature {
 	}
 	limitFields() {
 		if (this.queryString.fields) {
-			const fields = this.queryString.limi.split(",").join(" ");
+			const fields = this.queryString.limit.split(",").join(" ");
 			this.query = this.query.select(fields);
 		} else {
 			this.query = this.query.select("-__v");

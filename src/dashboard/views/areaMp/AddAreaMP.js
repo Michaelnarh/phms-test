@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
+import AxiosInstance from "../../utils/AxiosInstance";
 import * as Yup from "yup";
 
 export default function AddAreaMp(props) {
@@ -9,16 +9,16 @@ export default function AddAreaMp(props) {
 	const [tutors, setTutors] = useState([]);
 	useEffect(() => {
 		const fetchZones = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				url: `/api/v1/zones`,
 			});
 			setZones(res.data.data);
 		};
 		const fetchTutors = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+				url: `/api/v1/senior-tutors`,
 			});
 			setTutors(res.data.data);
 		};
@@ -62,9 +62,9 @@ export default function AddAreaMp(props) {
 
 		console.log(formData.entries());
 
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/area-mps`,
+			url: `/api/v1/area-mps`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 				accept: "application/json",

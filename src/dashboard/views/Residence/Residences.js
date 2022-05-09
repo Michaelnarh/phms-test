@@ -4,6 +4,8 @@ import ReactPaginate from "react-paginate";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import SearchForm from "../../utils/SearchForm";
+import { ToastContainer, toast } from "react-toastify";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { SpinnerCircular } from "spinners-react";
 
 export default function Residences(props) {
@@ -17,9 +19,9 @@ export default function Residences(props) {
 	useEffect(() => {
 		setLoading(true);
 		const fetchHostels = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/?page=${page}&limit=${limit}`,
+				url: `/api/v1/residences/?page=${page}&limit=${limit}`,
 			});
 
 			setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
@@ -39,6 +41,18 @@ export default function Residences(props) {
 	const handlePageClick = (p) => {
 		setPage(p.selected + 1);
 		setLimit(limit);
+	};
+	const handleDelete = async (id) => {
+		const res = await AxiosInstance({
+			method: "delete",
+			url: `/api/v1/residences/${id}`,
+		});
+
+		if (res?.data?.status === "success") {
+			// window.location.assign("/admin/residences");
+			toast.success(res?.data?.message, { position: "top-center" });
+			navigate("/admin/residences");
+		}
 	};
 
 	return (
@@ -63,6 +77,7 @@ export default function Residences(props) {
 					</div>
 
 					<div className="table-container">
+						<ToastContainer style={{ marginTop: "60px" }} />
 						<table>
 							<thead>
 								<tr>
@@ -97,7 +112,7 @@ export default function Residences(props) {
 													title="Edit"
 												/>
 												<FaMinusCircle
-													onClick={() => console.log("delete")}
+													onClick={() => handleDelete(item?.id)}
 													size={20}
 													color="var(--mainRed)"
 													title="Delete"

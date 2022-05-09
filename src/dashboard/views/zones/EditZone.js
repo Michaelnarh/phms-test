@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
-import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { renderError } from "../../utils/ModuleFunctions";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -11,18 +12,26 @@ export default function EditZone(props) {
 	const { id } = useParams();
 	useEffect(() => {
 		const fetchTutors = async () => {
-			const res = await axios({
-				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
-			});
-			setTutors(res.data.data);
+			try {
+				const res = await AxiosInstance({
+					method: "get",
+					url: `/api/v1/senior-tutors`,
+				});
+				setTutors(res.data.data);
+			} catch (err) {
+				toast.error(err.response.message, { position: "top-center" });
+			}
 		};
 		const fetchZone = async () => {
-			const res = await axios({
-				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones/${id}`,
-			});
-			setZone(res.data.data);
+			try {
+				const res = await AxiosInstance({
+					method: "get",
+					url: `/api/v1/zones/${id}`,
+				});
+				setZone(res.data.data);
+			} catch (err) {
+				toast.error(err.response.message, { position: "top-center" });
+			}
 		};
 		if (tutors.length === 0) fetchTutors();
 		!zone && fetchZone();
@@ -40,17 +49,17 @@ export default function EditZone(props) {
 
 	const onSubmit = async (values) => {
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "patch",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones/${id}`,
+				url: `/api/v1/zones/${id}`,
 				headers: {
 					accept: "application/json",
 				},
 				data: values,
 			});
-			console.log(res);
+			toast.success(`Records of ${res.data.zone.name} updated Successfully`);
 		} catch (err) {
-			console.log(err);
+			toast.error(err.response.message, { position: "top-center" });
 		}
 	};
 	return (
@@ -66,6 +75,7 @@ export default function EditZone(props) {
 			>
 				<Form>
 					<div className="row">
+						<ToastContainer className="top-margin" />
 						<div className="col-md-6 col-sm-12">
 							<Field
 								type="text"

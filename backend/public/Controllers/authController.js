@@ -82,7 +82,6 @@ exports.resetPassword = (req, res) => {};
 //.........................................................//
 
 exports.protected = async (req, res, next) => {
-	console.log(req.headers);
 	let token;
 	let currentUser;
 
@@ -90,20 +89,25 @@ exports.protected = async (req, res, next) => {
 		req.headers.authorization &&
 		req.headers.authorization.startsWith("Bearer")
 	) {
-		console.log(req.headers.authorization);
-
 		token = req.headers.authorization.split(" ")[1];
 
 		//verify jwt token
 	} else if (req.cookies.jwt) {
 		token = req.cookies.jwt;
+		console.log(req.cookie.jwt);
 	}
 	if (!token) {
+		// console.log("here");
 		return next(new AppError("Acess Denied You are not logged In", 401));
 	}
 	//verify token
-	const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-	console.log(decoded);
+	let decoded;
+	try {
+		decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+		// console.log(decoded);
+	} catch (err) {
+		return next(new AppError("Token verification Error Login Again", 401));
+	}
 
 	currentUser = await User.findById(decoded.id);
 	if (!currentUser) {
@@ -111,24 +115,27 @@ exports.protected = async (req, res, next) => {
 	}
 
 	//check if the password has been change ?
-	if (currentUser.passwordChanged(decoded.iat)) {
-		return next(
-			"err"
-			// new AppError("Password has recently been changed, log in again", 400)
-		);
+	// console.log(currentUser);
+	if (!currentUser.passwordChangedAt) {
+		req.user = currentUser;
+
+		next();
+	} else {
+		if (currentUser?.passwordChanged(decoded.iat)) {
+			return next(
+				new AppError("Password has recently been changed, log in again", 400)
+			);
+		}
 	}
-
-	req.user = currentUser;
-
-	next();
 };
 
 exports.restrictTo = (...roles) => {
 	return (req, res, next) => {
-		if (roles.includes(req.user)) {
+		if (roles.includes(req?.user?.role)) {
 			next();
+		} else {
+			next(new AppError("You are not permitted for this operation", 401));
 		}
-		// next(new AppError("You are not permitted for this operation", 401));
 	};
 };
 

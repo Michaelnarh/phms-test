@@ -56,7 +56,7 @@ export default function Register(props) {
 				<Form>
 					<div className="container  ">
 						<div className="center-center-signup">
-							<h3> Admin Sign Up</h3>
+							<h3> Add A User</h3>
 							<div className="container">
 								<div className="r">
 									<div className="show-flex">

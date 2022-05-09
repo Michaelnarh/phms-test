@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import CustomSpinner from "../../utils/CustomSpinner";
+import AxiosInstance from "../../utils/AxiosInstance";
 
 export default function EditPersonnel(props) {
 	const [isLoading, setIsLoading] = useState(false);
@@ -16,17 +16,17 @@ export default function EditPersonnel(props) {
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchTutors = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+				url: `/api/v1/senior-tutors`,
 			});
 			setTutors(res.data.data);
 		};
 
 		const fetchPersonnel = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/nss-personnels/${slug}`,
+				url: `/api/v1/nss-personnels/${slug}`,
 			});
 			setPersonnel(res.data.data);
 			setIsLoading(false);
@@ -70,9 +70,9 @@ export default function EditPersonnel(props) {
 		formData.append("image", values.image);
 
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "patch",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/nss-personnels/${personnel._id}`,
+				url: `/api/v1/nss-personnels/${personnel._id}`,
 				headers: {
 					accept: "application/json",
 				},

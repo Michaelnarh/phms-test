@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Form, Formik, ErrorMessage, Field } from "formik";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
 
 export default function Addsnrtutor(props) {
 	const [zones, setZones] = useState([]);
+	const navigate = useNavigate();
 	useEffect(() => {
 		const fetchZones = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				url: `/api/v1/zones`,
 			});
 			setZones(res.data.data);
 		};
@@ -41,9 +43,9 @@ export default function Addsnrtutor(props) {
 		formData.append("contact", values.contact);
 		formData.append("zone", values.zone);
 		formData.append("image", values.image);
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+			url: `/api/v1/senior-tutors`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 				accept: "application/json",
@@ -51,7 +53,7 @@ export default function Addsnrtutor(props) {
 			data: formData,
 		});
 		if (res.data.status === "success") {
-			window.location.assign("/admin/snr-tutors");
+			navigate("/admin/snr-tutors");
 		}
 	};
 

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 export default function Addlocation(props) {
 	const [zones, setZones] = useState([]);
 	useEffect(() => {
 		const fetchZones = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				url: `/api/v1/zones`,
 			});
 			setZones(res.data.data);
 		};
@@ -28,9 +29,9 @@ export default function Addlocation(props) {
 	const onSubmit = async (values) => {
 		console.log(values);
 
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/locations`,
+			url: `/api/v1/locations`,
 			headers: {
 				"Content-Type": "application/json",
 			},

@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { FaChartPie, FaUserCheck } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
+import AxiosInstance from "./../utils/AxiosInstance";
 import {
 	MdOutlineVerifiedUser,
-	MdVerifiedUser,
 	MdLocationOn,
 	MdHouse,
 	MdApartment,
 	MdAppRegistration,
 } from "react-icons/md";
-import { Doughnut, Bar } from "react-chartjs-2";
+// import { Doughnut, Bar } from "react-chartjs-2";
 import Toptitle from "./TopTitle";
-import axios from "axios";
 import CustomSpinner from "../utils/CustomSpinner";
 
 const data = {
@@ -91,9 +90,9 @@ export default function Dashboard(props) {
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchData = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/statistics`,
+				url: `/api/v1/residences/statistics`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -103,9 +102,9 @@ export default function Dashboard(props) {
 			toast.success("You are welcome");
 		};
 		const fetchReports = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/reports/statistics`,
+				url: `/api/v1/reports/statistics`,
 				headers: {
 					"Content-Type": "application/json",
 				},

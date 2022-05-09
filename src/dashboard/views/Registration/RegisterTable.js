@@ -8,6 +8,7 @@ import AcademicYearModal from "./AcademicYearModal";
 import { useNavigate } from "react-router-dom";
 import blankData from "../../images/blank_svg.svg";
 import CustomSpinner from "../../utils/CustomSpinner";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { ToastContainer, toast } from "react-toastify";
 
 // import { ContextStore } from "./../../../store/ContextStore";
@@ -25,16 +26,16 @@ export default function RegisterTable(props) {
 
 	useEffect(() => {
 		const fetchZones = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				url: `/api/v1/zones`,
 			});
 			setZones(res.data.data);
 		};
 		const fetchYears = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/academic-year`,
+				url: `/api/v1/academic-year`,
 			});
 			setAcademicYear(res.data.data);
 		};
@@ -51,9 +52,9 @@ export default function RegisterTable(props) {
 		setSelectedZone(values.zone);
 		setIsLoading(true);
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/registration/unreg/${values.zone}/${values.years}`,
+				url: `/api/v1/registration/unreg/${values.zone}/${values.years}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -68,9 +69,9 @@ export default function RegisterTable(props) {
 
 	const handleRegister = async (id) => {
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "post",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/registration/register/${year_selected}/${id}/${user?._id}`,
+				url: `/api/v1/registration/register/${year_selected}/${id}/${user?._id}`,
 				headers: {
 					"Content-Type": "application/json",
 				},

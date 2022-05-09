@@ -1,19 +1,28 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
-import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useNavigate } from "react-router-dom";
 
 export default function Addzone(props) {
 	const [tutors, setTutors] = useState([]);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const fetchTutors = async () => {
-			const res = await axios({
-				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
-			});
-			setTutors(res.data.data);
+			try {
+				const res = await AxiosInstance({
+					method: "get",
+					url: `/api/v1/senior-tutors`,
+				});
+				setTutors(res.data.data);
+			} catch (err) {
+				if (err.response.data.message) {
+					toast.error(err.response.data.message, { position: "top-center" });
+				}
+			}
 		};
 		fetchTutors();
 	}, []);
@@ -29,16 +38,23 @@ export default function Addzone(props) {
 
 	const onSubmit = async (values) => {
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "post",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
+				url: `/api/v1/zones`,
 				headers: {
 					accept: "application/json",
 				},
 				data: values,
 			});
+			navigate("/admin/zones", {
+				state: {
+					message: `New Record of ${res.data?.newZone.name} added successfully`,
+				},
+			});
 		} catch (err) {
-			console.log(err);
+			if (err.response.data.message) {
+				toast.error(err.response.data.message, { position: "top-center" });
+			}
 		}
 	};
 	return (
@@ -54,6 +70,7 @@ export default function Addzone(props) {
 			>
 				<Form>
 					<div className="row">
+						<ToastContainer className="top-margin" />
 						<div className="col-md-6 col-sm-12">
 							<Field
 								type="text"

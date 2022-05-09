@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import Thumb from "../../utils/Thumb";
 import * as Yup from "yup";
 import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 
 export default function Addhostel(props) {
@@ -21,23 +22,23 @@ export default function Addhostel(props) {
 
 	useEffect(() => {
 		const fetchLocations = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/locations`,
+				url: `/api/v1/locations`,
 			});
 			setLocations(res.data.data);
 		};
 		const fetchFacilities = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/facilities`,
+				url: `/api/v1/facilities`,
 			});
 			setFacilityArr(res.data.data);
 		};
 		const fetchRClass = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/classes`,
+				url: `/api/v1/classes`,
 			});
 			setRClass(res.data.data);
 		};

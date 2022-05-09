@@ -210,8 +210,8 @@ export default function Hosteldetails(props) {
 								<div>
 									{residence?.gpsAddress?.coordinates[0] && (
 										<Iframe
-											lat={residence?.gpsAddress?.coordinates[0]}
-											lng={residence?.gpsAddress?.coordinates[1]}
+											lat={residence?.gpsAddress?.coordinates[1]}
+											lng={residence?.gpsAddress?.coordinates[0]}
 										/>
 									)}
 									{/* <iframe

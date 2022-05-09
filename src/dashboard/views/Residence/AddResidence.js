@@ -3,8 +3,9 @@ import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import { useDropzone } from "react-dropzone";
 import Thumb from "../../utils/Thumb";
+import AxiosInstance from "../../utils/AxiosInstance";
+import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Addhostel(props) {
@@ -21,23 +22,23 @@ export default function Addhostel(props) {
 
 	useEffect(() => {
 		const fetchLocations = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/locations`,
+				url: `/api/v1/locations`,
 			});
 			setLocations(res.data.data);
 		};
 		const fetchFacilities = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/facilities`,
+				url: `/api/v1/facilities`,
 			});
 			setFacilityArr(res.data.data);
 		};
 		const fetchRClass = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/classes`,
+				url: `/api/v1/classes`,
 			});
 			setRClass(res.data.data);
 		};
@@ -124,9 +125,9 @@ export default function Addhostel(props) {
 		});
 
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "post",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences`,
+				url: `/api/v1/residences`,
 				headers: {
 					accept: "application/json",
 				},
@@ -137,13 +138,16 @@ export default function Addhostel(props) {
 			values.coverImage = "";
 			navigate("/admin/residences");
 		} catch (err) {
-			console.log(err);
+			if (err?.data?.response) {
+				toast.error(err.data?.response?.message, { position: "top-center" });
+			}
 		}
 	};
 
 	return (
 		<>
 			<div className="container">
+				<ToastContainer className="top-margin" />
 				<FormStepper
 					initialValues={initialValues}
 					onSubmit={async (values, resetForm) => {
@@ -171,6 +175,7 @@ export default function Addhostel(props) {
 						})}
 					>
 						<div className="row">
+							<ToastContainer />
 							<div className="col-md-4 col-sm-12">
 								<label>
 									<b>Residence Name</b>
@@ -323,6 +328,7 @@ export default function Addhostel(props) {
 						})}
 					>
 						<div className="row mt-3">
+							<ToastContainer />
 							<div className="col-md-6 col-sm-12">
 								<label>
 									<b>Owner's Name</b>
@@ -438,6 +444,7 @@ export default function Addhostel(props) {
 						})}
 					>
 						<div className="row">
+							<ToastContainer />
 							<div className="col-md-6 col-sm-12">
 								<label>
 									<b>Total Number of Rooms</b>
@@ -633,6 +640,7 @@ export function FormStepper({ children, ...props }) {
 			}}
 		>
 			<Form>
+				<ToastContainer />
 				{currentChild}
 
 				{step > 0 ? (

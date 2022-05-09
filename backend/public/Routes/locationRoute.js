@@ -1,16 +1,57 @@
 const express = require("express");
 const LocationController = require("../Controllers/locationController");
+const authController = require("../Controllers/authController");
 const router = express.Router();
 
 router
 	.route("/")
-	.post(LocationController.createLocation)
-	.get(LocationController.getAllLocations);
+	.post(
+		authController.protected,
+		authController.restrictTo(
+			"admin",
+			"superAdmin",
+			"maintainer",
+			"supervisor"
+		),
+		LocationController.createLocation
+	)
+	.get(
+		authController.protected,
+		authController.restrictTo(
+			"admin",
+			"superAdmin",
+			"maintainer",
+			"supervisor"
+		),
+		LocationController.getAllLocations
+	);
 
 router
 	.route("/:id")
-	.get(LocationController.getlocation)
-	.patch(LocationController.updateLocation)
-	.delete(LocationController.deleteLocation);
+	.get(
+		authController.protected,
+		authController.restrictTo(
+			"admin",
+			"superAdmin",
+			"supervisor",
+			"maintainer"
+		),
+		LocationController.getlocation
+	)
+	.patch(
+		authController.protected,
+		authController.restrictTo(
+			"admin",
+			"superAdmin",
+			"supervisor",
+			"maintainer"
+		),
+		LocationController.updateLocation
+	)
+	.delete(
+		authController.protected,
+		authController.restrictTo("admin", "superAdmin"),
+		LocationController.deleteLocation
+	);
 
 module.exports = router;

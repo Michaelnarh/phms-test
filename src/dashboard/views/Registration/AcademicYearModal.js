@@ -1,9 +1,9 @@
-import react, { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
+import AxiosInstance from "../../utils/AxiosInstance";
 import * as Yup from "yup";
-import axios from "axios";
 
 function AcademicYearModal() {
 	const [show, setShow] = useState(false);
@@ -24,7 +24,7 @@ function AcademicYearModal() {
 	};
 	const handleSubmit = async (values) => {
 		console.log(values);
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "post",
 			url: `${process.env.REACT_APP_API_URL}/api/v1/academic-year`,
 			headers: {

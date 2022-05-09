@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Divisiontitle from "../DivisionTitle";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AxiosInstance from "../../utils/AxiosInstance";
 export default function NationalMps(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	const [nmps, setNmps] = useState([]);
 	const navigate = useNavigate();
 	useEffect(() => {
 		const fetchNationalMps = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors`,
+				url: `/api/v1/senior-tutors`,
 				headers: {
 					"Content-Type": "application/json",
 				},
