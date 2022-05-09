@@ -3,7 +3,7 @@ import { Button, Modal, Form } from "react-bootstrap";
 import { CustomButton } from "./stylecomponents";
 import { FaStar } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import AxiosInstance from "./utils/AxiosBase";
 import LogInModal from "./auth/Login";
 const CommentsModal = (props) => {
 	const { id, auth } = props;
@@ -32,9 +32,9 @@ const CommentsModal = (props) => {
 			toast("You are not login in ");
 			setError("You are not login in ");
 		} else {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "post",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/reviews`,
+				url: `/api/v1/reviews`,
 				headers: {
 					"Content-Type": "application/json",
 				},

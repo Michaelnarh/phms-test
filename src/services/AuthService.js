@@ -1,12 +1,13 @@
 import axios from "axios";
 import Cookie from "universal-cookie";
 import { parseJwt } from "./ModuleFunctions";
+import AxiosInstance from "../dashboard/utils/AxiosInstance";
 const cookie = new Cookie();
 
 export class AuthService {
 	Login = async (payload) => {
 		try {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "post",
 				withCredentials: true,
 				credentials: "include",
@@ -46,7 +47,7 @@ export class AuthService {
 		}
 	};
 	signUp = async (payload) => {
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "post",
 			withCredentials: true,
 			credentials: "include",
@@ -67,7 +68,7 @@ export class AuthService {
 		}
 	};
 	getUser = async (id) => {
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "get",
 			withCredentials: true,
 			credentials: "include",

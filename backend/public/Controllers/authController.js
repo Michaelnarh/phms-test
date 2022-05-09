@@ -36,6 +36,35 @@ exports.SignUp = async (req, res) => {
 		});
 	}
 };
+exports.student = async (req, res) => {
+	try {
+		const student = User.findOne({ ref_num: req.params.ref_num });
+		if (!student) {
+			const newUser = await User.create({
+				//username: students name +surname
+				//password: students'password
+				//id: students' id
+				//refNo: students ref_num
+			});
+			const token = SignInToken(newUser._id);
+			newUser.save();
+			const user = newUser.toObject();
+
+			delete user.password;
+			delete user.passwordConfirm;
+			res.cookie("jwt", token, cookieOptions);
+			res.status(201).json({
+				status: "success",
+				user: user,
+				token: token,
+			});
+		}
+	} catch (err) {
+		res.status(500).json({
+			message: err.message,
+		});
+	}
+};
 
 exports.LogIn = async (req, res) => {
 	try {

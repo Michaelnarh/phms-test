@@ -17,6 +17,8 @@ const userSchema = mongoose.Schema({
 		type: Date,
 		default: null,
 	},
+	id: { type: String },
+	refNum: { type: String },
 	passwordResetToken: { type: String, default: null },
 	passwordExpiresAt: { type: Date, default: null },
 	image: { type: String },

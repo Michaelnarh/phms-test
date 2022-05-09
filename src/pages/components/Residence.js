@@ -24,14 +24,14 @@ export default function Residence(props) {
 						{residence.coverImage ? (
 							<img
 								src={`${url}/${residence.slug}/${residence.coverImage}`}
-								className="img-fluid"
+								className="img-fluid card-img"
 								alt="..."
 								style={{ height: "200px", width: "300px" }}
 							/>
 						) : (
 							<img
 								src={`${url}/90ef/cover-image-1646409988773.jpeg`}
-								className="img-fluid"
+								className="img-fluid card-img"
 								alt="..."
 								style={{ height: 200, width: 300 }}
 							/>
@@ -43,20 +43,17 @@ export default function Residence(props) {
 				</div>
 				<div>
 					<p>
-						<b>
-							{" "}
-							<MdLocationOn />
-							Location:
-						</b>
+						{/* <b> */} <MdLocationOn />
+						Location:
+						{/* </b> */}
 						<span style={{ marginLeft: 5 }}>
 							{residence.location ? residence?.location?.name : "N/A"}
 						</span>
 					</p>
 					<p>
-						<b>
-							<IoMdWalk />
-							Distance:{" "}
-						</b>
+						{/* <b> */}
+						<IoMdWalk />
+						Distance: {/* </b> */}
 						<span style={{ marginLeft: 5 }}>
 							{residence.distance
 								? `${residence?.distance} minutes walk to campus`

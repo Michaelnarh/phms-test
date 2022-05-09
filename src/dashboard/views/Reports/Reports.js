@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { Axios } from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { FaChartPie, FaArrowRight } from "react-icons/fa";
 import { Doughnut, Bar } from "react-chartjs-2";
 import Toptitle from "./../TopTitle";
@@ -14,9 +15,9 @@ const Reports = () => {
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchData = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/statistics`,
+				url: `/api/v1/residences/statistics`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -25,9 +26,9 @@ const Reports = () => {
 			setIsLoading(false);
 		};
 		const fetchReports = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/reports/statistics`,
+				url: `/api/v1/reports/statistics`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -45,9 +46,9 @@ const Reports = () => {
 
 	const handleRegistered = async () => {
 		try {
-			await axios({
+			await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/reports/registered`,
+				url: `/api/v1/reports/registered`,
 				headers: {
 					"Content-Type": "application/pdf",
 				},
@@ -58,9 +59,9 @@ const Reports = () => {
 	};
 	const handleHomestels = async () => {
 		try {
-			await axios({
+			await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/reports/homestels`,
+				url: `/api/v1/reports/homestels`,
 				headers: {
 					"Content-Type": "application/pdf",
 				},
@@ -72,9 +73,9 @@ const Reports = () => {
 
 	const handleHostels = async () => {
 		try {
-			await axios({
+			await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/reports/hostels`,
+				url: `/api/v1/reports/hostels`,
 				headers: {
 					"Content-Type": "application/pdf",
 				},
@@ -85,9 +86,9 @@ const Reports = () => {
 	};
 	const handleOwners = async () => {
 		try {
-			await axios({
+			await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/reports/owners`,
+				url: `/api/v1/reports/owners`,
 				headers: {
 					"Content-Type": "application/pdf",
 				},
@@ -98,9 +99,9 @@ const Reports = () => {
 	};
 	const handleMangers = async () => {
 		try {
-			await axios({
+			await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/reports/managers`,
+				url: `/api/v1/reports/managers`,
 				headers: {
 					"Content-Type": "application/pdf",
 				},
@@ -113,9 +114,9 @@ const Reports = () => {
 		setInnerLoad(true);
 		const minfunc = async () => {
 			try {
-				await axios({
+				await AxiosInstance({
 					method: "get",
-					url: `${process.env.REACT_APP_API_URL}/api/v1/reports/porters`,
+					url: `/api/v1/reports/porters`,
 					headers: {
 						"Content-Type": "application/pdf",
 					},

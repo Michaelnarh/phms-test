@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { renderError } from "../utils/ModuleFunctions";
+import AxiosInstance from "../utils/AxiosBase";
 import * as Yup from "yup";
 import axios from "axios";
 
@@ -11,7 +12,6 @@ function LogInModal(props) {
 	const handleClose = () => setShow(false);
 	function handleShow() {
 		setShow(true);
-		// setDrawer(false);
 	}
 	const [error, setError] = useState("");
 
@@ -31,7 +31,7 @@ function LogInModal(props) {
 		referenceNumber: "",
 	};
 	const handleSubmit = async (values) => {
-		const res = await axios({
+		const res = await AxiosInstance({
 			method: "post",
 			// post to the uits students portal
 			// url: `${process.env.REACT_APP_API_URL}/api/v1/academic-year`,
@@ -56,7 +56,6 @@ function LogInModal(props) {
 			<Modal
 				show={show}
 				onHide={handleClose}
-				backdrop="static"
 				keyboard={false}
 				className="margin-top"
 			>

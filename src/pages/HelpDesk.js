@@ -1,6 +1,7 @@
 import React from "react";
 import helpDesk from "../images/help-desk-1.png";
 import fireService from "../images/fire-service.png";
+import { MdCall } from "react-icons/md";
 
 export default function HelpDesk(props) {
 	return (
@@ -19,7 +20,7 @@ export default function HelpDesk(props) {
 					</div>
 				</div>
 				<h3 className="text-center"> INTERNAL SERVICES</h3>
-				<div className="card mt-3">
+				<div className="card p-3 mt-3">
 					<div className="row mt-3">
 						<h2 className="r-name">Deans of Students Office</h2>
 						<div className="col-md-3 p-3">
@@ -33,7 +34,7 @@ export default function HelpDesk(props) {
 						</div>
 					</div>
 				</div>
-				<div className="card mt-3">
+				<div className="card p-3 mt-3">
 					<div className="row mt-3">
 						<h2 className="r-name">Chaplaincy Office</h2>
 						<div className="col-md-3 p-3">
@@ -47,7 +48,7 @@ export default function HelpDesk(props) {
 						</div>
 					</div>
 				</div>
-				<div className="card mt-3">
+				<div className="card p-3 mt-3">
 					<div className="row mt-3">
 						<h2 className="r-name">Students' Affairs</h2>
 						<div className="col-md-3 p-3">
@@ -60,6 +61,36 @@ export default function HelpDesk(props) {
 							<p></p>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div>
+				<div className="svg-banner">
+					{/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+						<path
+							fill="#eee"
+							fill-opacity="1"
+							d="M0,32L1440,96L1440,320L0,320Z"
+						></path>
+					</svg> */}
+				</div>
+				<div className="contact-card">
+					<MdCall color="#ccc" size={50} />
+					<h2>Get In Touch</h2>
+					<p>
+						<span> Dr. James Osei Mensah </span>0577877202
+					</p>
+					<p>
+						<span> Prince Ben-Smith </span>0577877202
+					</p>
+					<p>
+						<span> Dr. James Osei Mensah </span>0577877202
+					</p>
+					<p>
+						<span> Dr. James Osei Mensah </span>0577877202
+					</p>
+					<p>
+						<span> Dr. James Osei Mensah </span>0577877202
+					</p>
 				</div>
 			</div>
 		</>

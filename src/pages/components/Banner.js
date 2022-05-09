@@ -1,12 +1,13 @@
 import React from "react";
 import banner from "../../images/location_search.png";
 import { CustomButton, Divider } from "./stylecomponents";
+import { IoMdWarning } from "react-icons/io";
 import { Link } from "react-router-dom";
 export default function Banner(props) {
 	return (
 		<>
 			<div className="row mx-5 top-margin">
-				<div className="col-md-6 mt-5">
+				<div className="col-md-6 mt-5 mb-5">
 					<h1 className="banner-header">Private Residence Management System</h1>
 					<Divider />
 					<h6 className="banner-sub-header">
@@ -26,6 +27,22 @@ export default function Banner(props) {
 							<Link to="/hostels">
 								<CustomButton textColor="#fff">Browse Hostels</CustomButton>
 							</Link>
+						</div>
+						<div className="mt-5 warning-box">
+							<div className="d-flexl">
+								<IoMdWarning size={50} color="orange" />
+								<span>
+									<b>WARNING</b>
+								</span>
+							</div>
+							<p className="warning-text">
+								Payment for bed spaces should only be made for official{" "}
+								<b>Bank Account</b> of hostels, Any student who pays cash or
+								through <b> unauthorized/unofficial Bank / Momo accounts</b>{" "}
+								does so at his or her own risk Students are enncouraged to check
+								available facilities of the hostels and confirm their interest
+								before making payments;
+							</p>
 						</div>
 					</div>
 				</div>
