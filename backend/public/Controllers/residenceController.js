@@ -5,7 +5,7 @@ const Location = require("../Models/locationModel");
 const SnrTutor = require("../Models/seniorTutorModel");
 const NssPersonnel = require("../Models/nssPModel");
 const Facility = require("../Models/facilityModel");
-const AreaMp = require("../Models/mpModel");
+const StudentMp = require("../Models/studentMPModel");
 const RegistrationTable = require("../Models/registrationTable");
 const AppError = require("../utils/AppError");
 const ApiFeatures = require("../utils/APIfeatures");
@@ -419,7 +419,8 @@ exports.getStatistics = async (req, res) => {
 		const nssP_num = await NssPersonnel.find().countDocuments();
 		const snr_tutors_num = await SnrTutor.find().countDocuments();
 		const facility_num = await Facility.find().countDocuments();
-		const area_mp_num = await AreaMp.find().countDocuments();
+		const student_mp_num = await StudentMp.find().countDocuments();
+		// const area_mp_num = await StudentMp.find().countDocuments();
 
 		res.status(200).json({
 			status: "succes",
@@ -433,7 +434,7 @@ exports.getStatistics = async (req, res) => {
 				nssP_num,
 				snr_tutors_num,
 				facility_num,
-				area_mp_num,
+				student_mp_num,
 			},
 		});
 	} catch (err) {

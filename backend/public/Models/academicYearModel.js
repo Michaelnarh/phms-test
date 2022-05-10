@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 const Registration = require("./registrationTable");
-const NationalMp = require("./mpModel");
 const slugify = require("slugify");
 
 const academicYearSchema = mongoose.Schema({

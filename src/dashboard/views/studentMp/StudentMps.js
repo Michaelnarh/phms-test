@@ -4,47 +4,57 @@ import AxiosInstance from "../../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import CustomSpinner from "../../utils/CustomSpinner";
-export default function AreaMPs(props) {
+import { ToastContainer, toast } from "react-toastify";
+export default function StudentMPs(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	const [isLoading, setIsLoading] = useState(false);
-	const [areaMps, setAreaMps] = useState([]);
+	const [studentMps, setStudentMps] = useState([]);
 	const navigate = useNavigate();
 	useEffect(() => {
+		console.log("hey");
+		setIsLoading(true);
 		const fetchAreaMps = async () => {
-			setIsLoading(true);
-			const res = await AxiosInstance({
-				method: "get",
-				url: `/api/v1/area-mps`,
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-			console.log(res.data.total);
-			setAreaMps(res.data.data);
-			setIsLoading(false);
+			try {
+				const res = await AxiosInstance({
+					method: "get",
+					url: `/api/v1/student-mps`,
+					headers: {
+						"Content-Type": "application/json",
+					},
+				});
+				console.log(res.data.data);
+				setStudentMps(res.data.data);
+				setIsLoading(false);
+			} catch (err) {
+				if (err?.response?.data?.message) {
+					toast.error(err.response.data.message, { position: "top-center" });
+				}
+			}
 		};
+
+		fetchAreaMps();
 
 		const timer = setTimeout(() => fetchAreaMps, 2000);
 
 		return () => clearTimeout(timer);
-	}, [isLoading]);
+	}, []);
 	return (
 		<>
 			<div className="page-container mt-3">
-				<Divisiontitle title="CURRENT AREA MPS" />
+				<Divisiontitle title="CURRENT STUDENT MPS" />
 				{isLoading ? (
 					<CustomSpinner type="circle" />
 				) : (
 					<>
 						<div className="tutors-flex">
-							{areaMps
+							{studentMps
 								.filter((person) => person.isCurrent)
 								.map((item) => {
 									return (
 										<div key={item._id} className="tutors-card">
 											{item.image ? (
 												<img
-													src={`${url}/area-mps/${item.image}`}
+													src={`${url}/student-mps/${item.image}`}
 													className="img-fluid"
 													alt="..."
 													style={{ width: 300, height: 250 }}
@@ -66,7 +76,9 @@ export default function AreaMPs(props) {
 											</div>
 
 											<button
-												onClick={() => navigate(`/admin/area-mps/${item.slug}`)}
+												onClick={() =>
+													navigate(`/admin/student-mps/${item.slug}`)
+												}
 												className="btn form-control"
 											>
 												{" "}
@@ -78,7 +90,7 @@ export default function AreaMPs(props) {
 						</div>
 						<hr />
 						<div>
-							<Divisiontitle title="PAST AREA MPS" />
+							<Divisiontitle title="PAST STUDENT MPS" />
 							<table>
 								<thead>
 									<tr>
@@ -92,8 +104,8 @@ export default function AreaMPs(props) {
 									</tr>
 								</thead>
 								<tbody>
-									{areaMps?.length > 0 &&
-										areaMps
+									{studentMps?.length > 0 &&
+										studentMps
 											.filter((person) => !person.isCurrent)
 											.map((item) => {
 												return (

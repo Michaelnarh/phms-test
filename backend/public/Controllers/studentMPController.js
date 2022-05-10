@@ -1,4 +1,4 @@
-const MP = require("../Models/mpModel");
+const StudentMP = require("../Models/studentMPModel");
 const AppError = require("../utils/AppError");
 const fs = require("fs");
 const multer = require("multer");
@@ -22,7 +22,7 @@ exports.resizeImage = async (req, res, next) => {
 	const slug = await slugify(req.body.name, { lower: true });
 	req.body.slug = slug;
 	const profile_image = `profile-${slug}-${Date.now()}.jpeg`;
-	let dir = `public/images/mps`;
+	let dir = `public/images/student-mps`;
 
 	if (!fs.existsSync(dir)) {
 		fs.mkdirSync(dir);
@@ -48,14 +48,14 @@ const upload = multer({
 //upload profile image.
 exports.uploadImage = upload.single("image");
 
-//create new MP
-exports.createMP = async (req, res) => {
+//create new StudentMP
+exports.createStudentMP = async (req, res) => {
 	try {
-		req.body.slug = slugify(req.body.slug, { lower: true });
-		const mp = await MP.create(req.body);
+		req.body.slug = await slugify(req.body.name, { lower: true });
+		const studentMP = await StudentMP.create(req.body);
 		res.status(201).json({
 			status: "success",
-			mp,
+			studentMP,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -65,22 +65,20 @@ exports.createMP = async (req, res) => {
 	}
 };
 
-//update info on a MP
-exports.updateMP = async (req, res) => {
+//update info on a StudentMP
+exports.updateStudentMP = async (req, res) => {
 	if (!req.params.id) {
-		throw Error("MP  not identified");
+		throw Error("StudentMP  not identified");
 	}
 	try {
-		if (req.body.name) {
-			req.body.slug = slugify(req.body.name, { lower: true });
-		}
-		const mp = await MP.findByIdAndUpdate(req.params.id, req.body, {
-			runValidators: true,
-			new: true,
-		});
+		req.body.slug = await slugify(req.body.name, { lower: true });
+		const studentMP = await StudentMP.findByIdAndUpdate(
+			req.params.id,
+			req.body
+		);
 		res.status(201).json({
 			status: "success",
-			data: mp,
+			data: studentMP,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -90,13 +88,15 @@ exports.updateMP = async (req, res) => {
 	}
 };
 
-// get ad particular MP
-exports.getMP = async (req, res) => {
+// get ad particular StudentMP
+exports.getStudentMP = async (req, res) => {
 	try {
-		const mp = await MP.findOne({ slug: req.params.slug });
+		const studentMP = await StudentMP.findOne({
+			slug: req.params.slug,
+		}).populate(["zone", "tutor"]);
 		res.status(200).json({
 			status: "success",
-			data: mp,
+			data: studentMP,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -106,13 +106,13 @@ exports.getMP = async (req, res) => {
 	}
 };
 
-//get all MP
-exports.getAllMPs = async (req, res) => {
+//get all AreaMPs
+exports.getAllStudentMP = async (req, res) => {
 	try {
-		const mps = await MP.find().populate("tutor");
+		const studentMP = await StudentMP.find().populate(["zone", "tutor"]);
 		res.status(200).json({
 			status: "success",
-			data: mps,
+			data: studentMP,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -122,16 +122,17 @@ exports.getAllMPs = async (req, res) => {
 	}
 };
 
-//delete a MP
-exports.deleteMP = async (req, res, next) => {
+//delete a StudentMP
+exports.deleteStudentMP = async (req, res, next) => {
 	try {
-		const mp_id = req.params.id;
-		if (!mp_id) throw new Error("MP id is required for this operation");
-		const mp = await MP.findById(mp_id);
-		await MP.findByIdAndDelete(mp_id);
+		const studentMP_id = req.params.id;
+		if (!studentMP_id)
+			throw new Error("StudentMP id is required for this operation");
+		const studentMP = await StudentMP.findById(studentMP_id);
+		await StudentMP.findByIdAndDelete(studentMP_id);
 		res.status(200).json({
 			status: "success",
-			message: `MP records of  ${mp.name} is deleted successfully`,
+			message: `StudentMP records of  ${studentMP.name} is deleted successfully`,
 		});
 	} catch (err) {
 		res.status(400).json({

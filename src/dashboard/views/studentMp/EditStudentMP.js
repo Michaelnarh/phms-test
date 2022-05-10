@@ -5,11 +5,11 @@ import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 
-export default function EditAreamp(props) {
+export default function EditStudentMp(props) {
 	const { slug } = useParams();
 	const [zones, setZones] = useState([]);
 	const [tutors, setTutors] = useState([]);
-	const [areaMp, setAreaMp] = useState();
+	const [studentMp, setStudentMp] = useState();
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
 		const fetchZones = async () => {
@@ -30,11 +30,11 @@ export default function EditAreamp(props) {
 		const fetchAreaMp = async () => {
 			const res = await AxiosInstance({
 				method: "get",
-				url: `/api/v1/area-mps/${slug}`,
+				url: `/api/v1/student-mps/${slug}`,
 			});
-			setAreaMp(res.data.data);
+			setStudentMp(res.data.data);
 		};
-		!areaMp && fetchAreaMp();
+		!studentMp && fetchAreaMp();
 		if (zones.length === 0) {
 			fetchZones();
 		}
@@ -54,13 +54,13 @@ export default function EditAreamp(props) {
 	});
 
 	const initialValues = {
-		name: areaMp && (areaMp.name ?? ""),
-		email: areaMp && (areaMp.email ?? ""),
-		contact: areaMp && (areaMp.contact ?? ""),
-		zone: areaMp && (areaMp.zone._id ?? ""),
-		tutor: areaMp && (areaMp.tutor._id ?? ""),
-		isCurrent: areaMp && (areaMp.isCurrent ?? ""),
-		image: areaMp && (areaMp.image ?? ""),
+		name: studentMp && (studentMp.name ?? ""),
+		email: studentMp && (studentMp.email ?? ""),
+		contact: studentMp && (studentMp.contact ?? ""),
+		zone: studentMp && (studentMp.zone._id ?? ""),
+		tutor: studentMp && (studentMp.tutor._id ?? ""),
+		isCurrent: studentMp && (studentMp.isCurrent ?? ""),
+		image: studentMp && (studentMp.image ?? ""),
 	};
 	const onSubmit = async (values) => {
 		console.log(values);
@@ -74,7 +74,7 @@ export default function EditAreamp(props) {
 
 		const res = await AxiosInstance({
 			method: "patch",
-			url: `/api/v1/area-mps/${areaMp._id}`,
+			url: `/api/v1/area-mps/${studentMp._id}`,
 			headers: {
 				accept: "application/json",
 			},
@@ -181,9 +181,9 @@ export default function EditAreamp(props) {
 							</div>
 							<div className="row mt-3">
 								<div className="col-md-6 col-sm-12">
-									{areaMp && areaMp.image ? (
+									{studentMp && studentMp.image ? (
 										<img
-											src={`${url}/area-mps/${areaMp.image}`}
+											src={`${url}/area-mps/${studentMp.image}`}
 											className="img-fluid"
 											alt="..."
 											style={{ width: 300, height: 250 }}
@@ -230,7 +230,7 @@ export default function EditAreamp(props) {
 								</div>
 							</div>
 						</div>
-						<div className="mt-3">
+						<div className="my-5">
 							<button type="submit" className="btn is-primary">
 								Submit
 							</button>

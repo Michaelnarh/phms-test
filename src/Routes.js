@@ -33,10 +33,16 @@ import AddPersonnel from "./dashboard/views/nssPersonnel/AddPersonnel";
 import EditPersonnel from "./dashboard/views/nssPersonnel/EditPersonnel";
 
 // import area mps views
-import AreaMpViews from "./dashboard/views/areaMp/Index";
-import AreaMps from "./dashboard/views/areaMp/AreaMps";
-import AddAreaMp from "./dashboard/views/areaMp/AddAreaMP";
-import EditMp from "./dashboard/views/areaMp/EditAreaMP";
+import StudentViews from "./dashboard/views/studentMp/Index";
+import StudentMps from "./dashboard/views/studentMp/StudentMps";
+import AddStudentMp from "./dashboard/views/studentMp/AddStudentMP";
+import EditStudentMp from "./dashboard/views/studentMp/EditStudentMP";
+
+// import area assembly members views
+import AssemblyMemViews from "./dashboard/views/assemblyMember/Index";
+import AssemblyMembers from "./dashboard/views/assemblyMember/AssemblyMembers";
+import AddAssemblyMem from "./dashboard/views/assemblyMember/AddAssMember";
+import EditAssemblyMem from "./dashboard/views/assemblyMember/EditAssemblyMem";
 
 // import facilities views
 import FacilityViews from "./dashboard/views/facility/Index";
@@ -125,10 +131,15 @@ function MainLayout() {
 						<Route path="add" element={<AddLocation />} />
 						<Route path=":id" element={<EditLocation />} />
 					</Route>
-					<Route path="area-mps" element={<AreaMpViews />}>
-						<Route index element={<AreaMps />} />
-						<Route path="add" element={<AddAreaMp />} />
-						<Route path=":slug" element={<EditMp />} />
+					<Route path="student-mps" element={<StudentViews />}>
+						<Route index element={<StudentMps />} />
+						<Route path="add" element={<AddStudentMp />} />
+						<Route path=":slug" element={<EditStudentMp />} />
+					</Route>
+					<Route path="assembly-members" element={<AssemblyMemViews />}>
+						<Route index element={<AssemblyMembers />} />
+						<Route path="add" element={<AddAssemblyMem />} />
+						<Route path=":slug" element={<EditAssemblyMem />} />
 					</Route>
 					<Route path="snr-tutors" element={<SnrTutorsViews />}>
 						<Route index element={<SnrTutors />} />

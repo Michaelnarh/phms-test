@@ -8,7 +8,7 @@ export default function Index(props) {
 	return (
 		<>
 			<div className="page-container mt-3">
-				<Toptitle page="Area Mps" />
+				<Toptitle page="Assembly Members " />
 				<div className="content-left-side">
 					<MdArrowBack
 						size={40}
@@ -16,10 +16,10 @@ export default function Index(props) {
 						onClick={() => navigate(-1)}
 					/>
 					<button
-						className=" btn mb-1"
-						onClick={() => navigate("/admin/area-mps/add")}
+						className=" btn mb-1 "
+						onClick={() => navigate("/admin/assembly-members/add")}
 					>
-						ADD AREA-MP
+						ADD ASS. MAN
 					</button>
 				</div>
 				<Outlet />

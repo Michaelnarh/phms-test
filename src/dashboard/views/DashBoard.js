@@ -209,8 +209,8 @@ export default function Dashboard(props) {
 							<div className="card-box">
 								<div className="card-box-inlineflex">
 									<div>
-										<p>AREA MPS</p>
-										<h1>{data.area_mp_num}</h1>
+										<p>STUDENT MPS</p>
+										<h1>{data.student_mp_num}</h1>
 									</div>
 									<div>
 										<MdAppRegistration size={58} color="purple" />

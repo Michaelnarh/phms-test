@@ -52,14 +52,26 @@ export default function Snrtutors(props) {
 											<p>{item.contact}</p>
 											<p>{item.zone ? item.zone?.name : "N/A"}</p>
 										</div>
-
-										<button
-											onClick={() => navigate(`/admin/snr-tutors/${item.slug}`)}
-											className="btn form-control"
-										>
-											{" "}
-											View
-										</button>
+										<div className="d-flex">
+											<button
+												onClick={() =>
+													navigate(`/admin/snr-tutors/${item.slug}`)
+												}
+												className="btn form-control"
+											>
+												{" "}
+												View
+											</button>
+											<button
+												onClick={() =>
+													navigate(`/admin/snr-tutors/${item.slug}/edit`)
+												}
+												className="btn form-control"
+											>
+												{" "}
+												Edit
+											</button>
+										</div>
 									</div>
 								);
 							})}

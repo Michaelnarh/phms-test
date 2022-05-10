@@ -1,38 +1,28 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import AxiosInstance from "../../utils/AxiosInstance";
-import { useParams, useNavigate } from "react-router-dom";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
+import { useParams } from "react-router-dom";
+import AxiosInstance from "../../utils/AxiosInstance";
 
-export default function Editsnrtutors(props) {
+export default function EditAssemblyMem(props) {
 	const { slug } = useParams();
-	const navigate = useNavigate();
-	const [zones, setZones] = useState([]);
-	const [tutor, setTutor] = useState();
+	const [aMember, setAMember] = useState([]);
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
-		const fetchZones = async () => {
+		const fetchAssemblyMember = async () => {
 			const res = await AxiosInstance({
 				method: "get",
-				url: `/api/v1/zones`,
+				url: `/api/v1/assembly-members/${slug}`,
+				headers: {
+					"Content-Type": "application/json",
+				},
 			});
-			setZones(res.data.data);
+			setAMember(res.data.data);
 		};
-
-		const fetchTutor = async () => {
-			const res = await AxiosInstance({
-				method: "get",
-				url: `/api/v1/senior-tutors/${slug}`,
-			});
-			setTutor(res.data.data);
-		};
-		!tutor && fetchTutor();
-		if (zones.length === 0) {
-			fetchZones();
-		}
-	});
+		fetchAssemblyMember();
+	}, []);
 
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Residence is Required"),
@@ -40,48 +30,37 @@ export default function Editsnrtutors(props) {
 			.email("TextField must be an Email")
 			.required("Senior Tutor's email is required"),
 		contact: Yup.string().required("Contact is required"),
-		// zone: Yup.string().required("Zone is required"),
+		isCurrent: Yup.boolean().nullable(),
 		image: Yup.string().nullable(),
 	});
 
 	const initialValues = {
-		name: tutor && (tutor?.name ?? ""),
-		email: tutor && (tutor?.email ?? ""),
-		contact: tutor && (tutor?.contact ?? ""),
-		zone: tutor && (tutor.zone?._id ?? ""),
-		image: tutor && (tutor?.image ?? ""),
+		name: aMember && (aMember?.name ?? ""),
+		email: aMember && (aMember?.email ?? ""),
+		contact: aMember && (aMember?.contact ?? ""),
+		isCurrent: aMember && (aMember?.isCurrent ?? ""),
+		zone: aMember && (aMember?.zone?._id ?? ""),
+		image: aMember && (aMember?.image ?? ""),
 	};
 	const onSubmit = async (values) => {
+		console.log(values);
 		var formData = new FormData();
 		formData.append("name", values.name);
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
-		formData.append("zone", values.zone);
+		formData.append("isCurrent", values.isCurrent);
 		formData.append("image", values.image);
 
-		const res = await AxiosInstance({
+		const res = await axios({
 			method: "patch",
-			url: `/api/v1/senior-tutors/${tutor._id}`,
+			url: `${process.env.REACT_APP_API_URL}/api/v1/assembly-members${slug}`,
 			headers: {
-				"Content-Type": "multipart/form-data",
 				accept: "application/json",
 			},
 			data: formData,
 		});
+	};
 
-		if (res.data.status === "success") {
-			navigate(-1);
-		}
-	};
-	const handleDelete = async (id) => {
-		const res = await AxiosInstance({
-			method: "delete",
-			url: `/api/v1/senior-tutors/${id}`,
-		});
-		if (res.data.status === "success") {
-			navigate("/admin/snr-tutors");
-		}
-	};
 	return (
 		<>
 			<Formik
@@ -104,7 +83,7 @@ export default function Editsnrtutors(props) {
 									name="name"
 								/>
 								<p className="eg-text">
-									<span className="required">*</span> Example: Nana Adoma
+									<span className="required">*</span> Example: Hon. Gideon Addo
 								</p>
 								<ErrorMessage name="name" render={renderError} />
 							</div>
@@ -117,7 +96,7 @@ export default function Editsnrtutors(props) {
 								/>
 								<p className="eg-text">
 									<span className="required">*</span> Example:
-									seniortutor@gmail.com
+									assemblyman@gmail.com
 								</p>
 								<ErrorMessage name="email" render={renderError} />
 							</div>
@@ -139,55 +118,52 @@ export default function Editsnrtutors(props) {
 							<div className="col-md-6 col-sm-12">
 								<Field
 									as="select"
+									name="isCurrent"
 									className="form-select"
-									placeholder="Zones"
-									name="zone"
+									aria-label="Default select example"
 								>
-									<option value=""> select zone</option>
-									{zones &&
-										zones.map((item) => (
-											<option key={item._id} value={item._id}>
-												{item.name}
-											</option>
-										))}
+									<option>Select Status</option>
+									<option value={true}>Current</option>
+									<option value={false}>Past</option>
 								</Field>
 								<p className="eg-text">
 									{" "}
-									<span className="required">*</span> Example: Ayeduase-North
+									<span className="required">*</span> Example: Current
 								</p>
-								<ErrorMessage name="zone" render={renderError} />
-							</div>
-							<div className="row mt-3">
-								<div className="col-md-6 col-sm-12">
-									{tutor && tutor.image ? (
-										<img
-											src={`${url}/snr-tutors/${tutor.image}`}
-											className="img-fluid"
-											alt="..."
-											style={{ width: 300, height: 250 }}
-										/>
-									) : (
-										<img
-											src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
-											className="img-fluid"
-											alt="..."
-											style={{ width: 300, height: 250 }}
-										/>
-									)}
-								</div>
-								<div className="col-md-6 col-sm-12">
-									<label>Load Profile Image</label>
-									<input
-										type="file"
-										className="form-control"
-										onChange={(e) => {
-											setFieldValue("image", e.currentTarget.files[0]);
-										}}
-									/>
-									<ErrorMessage name="image" render={renderError} />
-								</div>
+								<ErrorMessage name="isCurrent" render={renderError} />
 							</div>
 						</div>
+						<div className="row mt-3">
+							<div className="col-md-6 col-sm-12">
+								{aMember && aMember.image ? (
+									<img
+										src={`${url}/nss-personnels/${aMember.image}`}
+										className="img-fluid"
+										alt="..."
+										style={{ width: 300, height: 250 }}
+									/>
+								) : (
+									<img
+										src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
+										className="img-fluid"
+										alt="..."
+										style={{ width: 300, height: 250 }}
+									/>
+								)}
+							</div>
+							<div className="col-md-6 col-sm-12">
+								<label>Load Profile Image</label>
+								<input
+									type="file"
+									className="form-control"
+									onChange={(e) => {
+										setFieldValue("image", e.currentTarget.files[0]);
+									}}
+								/>
+								<ErrorMessage name="image" render={renderError} />
+							</div>
+						</div>
+
 						<div className="mt-3">
 							<button type="submit" className="btn is-primary">
 								Submit

@@ -1,43 +1,39 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import AxiosInstance from "../../utils/AxiosInstance";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
-import AxiosInstance from "../../utils/AxiosInstance";
+import { useNavigate } from "react-router-dom";
 
-export default function EditNationalMp(props) {
-	const { slug } = useParams();
-	const [nmp, setNmps] = useState();
-	const url = `${process.env.REACT_APP_API_URL}/images`;
+export default function AddAssemblyMem(props) {
+	const [zones, setZones] = useState([]);
+	const navigate = useNavigate();
 	useEffect(() => {
-		const fetchNationalMps = async () => {
+		const fetchZones = async () => {
 			const res = await AxiosInstance({
 				method: "get",
-				url: `/api/v1/senior-tutors/${slug}`,
+				url: `${process.env.REACT_APP_API_URL}/api/v1/zones`,
 			});
-			setNmps(res.data.data);
+			setZones(res.data.data);
 		};
-
-		!nmp && fetchNationalMps();
-	}, []);
+		fetchZones();
+	});
 
 	const validationSchema = Yup.object({
-		name: Yup.string().required("Residence is Required"),
+		name: Yup.string().required("Name is Required"),
 		email: Yup.string()
 			.email("TextField must be an Email")
 			.required("Senior Tutor's email is required"),
 		contact: Yup.string().required("Contact is required"),
-		isCurrent: Yup.boolean().nullable(),
+		// zone: Yup.string().required("Zone is required"),
 		image: Yup.string().nullable(),
 	});
 
 	const initialValues = {
-		name: nmp && (nmp.name ?? ""),
-		email: nmp && (nmp.email ?? ""),
-		contact: nmp && (nmp.contact ?? ""),
-		zone: nmp && (nmp.zone._id ?? ""),
-		image: nmp && (nmp.image ?? ""),
+		name: "",
+		email: "",
+		contact: "",
+		image: "",
 	};
 	const onSubmit = async (values) => {
 		console.log(values);
@@ -45,17 +41,23 @@ export default function EditNationalMp(props) {
 		formData.append("name", values.name);
 		formData.append("email", values.email);
 		formData.append("contact", values.contact);
-		formData.append("isCurrent", values.isCurrent);
+		formData.append("zone", values.zone);
 		formData.append("image", values.image);
 
-		const res = await axios({
-			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/senior-tutors${slug}`,
+		console.log(formData.entries());
+
+		const res = await AxiosInstance({
+			method: "post",
+			url: `/api/v1/assembly-members`,
 			headers: {
+				"Content-Type": "multipart/form-data",
 				accept: "application/json",
 			},
 			data: formData,
 		});
+		if (res.data.status === "success") {
+			navigate("/admin/assembly-members");
+		}
 	};
 
 	return (
@@ -80,7 +82,8 @@ export default function EditNationalMp(props) {
 									name="name"
 								/>
 								<p className="eg-text">
-									<span className="required">*</span> Example: Nana Adoma
+									<span className="required">*</span> Example: Hon. Akwasi
+									Arthur
 								</p>
 								<ErrorMessage name="name" render={renderError} />
 							</div>
@@ -93,7 +96,7 @@ export default function EditNationalMp(props) {
 								/>
 								<p className="eg-text">
 									<span className="required">*</span> Example:
-									seniortutor@gmail.com
+									assemblyMember@gmail.com
 								</p>
 								<ErrorMessage name="email" render={renderError} />
 							</div>

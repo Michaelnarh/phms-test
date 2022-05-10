@@ -1,4 +1,4 @@
-const AreaMP = require("../Models/areaMPModel");
+const AssemblyMember = require("../Models/assemblyMemModel");
 const AppError = require("../utils/AppError");
 const fs = require("fs");
 const multer = require("multer");
@@ -22,7 +22,7 @@ exports.resizeImage = async (req, res, next) => {
 	const slug = await slugify(req.body.name, { lower: true });
 	req.body.slug = slug;
 	const profile_image = `profile-${slug}-${Date.now()}.jpeg`;
-	let dir = `public/images/area-mps`;
+	let dir = `public/images/assembly-members`;
 
 	if (!fs.existsSync(dir)) {
 		fs.mkdirSync(dir);
@@ -48,14 +48,14 @@ const upload = multer({
 //upload profile image.
 exports.uploadImage = upload.single("image");
 
-//create new AreaMP
-exports.createAreaMP = async (req, res) => {
+//create new AssemblyMember
+exports.createAssemblyMem = async (req, res) => {
 	try {
 		req.body.slug = await slugify(req.body.name, { lower: true });
-		const areaMP = await AreaMP.create(req.body);
+		const assemblyMem = await AssemblyMember.create(req.body);
 		res.status(201).json({
 			status: "success",
-			areaMP,
+			assemblyMem,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -65,17 +65,20 @@ exports.createAreaMP = async (req, res) => {
 	}
 };
 
-//update info on a AreaMP
-exports.updateAreaMP = async (req, res) => {
+//update info on a AssemblyMember
+exports.updateAssemblyMem = async (req, res) => {
 	if (!req.params.id) {
-		throw Error("AreaMP  not identified");
+		throw Error("AssemblyMember  not identified");
 	}
 	try {
 		req.body.slug = await slugify(req.body.name, { lower: true });
-		const areaMP = await AreaMP.findByIdAndUpdate(req.params.id, req.body);
+		const assemblyMem = await AssemblyMember.findByIdAndUpdate(
+			req.params.id,
+			req.body
+		);
 		res.status(201).json({
 			status: "success",
-			data: areaMP,
+			data: assemblyMem,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -85,16 +88,15 @@ exports.updateAreaMP = async (req, res) => {
 	}
 };
 
-// get ad particular AreaMP
-exports.getAreaMP = async (req, res) => {
+// get ad particular AssemblyMember
+exports.getAssemblyMem = async (req, res) => {
 	try {
-		const areaMP = await AreaMP.findOne({ slug: req.params.slug }).populate([
-			"zone",
-			"tutor",
-		]);
+		const assemblyMem = await AssemblyMember.findOne({
+			slug: req.params.slug,
+		});
 		res.status(200).json({
 			status: "success",
-			data: areaMP,
+			data: assemblyMem,
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -105,9 +107,9 @@ exports.getAreaMP = async (req, res) => {
 };
 
 //get all AreaMPs
-exports.getAllAreaMP = async (req, res) => {
+exports.getAllAssemblyMem = async (req, res) => {
 	try {
-		const areaMP = await AreaMP.find().populate("zone").populate("tutor");
+		const areaMP = await AssemblyMember.find();
 		res.status(200).json({
 			status: "success",
 			data: areaMP,
@@ -120,16 +122,17 @@ exports.getAllAreaMP = async (req, res) => {
 	}
 };
 
-//delete a AreaMP
-exports.deleteAreaMP = async (req, res, next) => {
+//delete an AssemblyMember
+exports.deleteAssemblyMem = async (req, res, next) => {
 	try {
-		const areaMP_id = req.params.id;
-		if (!areaMP_id) throw new Error("AreaMP id is required for this operation");
-		const areaMP = await AreaMP.findById(areaMP_id);
-		await AreaMP.findByIdAndDelete(areaMP_id);
+		const assemblyMem_id = req.params.id;
+		if (!assemblyMem_id)
+			throw new Error("AssemblyMember id is required for this operation");
+		const assemblyMem = await AssemblyMember.findById(assemblyMem_id);
+		await AssemblyMember.findByIdAndDelete(assemblyMem_id);
 		res.status(200).json({
 			status: "success",
-			message: `AreaMP records of  ${areaMP.name} is deleted successfully`,
+			message: `AssemblyMember records of  ${assemblyMem.name} is deleted successfully`,
 		});
 	} catch (err) {
 		res.status(400).json({

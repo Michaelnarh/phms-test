@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Residence = require("./residenceModel");
 const Location = require("./locationModel");
 const Tutor = require("./seniorTutorModel");
-const AreaMp = require("./areaMPModel");
+const StudentMp = require("./studentMPModel");
 const uniqueValidator = require("mongoose-unique-validator");
 const ZoneSchema = mongoose.Schema({
 	name: {
@@ -52,7 +52,7 @@ ZoneSchema.pre("remove", function (next) {
 	Residence.remove({ zone: this._id });
 	Location.remove({ zone: this._id });
 	Tutor.remove({ zone: this._id });
-	AreaMp.remove({ zone: this._id });
+	StudentMp.remove({ zone: this._id });
 	next();
 });
 

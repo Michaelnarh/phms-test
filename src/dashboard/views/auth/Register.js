@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { renderError } from "../../utils/ModuleFunctions";
 import { AuthService } from "../../../services/AuthService";
 
@@ -30,8 +28,6 @@ export default function Register(props) {
 		passwordConfirm: "",
 		role: "",
 	};
-
-	const renderError = (message) => <p className="text-danger">{message}</p>;
 
 	const handleSubmit = async (values) => {
 		alert(JSON.stringify(process.env.REACT_APP_API_URL));

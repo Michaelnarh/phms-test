@@ -1,6 +1,5 @@
 import React from "react";
 import {
-	FaUser,
 	FaHome,
 	FaUserCheck,
 	FaSignal,
@@ -98,6 +97,27 @@ export const SideBarItems = [
 			icon: <FaPlus size={10} color="var(--mainWhite)" />,
 		},
 	},
+
+	{
+		name: "Student MPs",
+		href: "student-mps",
+		icon: <IoIosPerson size={20} color="var(--mainWhite)" />,
+		children: {
+			name: "Add Area-Mp",
+			href: "student-mps/add",
+			icon: <FaPlus size={10} color="var(--mainWhite)" />,
+		},
+	},
+	{
+		name: "Assembly Memb.",
+		href: "assembly-members",
+		icon: <IoIosStar size={20} color="var(--mainWhite)" />,
+		children: {
+			name: "Add A. Member",
+			href: "assembly-members/add",
+			icon: <FaPlus size={10} color="var(--mainWhite)" />,
+		},
+	},
 	{
 		name: "NSS Personnels",
 		href: "nss-personnels",
@@ -105,26 +125,6 @@ export const SideBarItems = [
 		children: {
 			name: "Add Personnel",
 			href: "nss-personnels/add",
-			icon: <FaPlus size={10} color="var(--mainWhite)" />,
-		},
-	},
-	{
-		name: "Area MPs",
-		href: "area-mps",
-		icon: <IoIosPerson size={20} color="var(--mainWhite)" />,
-		children: {
-			name: "Add Area-Mp",
-			href: "area-mps/add",
-			icon: <FaPlus size={10} color="var(--mainWhite)" />,
-		},
-	},
-	{
-		name: "National MPs",
-		href: "national-mp",
-		icon: <IoIosStar size={20} color="var(--mainWhite)" />,
-		children: {
-			name: "Add Hostel",
-			href: "national-mp/add",
 			icon: <FaPlus size={10} color="var(--mainWhite)" />,
 		},
 	},

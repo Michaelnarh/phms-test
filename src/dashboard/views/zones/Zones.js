@@ -27,7 +27,7 @@ export default function Zones(props) {
 				setZones(res.data.data);
 				setIsLoading(false);
 			} catch (err) {
-				if (err.response.data.message) {
+				if (err?.response?.data?.message) {
 					toast.error(err.response.data.message, { position: "top-center" });
 				}
 			}

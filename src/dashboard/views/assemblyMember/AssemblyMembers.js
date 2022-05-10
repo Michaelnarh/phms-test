@@ -2,35 +2,35 @@ import React, { useEffect, useState } from "react";
 import Divisiontitle from "../DivisionTitle";
 import { useNavigate } from "react-router-dom";
 import AxiosInstance from "../../utils/AxiosInstance";
-export default function NationalMps(props) {
+export default function AssemblyMembers(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
-	const [nmps, setNmps] = useState([]);
+	const [aMembers, setAMembers] = useState([]);
 	const navigate = useNavigate();
 	useEffect(() => {
-		const fetchNationalMps = async () => {
+		const fetchAssemblyMembers = async () => {
 			const res = await AxiosInstance({
 				method: "get",
-				url: `/api/v1/senior-tutors`,
+				url: `/api/v1/assembly-members`,
 				headers: {
 					"Content-Type": "application/json",
 				},
 			});
-			setNmps(res.data.data);
+			setAMembers(res.data.data);
 		};
-		fetchNationalMps();
+		fetchAssemblyMembers();
 	}, []);
 
 	return (
 		<>
 			<div className="page-container mt-3">
-				<Divisiontitle title="CURRENT SENIOR TUTORS" />
+				<Divisiontitle title="CURRENT ASSEMBLY MEMBERS" />
 				<div className="tutors-flex">
-					{nmps.map((item) => {
+					{aMembers.map((item) => {
 						return (
 							<div key={item._id} className="tutors-card">
 								{item.image ? (
 									<img
-										src={`${url}/snr-tutors/${item.image}`}
+										src={`${url}/assembly-members/${item.image}`}
 										className="img-fluid"
 										alt="..."
 										style={{ width: 300, height: 250 }}
@@ -51,7 +51,9 @@ export default function NationalMps(props) {
 								</div>
 
 								<button
-									onClick={() => navigate(`/admin/snr-tutors/${item.slug}`)}
+									onClick={() =>
+										navigate(`/admin/assembly-members/${item.slug}`)
+									}
 									className="btn form-control"
 								>
 									{" "}
@@ -63,9 +65,9 @@ export default function NationalMps(props) {
 				</div>
 				<hr />
 				<div>
-					<Divisiontitle title="PAST SENIOR TUTORS" />
+					<Divisiontitle title="PAST ASSEMBLY MEMBERS" />
 					<div className="tutors-flex">
-						{nmps
+						{aMembers
 							.filter((person) => !person.isCurrent)
 							.map((item) => {
 								return (

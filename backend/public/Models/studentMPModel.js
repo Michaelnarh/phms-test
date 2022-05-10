@@ -2,7 +2,7 @@ const mongooose = require("mongoose");
 const { Schema } = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
-const mpSchema = mongooose.Schema({
+const studentMpSchema = mongooose.Schema({
 	name: { type: String, required: [true, "Name field is required"] },
 	email: {
 		type: String,
@@ -10,10 +10,12 @@ const mpSchema = mongooose.Schema({
 		unique: true,
 	},
 	contact: { type: String },
-	academicYear: { type: String },
 	isCurrent: { type: Boolean, default: true },
+	zone: { type: Schema.Types.ObjectId, ref: "Zone" },
+	tutor: { type: Schema.Types.ObjectId, ref: "SeniorTutor" },
 	image: { type: String },
+	slug: { type: String },
 });
 
-mpSchema.plugin(uniqueValidator);
-module.exports = mongooose.model("MP", mpSchema);
+studentMpSchema.plugin(uniqueValidator);
+module.exports = mongooose.model("StudentMP", studentMpSchema);

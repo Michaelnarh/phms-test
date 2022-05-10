@@ -74,23 +74,31 @@ export default function HelpDesk(props) {
 					</svg> */}
 				</div>
 				<div className="contact-card">
-					<MdCall color="#ccc" size={50} />
-					<h2>Get In Touch</h2>
-					<p>
-						<span> Dr. James Osei Mensah </span>0577877202
-					</p>
-					<p>
-						<span> Prince Ben-Smith </span>0577877202
-					</p>
-					<p>
-						<span> Dr. James Osei Mensah </span>0577877202
-					</p>
-					<p>
-						<span> Dr. James Osei Mensah </span>0577877202
-					</p>
-					<p>
-						<span> Dr. James Osei Mensah </span>0577877202
-					</p>
+					<div className="d-flex mb-5">
+						<MdCall color="#ccc" size={50} />
+						<h2>Get In Touch</h2>
+					</div>
+
+					<div className="contact-center">
+						<div>
+							<div className="contact-list">
+								<p className="contact-list-left">Dr. James Osei Mensah</p>
+								<p className="contact-list-right">0577877202 </p>
+							</div>
+						</div>
+						<div>
+							<div className="contact-list">
+								<p className="contact-list-left">Dr. James Osei Mensah</p>
+								<p className="contact-list-right">0577877202 </p>
+							</div>
+						</div>
+						<div>
+							<div className="contact-list">
+								<p className="contact-list-left">Dr. James Osei Mensah</p>
+								<p className="contact-list-right">0577877202 </p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</>

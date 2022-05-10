@@ -359,7 +359,7 @@ hostel and homestel images
 	flex-wrap: wrap;
 }
 .warning-box{
-	border: 2px solid #0a6e23;
+	border: 2px solid #adb7b0;
 }
 .warning-text{
 	font-size: 20px;
@@ -397,15 +397,37 @@ hostel and homestel images
 .contact-card{
 	padding:20px;
 	position: relative;
-	background-color: #fff;
+	background-color: rgb(3, 66, 28);
+	border-radius: 5px;
 	margin-top: 30px;
 	width: 550px;
 	height: auto;
-	box-shadow: var(--darkShadow);
+	box-shadow: var(--lightShadow);
 	margin-left: 60px;
 
 
 }
+.contact-list{
+	display: flex;
+	justify-items: center;
+	align-items: center;
+	/* justify-content: center; */
+	justify-content: space-between;
+	color:rgb(224, 219, 219);
+	font-weight: 500;
+}
+.contact-list-right{
+	/* flex:50%; */
+	
+}
+.contact-list-left{
+	/* flex:50%; */
+}
+.contact-center{
+	color:#e5e5e5;
+}
+
+
 /* .svg-banner{
 	position: absolute;
 	right: 0;
@@ -475,7 +497,7 @@ hostel and homestel images
 		height: 30%;
 	}
 	.warning-box{
-		border: 1px solid #0a6e23;
+		/* border: 1px solid; */
 	}
 	.warning-text{
 		font-size: 12px;

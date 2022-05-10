@@ -7,7 +7,7 @@ const cookie = new Cookie();
 export class AuthService {
 	Login = async (payload) => {
 		try {
-			const res = await AxiosInstance({
+			const res = await axios({
 				method: "post",
 				withCredentials: true,
 				credentials: "include",
@@ -22,7 +22,6 @@ export class AuthService {
 				localStorage.setItem("jwt", res.data?.token);
 				cookie.set("jwt", res.data?.token);
 				localStorage.setItem("user", JSON.stringify(res.data?.user));
-				console.log("success");
 				localStorage.setItem("dumb", res.data?.user?._id);
 				console.log("login successful");
 				window.location.assign("/admin/dashboard");
