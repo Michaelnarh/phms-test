@@ -34,12 +34,13 @@ const Reports = () => {
 				},
 			});
 			setReports(res.data.data);
+			setIsLoading(false);
 			console.log(res.data);
 		};
 
 		!reports && fetchReports();
 
-		const timer = setTimeout(() => fetchData(), 2000);
+		const timer = setTimeout(() => fetchData(), 1000);
 
 		return () => clearTimeout(timer);
 	}, [reports]);

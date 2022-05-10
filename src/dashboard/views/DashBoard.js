@@ -87,6 +87,7 @@ export default function Dashboard(props) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [data, setData] = useState({});
 	const [reports, setReports] = useState();
+
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchData = async () => {
@@ -100,6 +101,7 @@ export default function Dashboard(props) {
 			setData(res.data.data);
 			setIsLoading(false);
 			toast.success("You are welcome");
+			console.log(res.data);
 		};
 		const fetchReports = async () => {
 			const res = await AxiosInstance({
@@ -114,8 +116,11 @@ export default function Dashboard(props) {
 		};
 
 		!reports && fetchReports();
+		// fetchData();
 
-		const timer = setTimeout(() => fetchData(), 2000);
+		const timer = setTimeout(() => {
+			fetchData();
+		}, 2000);
 
 		return () => clearTimeout(timer);
 	}, [reports]);
@@ -124,7 +129,7 @@ export default function Dashboard(props) {
 			<div className=" page-container mt-3 mb-3  ">
 				<Toptitle page="Home" />
 				{isLoading ? (
-					<CustomSpinner type="hash" />
+					<CustomSpinner isLoading={isLoading} type="hash" />
 				) : (
 					<div className="card">
 						<ToastContainer style={{ marginTop: 90 }} className="top-margin" />

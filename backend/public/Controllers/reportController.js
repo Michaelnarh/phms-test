@@ -584,90 +584,104 @@ exports.geRegisteredResidences = async (req, res) => {
 
 exports.getRegisteredNumber = async (req, res) => {
 	try {
-		const academic_year = await AcademicYear.find().sort({ _id: -1 }).limit(1);
-
-		const currentRegistered = await RegistrationTable.find({
-			academicYear: { _id: `${academic_year[0]?._id}` },
-			status: 1,
-		})
-			.populate({ path: "addedBy" })
-			.populate({
-				path: "residence",
-				populate: { path: "location", populate: { path: "zone" } },
-			});
-		let hostelArray = [];
-		currentRegistered.forEach((el) => {
-			const data = {
-				_id: el?._id,
-				residenceType: el?.residence?.residenceType,
-				portersName: el?.residence?.portersName,
-				managersName: el?.residence?.managersName,
-				owners: el?.residence?.ownersCount,
-				name: el?.residence?.name,
-				location: el?.residence?.location?.name,
-				date: el.createdAt || el?.updatedAt,
-				addedBy: el?.addedBy?.username,
-				zone: el?.residence?.location?.zone?.name,
-			};
-
-			hostelArray.push(data);
-		});
-
-		const sortBy = new SortBy(hostelArray);
-		const results = sortBy.byName().byZone();
-
-		// push object arry of the owners details
-
 		let residencesCount = 0;
 		let hostelsCount = 0;
 		let homestelsCount = 0;
 		let managersCount = 0;
 		let portersCount = 0;
 		let ownersCount = 0;
-		results.arr.forEach((el, i) => {
-			residencesCount++;
-			if (el.residenceType === "Hostel") {
-				hostelsCount++;
-			}
-			if (el.residenceType === "Homestel") {
-				homestelsCount++;
-			}
-			if (el.portersName) {
-				portersCount++;
-			}
-			if (el.managersName) {
-				managersCount++;
-			}
-			if (el.ownersName) {
-				ownersCount++;
-			}
 
-			// const data = [
-			// 	i + 1,
-			// 	el.name,
-			// 	el.residenceType,
-			// 	el.location,
-			// 	myFormat(el.date, " mmmm dS, yyyy,"),
-			// 	el.addedBy,
-			// 	el?.zone,
-			// ];
+		const academic_year = await AcademicYear.find().sort({ _id: -1 }).limit(1);
+		if (academic_year.length === 0) {
+			res.status(200).json({
+				status: "success",
+				data: {
+					hostelsCount: hostelsCount,
+					homestelsCount: homestelsCount,
+					residencesCount: residencesCount,
+					ownersCount: ownersCount,
+					managersCount: managersCount,
+					portersCount: portersCount,
+				},
+			});
+		} else {
+			const currentRegistered = await RegistrationTable.find({
+				academicYear: { _id: `${academic_year[0]?._id}` },
+				status: 1,
+			})
+				.populate({ path: "addedBy" })
+				.populate({
+					path: "residence",
+					populate: { path: "location", populate: { path: "zone" } },
+				});
+			let hostelArray = [];
+			currentRegistered.forEach((el) => {
+				const data = {
+					_id: el?._id,
+					residenceType: el?.residence?.residenceType,
+					portersName: el?.residence?.portersName,
+					managersName: el?.residence?.managersName,
+					owners: el?.residence?.ownersCount,
+					name: el?.residence?.name,
+					location: el?.residence?.location?.name,
+					date: el.createdAt || el?.updatedAt,
+					addedBy: el?.addedBy?.username,
+					zone: el?.residence?.location?.zone?.name,
+				};
 
-			// tableArray.push(data);
-		});
+				hostelArray.push(data);
+			});
 
-		res.status(200).json({
-			status: "success",
-			data: {
-				hostelsCount: hostelsCount,
-				homestelsCount: homestelsCount,
-				residencesCount: residencesCount,
-				ownersCount: managersCount,
-				managersCount: managersCount,
-				portersCount: portersCount,
-			},
-		});
+			const sortBy = new SortBy(hostelArray);
+			const results = sortBy.byName().byZone();
+
+			// push object arry of the owners details
+
+			results.arr.forEach((el, i) => {
+				residencesCount++;
+				if (el.residenceType === "Hostel") {
+					hostelsCount++;
+				}
+				if (el.residenceType === "Homestel") {
+					homestelsCount++;
+				}
+				if (el.portersName) {
+					portersCount++;
+				}
+				if (el.managersName) {
+					managersCount++;
+				}
+				if (el.ownersName) {
+					ownersCount++;
+				}
+
+				// const data = [
+				// 	i + 1,
+				// 	el.name,
+				// 	el.residenceType,
+				// 	el.location,
+				// 	myFormat(el.date, " mmmm dS, yyyy,"),
+				// 	el.addedBy,
+				// 	el?.zone,
+				// ];
+
+				// tableArray.push(data);
+			});
+
+			res.status(200).json({
+				status: "success",
+				data: {
+					hostelsCount: hostelsCount,
+					homestelsCount: homestelsCount,
+					residencesCount: residencesCount,
+					ownersCount: ownersCount,
+					managersCount: managersCount,
+					portersCount: portersCount,
+				},
+			});
+		}
 	} catch (err) {
-		res.status(401).json({
+		res.status(400).json({
 			status: "error",
 			message: err.message,
 		});

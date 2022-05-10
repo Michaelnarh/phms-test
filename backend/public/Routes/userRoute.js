@@ -9,7 +9,7 @@ router.post(
 	authController.SignUp
 );
 router.post("/login", authController.LogIn);
-router.post("/login-user-student/:ref_num", authController.student);
+// router.post("/login-user-student/:ref_num", authController.student);
 
 router
 	.route("/")

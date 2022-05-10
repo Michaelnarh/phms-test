@@ -7,7 +7,7 @@ class AuthStore {
 		makeAutoObservable(this);
 	}
 
-	token = cookie.get("jwt");
+	token = cookie.get("jwt") || localStorage.getItem("jwt");
 	id = localStorage.getItem("dumb");
 	isLoggedIn = false;
 	isAdmin = false;

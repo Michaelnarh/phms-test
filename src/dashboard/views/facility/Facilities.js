@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
-import axios from "axios";
 import AxiosInstance from "../../utils/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import CustomSpinner from "../../utils/CustomSpinner";

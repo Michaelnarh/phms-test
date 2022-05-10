@@ -32,7 +32,10 @@ export default function Zones(props) {
 				}
 			}
 		};
-		const timer = setTimeout(() => fetchZones(), 2000);
+		const timer = setTimeout(() => {
+			fetchZones();
+			setIsLoading(false);
+		}, 2000);
 
 		return () => clearTimeout(timer);
 	}, [page, limit]);

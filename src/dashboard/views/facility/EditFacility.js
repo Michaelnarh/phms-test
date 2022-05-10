@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
-import axios from "axios";
 import { renderError } from "../../utils/ModuleFunctions";
 import AxiosInstance from "../../utils/AxiosInstance";
 import { Formik, Form, Field, ErrorMessage } from "formik";
