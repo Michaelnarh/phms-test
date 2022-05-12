@@ -48,6 +48,10 @@ app.use("/images", express.static("images"));
 // express-mongo-sanitize
 //cookie-parser
 
+app.get("/", (req, res) => {
+	res.send("hello i am hosted");
+});
+
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/residences", residenceRouter);
 app.use("/api/v1/facilities", facilityRouter);

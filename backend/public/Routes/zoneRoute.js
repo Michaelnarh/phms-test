@@ -10,16 +10,7 @@ router
 		authController.restrictTo("admin", "superAdmin", "supervisor"),
 		zoneController.createZone
 	)
-	.get(
-		authController.protected,
-		authController.restrictTo(
-			"admin",
-			"maintainer",
-			"superAdmin",
-			"supervisor"
-		),
-		zoneController.getAllZones
-	);
+	.get(authController.protected, zoneController.getAllZones);
 
 router
 	.route("/:id")

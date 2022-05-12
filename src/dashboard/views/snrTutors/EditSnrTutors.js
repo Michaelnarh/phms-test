@@ -29,10 +29,10 @@ export default function Editsnrtutors(props) {
 			setTutor(res.data.data);
 		};
 		!tutor && fetchTutor();
-		if (zones.length === 0) {
-			fetchZones();
-		}
-	});
+		fetchZones();
+		// if (zones.length === 0) {
+		// }
+	}, [tutor, slug]);
 
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Residence is Required"),

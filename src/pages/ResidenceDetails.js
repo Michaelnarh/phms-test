@@ -207,9 +207,22 @@ export default function Hosteldetails(props) {
 							</div>
 							<div className="col-md-6">
 								{/* <MapComponent isMarkerShown={true} /> */}
+								{/* {residence && (
+									<button className=" btn p-3 my-3">
+										<a
+											rel="noopener noreferrer"
+											style={{ color: "#fff" }}
+											href={`http://${residence?.bookingLink}`}
+											target="_blank"
+										>
+											Direction Link
+										</a>
+									</button>
+								)} */}
 								<div>
 									{residence?.gpsAddress?.coordinates[0] && (
 										<Iframe
+											name={residence?.name}
 											lat={residence?.gpsAddress?.coordinates[1]}
 											lng={residence?.gpsAddress?.coordinates[0]}
 										/>

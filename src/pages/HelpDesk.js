@@ -88,7 +88,10 @@ export default function HelpDesk(props) {
 						</div>
 						<div>
 							<div className="contact-list">
-								<p className="contact-list-left">Dr. James Osei Mensah</p>
+								<p className="contact-list-left">
+									{" "}
+									Hon. Christopher Nartey Mensah
+								</p>
 								<p className="contact-list-right">0577877202 </p>
 							</div>
 						</div>

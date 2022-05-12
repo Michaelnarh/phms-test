@@ -29,8 +29,10 @@ export default function Navbar(props) {
 			<nav className="sticky-navbar">
 				<div className="nav-flex">
 					<ul>
-						<img src={Logo} alt="..." style={{ width: 40, height: 50 }} />
-						KNUST PHMS
+						<NavLink style={{ color: "ButtonText" }} to="/">
+							<img src={Logo} alt="..." style={{ width: 40, height: 50 }} />
+							KNUST PHMS
+						</NavLink>
 					</ul>
 					<ul className="nav-inline-flex">
 						<li>

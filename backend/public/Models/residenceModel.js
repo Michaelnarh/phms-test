@@ -34,6 +34,7 @@ const residenceSchema = mongoose.Schema({
 		description: String,
 	},
 	distance: { type: String },
+	directionLink: { type: String },
 	roomsTotal: { type: Number },
 	totalBedspaces: { type: Number },
 	maleCapacity: { type: Number },
