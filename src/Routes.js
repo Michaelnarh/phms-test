@@ -78,7 +78,7 @@ import NotFoundPage from "./dashboard/views/404Page";
 
 // import of public routes
 import Layout from "./Layout";
-import Home from "./pages/Home";
+import Home from "./Home";
 import Uhostels from "./pages/Hostels";
 import Uhomestels from "./pages/Homestels";
 import ResidenceDetails from "./pages/ResidenceDetails";
