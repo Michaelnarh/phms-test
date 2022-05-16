@@ -22,7 +22,7 @@ router
 	.route("/:id")
 	.get(
 		authController.protected,
-		authController.restrictTo("admin", "superAdmin", "supervisor"),
+		authController.restrictTo("admin", "superAdmin"),
 		authController.getUser
 	);
 

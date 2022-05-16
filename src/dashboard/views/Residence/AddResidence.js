@@ -125,7 +125,7 @@ export default function Addhostel(props) {
 		});
 
 		try {
-			const res = await AxiosInstance({
+			await AxiosInstance({
 				method: "post",
 				url: `/api/v1/residences`,
 				headers: {
@@ -138,8 +138,16 @@ export default function Addhostel(props) {
 			values.coverImage = "";
 			navigate("/admin/residences");
 		} catch (err) {
-			if (err?.data?.response) {
-				toast.error(err.data?.response?.message, { position: "top-center" });
+			console.log("logged Error", err?.response?.data?.message);
+			if (err?.response.data?.message) {
+				if (err?.response?.data?.message.startsWith("Can't extract")) {
+					toast.error(
+						"Please provide a correct coodinates for the Longitude and the Latitude",
+						{ position: "top-center" }
+					);
+				} else {
+					toast.error(err?.response?.data?.message, { position: "top-center" });
+				}
 			}
 		}
 	};
@@ -147,7 +155,7 @@ export default function Addhostel(props) {
 	return (
 		<>
 			<div className="container">
-				<ToastContainer className="top-margin" />
+				{/* <ToastContainer className="top-margin" /> */}
 				<FormStepper
 					initialValues={initialValues}
 					onSubmit={async (values, resetForm) => {
@@ -366,7 +374,7 @@ export default function Addhostel(props) {
 						<div className="row mt-3">
 							<div className="col-md-6 col-sm-12">
 								<label>
-									<b>Manger's Name</b>
+									<b>Manager's Name</b>
 								</label>
 								<Field
 									type="text"
@@ -549,7 +557,7 @@ export default function Addhostel(props) {
 								/>
 							</div>
 
-							<div className="col-md-6 col-sm-12 ">
+							<div className="col-md-6 col-sm-12 my-3 ">
 								<label>
 									<b>Type of Residence Class</b>
 								</label>
@@ -619,7 +627,7 @@ export function FormikStep({ children }) {
 export function FormStepper({ children, ...props }) {
 	const childrenArray = React.Children.toArray(children);
 	const [step, setStep] = useState(0);
-	const [isSubmitting, setSubmit] = useState(false);
+	// const [isSubmitting, setSubmit] = useState(false);
 	// const [completed, setCompleted] = useState(false);
 	const currentChild = childrenArray[step];
 
@@ -640,7 +648,7 @@ export function FormStepper({ children, ...props }) {
 			}}
 		>
 			<Form>
-				<ToastContainer />
+				<ToastContainer className="top-margin" />
 				{currentChild}
 
 				{step > 0 ? (
@@ -648,14 +656,14 @@ export function FormStepper({ children, ...props }) {
 						type="button"
 						style={{ marginRight: 12 }}
 						onClick={() => setStep((s) => s - 1)}
-						className="btn px-3 py-2"
+						className="btn mb-5 px-3 py-2"
 					>
 						Back
 					</button>
 				) : (
 					""
 				)}
-				<button type="submit" className="btn  py-2 px-3">
+				<button type="submit" className="btn mb-5  py-2 px-3">
 					{isLastPage() ? "Submit" : "Next"}
 				</button>
 			</Form>

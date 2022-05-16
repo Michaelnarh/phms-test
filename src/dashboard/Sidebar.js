@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { MdSettings } from "react-icons/md";
 import { SideBarItems } from "./Data-items";
@@ -19,11 +19,11 @@ function Sidebar(props) {
 		if (id && jwt) {
 			const fetchUser = async () => {
 				try {
-					const res = await authService.getUser(id);
+					await authService.getUser(id);
 
 					console.log(user);
 				} catch (err) {
-					console.log(err);
+					console.log(err.message);
 				}
 			};
 

@@ -17,7 +17,7 @@ export default function AddAssemblyMem(props) {
 			setZones(res.data.data);
 		};
 		fetchZones();
-	});
+	}, []);
 
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Name is Required"),

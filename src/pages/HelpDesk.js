@@ -9,13 +9,16 @@ export default function HelpDesk(props) {
 			<div className="container mt-5">
 				<div className="row">
 					<div className="col-md-4 col-lg-4 col-sm-12">
-						<img src={helpDesk} className="img-fluid" alt="...." />
+						<img src={helpDesk} width={150} className="img-fluid" alt="...." />
 					</div>
 					<div className="col-md-8 col-lg-8 col-sm-12">
-						<p>
-							Quick access to the information about Fire Service
-							Hotlines,Chaplaincy Hotline, Counselling Hotlines, Hospital Call
-							lines and Ghana Police Service
+						<h3 className="help-desk-caption">Quick access to information</h3>
+						<p className="text-mutted">
+							Do have any challenge related to your hostel that demand the
+							following help lines? Donot hesitate, reach out to them and they
+							are willing to help in the shortest time possible. Fire Service
+							Hotlines, Chaplaincy Hotline, Counselling Hotlines, Hospital Call
+							lines and the Ghana Police Service
 						</p>
 					</div>
 				</div>
@@ -28,7 +31,7 @@ export default function HelpDesk(props) {
 								src={fireService}
 								alt="..."
 								className="img-fluid"
-								style={{ height: 80, width: 80 }}
+								style={{ height: 40, width: 40 }}
 							/>
 							<p></p>
 						</div>
@@ -42,7 +45,7 @@ export default function HelpDesk(props) {
 								src={fireService}
 								alt="..."
 								className="img-fluid "
-								style={{ height: 80, width: 80 }}
+								style={{ height: 40, width: 40 }}
 							/>
 							<p></p>
 						</div>
@@ -56,7 +59,62 @@ export default function HelpDesk(props) {
 								src={fireService}
 								alt="..."
 								className="img-fluid"
-								style={{ height: 80, width: 80 }}
+								style={{ height: 40, width: 40 }}
+							/>
+							<p></p>
+						</div>
+					</div>
+				</div>
+				<h3 className="text-center mt-5"> EXTERNAL SERVICES</h3>
+				<div className="card p-3 mt-3">
+					<div className="row mt-3">
+						<h2 className="r-name">Fire Service</h2>
+						<div className="col-md-3 p-3">
+							<img
+								src={fireService}
+								alt="..."
+								className="img-fluid"
+								style={{ height: 40, width: 40 }}
+							/>
+							<p></p>
+						</div>
+					</div>
+					<div className="row mt-3">
+						<h2 className="r-name">Tek Hospital</h2>
+						<div className="col-md-3 p-3">
+							<img
+								src={fireService}
+								alt="..."
+								className="img-fluid"
+								style={{ height: 40, width: 40 }}
+							/>
+							<p></p>
+						</div>
+					</div>
+				</div>
+				<div className="card p-3 mt-3">
+					<div className="row mt-3">
+						<h2 className="r-name">Ghana Police Service</h2>
+						<div className="col-md-3 p-3">
+							<img
+								src={fireService}
+								alt="..."
+								className="img-fluid "
+								style={{ height: 40, width: 40 }}
+							/>
+							<p></p>
+						</div>
+					</div>
+				</div>
+				<div className="card p-3 mt-3">
+					<div className="row mt-3">
+						<h2 className="r-name">ECG</h2>
+						<div className="col-md-3 p-3">
+							<img
+								src={fireService}
+								alt="..."
+								className="img-fluid"
+								style={{ height: 40, width: 40 }}
 							/>
 							<p></p>
 						</div>
@@ -76,14 +134,14 @@ export default function HelpDesk(props) {
 				<div className="contact-card">
 					<div className="d-flex mb-5">
 						<MdCall color="#ccc" size={50} />
-						<h2>Get In Touch</h2>
+						<h2 className="get-in-touch">Get In Touch</h2>
 					</div>
 
 					<div className="contact-center">
 						<div>
 							<div className="contact-list">
 								<p className="contact-list-left">Dr. James Osei Mensah</p>
-								<p className="contact-list-right">0577877202 </p>
+								<p className="contact-list-right">0577877202 / 0577877202 </p>
 							</div>
 						</div>
 						<div>

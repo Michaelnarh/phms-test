@@ -3,7 +3,6 @@ import MapComponent from "./components/MapsComponent";
 import { useNavigate, useParams } from "react-router-dom";
 import CommentsModal from "./components/CommentsModal";
 import ImageGallery from "react-image-gallery";
-import axios from "axios";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import AuthStore from "./../store/AuthStore";
 import LogInModal from "./components/auth/Login";
@@ -11,6 +10,7 @@ import Iframe from "./components/utils/Iframe";
 import { ToastContainer } from "react-toastify";
 import { Button } from "react-bootstrap";
 import { CustomButton } from "./components/stylecomponents";
+import AxiosInstance from "./components/utils/AxiosBase";
 
 export default function Hosteldetails(props) {
 	const navigate = useNavigate();
@@ -23,9 +23,9 @@ export default function Hosteldetails(props) {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const res = await axios({
+			const res = await AxiosInstance({
 				method: "get",
-				url: `${process.env.REACT_APP_API_URL}/api/v1/residences/${slug}`,
+				url: `/api/v1/residences/${slug}`,
 			});
 
 			if (res.data?.data?.coverImage) {
@@ -101,7 +101,7 @@ export default function Hosteldetails(props) {
 										</div>
 
 										<div className="col-md-6 col-lg-6 col-sm-12">
-											{residence && (
+											{residence?.bookingLink && (
 												<CustomButton className="my-3">
 													<a
 														rel="noopener noreferrer"
@@ -136,7 +136,7 @@ export default function Hosteldetails(props) {
 										</p>
 									</div>
 									<div className="text-center">
-										<h6>Constituency / Zone</h6>
+										<h6>Constituency/Zone</h6>
 										<p>
 											{residence &&
 												(residence.location

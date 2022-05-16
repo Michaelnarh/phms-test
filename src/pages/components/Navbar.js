@@ -14,6 +14,7 @@ export default function Navbar(props) {
 	const [isDropDownOpen, setDropDown] = useState(false);
 	const [isLogin, setIsLogin] = useState(false);
 	const auth = new AuthStore();
+	const user = auth.getUser();
 	const authService = new AuthService();
 	const handleLogOut = () => {
 		authService.logOut();
@@ -73,11 +74,18 @@ export default function Navbar(props) {
 							<>
 								{/* <Dropdown> */}
 								<Dropdown.Toggle
-									style={{ backgroundColr: "#ccc", color: "#ccc" }}
+									style={{
+										backgroundColr: "#ccc",
+										color: "#ccc",
+										borderRadius: "50%",
+										height: 40,
+										width: 40,
+										marginRight: 40,
+									}}
 									id="dropdown-basic"
 									onClick={() => setDropDown(!isDropDownOpen)}
 								>
-									<img
+									{/* <img
 										src={profile}
 										alt="..."
 										style={{
@@ -86,7 +94,15 @@ export default function Navbar(props) {
 											borderRadius: "50%",
 											marginRight: 14,
 										}}
-									/>
+									/> */}
+									{/* <p>K</p> */}
+									{user ? (
+										// <div className="user-circle">
+										<p className="user-text">{user.username.split("")[0]}</p>
+									) : (
+										// </div>
+										""
+									)}
 								</Dropdown.Toggle>
 								{isDropDownOpen && (
 									<div className="user-dropdown-menu">

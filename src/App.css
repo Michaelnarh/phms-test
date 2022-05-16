@@ -106,14 +106,16 @@ a {
 	font-size: 1.8rem;
 }
 .user-dropdown-menu{
- width: 100px;
+ width: 70px;
  /* he: 50px; */
  /* background-color: var(--mainWhite); */
  /* border: 1px solid var(--mainBlack); */
  /* z-index: 2; */
  /* min-width: 150px; */
  /* padding: 12px; */
- /* margin-left: 12; */
+ /* margin-right: 55px; */
+ justify-content: center;
+ font-size: small;
  position: absolute;
  overflow-x: hidden;
  z-index: 1000000;
@@ -126,6 +128,10 @@ a {
 }
 .dropdown-item:hover{
 	cursor: pointer;
+	margin-right: 20px;
+}
+.user-text{
+	text-transform: uppercase;
 }
 
 .user-area{
@@ -338,6 +344,18 @@ hostel and homestel images
 	position: relative;
 	margin-top:25;
 }
+.help-desk-caption{
+	/* font-size: 30px; */
+	font-weight: 500;
+	font-size: 25px;
+	/* word-spacing: 20px; */
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	/* font-weight: 300; */
+
+}
+.text-mutted{
+	color:#ccc;
+}
 
 .hostel-flex {
 	display: flex;
@@ -388,6 +406,15 @@ hostel and homestel images
 	border-radius: "50%";
 	padding: 10px;
 }
+.user-circle {
+	width: 40px;
+	margin: auto;
+	height: 40px;
+	font-size: 12px;
+	border-radius: 50%;
+	color: var(--mainGrey);
+	background-color: rgb(255, 136, 0);
+}
 
 .iframe-class{
 	width: 600px;
@@ -397,7 +424,7 @@ hostel and homestel images
 .contact-card{
 	padding:20px;
 	position: relative;
-	background-color: rgb(3, 66, 28);
+	background-color: rgba(9, 15, 17, 0.655);
 	border-radius: 5px;
 	margin-top: 30px;
 	width: 550px;
@@ -406,6 +433,9 @@ hostel and homestel images
 	margin-left: 60px;
 
 
+}
+.get-in-touch{
+	color:#f7f7f7;
 }
 .contact-list{
 	display: flex;
@@ -418,6 +448,7 @@ hostel and homestel images
 }
 .contact-list-right{
 	/* flex:50%; */
+
 	
 }
 .contact-list-left{
@@ -507,13 +538,22 @@ hostel and homestel images
 		width: 350px;
 		height: auto;
 		box-shadow: var(--darkShadow);
-		margin-left: 20px;
+		margin-left: 10px;
 	
 	
+	}.contact-list-right{
+		font-size: small;
+		
+		
 	}
+	.contact-list-left{
+		/* flex:50%; */
+		font-size: small;
+	}
+
 	
-.iframe-class{
-	width: 350px;
+	.iframe-class{
+	width: auto;
 	height: 250px;
 	margin-top: 12px;
 }
@@ -521,7 +561,7 @@ hostel and homestel images
 
 @media screen and (max-width:667){
 	.iframe-class{
-		width: 400px;
+		width: fit-content;
 		height: 250px;
 		margin-top: 12px;
 	}
@@ -545,6 +585,9 @@ hostel and homestel images
 		margin-left: 20px;
 	
 	
+	}
+	.iframe-class{
+		width:250;
 	}
 }
 @keyframes App-logo-spin {

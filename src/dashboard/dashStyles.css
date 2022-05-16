@@ -442,6 +442,9 @@ th {
 	.bread-crums {
 		font-size: large;
 	}
+	.date-display{
+		font-size: small;
+	}
 	.content{
 		min-height: 110vh;
 	}

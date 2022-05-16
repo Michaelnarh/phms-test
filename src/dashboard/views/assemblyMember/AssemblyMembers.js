@@ -25,43 +25,45 @@ export default function AssemblyMembers(props) {
 			<div className="page-container mt-3">
 				<Divisiontitle title="CURRENT ASSEMBLY MEMBERS" />
 				<div className="tutors-flex">
-					{aMembers.map((item) => {
-						return (
-							<div key={item._id} className="tutors-card">
-								{item.image ? (
-									<img
-										src={`${url}/assembly-members/${item.image}`}
-										className="img-fluid"
-										alt="..."
-										style={{ width: 300, height: 250 }}
-									/>
-								) : (
-									<img
-										src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
-										className="img-fluid"
-										alt="..."
-										style={{ width: 300, height: 250 }}
-									/>
-								)}
+					{aMembers
+						.filter((person) => person.isCurrent)
+						.map((item) => {
+							return (
+								<div key={item._id} className="tutors-card">
+									{item.image ? (
+										<img
+											src={`${url}/assembly-members/${item.image}`}
+											className="img-fluid"
+											alt="..."
+											style={{ width: 300, height: 250 }}
+										/>
+									) : (
+										<img
+											src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
+											className="img-fluid"
+											alt="..."
+											style={{ width: 300, height: 250 }}
+										/>
+									)}
 
-								<div>
-									<p className="tutor-name">{item.name}</p>
-									<p>{item.contact}</p>
-									<p>{item.zone ? item.zone.name : "N/A"}</p>
+									<div>
+										<p className="tutor-name">{item.name}</p>
+										<p>{item.contact}</p>
+										<p>{item.zone ? item.zone.name : "N/A"}</p>
+									</div>
+
+									<button
+										onClick={() =>
+											navigate(`/admin/assembly-members/${item?.slug}`)
+										}
+										className="btn form-control"
+									>
+										{" "}
+										View
+									</button>
 								</div>
-
-								<button
-									onClick={() =>
-										navigate(`/admin/assembly-members/${item.slug}`)
-									}
-									className="btn form-control"
-								>
-									{" "}
-									View
-								</button>
-							</div>
-						);
-					})}
+							);
+						})}
 				</div>
 				<hr />
 				<div>
@@ -73,10 +75,10 @@ export default function AssemblyMembers(props) {
 								return (
 									<div key={item._id} className="tutors-card">
 										<img
-											src={`${url}/snrtutors/gh.jpg`}
+											src={`${url}/snrtutors/PASSPORT_MTN.jpg`}
 											className="img-fluid"
 											alt="..."
-											style={{ width: 200, height: 200 }}
+											style={{ width: 200, height: 150 }}
 										/>
 										<div>
 											<p className="tutor-name">{item.name}</p>
@@ -84,7 +86,15 @@ export default function AssemblyMembers(props) {
 											<p>{item.zone ? item.zone.name : "N/A"}</p>
 										</div>
 
-										<button className="btn form-control"> View</button>
+										<button
+											onClick={() =>
+												navigate(`/admin/assembly-members/${item.slug}`)
+											}
+											className="btn form-control"
+										>
+											{" "}
+											View
+										</button>
 									</div>
 								);
 							})}

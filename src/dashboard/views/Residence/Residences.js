@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaPen, FaEye, FaMinusCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import SearchForm from "../../utils/SearchForm";
 import { ToastContainer, toast } from "react-toastify";
@@ -82,7 +81,8 @@ export default function Residences(props) {
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Hostel Name</th>
+									<th>Residence Name</th>
+									<th>Type</th>
 									<th>Location</th>
 									<th>Zone/Constituency</th>
 									<th>Digital Address</th>
@@ -95,6 +95,7 @@ export default function Residences(props) {
 										<tr key={item._id}>
 											<td>{item._id.slice(20, 24)}</td>
 											<td>{item?.name}</td>
+											<td>{item?.residenceType}</td>
 											<td>{item?.location ? item.location.name : "N/A"}</td>
 											<td>{item?.location?.zone?.name ?? "N/A"}</td>
 											<td>{item?.digitalAddress ?? "N/A"}</td>

@@ -7,6 +7,7 @@ import LogInModal from "./auth/Login";
 export default function Drawer(props) {
 	const { setDrawer } = props;
 	const auth = new AuthStore();
+	const user = auth.getUser();
 	const [isDropDownOpen, setDropDown] = useState(false);
 	const handleLogOut = () => {
 		localStorage.removeItem("dumb");
@@ -62,10 +63,19 @@ export default function Drawer(props) {
 				{auth.getToken() ? (
 					<>
 						<Dropdown.Toggle
-							id="dropdown-basic"
+							// id="dropdown-basic"
+							style={{
+								backgroundColr: "#ccc",
+								color: "#ccc",
+								borderRadius: "50%",
+								height: 40,
+								width: 40,
+								marginRight: 40,
+								marginBottom: 12,
+							}}
 							onClick={() => setDropDown(!isDropDownOpen)}
 						>
-							<img
+							{/* <img
 								src={profile}
 								alt="..."
 								style={{
@@ -74,7 +84,16 @@ export default function Drawer(props) {
 									borderRadius: "50%",
 									marginRight: 14,
 								}}
-							/>
+							/> */}
+							{/* <p>K</p>
+							 */}
+							{user ? (
+								// <div className="user-circle">
+								<p className="user-text">{user.username.split("")[0]}</p>
+							) : (
+								// </div>
+								""
+							)}
 						</Dropdown.Toggle>
 						{isDropDownOpen && (
 							<div className="user-dropdown-menu">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { renderError } from "../utils/ModuleFunctions";
@@ -6,7 +6,7 @@ import AxiosInstance from "../utils/AxiosBase";
 import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
 
-function LogInModal(props) {
+function CommentsAndLogInModal(props) {
 	const { isLogin } = props;
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
@@ -54,7 +54,7 @@ function LogInModal(props) {
 				onClick={() => handleShow(false)}
 				variant=""
 			>
-				Login
+				Leave A Comment
 			</Button>
 			<Modal
 				show={show}
@@ -134,4 +134,4 @@ function LogInModal(props) {
 	);
 }
 
-export default LogInModal;
+export default CommentsAndLogInModal;

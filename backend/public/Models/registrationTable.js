@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
-const User = require("./userModel");
 
 const registrationSchema = mongoose.Schema({
 	residence: {
