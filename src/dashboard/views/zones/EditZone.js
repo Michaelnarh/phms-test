@@ -5,11 +5,13 @@ import AxiosInstance from "../../utils/AxiosInstance";
 import { renderError } from "../../utils/ModuleFunctions";
 import { useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useNavigate } from "react-router-dom";
 
 export default function EditZone(props) {
 	const [tutors, setTutors] = useState([]);
 	const [zone, setZone] = useState();
 	const { id } = useParams();
+	const navigate = useNavigate();
 	useEffect(() => {
 		const fetchTutors = async () => {
 			try {
@@ -58,6 +60,7 @@ export default function EditZone(props) {
 				data: values,
 			});
 			toast.success(`Records of ${res.data.zone.name} updated Successfully`);
+			navigate("/admin/zones");
 		} catch (err) {
 			toast.error(err.response.message, { position: "top-center" });
 		}

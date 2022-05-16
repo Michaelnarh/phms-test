@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaBars } from "react-icons/fa";
 import { MdNotificationsActive, MdLogout } from "react-icons/md";
 import Logo from "../images/logo-knust.png";
+import { NavLink } from "react-router-dom";
 
 export default function Navbar(props) {
-	const [isLoading, setIsLoading] = useState(false);
+	// const [setIsLoading] = useState(false);
 	const handleLogOut = () => {
-		setIsLoading(true);
+		// setIsLoading(true);
 		console.log("logging out");
 		// const timer = setTimeout(() => {
 		localStorage.removeItem("dumb");
@@ -17,7 +18,7 @@ export default function Navbar(props) {
 
 		// clearTimeout(timer);
 		window.location.assign("/admin/login");
-		setIsLoading(false);
+		// setIsLoading(false);
 	};
 	const { isDrawerOpen, func } = props;
 	return (
@@ -26,12 +27,14 @@ export default function Navbar(props) {
 				<div className="d-nav-flex">
 					<ul>
 						<li>
-							<img
-								className="dash-logo"
-								src={Logo}
-								alt="..."
-								style={{ width: 40, height: 50 }}
-							/>
+							<NavLink to="/admin/dashboard">
+								<img
+									className="dash-logo"
+									src={Logo}
+									alt="..."
+									style={{ width: 40, height: 50 }}
+								/>
+							</NavLink>
 						</li>
 						<li>
 							<FaBars

@@ -7,10 +7,10 @@ router
 	.route("/")
 	.post(
 		authController.protected,
-		authController.restrictTo("admin", "superAdmin", "supervisor"),
+		authController.restrictTo("admin", "superAdmin"),
 		academicYearController.createAcademicYear
 	)
-	.get(academicYearController.getAllAcademicYears);
+	.get(authController.protected, academicYearController.getAllAcademicYears);
 
 router
 	.route("/:id")

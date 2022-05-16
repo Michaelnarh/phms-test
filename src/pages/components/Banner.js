@@ -11,7 +11,7 @@ export default function Banner(props) {
 					<h1 className="banner-header">Private Residence Management System</h1>
 					<Divider />
 					<h6 className="banner-sub-header">
-						Access All Registered private Hostels & Homestels
+						Access All Recognised private Hostels & Homestels
 					</h6>
 					<p>
 						Access all registered and approved private Hostels and Homestels for
@@ -36,12 +36,13 @@ export default function Banner(props) {
 								</span>
 							</div>
 							<p className="warning-text">
-								Payment for bed spaces should only be made for official{" "}
-								<b>Bank Account</b> of hostels, Any student who pays cash or
-								through <b> unauthorized/unofficial Bank / Momo accounts</b>{" "}
-								does so at his or her own risk Students are enncouraged to check
-								available facilities of the hostels and confirm their interest
-								before making payments;
+								Payment for bed spaces should only be made into official{" "}
+								<b>Bank Account</b> of Hostels or Homestels. Any student who
+								pays cash through{" "}
+								<b> Unauthorized or Unofficial Bank Account / Momo Accounts</b>{" "}
+								does so at his or her own risk. Students are enncouraged to
+								check available facilities of the hostels and confirm their
+								interest before making payments.
 							</p>
 						</div>
 					</div>

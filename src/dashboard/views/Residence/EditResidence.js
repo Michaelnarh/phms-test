@@ -617,7 +617,7 @@ export default function EditResidence(props) {
 										)}
 									</div>
 									<div className="col-md-6 col-sm-12">
-										<label>upload Cover</label>
+										<label>upload a Cover image</label>
 										<input
 											type="file"
 											className="form-control"

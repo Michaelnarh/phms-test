@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Form, Formik, ErrorMessage, Field } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
+
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import AxiosInstance from "../../utils/AxiosInstance";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function EditAssemblyMem(props) {
 	const { slug } = useParams();
+	const navigate = useNavigate();
 	const [aMember, setAMember] = useState([]);
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 	useEffect(() => {
@@ -22,7 +24,7 @@ export default function EditAssemblyMem(props) {
 			setAMember(res.data.data);
 		};
 		fetchAssemblyMember();
-	}, []);
+	}, [slug]);
 
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Residence is Required"),
@@ -50,15 +52,20 @@ export default function EditAssemblyMem(props) {
 		formData.append("contact", values.contact);
 		formData.append("isCurrent", values.isCurrent);
 		formData.append("image", values.image);
-
-		const res = await axios({
-			method: "patch",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/assembly-members${slug}`,
-			headers: {
-				accept: "application/json",
-			},
-			data: formData,
-		});
+		try {
+			const res = await AxiosInstance({
+				method: "patch",
+				url: `/api/v1/assembly-members/${aMember?._id}`,
+				headers: {
+					accept: "application/json",
+				},
+				data: formData,
+			});
+			toast.success("updated successfully", { position: "top-center" });
+			navigate("/admin/assembly-members");
+		} catch (err) {
+			toast.error(err?.response?.data?.message, { position: "top-center" });
+		}
 	};
 
 	return (
@@ -75,6 +82,7 @@ export default function EditAssemblyMem(props) {
 				{({ values, setFieldValue }) => (
 					<Form>
 						<div className="row">
+							<ToastContainer className="top-margin" />
 							<div className="col-md-6 col-sm-12">
 								<Field
 									type="text"

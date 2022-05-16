@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import axios from "axios";
 import * as Yup from "yup";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -11,10 +10,7 @@ import CustomSpinner from "../../utils/CustomSpinner";
 import AxiosInstance from "../../utils/AxiosInstance";
 import { ToastContainer, toast } from "react-toastify";
 
-// import { ContextStore } from "./../../../store/ContextStore";
-
 export default function RegisterTable(props) {
-	// const { authStore } = useContext(ContextStore);
 	const [user] = useState(JSON.parse(localStorage.getItem("user")));
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
@@ -88,8 +84,8 @@ export default function RegisterTable(props) {
 			toast.success("Registered Successfully");
 			setResidences([...Residences]);
 		} catch (err) {
-			console.log(err);
-			toast.error(err.message);
+			toast.error(err?.response?.data?.message);
+			console.log(err?.response?.data?.message);
 		}
 	};
 
@@ -102,7 +98,6 @@ export default function RegisterTable(props) {
 		zone: selected_zone ?? "",
 		years: year_selected ?? "",
 	};
-	console.log(Residences);
 	return (
 		<>
 			<Button onClick={() => navigate("registered")}>Registered</Button>

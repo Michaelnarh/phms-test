@@ -5,12 +5,11 @@ import { NavLink, Link } from "react-router-dom";
 import { SideBarItems } from "./Data-items";
 import { observer } from "mobx-react";
 import { AuthService } from "../services/AuthService";
-import Dropdownmenu from "./utils/DropDownMenu";
+// import Dropdownmenu from "./utils/DropDownMenu";
 function Drawer(props) {
 	const { setDrawer, isDrawerOpen } = props;
 	const authService = new AuthService();
 	const [user, setUser] = useState();
-	const y = new Date();
 	const url = `${process.env.REACT_APP_API_URL}/images/users`;
 	const id = localStorage.getItem("dumb");
 	const jwt = localStorage.getItem("jwt");
@@ -43,12 +42,14 @@ function Drawer(props) {
 				<div className="drawer-columns">
 					<div className="dash-user">
 						{user && user.image ? (
-							<img
-								src={`${url}/${user.image}`}
-								className="img-fluid"
-								style={{ width: 60, height: 60, borderRadius: "50%" }}
-								alt="..."
-							/>
+							<Link to="/admin/dashboard">
+								<img
+									src={`${url}/${user.image}`}
+									className="img-fluid"
+									style={{ width: 60, height: 60, borderRadius: "50%" }}
+									alt="..."
+								/>
+							</Link>
 						) : (
 							<img
 								src={`${url}/profile_pic.jpg`}

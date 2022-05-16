@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import AxiosInstance from "../../utils/AxiosInstance";
 import { renderError } from "../../utils/ModuleFunctions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 export default function Addlocation(props) {
 	const [zones, setZones] = useState([]);
@@ -40,15 +41,21 @@ export default function Addlocation(props) {
 	};
 	const onSubmit = async (values) => {
 		console.log(values);
+		try {
+			const res = await AxiosInstance({
+				method: "patch",
+				url: `/api/v1/locations/${id}`,
+				headers: {
+					"Content-Type": "application/json",
+				},
+				data: values,
+			});
+			console.log(res);
 
-		const res = await AxiosInstance({
-			method: "patch",
-			url: `/api/v1/locations/${id}`,
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: values,
-		});
+			toast.success(`updated ${res.data?.data?.name} successfully`);
+		} catch (err) {
+			toast.error(err?.response?.data?.message);
+		}
 	};
 
 	return (
@@ -64,6 +71,7 @@ export default function Addlocation(props) {
 			>
 				<Form>
 					<div className="row">
+						<ToastContainer className="top-margin" />
 						<div className="col-md-6 col-sm-12">
 							<Field
 								type="text"

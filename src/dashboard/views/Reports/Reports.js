@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios, { Axios } from "axios";
 import AxiosInstance from "../../utils/AxiosInstance";
 import { FaChartPie, FaArrowRight } from "react-icons/fa";
-import { Doughnut, Bar } from "react-chartjs-2";
+
 import Toptitle from "./../TopTitle";
 import CustomSpinner from "./../../utils/CustomSpinner";
 import { Button } from "react-bootstrap";
 
 const Reports = () => {
 	const [isLoading, setIsLoading] = useState(false);
-	const [innerLoad, setInnerLoad] = useState(false);
+	// const [innerLoad, setInnerLoad] = useState(false);
 	const [data, setData] = useState({});
 	const [reports, setReports] = useState();
 	useEffect(() => {
@@ -112,7 +111,7 @@ const Reports = () => {
 		}
 	};
 	const handlePorters = () => {
-		setInnerLoad(true);
+		// setInnerLoad(true);
 		const minfunc = async () => {
 			try {
 				await AxiosInstance({
@@ -123,7 +122,7 @@ const Reports = () => {
 					},
 				});
 
-				setInnerLoad(false);
+				// setInnerLoad(false);
 			} catch (err) {}
 		};
 

@@ -3,13 +3,14 @@ import { Button, Modal } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
 import AxiosInstance from "../../utils/AxiosInstance";
+import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
 
 function AcademicYearModal() {
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-	const [error, setError] = useState("");
+	const [error] = useState("");
 
 	const validationSchema = Yup.object({
 		name: Yup.string().required("Name is Required"),
@@ -22,18 +23,27 @@ function AcademicYearModal() {
 		name: "",
 		years: "",
 	};
-	const handleSubmit = async (values) => {
+	const handleSubmit = async (values, resetForm) => {
 		console.log(values);
-		const res = await AxiosInstance({
-			method: "post",
-			url: `${process.env.REACT_APP_API_URL}/api/v1/academic-year`,
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: values,
-		});
-		if (res.data?.status === "success") {
+		try {
+			const res = await AxiosInstance({
+				method: "post",
+				url: `/api/v1/academic-year`,
+				headers: {
+					"Content-Type": "application/json",
+				},
+				data: values,
+			});
+			resetForm();
+			toast.success("Academic Year Added Successfully");
 			handleClose();
+			if (res.data?.status === "success") {
+			}
+		} catch (err) {
+			if (err.response?.data?.message) {
+				toast.error(err.response?.data?.message, { position: "top-center" });
+				// handleClose();
+			}
 		}
 	};
 	return (
@@ -46,15 +56,14 @@ function AcademicYearModal() {
 				onHide={handleClose}
 				backdrop="static"
 				keyboard={false}
+				className="top-margin"
 			>
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}
 					validationSchema={validationSchema}
 					onSubmit={async (values, { resetForm }) => {
-						console.log(values);
-						await handleSubmit(values);
-						resetForm();
+						await handleSubmit(values, resetForm);
 					}}
 				>
 					<Form>
@@ -63,9 +72,7 @@ function AcademicYearModal() {
 						</Modal.Header>
 						<Modal.Body>
 							<div className="">
-								{/* {setTimeout(() => { */}
-								<p className="text-danger text-center p-2">{error}</p>
-								{/* }, 4000)} */}
+								<ToastContainer className="top-margin" />
 								<div className=" col-md-8 col-sm-12 mx-auto">
 									<label>
 										<b>Academic Year Name</b>

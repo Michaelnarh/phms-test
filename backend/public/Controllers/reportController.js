@@ -220,8 +220,8 @@ exports.getPorters = async (req, res) => {
 			headers: [
 				"No.",
 				"Hostel Name",
-				"Manager's Name",
-				"Manager's Contact",
+				"Porter's Name",
+				"Managers's Contact",
 				"zone/Constituency",
 			],
 			rows: tableArray,
@@ -418,7 +418,7 @@ exports.getHomesls = async (req, res) => {
 		});
 
 		const table = {
-			title: "Hometels Details",
+			title: "Homestels Details",
 			subtitle: "All Available Homestels",
 			headers: [
 				"No.",
@@ -440,7 +440,7 @@ exports.getHomesls = async (req, res) => {
 		const pdfService = (datacb, endcb) => {
 			doc.on("data", datacb);
 			doc.on("end", endcb);
-			doc.fontSize(24).text(`List of Hometels Names `, {
+			doc.fontSize(24).text(`List of Homestels Names `, {
 				align: "center",
 				width: 830,
 			});
