@@ -221,7 +221,7 @@ exports.getPorters = async (req, res) => {
 				"No.",
 				"Hostel Name",
 				"Porter's Name",
-				"Managers's Contact",
+				"Porters's Contact",
 				"zone/Constituency",
 			],
 			rows: tableArray,
@@ -373,7 +373,7 @@ exports.getHostels = async (req, res) => {
 		});
 	}
 };
-exports.getHomesls = async (req, res) => {
+exports.getHomestels = async (req, res) => {
 	try {
 		const residences = await Residence.find({ residenceType: "Homestel" })
 			.populate({ path: "rClass" })
