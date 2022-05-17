@@ -25,13 +25,8 @@ export default function HelpDesk(props) {
 						</p>
 					</div>
 				</div>
-<<<<<<< HEAD
-				<h3 className="text-center  mt-5"> INTERNAL SERVICES</h3>
-				<div className="card p-3 mt-3">
-=======
 				<h3 className="text-center"> INTERNAL SERVICES</h3>
 				<div className="card-1 p-3 mt-3">
->>>>>>> f2406a034425bb65eb2e7eb5d3a72472b85e81ef
 					<div className="row mt-3">
 						<h2 className="help-text-header">Deans of Students Office</h2>
 						<div className="col-md-3 p-3">
