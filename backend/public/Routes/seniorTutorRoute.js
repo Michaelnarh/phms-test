@@ -23,8 +23,8 @@ router
 		seniorTutorController.updateSeniorTutor
 	)
 	.delete(
-		// authController.protected,
-		// authController.restrictTo(["supervisor", "admin"]),
+		authController.protected,
+		authController.restrictTo("admin"),
 		seniorTutorController.deleteSeniorTutor
 	);
 

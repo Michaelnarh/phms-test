@@ -214,7 +214,7 @@ export default function Dashboard(props) {
 							<div className="card-box">
 								<div className="card-box-inlineflex">
 									<div>
-										<p>STUDENT MPS</p>
+										<p>STUDENT MPs</p>
 										<h1>{data.student_mp_num}</h1>
 									</div>
 									<div>

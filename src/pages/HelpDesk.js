@@ -22,7 +22,7 @@ export default function HelpDesk(props) {
 						</p>
 					</div>
 				</div>
-				<h3 className="text-center"> INTERNAL SERVICES</h3>
+				<h3 className="text-center  mt-5"> INTERNAL SERVICES</h3>
 				<div className="card p-3 mt-3">
 					<div className="row mt-3">
 						<h2 className="r-name">Deans of Students Office</h2>
