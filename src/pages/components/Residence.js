@@ -42,7 +42,7 @@ export default function Residence(props) {
 					</h5>
 				</div>
 				<div>
-					<p>
+					<p className="card-text">
 						{/* <b> */} <MdLocationOn />
 						Location:
 						{/* </b> */}
@@ -50,7 +50,7 @@ export default function Residence(props) {
 							{residence.location ? residence?.location?.name : "N/A"}
 						</span>
 					</p>
-					<p>
+					<p className="card-text">
 						{/* <b> */}
 						<IoMdWalk />
 						Distance: {/* </b> */}

@@ -47,6 +47,7 @@ export default function Banner(props) {
 						</div>
 					</div>
 				</div>
+
 				<div className="col-md-6 mt-3">
 					<img src={banner} alt="..." className="img-fluid" />
 				</div>
