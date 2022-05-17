@@ -385,15 +385,52 @@ th {
 	justify-content: center;
 	align-self: center;
 	flex-direction: column;
-	margin-top: 17%;
+	margin-top: 10%;
 	justify-self: center;
 	justify-items: center;
 }
-.login-background{
-	background-color: bisque;
-	height: '100vh';
-	min-height : '100vh';
+.login-area{
+	background-color: rgba(254, 233, 191, 0.86);
+	/* height: fit-content; */
+	height: 450px;
+	padding: 30px;
+	box-sizing: border-box;
+	/* margin-left: 1px; */
+	/* margin-right: 1px; */
+	box-shadow: var(--darkShadow);
+
 }
+.text-caption{
+	color:rgb(245, 247, 249);
+	margin-top: 12%;
+	/* word-spacing: 53px; */
+	
+	text-align: start;
+	margin-left: 15px;
+	font-weight: 600;
+}
+.login-logo-area{
+	background-color: rgb(125, 79, 23);
+	background-color: rgb(6, 148, 67);
+	/* height: fit-content; */
+	box-sizing: border-box;
+	height: 450px;
+	padding: 30px;
+	box-shadow: var(--darkShadow);
+	
+}
+
+.input-transparent{
+	/* background-color:rgba(188, 35, 35, 0) !important; */
+	background-color: transparent;
+	border-top: none !important;
+	border-right: none !important;
+	border-left: none !important;
+	border-bottom: 2px solid black;
+ }
+ .input-transparent:focus{
+	/* box-shadow: inset 0 -1px 0 ; */
+ }
 .center-center-signup {
 	display: flex;
 	align-items: center;
@@ -429,6 +466,27 @@ th {
 	border-radius: 5;
 }
 
+#dash-loading {
+	display: inline-block;
+	/* position: absolute; */
+	width: 60px;
+	height: 60px;
+	border: 3px solid rgba(18, 167, 85, 0.3);
+	border-radius: 50%;
+	border-top-color: rgb(34, 90, 16);
+	align-self: center;
+	top: 50%;
+	left: 50%;
+	 margin-left: -50px;
+	margin-top: -50px;
+	margin:0px auto; 
+	z-index: 1000;
+  
+	justify-content: center;
+	animation: spin 1s ease-in-out infinite;
+	-webkit-animation: spin 1s ease-in-out infinite;
+  }
+
 @media screen and (max-width: 972px) {
 	.FaBars-display {
 		display: block;
@@ -460,6 +518,13 @@ th {
 		height: 40px;
 		padding: 10px;
 		border-radius: 5px;
+	}
+	.login-logo-area{
+		display: none;
+
+	}
+	.login-area{
+		background-color: transparent;
 	}
 
 	td,

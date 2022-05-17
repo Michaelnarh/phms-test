@@ -10,15 +10,18 @@ export default function Hostels(props) {
 	const [pageCount, setPageCount] = useState(0);
 	const [page, setPage] = useState(1);
 	const [limit, setLimit] = useState(28);
+	const [isLoading, setIsLoading] = useState(false);
 	useEffect(() => {
+		setIsLoading(true);
 		const fetchHostels = async () => {
 			try {
 				const res = await axios({
 					method: "get",
 					url: `${process.env.REACT_APP_API_URL}/api/v1/residences/hostels?page=${page}&limit=${limit}`,
 				});
-				setPageCount(Math.ceil(res.data.total / limit)); // set pageCount
+				setPageCount(Math.ceil(res.data.total / limit)); //set pageCounnt
 				setHostels(res.data.data);
+				setIsLoading(false);
 			} catch (error) {
 				console.log(error);
 			}
@@ -32,7 +35,13 @@ export default function Hostels(props) {
 			setResidences(res.data.data);
 		};
 		fetchResidences();
-		fetchHostels();
+
+		const timer = setTimeout(() => {
+			fetchHostels();
+			// fetchResidences();
+		}, 2000);
+
+		return () => clearTimeout(timer);
 	}, [page, limit]);
 
 	useEffect(() => {
@@ -58,33 +67,39 @@ export default function Hostels(props) {
 				<div>
 					<Searchbox type="Hostel" data={residences} />
 				</div>
-				<div className="hostel-flex my-5">
-					{hostels &&
-						hostels.map((item, index) => {
-							return <Residence residence={item} key={item._id} />;
-						})}
-				</div>
 
-				<ReactPaginate
-					breakLabel="..."
-					nextLabel="Next >>"
-					onPageChange={handlePageClick}
-					// pageRangeDisplayed={5}
-					pageCount={pageCount}
-					previousLabel="<< Previous"
-					renderOnZeroPageCount={null}
-					containerClassName="pagination justify-content-center"
-					pageClassName="page-item"
-					pageLinkClassName="page-link"
-					activeClassName=" active"
-					activeLinkClassName="active"
-					breakClassName="page-item"
-					breakLinkClassName="page-link"
-					nextClassName="page-item"
-					nextLinkClassName="page-link"
-					previousClassName="page-item"
-					previousLinkClassName="page-link"
-				/>
+				{isLoading ? (
+					<div className="text-center" id="loading" />
+				) : (
+					<>
+						<div className="hostel-flex my-5">
+							{hostels &&
+								hostels.map((item, index) => {
+									return <Residence residence={item} key={item._id} />;
+								})}
+						</div>
+						<ReactPaginate
+							breakLabel="..."
+							nextLabel="Next >>"
+							onPageChange={handlePageClick}
+							// pageRangeDisplayed={5}
+							pageCount={pageCount}
+							previousLabel="<< Previous"
+							renderOnZeroPageCount={null}
+							containerClassName="pagination justify-content-center"
+							pageClassName="page-item"
+							pageLinkClassName="page-link"
+							activeClassName=" active"
+							activeLinkClassName="active"
+							breakClassName="page-item"
+							breakLinkClassName="page-link"
+							nextClassName="page-item"
+							nextLinkClassName="page-link"
+							previousClassName="page-item"
+							previousLinkClassName="page-link"
+						/>
+					</>
+				)}
 			</div>
 		</>
 	);

@@ -23,6 +23,7 @@ export default function Hosteldetails(props) {
 	const url = `${process.env.REACT_APP_API_URL}/images`;
 
 	useEffect(() => {
+		setIsLoading(true);
 		const fetchData = async () => {
 			setIsLoading(true);
 			const res = await AxiosInstance({
@@ -53,12 +54,13 @@ export default function Hosteldetails(props) {
 		};
 
 		const timer = setTimeout(() => {
-			!residence && fetchData();
+			fetchData();
+
 			setIsLoading(false);
 		}, 2000);
 
 		return () => clearTimeout(timer);
-	});
+	}, [setIsLoading, slug, gimages]);
 	return (
 		<>
 			<div className="top-svg-detail-page">

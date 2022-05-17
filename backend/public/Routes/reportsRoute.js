@@ -9,7 +9,11 @@ router.get("/owners", authController.protected, reportController.getOwners);
 router.get("/managers", authController.protected, reportController.getManagers);
 router.get("/porters", authController.protected, reportController.getPorters);
 router.get("/hostels", authController.protected, reportController.getHostels);
-router.get("/homestels", authController.protected, reportController.getHomesls);
+router.get(
+	"/homestels",
+	authController.protected,
+	reportController.getHomestels
+);
 router.get(
 	"/registered",
 	authController.protected,
