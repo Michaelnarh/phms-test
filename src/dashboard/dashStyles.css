@@ -486,6 +486,26 @@ th {
 	animation: spin 1s ease-in-out infinite;
 	-webkit-animation: spin 1s ease-in-out infinite;
   }
+#dash-loader {
+	display: inline-block;
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	border: 3px solid rgba(18, 167, 85, 0.3);
+	border-radius: 50%;
+	border-top-color: rgb(34, 90, 16);
+	align-self: center;
+	top: 50%;
+	left: 50%;
+	 margin-left: -50px;
+	margin-top: -50px;
+	margin:0px auto; 
+	z-index: 1000;
+  
+	justify-content: center;
+	animation: spin 1s ease-in-out infinite;
+	-webkit-animation: spin 1s ease-in-out infinite;
+  }
 
 @media screen and (max-width: 972px) {
 	.FaBars-display {

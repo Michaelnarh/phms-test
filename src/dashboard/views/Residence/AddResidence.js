@@ -90,7 +90,7 @@ export default function Addhostel(props) {
 		setCoverImage(e.currentTarget.files[0]);
 	};
 
-	const handleSubmit = async (values, resetForm, setSubmitting) => {
+	const handleSubmit = async (values, resetForm, setSubmit) => {
 		let formData = new FormData();
 		// values.coordinates[1] = values.lat; //insert latitude data
 		// values.coordinates[0] = values.lng; //insert longitude data
@@ -136,9 +136,11 @@ export default function Addhostel(props) {
 			resetForm();
 			setAccepted([]);
 			values.coverImage = "";
+			setSubmit(false);
 
 			navigate("/admin/residences");
 		} catch (err) {
+			setSubmit(false);
 			console.log("logged Error", err?.response?.data?.message);
 			if (err?.response.data?.message) {
 				if (err?.response?.data?.message.startsWith("Can't extract")) {
@@ -161,11 +163,8 @@ export default function Addhostel(props) {
 				{/* <ToastContainer className="top-margin" /> */}
 				<FormStepper
 					initialValues={initialValues}
-					onSubmit={async (values, resetForm, setSubmitting) => {
-						setTimeout(() => {
-							handleSubmit(values, resetForm, setSubmitting);
-							setSubmitting(false);
-						}, 2000);
+					onSubmit={async (values, resetForm, setSubmit) => {
+						handleSubmit(values, resetForm, setSubmit);
 					}}
 				>
 					<FormikStep
@@ -634,7 +633,7 @@ export function FormikStep({ children }) {
 export function FormStepper({ children, ...props }) {
 	const childrenArray = React.Children.toArray(children);
 	const [step, setStep] = useState(0);
-	// const [isSubmitting, setSubmit] = useState(false);
+	const [isSubmitting, setSubmit] = useState(false);
 	// const [completed, setCompleted] = useState(false);
 	const currentChild = childrenArray[step];
 
@@ -646,42 +645,44 @@ export function FormStepper({ children, ...props }) {
 		<Formik
 			{...props}
 			validationSchema={currentChild.props?.validationSchema}
-			onSubmit={async (values, { resetForm, setSubmitting }) => {
+			onSubmit={async (values, { resetForm }) => {
 				if (isLastPage()) {
-					props.onSubmit(values, resetForm, setSubmitting);
+					setSubmit(true);
+
+					setTimeout(() => {
+						console.log("check-submitting", isSubmitting);
+						props.onSubmit(values, resetForm, setSubmit);
+					}, 5000);
 				} else {
 					setStep((s) => s + 1);
 				}
 			}}
 		>
-			{({ isSubmitting }) => (
-				<Form>
-					<ToastContainer className="top-margin" />
-					{currentChild}
-
-					{step > 0 ? (
-						<button
-							disabled={isSubmitting}
-							type="button"
-							style={{ marginRight: 12 }}
-							onClick={() => setStep((s) => s - 1)}
-							className="btn mb-5 px-3 py-2"
-						>
-							Back
-						</button>
-					) : (
-						""
-					)}
-					{console.log("check-submitting", isSubmitting)}
+			<Form>
+				<ToastContainer className="top-margin" />
+				{currentChild}
+				{isSubmitting && <div id="dash-loader" />}
+				{step > 0 ? (
 					<button
 						disabled={isSubmitting}
-						type="submit"
-						className="btn mb-5  py-2 px-3"
+						type="button"
+						style={{ marginRight: 12 }}
+						onClick={() => setStep((s) => s - 1)}
+						className="btn mb-5 px-3 py-2"
 					>
-						{isSubmitting ? "submiting" : isLastPage() ? "Submit" : "Next"}
+						Back
 					</button>
-				</Form>
-			)}
+				) : (
+					""
+				)}
+				<button
+					disabled={isSubmitting}
+					type="submit"
+					className="btn mb-5  py-2 px-3"
+				>
+					{isSubmitting ? "submiting" : isLastPage() ? "Submit" : "Next"}
+				</button>
+			</Form>
 		</Formik>
 	);
 }
