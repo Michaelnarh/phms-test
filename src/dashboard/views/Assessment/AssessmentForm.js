@@ -1,40 +1,17 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import { renderError } from "../../utils/ModuleFunctions";
-import { useDropzone } from "react-dropzone";
-import Thumb from "../../utils/Thumb";
 import AxiosInstance from "../../utils/AxiosInstance";
 import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-const sleep = (timer) => new Promise((acc) => setTimeout(acc, timer));
 
-export default function Addhostel(props) {
+export default function AssessmentForm(props) {
 	const navigate = useNavigate();
-	const [coverImage, setCoverImage] = useState("");
-	const [accepted, setAccepted] = useState([]);
-	const [locations, setLocations] = useState([]);
 	const [RClass, setRClass] = useState([]);
-	const [facilityArr, setFacilityArr] = useState([]);
+	const [facilityArr] = useState([]);
 
-	const onDrop = useCallback((acceptedFiles) => {
-		setAccepted(acceptedFiles);
-	}, []);
 	useEffect(() => {
-		const fetchLocations = async () => {
-			const res = await AxiosInstance({
-				method: "get",
-				url: `/api/v1/locations`,
-			});
-			setLocations(res.data.data);
-		};
-		const fetchFacilities = async () => {
-			const res = await AxiosInstance({
-				method: "get",
-				url: `/api/v1/facilities`,
-			});
-			setFacilityArr(res.data.data);
-		};
 		const fetchRClass = async () => {
 			const res = await AxiosInstance({
 				method: "get",
@@ -42,17 +19,9 @@ export default function Addhostel(props) {
 			});
 			setRClass(res.data.data);
 		};
-		// if (locations.length === 0) {
-		fetchLocations();
-		// }
-		// if (facilityArr.length === 0) {
-		fetchFacilities();
-		// }
-		// if (facilityArr.length === 0) {
 		fetchRClass();
 		// }
 	}, []);
-	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
 	// const isLatitude = (num) => isFinite(num) && Math.abs(num) <= 90;
 	// const isLongitude = (num) => isFinite(num) && Math.abs(num) <= 180;
@@ -86,11 +55,7 @@ export default function Addhostel(props) {
 		femaleCapacity: "",
 	};
 
-	const handleCoverUpload = (e) => {
-		setCoverImage(e.currentTarget.files[0]);
-	};
-
-	const handleSubmit = async (values, resetForm, setSubmitting) => {
+	const handleSubmit = async (values, resetForm) => {
 		let formData = new FormData();
 		// values.coordinates[1] = values.lat; //insert latitude data
 		// values.coordinates[0] = values.lng; //insert longitude data
@@ -119,11 +84,6 @@ export default function Addhostel(props) {
 		formData.append("lng", values.lng);
 		formData.append("lat", values.lat);
 
-		formData.append("coverImage", coverImage);
-		accepted.forEach((el) => {
-			formData.append("images", el);
-		});
-
 		try {
 			await AxiosInstance({
 				method: "post",
@@ -134,9 +94,6 @@ export default function Addhostel(props) {
 				data: formData,
 			});
 			resetForm();
-			setAccepted([]);
-			values.coverImage = "";
-
 			navigate("/admin/residences");
 		} catch (err) {
 			console.log("logged Error", err?.response?.data?.message);
@@ -147,9 +104,7 @@ export default function Addhostel(props) {
 						{ position: "top-center" }
 					);
 				} else {
-					toast.error(err?.response?.data?.message, {
-						position: "top-center",
-					});
+					toast.error(err?.response?.data?.message, { position: "top-center" });
 				}
 			}
 		}
@@ -158,14 +113,10 @@ export default function Addhostel(props) {
 	return (
 		<>
 			<div className="container">
-				{/* <ToastContainer className="top-margin" /> */}
 				<FormStepper
 					initialValues={initialValues}
-					onSubmit={async (values, resetForm, setSubmitting) => {
-						setTimeout(() => {
-							handleSubmit(values, resetForm, setSubmitting);
-							setSubmitting(false);
-						}, 2000);
+					onSubmit={async (values, resetForm) => {
+						await handleSubmit(values, resetForm);
 					}}
 				>
 					<FormikStep
@@ -180,131 +131,117 @@ export default function Addhostel(props) {
 								.min(2, "Required Field")
 								.required("Location is Required"),
 							digitalAddress: Yup.string().nullable(),
-							bookingLink: Yup.string()
-								.matches(
-									/((http?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-									"Please Enter a correct url!"
-								)
-								.nullable(),
 						})}
 					>
 						<div className="row">
 							<ToastContainer />
-							<div className="col-md-4 col-sm-12">
-								<label>
-									<b>Residence Name</b>
-								</label>
-								<Field
-									type="text"
-									className="form-control"
-									// placeholder=" Residence Name"
-									name="name"
-								/>
-								<p className="eg-text">
-									<span className="required">*</span> Example: Nana Adoma
-								</p>
-								<ErrorMessage name="name" render={renderError} />
+							<p>DETERMINANTS OF RESIDENCE CLASS AND PRICES</p>
+							<div className="card">
+								<div className="col-md-4 col-sm-12">
+									<label>
+										<b>Residence Name</b>
+									</label>
+									<Field
+										type="text"
+										className="form-control"
+										// placeholder=" Residence Name"
+										name="name"
+									/>
+									<p className="eg-text">
+										<span className="required">*</span> Example: Nana Adoma
+									</p>
+									<ErrorMessage name="name" render={renderError} />
+								</div>
+								<div className="col-md-4 col-sm-12 ">
+									<label>
+										<b>Type of Residence</b>
+									</label>
+									<Field
+										as="select"
+										name="residenceType"
+										className="form-select"
+										aria-label="Default select example"
+									>
+										{/* <option vallue="">Select Residence Type</option> */}
+										<option value="Hostel">Hostel</option>
+										<option value="Homestel">Homestel</option>
+										<option value="Other">Other</option>
+									</Field>
+									<p className="eg-text">
+										{" "}
+										<span className="required">*</span> Example: HOSTEL
+									</p>
+									<ErrorMessage name="residenceType" render={renderError} />
+								</div>
+								<div className="col-md-4 col-sm-12">
+									<label>
+										<b>Residence Location</b>
+									</label>
+
+									<p className="eg-text">
+										{" "}
+										<span className="required">*</span> Example: Ayeduase
+									</p>
+									<ErrorMessage name="location" render={renderError} />
+								</div>
 							</div>
-							<div className="col-md-4 col-sm-12 ">
-								<label>
-									<b>Type of Residence</b>
-								</label>
-								<Field
-									as="select"
-									name="residenceType"
-									className="form-select"
-									aria-label="Default select example"
-								>
-									{/* <option vallue="">Select Residence Type</option> */}
-									<option value="Hostel">Hostel</option>
-									<option value="Homestel">Homestel</option>
-									<option value="Other">Other</option>
-								</Field>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: HOSTEL
-								</p>
-								<ErrorMessage name="residenceType" render={renderError} />
-							</div>
-							<div className="col-md-4 col-sm-12">
-								<label>
-									<b>Residence Location</b>
-								</label>
-								<Field
-									as="select"
-									className="form-select"
-									// placeholder="Location"
-									name="location"
-								>
-									{/* <option> select location</option> */}
-									{locations &&
-										locations.map((item) => (
-											<option key={item._id} value={item._id}>
-												{item.name}
-											</option>
-										))}
-								</Field>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: Ayeduase
-								</p>
-								<ErrorMessage name="location" render={renderError} />
-							</div>
-						</div>
-						<div className="row mt-3">
-							<div className="col-md-4 col-sm-12">
-								<label>
-									<b>GhanaPost GPS Address</b>
-								</label>
-								<Field
-									type="text"
-									name="digitalAddress"
-									className="form-control"
-									// placeholder="GA-2324-3423"
-									aria-label="digitalAddress"
-								/>
-								<p className="eg-text">Example: AK-1310-3223, use GhanaPost</p>
-								<ErrorMessage name="digitalAddress" render={renderError} />
-							</div>
-							<div className="col-md-4 col-sm-12">
-								<label>
-									<b>Latitude </b>
-								</label>
-								<Field
-									type="number"
-									className="form-control"
-									placeholder="+/-90 Latitude"
-									// value={lat}
-									// onChange={(e) => setlt(e.target.value)}
-									name="lat"
-								/>
-								<ErrorMessage name="lat" render={renderError} />
-								<b>Longitude</b>
-								<Field
-									type="number"
-									className="form-control"
-									placeholder="+/-180 longitude"
-									// value={lng}
-									name="lng"
-									// onChange={(e) => setlg(e.target.value)}
-								/>
-								<ErrorMessage name="lng" render={renderError} />
-							</div>
-							<div className="col-md-4 col-sm-12">
-								<label>
-									<b>Booking Link URL</b>
-								</label>
-								<Field
-									type="url"
-									className="form-control"
-									placeholder="Booking Link"
-									aria-label="booklink"
-									name="bookingLink"
-								/>
-								<p className="eg-text">
-									Eg: www.saintpeters.studentroombook.com
-								</p>
-								<ErrorMessage name="bookingLink" render={renderError} />
+							<div className="row mt-3">
+								<div className="col-md-4 col-sm-12">
+									<label>
+										<b>GhanaPost GPS Address</b>
+									</label>
+									<Field
+										type="text"
+										name="digitalAddress"
+										className="form-control"
+										// placeholder="GA-2324-3423"
+										aria-label="digitalAddress"
+									/>
+									<p className="eg-text">
+										Example: AK-1310-3223, use GhanaPost
+									</p>
+									<ErrorMessage name="digitalAddress" render={renderError} />
+								</div>
+								<div className="col-md-4 col-sm-12">
+									<label>
+										<b>Latitude </b>
+									</label>
+									<Field
+										type="number"
+										className="form-control"
+										placeholder="+/-90 Latitude"
+										// value={lat}
+										// onChange={(e) => setlt(e.target.value)}
+										name="lat"
+									/>
+									<ErrorMessage name="lat" render={renderError} />
+									<b>Longitude</b>
+									<Field
+										type="number"
+										className="form-control"
+										placeholder="+/-180 longitude"
+										// value={lng}
+										name="lng"
+										// onChange={(e) => setlg(e.target.value)}
+									/>
+									<ErrorMessage name="lng" render={renderError} />
+								</div>
+								<div className="col-md-4 col-sm-12">
+									<label>
+										<b>Booking Link URL</b>
+									</label>
+									<Field
+										type="url"
+										className="form-control"
+										placeholder="Booking Link"
+										aria-label="booklink"
+										name="bookingLink"
+									/>
+									<p className="eg-text">
+										Eg: www.saintpeters.studentroombook.com
+									</p>
+									<ErrorMessage name="bookingLink" render={renderError} />
+								</div>
 							</div>
 						</div>
 						<div className="row mt-3">
@@ -588,38 +525,7 @@ export default function Addhostel(props) {
 						</div>
 					</FormikStep>
 
-					<FormikStep>
-						<div>
-							<div className="row mt-3">
-								<div className="col-md-6 col-sm-12">
-									<label>upload Cover</label>
-									<input
-										type="file"
-										className="form-control"
-										onChange={(e) => handleCoverUpload(e)}
-									/>
-									<ErrorMessage name="coverImage" render={renderError} />
-								</div>
-							</div>
-
-							<div className="mx-5 mt-3 mb-2">
-								{
-									<div {...getRootProps()}>
-										<input {...getInputProps()} />
-										{isDragActive ? (
-											<p> drop of files </p>
-										) : (
-											<p className=" p-2">Click to Load images here</p>
-										)}
-									</div>
-								}
-								{accepted &&
-									accepted.map((file, i) => {
-										return <Thumb key={i} file={file} />;
-									})}
-							</div>
-						</div>
-					</FormikStep>
+					<FormikStep></FormikStep>
 					{/* )} */}
 				</FormStepper>
 			</div>
@@ -646,42 +552,34 @@ export function FormStepper({ children, ...props }) {
 		<Formik
 			{...props}
 			validationSchema={currentChild.props?.validationSchema}
-			onSubmit={async (values, { resetForm, setSubmitting }) => {
+			onSubmit={async (values, { resetForm }) => {
 				if (isLastPage()) {
-					props.onSubmit(values, resetForm, setSubmitting);
+					props.onSubmit(values, resetForm);
 				} else {
 					setStep((s) => s + 1);
 				}
 			}}
 		>
-			{({ isSubmitting }) => (
-				<Form>
-					<ToastContainer className="top-margin" />
-					{currentChild}
+			<Form>
+				<ToastContainer className="top-margin" />
+				{currentChild}
 
-					{step > 0 ? (
-						<button
-							disabled={isSubmitting}
-							type="button"
-							style={{ marginRight: 12 }}
-							onClick={() => setStep((s) => s - 1)}
-							className="btn mb-5 px-3 py-2"
-						>
-							Back
-						</button>
-					) : (
-						""
-					)}
-					{console.log("check-submitting", isSubmitting)}
+				{step > 0 ? (
 					<button
-						disabled={isSubmitting}
-						type="submit"
-						className="btn mb-5  py-2 px-3"
+						type="button"
+						style={{ marginRight: 12 }}
+						onClick={() => setStep((s) => s - 1)}
+						className="btn mb-5 px-3 py-2"
 					>
-						{isSubmitting ? "submiting" : isLastPage() ? "Submit" : "Next"}
+						Back
 					</button>
-				</Form>
-			)}
+				) : (
+					""
+				)}
+				<button type="submit" className="btn mb-5  py-2 px-3">
+					{isLastPage() ? "Submit" : "Next"}
+				</button>
+			</Form>
 		</Formik>
 	);
 }

@@ -396,26 +396,27 @@ hostel and homestel images
 }
 .card-1{
 	background-color: #6e0a41c0;
-	/* background-color: #063b1d; */
+	background-color: #063b1d;
 }
 .card-2{
 	background-color: #911f06c0;
-	/* background-color: #0b8e5a; */
+	background-color: #0b6130;
 }
 .card-3{
 	background-color: #dd7e0ab4;
-	/* background-color: #08a53c; */
+	background-color:#1c7e47;
 }
 .card-4{
 	background-color: #dd0a8cb4;
-	/* background-color: #08a53c; */
+	background-color: #338f5b;
 }
 .card-1,.card-2,.card-3, .card-4{
 	border-top-right-radius: 60px;
 	border-bottom-left-radius: 60px;
 }
 .help-text-header{
-	color:#c9ceca
+	color:#c9ceca;
+	color:#f3b006
 
 }
 

@@ -95,6 +95,9 @@ export class AuthService {
 	}
 
 	authVerify(token) {
+		if (!token) {
+			this.logOut();
+		}
 		const decodedJwt = parseJwt(token);
 		if (decodedJwt.exp * 1000 < Date.now()) {
 			this.logOut();

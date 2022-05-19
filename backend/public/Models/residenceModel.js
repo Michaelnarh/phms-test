@@ -29,7 +29,7 @@ const residenceSchema = mongoose.Schema({
 	bookingLink: { type: String },
 	gpsAddress: {
 		type: { type: String, default: "Point", enum: ["Point"] },
-		coordinates: [Number],
+		coordinates: { type: [], default: undefined },
 		address: String,
 		description: String,
 	},
