@@ -680,7 +680,7 @@ export function FormStepper({ children, ...props }) {
 					type="submit"
 					className="btn mb-5  py-2 px-3"
 				>
-					{isSubmitting ? "submiting" : isLastPage() ? "Submit" : "Next"}
+					{isSubmitting ? "Submitting" : isLastPage() ? "Submit" : "Next"}
 				</button>
 			</Form>
 		</Formik>
