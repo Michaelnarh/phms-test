@@ -209,8 +209,6 @@ exports.updateResidence = async (req, res, next) => {
 			}
 		}
 
-		console.log(obj);
-
 		obj.forEach((item, i) => {
 			incomeFacilities.map((el, j) => {
 				if (el?.id[0] === item) {

@@ -12,6 +12,7 @@ import Residences from "./dashboard/views/Residence/Residences";
 import AddResidence from "./dashboard/views/Residence/AddResidence";
 import EditResidence from "./dashboard/views/Residence/EditResidence";
 import ShowResidence from "./dashboard/views/Residence/ShowResidence";
+import AssesssResidence from "./dashboard/views/Assessment/AssessmentForm";
 
 // import of Homestel views
 // import HomestelsViews from "./dashboard/views/homestels/Index";
@@ -117,6 +118,7 @@ function MainLayout() {
 						<Route path="add" element={<AddResidence />} />
 						<Route path="details/:slug" element={<ShowResidence />} />
 						<Route path=":slug/edit" element={<EditResidence />} />
+						<Route path=":slug/assess" element={<AssesssResidence />} />
 					</Route>
 					{/* <Route path="homestels" element={<HomestelsViews />}>
 						<Route index element={<Homestels />} />
