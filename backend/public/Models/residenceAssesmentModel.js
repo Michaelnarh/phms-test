@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { bool } = require("yup");
 
 const residenceAssesmentSchema = mongoose.Schema({
 	residence: { type: mongoose.Schema.Types.ObjectId, ref: "Residence" },

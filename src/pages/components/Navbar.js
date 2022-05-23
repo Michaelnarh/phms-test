@@ -3,7 +3,6 @@ import Drawer from "./Drawer";
 import { NavLink } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Logo from "../../images/logo-knust.png";
-import profile from "../../images/profile_pic.jpg";
 import LogInModal from "./auth/Login";
 import AuthStore from "../../store/AuthStore";
 import { AuthService } from "../../services/AuthService";
@@ -19,11 +18,6 @@ export default function Navbar(props) {
 	const handleLogOut = () => {
 		authService.logOut();
 		window.location.assign("/");
-		// localStorage.removeItem("dumb");
-		// localStorage.removeItem("user");
-		// localStorage.removeItem("id");
-		// localStorage.removeItem("jwt");
-		// window.location.assign("/");
 	};
 	return (
 		<>
@@ -150,7 +144,7 @@ export default function Navbar(props) {
 						)}
 					</ul>
 				</div>
-				{isDrawerOpen && <Drawer setDrawer={isDrawerOpen} />}
+				{isDrawerOpen && <Drawer setDrawer={isDrawerOpen} action={setDrawer} />}
 			</nav>
 		</>
 	);

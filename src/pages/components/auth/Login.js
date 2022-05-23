@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { renderError } from "../utils/ModuleFunctions";
@@ -7,12 +7,15 @@ import { ToastContainer, toast } from "react-toastify";
 import * as Yup from "yup";
 
 function LogInModal(props) {
-	const { isLogin } = props;
+	const { isLogin, setDrawer } = props;
+	console.log(props);
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
-	function handleShow() {
+
+	const handleShow = () => {
 		setShow(true);
-	}
+		// setDrawer(false);
+	};
 
 	const validationSchema = Yup.object({
 		username: Yup.string().required("Username is Required"),
@@ -51,7 +54,7 @@ function LogInModal(props) {
 		<>
 			<Button
 				style={{ borderColor: "#fff", borderSize: "1px", marginBottom: "8px" }}
-				onClick={() => handleShow(false)}
+				onClick={() => handleShow()}
 				variant=""
 			>
 				Login
@@ -67,7 +70,6 @@ function LogInModal(props) {
 					initialValues={initialValues}
 					validationSchema={validationSchema}
 					onSubmit={async (values, { resetForm }) => {
-						console.log(values);
 						await handleSubmit(values);
 						resetForm();
 					}}

@@ -77,7 +77,7 @@ export default function Addhostel(props) {
 				num: "",
 			},
 		],
-		rClass: "",
+		rClass: null,
 		images: [],
 		coverImage: "",
 		roomsTotal: "",
@@ -115,7 +115,6 @@ export default function Addhostel(props) {
 		formData.append("maleCapacity", values.maleCapacity);
 		formData.append("femaleCapacity", values.femaleCapacity);
 		formData.append("facilities", facilities_str);
-		formData.append("rClass", values.rClass);
 		formData.append("lng", values.lng);
 		formData.append("lat", values.lat);
 
@@ -561,28 +560,6 @@ export default function Addhostel(props) {
 										</div>
 									)}
 								/>
-							</div>
-
-							<div className="col-md-6 col-sm-12 my-3 ">
-								<label>
-									<b>Type of Residence Class</b>
-								</label>
-								<Field
-									as="select"
-									name="rClass"
-									className="form-select"
-									aria-label="Default select example"
-								>
-									<option> Select Class </option>
-									{RClass &&
-										RClass.map((item) => (
-											<option key={item._id} value={item._id}>
-												{item.name}
-											</option>
-										))}
-								</Field>
-
-								<ErrorMessage name="rClass" render={renderError} />
 							</div>
 						</div>
 					</FormikStep>

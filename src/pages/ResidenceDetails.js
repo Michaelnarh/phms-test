@@ -102,7 +102,7 @@ export default function Hosteldetails(props) {
 											<div className="row">
 												<div className="col-md-6 col-lg-6 col-sm-12">
 													<CommentsModal
-														auth={auth.getToken()}
+														token={auth.getToken()}
 														id={residence?._id}
 													/>
 												</div>
@@ -236,13 +236,16 @@ export default function Hosteldetails(props) {
 										</a>
 									</button>
 								)} */}
+
 										<div>
-											{residence?.gpsAddress?.coordinates[0] && (
+											{residence?.gpsAddress?.coordinates[0] !== 0 ? (
 												<Iframe
 													name={residence?.name}
 													lat={residence?.gpsAddress?.coordinates[1]}
 													lng={residence?.gpsAddress?.coordinates[0]}
 												/>
+											) : (
+												<h2>Map View Not Available yet</h2>
 											)}
 											{/* <iframe
 										width={600}
