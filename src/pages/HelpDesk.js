@@ -3,6 +3,9 @@ import helpDesk from "../images/help-desk-1.png";
 import fireService from "../images/fire-service.png";
 import kcc from "../images/kcc-knust.png";
 import saf from "../images/stuAffairs.png";
+import ghPolice from "../images/gh-police.png";
+import knust from "../images/knust-logo.png";
+import ecg from "../images/ecg-ghana.png";
 import scc from "../images/scc.png";
 import { MdCall } from "react-icons/md";
 
@@ -28,15 +31,65 @@ export default function HelpDesk(props) {
 				<h3 className="text-center"> INTERNAL SERVICES</h3>
 				<div className="card-1 p-3 mt-3">
 					<div className="row mt-3">
-						<h2 className="help-text-header">Deans of Students Office</h2>
-						<div className="col-md-3 p-3">
+						<h2 className="help-text-header">Dean of Students Office</h2>
+						<div className="d-flex p-3">
 							<img
-								src={fireService}
+								src={knust}
 								alt="..."
 								className="img-fluid"
-								style={{ height: 40, width: 40 }}
+								style={{ height: 60, width: 60 }}
 							/>
-							<p></p>
+
+							<div className="text-white mx-2">
+								<p className="">
+									The office of the Dean of Students was formally established in
+									1997 to provide the needed necessary welfare support services
+									for students during their period of study at KNUST. The
+									office, over the years, has sought to fulfil its mission by
+									assisting students to understand in both specific and general
+									terms how the university operates both at the social and
+									academic levels.
+								</p>
+								<p>
+									This consequently enables us to understand regulations and
+									procedures and ways to getting their needs met. The office had
+									further provided opportunities for students to develop and
+									enhance their leadership skills by involving them in decision
+									making processes, supporting advocacy for students and
+									providing and involving them in conflict resolution
+									techniques.
+								</p>
+								<p>
+									The office is organized into sections to help provide support
+									to the student body of the university community;
+								</p>
+								<ul className="py-2">
+									<li>
+										<b>Administration</b>
+									</li>
+									<li>
+										<b>Student Guidance and Counselling</b>
+									</li>
+									<li>
+										<b>International Student Affairs</b>
+									</li>
+									<li>
+										<b>Student Representative Council Affairs</b>
+									</li>
+									<li>
+										<b>Students Housing and Residence Life</b>
+									</li>
+									<li>
+										<b>Student Conduct and Discipline</b>
+									</li>
+									<li>
+										<b>Student Support Services</b>
+									</li>
+									<li>
+										<b>Financial Services</b>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -81,22 +134,39 @@ export default function HelpDesk(props) {
 				<div className="card-4 p-3 mt-3">
 					<div className="row mt-3">
 						<h2 className="help-text-header">Student Affairs</h2>
-						<div className="col-md-3 p-3">
+						<div className="d-flex p-3">
 							<img
 								src={saf}
 								alt="..."
 								className="img-fluid"
 								style={{ height: 40, width: 80 }}
 							/>
-							<p></p>
+							<div className="text-white mx-2">
+								<p>
+									The Student Affairs is a department under the Dean of Students
+									Office to Help attend to the Financial Needs of Students
+									through scholarships and also a center for International
+									Exchange Programme.
+									<button className="btn mx-4">
+										<a
+											rel="noopener noreferrer"
+											style={{ color: "#fff" }}
+											href={`https://www.knust.edu.gh/index.php/students/scholarships-and-grants`}
+											target="_blank"
+										>
+											Read More
+										</a>
+									</button>
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
 				<h3 className="text-center mt-5"> EXTERNAL SERVICES</h3>
-				<div className="card p-3 mt-3">
-					<div className="row mt-3">
-						<h2 className="r-name">Fire Service</h2>
-						<div className="col-md-3 p-3">
+				<div className="row mt-3">
+					<div className="col-md-6 ">
+						<div className="card p-3 mt-3">
+							<h2 className="r-name">Fire Service</h2>
 							<img
 								src={fireService}
 								alt="..."
@@ -106,9 +176,9 @@ export default function HelpDesk(props) {
 							<p></p>
 						</div>
 					</div>
-					<div className="row mt-3">
-						<h2 className="r-name">Tek Hospital</h2>
-						<div className="col-md-3 p-3">
+					<div className="col-md-6">
+						<div className="card p-3 mt-3">
+							<h2 className="r-name">Tek Hospital</h2>
 							<img
 								src={fireService}
 								alt="..."
@@ -119,29 +189,27 @@ export default function HelpDesk(props) {
 						</div>
 					</div>
 				</div>
-				<div className="card p-3 mt-3">
-					<div className="row mt-3">
-						<h2 className="r-name">Ghana Police Service</h2>
-						<div className="col-md-3 p-3">
+				<div className="row mt-3">
+					<div className="col-md-6 ">
+						<div className="card p-3 mt-3">
+							<h2 className="r-name">Ghana Police Service</h2>
 							<img
-								src={fireService}
+								src={ghPolice}
 								alt="..."
-								className="img-fluid "
-								style={{ height: 40, width: 40 }}
+								className="img-fluid"
+								style={{ height: 60, width: 60 }}
 							/>
 							<p></p>
 						</div>
 					</div>
-				</div>
-				<div className="card p-3 mt-3">
-					<div className="row mt-3">
-						<h2 className="r-name">ECG</h2>
-						<div className="col-md-3 p-3">
+					<div className="col-md-6">
+						<div className="card p-3 mt-3">
+							<h2 className="r-name">ECG</h2>
 							<img
-								src={fireService}
+								src={ecg}
 								alt="..."
 								className="img-fluid"
-								style={{ height: 40, width: 40 }}
+								style={{ height: 60, width: 60 }}
 							/>
 							<p></p>
 						</div>
