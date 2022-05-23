@@ -6,7 +6,7 @@ import { Button } from "react-bootstrap";
 import AuthStore from "../../store/AuthStore";
 import { AuthService } from "../../services/AuthService";
 export default function Drawer(props) {
-	const { setDrawer } = props;
+	const { setDrawer, action } = props;
 	const auth = new AuthStore();
 	const authService = new AuthService();
 	const user = auth.getUser();
@@ -88,17 +88,17 @@ export default function Drawer(props) {
 						)}
 					</>
 				) : (
-					// <LogInModal func={setDrawer} />
-					<Button
-						style={{
-							borderColor: "#fff",
-							borderSize: "1px",
-							marginBottom: "8px",
-						}}
-						variant=""
-					>
-						Login
-					</Button>
+					<LogInModal setDrawer={action} />
+					// <Button
+					// 	style={{
+					// 		borderColor: "#fff",
+					// 		borderSize: "1px",
+					// 		marginBottom: "8px",
+					// 	}}
+					// 	variant=""
+					// >
+					// 	Login
+					// </Button>
 				)}
 			</ul>
 		</ul>
