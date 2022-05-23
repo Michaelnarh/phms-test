@@ -57,7 +57,7 @@ export default function Hosteldetails(props) {
 			fetchData();
 
 			setIsLoading(false);
-		}, 2000);
+		}, 4000);
 
 		return () => clearTimeout(timer);
 	}, [setIsLoading, slug, gimages]);

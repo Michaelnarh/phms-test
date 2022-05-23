@@ -173,7 +173,18 @@ export default function HelpDesk(props) {
 								className="img-fluid"
 								style={{ height: 40, width: 40 }}
 							/>
-							<p></p>
+							<p> Call Lines</p>
+							<ul>
+								<li>
+									<b>0505001415 </b>{" "}
+								</li>
+								<li>
+									<b>0322022221</b>
+								</li>
+								<li>
+									<b>0322022222</b>
+								</li>
+							</ul>
 						</div>
 					</div>
 					<div className="col-md-6">
@@ -186,6 +197,14 @@ export default function HelpDesk(props) {
 								style={{ height: 40, width: 40 }}
 							/>
 							<p></p>
+							<ul>
+								<li>
+									<b>0322060300 </b>{" "}
+								</li>
+								<li>
+									<b>0322060320</b>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -199,7 +218,24 @@ export default function HelpDesk(props) {
 								className="img-fluid"
 								style={{ height: 60, width: 60 }}
 							/>
-							<p></p>
+							<p>Call Lines</p>
+							<ul>
+								<li>
+									<b>191 </b>{" "}
+								</li>
+								<li>
+									<b>18555</b>
+								</li>
+								<li>
+									<b>0299201578</b>
+								</li>
+								<li>
+									<b>0299202240</b>
+								</li>
+								<li>
+									<b>0299207770</b>
+								</li>
+							</ul>
 						</div>
 					</div>
 					<div className="col-md-6">
