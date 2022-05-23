@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
-import profile from "../../images/profile_pic.jpg";
-import AuthStore from "../../store/AuthStore";
 import LogInModal from "./auth/Login";
+import { Button } from "react-bootstrap";
+import AuthStore from "../../store/AuthStore";
+import { AuthService } from "../../services/AuthService";
 export default function Drawer(props) {
 	const { setDrawer } = props;
 	const auth = new AuthStore();
+	const authService = new AuthService();
 	const user = auth.getUser();
 	const [isDropDownOpen, setDropDown] = useState(false);
 	const handleLogOut = () => {
-		localStorage.removeItem("dumb");
-		localStorage.removeItem("user");
-		localStorage.removeItem("id");
-		localStorage.removeItem("jwt");
+		authService.logOut();
 		setDropDown(false);
 		window.location.assign("/");
 	};
@@ -63,7 +62,6 @@ export default function Drawer(props) {
 				{auth.getToken() ? (
 					<>
 						<Dropdown.Toggle
-							// id="dropdown-basic"
 							style={{
 								backgroundColr: "#ccc",
 								color: "#ccc",
@@ -75,23 +73,9 @@ export default function Drawer(props) {
 							}}
 							onClick={() => setDropDown(!isDropDownOpen)}
 						>
-							{/* <img
-								src={profile}
-								alt="..."
-								style={{
-									width: 40,
-									height: 40,
-									borderRadius: "50%",
-									marginRight: 14,
-								}}
-							/> */}
-							{/* <p>K</p>
-							 */}
 							{user ? (
-								// <div className="user-circle">
 								<p className="user-text">{user.username.split("")[0]}</p>
 							) : (
-								// </div>
 								""
 							)}
 						</Dropdown.Toggle>
@@ -104,7 +88,17 @@ export default function Drawer(props) {
 						)}
 					</>
 				) : (
-					<LogInModal func={setDrawer} />
+					// <LogInModal func={setDrawer} />
+					<Button
+						style={{
+							borderColor: "#fff",
+							borderSize: "1px",
+							marginBottom: "8px",
+						}}
+						variant=""
+					>
+						Login
+					</Button>
 				)}
 			</ul>
 		</ul>

@@ -19,11 +19,6 @@ export default function Navbar(props) {
 	const handleLogOut = () => {
 		authService.logOut();
 		window.location.assign("/");
-		// localStorage.removeItem("dumb");
-		// localStorage.removeItem("user");
-		// localStorage.removeItem("id");
-		// localStorage.removeItem("jwt");
-		// window.location.assign("/");
 	};
 	return (
 		<>

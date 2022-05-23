@@ -28,6 +28,7 @@ export default function AssessmentForm(props) {
 
 	const initialValues = {
 		name: "",
+		proximity: 0,
 		residenceType: "",
 		location: "",
 		lat: 0,
@@ -59,30 +60,8 @@ export default function AssessmentForm(props) {
 		let formData = new FormData();
 		// values.coordinates[1] = values.lat; //insert latitude data
 		// values.coordinates[0] = values.lng; //insert longitude data
-		const facilities_str = JSON.stringify(values.facilities);
 
 		formData.append("name", values.name);
-		formData.append("residenceType", values.residenceType);
-		formData.append("location", values.location);
-		formData.append("digitalAddress", values.digitalAddress);
-		formData.append("bookingLink", values.bookingLink);
-		formData.append("description", values.description);
-
-		formData.append("managersName", values.managersName);
-		formData.append("managersContact", values.managersContact);
-		formData.append("portersName", values.portersName);
-		formData.append("portersContact", values.portersContact);
-		formData.append("ownersName", values.ownersName);
-		formData.append("ownersContact", values.ownersContact);
-
-		formData.append("roomsTotal", values.roomsTotal);
-		formData.append("totalBedspaces", values.totalBedspaces);
-		formData.append("maleCapacity", values.maleCapacity);
-		formData.append("femaleCapacity", values.femaleCapacity);
-		formData.append("facilities", facilities_str);
-		formData.append("rClass", values.rClass);
-		formData.append("lng", values.lng);
-		formData.append("lat", values.lat);
 
 		try {
 			await AxiosInstance({
@@ -120,271 +99,233 @@ export default function AssessmentForm(props) {
 					}}
 				>
 					<FormikStep
-						validationSchema={Yup.object({
-							name: Yup.string("must be a string")
-								.min(5, "Name is too short must be 5 characters and above")
-								.required("Residence is Required"),
-							residenceType: Yup.string()
-								.min(2, "Required")
-								.required("Residence Type is required"),
-							location: Yup.string()
-								.min(2, "Required Field")
-								.required("Location is Required"),
-							digitalAddress: Yup.string().nullable(),
-						})}
+					// validationSchema={Yup.object({
+					// 	name: Yup.string("must be a string")
+					// 		.min(5, "Name is too short must be 5 characters and above")
+					// 		.required("Residence is Required"),
+					// 	residenceType: Yup.string()
+					// 		.min(2, "Required")
+					// 		.required("Residence Type is required"),
+					// 	location: Yup.string()
+					// 		.min(2, "Required Field")
+					// 		.required("Location is Required"),
+					// 	digitalAddress: Yup.string().nullable(),
+					// })}
 					>
-						<div className="row">
+						<div className="assess-card">
 							<ToastContainer />
-							<p>DETERMINANTS OF RESIDENCE CLASS AND PRICES</p>
-							<div className="card">
-								<div className="col-md-4 col-sm-12">
-									<label>
-										<b>Residence Name</b>
-									</label>
-									<Field
-										type="text"
-										className="form-control"
-										// placeholder=" Residence Name"
-										name="name"
-									/>
-									<p className="eg-text">
-										<span className="required">*</span> Example: Nana Adoma
-									</p>
-									<ErrorMessage name="name" render={renderError} />
-								</div>
-								<div className="col-md-4 col-sm-12 ">
-									<label>
-										<b>Type of Residence</b>
-									</label>
-									<Field
-										as="select"
-										name="residenceType"
-										className="form-select"
-										aria-label="Default select example"
-									>
-										{/* <option vallue="">Select Residence Type</option> */}
-										<option value="Hostel">Hostel</option>
-										<option value="Homestel">Homestel</option>
-										<option value="Other">Other</option>
-									</Field>
-									<p className="eg-text">
-										{" "}
-										<span className="required">*</span> Example: HOSTEL
-									</p>
-									<ErrorMessage name="residenceType" render={renderError} />
-								</div>
-								<div className="col-md-4 col-sm-12">
-									<label>
-										<b>Residence Location</b>
-									</label>
+							<h5>DETERMINANTS OF RESIDENCE CLASS AND PRICES</h5>
+							<h6>LOCATION</h6>
+							<div className="row">
+								<div className="col-md-6 col-sm-12">
+									<div role="group" aria-labelledby="proximity-radio-group">
+										<p>Proximity</p>
+										<label className="label-spacing">
+											<Field type="radio" name="proximity" value={"10"} />
 
-									<p className="eg-text">
-										{" "}
-										<span className="required">*</span> Example: Ayeduase
-									</p>
-									<ErrorMessage name="location" render={renderError} />
+											<b className="mx-2">Very Near = Less than 1km</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="proximity" value={"8"} />
+											<b className="mx-2">Near = Between 1 and 3km</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="proximity" value={"6"} />
+											<b className="mx-2">Far = Between 3 and 5km</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="proximity" value={"4"} />
+											<b className="mx-2">
+												Very far = Greater than 5km with transportation
+											</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="proximity" value={"2"} />
+											<b className="mx-2">
+												Very far = Greater than 5km without transportation
+											</b>
+										</label>
+										<br />
+									</div>
 								</div>
-							</div>
-							<div className="row mt-3">
-								<div className="col-md-4 col-sm-12">
-									<label>
-										<b>GhanaPost GPS Address</b>
-									</label>
-									<Field
-										type="text"
-										name="digitalAddress"
-										className="form-control"
-										// placeholder="GA-2324-3423"
-										aria-label="digitalAddress"
-									/>
-									<p className="eg-text">
-										Example: AK-1310-3223, use GhanaPost
-									</p>
-									<ErrorMessage name="digitalAddress" render={renderError} />
+								<div className="col-md-6 col-sm- my-3">
+									<div role="group" aria-labelledby="accessibility-radio-group">
+										<p>Accessibility</p>
+										<label className="label-spacing">
+											<Field type="radio" name="accessibilty" value={"8"} />
+											<b className="mx-2">
+												Very accessible (Very good road leads to the
+												hostel/homestel)
+											</b>
+										</label>
+										<br />
+										<label>
+											<Field type="radio" name="accessibilty" value={"5"} />
+											<b className="mx-2">
+												Accessible (possible to drive to hostel but on bad road)
+											</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="accessibilty" value={"3"} />
+											<b className="mx-2">
+												Not accessible (Motorable road leads to hostel/homestel)
+											</b>
+										</label>
+										<br />
+									</div>
 								</div>
-								<div className="col-md-4 col-sm-12">
-									<label>
-										<b>Latitude </b>
-									</label>
-									<Field
-										type="number"
-										className="form-control"
-										placeholder="+/-90 Latitude"
-										// value={lat}
-										// onChange={(e) => setlt(e.target.value)}
-										name="lat"
-									/>
-									<ErrorMessage name="lat" render={renderError} />
-									<b>Longitude</b>
-									<Field
-										type="number"
-										className="form-control"
-										placeholder="+/-180 longitude"
-										// value={lng}
-										name="lng"
-										// onChange={(e) => setlg(e.target.value)}
-									/>
-									<ErrorMessage name="lng" render={renderError} />
-								</div>
-								<div className="col-md-4 col-sm-12">
-									<label>
-										<b>Booking Link URL</b>
-									</label>
-									<Field
-										type="url"
-										className="form-control"
-										placeholder="Booking Link"
-										aria-label="booklink"
-										name="bookingLink"
-									/>
-									<p className="eg-text">
-										Eg: www.saintpeters.studentroombook.com
-									</p>
-									<ErrorMessage name="bookingLink" render={renderError} />
+								<div className="col-md-6 col-sm-12 mt-4">
+									<div role="group" aria-labelledby="area-radio-group">
+										<p>Area Proritization</p>
+										<label className="label-spacing">
+											<Field type="radio" name="area" value={"9"} />
+											<b className="mx-2">Priority Area 1 (Ayeduase)</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="area" value={"7"} />
+											<b className="mx-2">Priority Area 2 (Kotei)</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="area" value={"5"} />
+											<b className="mx-2">
+												Priority Area 3 (Ayeduase New Site)
+											</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="area" value={"3"} />
+											<b className="mx-2">Priority Area 4 (Bomso & Gaza)</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="area" value={"3"} />
+											<b className="mx-2">
+												Priority Area 5 (Kentinkrono, Emina, Twumduasi)
+											</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="area" value={"1"} />
+											<b className="mx-2">Priority Area 5 (Others)</b>
+										</label>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div className="row mt-3">
-							<div className="col-md-8 col-sm-12">
-								<Field
-									type="text"
-									as="textarea"
-									name="description"
-									className="form-control"
-									placeholder="Short description of the Residence"
-								/>
-							</div>
-						</div>
+
 						<hr className="my-3" />
 					</FormikStep>
 					<FormikStep
-						validationSchema={Yup.object({
-							ownersName: Yup.string("Must be a String")
-								.min(5, "Should be 5 letters and above")
-								.nullable(),
-							ownersContact: Yup.string("Must be a String")
-								.min(10, "Should be telephone number")
-								.nullable(),
-							managersName: Yup.string("Must be a String")
-								.min(5, "Should be 5 letters and above")
-								.nullable(),
-							managersContact: Yup.string("Must be a String")
-								.min(10, "Should be telephone number")
-								.nullable(),
-							portersName: Yup.string("Must be a String")
-								.min(5, "Should be 5 letters and above")
-								.nullable(),
-							portersContact: Yup.string("Must be a String")
-								.min(10, "Should be telephone number")
-								.nullable(),
-						})}
+					// validationSchema={Yup.object({
+
+					// })}
 					>
-						<div className="row mt-3">
-							<ToastContainer />
+						<div className="row">
 							<div className="col-md-6 col-sm-12">
-								<label>
-									<b>Owner's Name</b>
-								</label>
-								<Field
-									type="text"
-									className="form-control"
-									// placeholder="Owner's Name"
-									name="ownersName"
-								/>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: Kate Williams
-								</p>
-								<ErrorMessage name="ownersName" render={renderError} />
-							</div>
-							<div className="col-md-6 col-sm-12">
-								<label>
-									<b>Owners' Contact</b>
-								</label>
-								<Field
-									type="tel"
-									name="ownersContact"
-									className="form-control"
-									// placeholder="Owner's Contact"
-									aria-label="ownersContact"
-								/>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: 0201658894
-								</p>
-								<ErrorMessage name="ownersContact" render={renderError} />
-							</div>
-						</div>
-						<div className="row mt-3">
-							<div className="col-md-6 col-sm-12">
-								<label>
-									<b>Manager's Name</b>
-								</label>
-								<Field
-									type="text"
-									className="form-control"
-									// placeholder="Manager's Name"
-									name="managersName"
-								/>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: Noble Akoh
-								</p>
-								<ErrorMessage name="managersName" render={renderError} />
-							</div>
-							<div className="col-md-6 col-sm-12">
-								<label>
-									<b>Manager's Contact</b>
-								</label>
-								<Field
-									type="tel"
-									className="form-control"
-									// placeholder="Manger's Contact"
-									aria-label="managersContact"
-									name="managersContact"
-								/>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Eg: 0201289778/0552311893
-								</p>
-								<ErrorMessage name="managersContact" render={renderError} />
-							</div>
-							<div className="row mt-3">
-								<div className="col-md-6 col-sm-12">
-									<label>
-										<b>Porter's Name</b>
+								<div role="group" aria-labelledby="proximity-radio-group">
+									<p>Proximity</p>
+									<label className="label-spacing">
+										<Field type="radio" name="proximity" value={"10"} />
+
+										<b className="mx-2">Very Near = Less than 1km</b>
 									</label>
-									<Field
-										type="text"
-										className="form-control"
-										// placeholder="Porter's Name"
-										name="portersName"
-									/>
-									<p className="eg-text">
-										{" "}
-										<span className="required">*</span> Example: Francis Dogbe
-									</p>
-									<ErrorMessage name="portersName" render={renderError} />
-								</div>
-								<div className="col-md-6 col-sm-12">
-									<label>
-										<b>Porter's Contact</b>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="proximity" value={"8"} />
+										<b className="mx-2">Near = Between 1 and 3km</b>
 									</label>
-									<Field
-										type="tel"
-										name="portersContact"
-										className="form-control"
-										// placeholder="Porter's Contact"
-										aria-label="portersContact"
-									/>
-									<p className="eg-text">
-										{" "}
-										<span className="required">*</span> Example: 0201658894
-									</p>
-									<ErrorMessage name="portersContact" render={renderError} />
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="proximity" value={"6"} />
+										<b className="mx-2">Far = Between 3 and 5km</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="proximity" value={"4"} />
+										<b className="mx-2">
+											Very far = Greater than 5km with transportation
+										</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="proximity" value={"2"} />
+										<b className="mx-2">
+											Very far = Greater than 5km without transportation
+										</b>
+									</label>
+									<br />
 								</div>
 							</div>
-							<hr className="my-3" />
+							<div className="col-md-6 col-sm- my-3">
+								<div role="group" aria-labelledby="accessibility-radio-group">
+									<p>Accessibility</p>
+									<label className="label-spacing">
+										<Field type="radio" name="accessibilty" value={"8"} />
+										<b className="mx-2">
+											Very accessible (Very good road leads to the
+											hostel/homestel)
+										</b>
+									</label>
+									<br />
+									<label>
+										<Field type="radio" name="accessibilty" value={"5"} />
+										<b className="mx-2">
+											Accessible (possible to drive to hostel but on bad road)
+										</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="accessibilty" value={"3"} />
+										<b className="mx-2">
+											Not accessible (Motorable road leads to hostel/homestel)
+										</b>
+									</label>
+									<br />
+								</div>
+							</div>
+							<div className="col-md-6 col-sm-12 mt-4">
+								<div role="group" aria-labelledby="area-radio-group">
+									<p>Area Proritization</p>
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"9"} />
+										<b className="mx-2">Priority Area 1 (Ayeduase)</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"7"} />
+										<b className="mx-2">Priority Area 2 (Kotei)</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"5"} />
+										<b className="mx-2">Priority Area 3 (Ayeduase New Site)</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"3"} />
+										<b className="mx-2">Priority Area 4 (Bomso & Gaza)</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"3"} />
+										<b className="mx-2">
+											Priority Area 5 (Kentinkrono, Emina, Twumduasi)
+										</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"1"} />
+										<b className="mx-2">Priority Area 5 (Others)</b>
+									</label>
+								</div>
+							</div>
 						</div>
 					</FormikStep>
 					<FormikStep

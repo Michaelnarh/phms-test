@@ -226,9 +226,9 @@ hostel and homestel images
 	overflow: hidden;
 	object-position: center center;
 }
-.fullscreen .image-gallery-slide img {
-	/* height: 100vh; */
-}
+/* .fullscreen .image-gallery-slide img {
+	height: 100vh;
+} */
 .residence {
 	box-shadow: var(--lightShadow);
 	padding: 0px;
@@ -251,10 +251,11 @@ hostel and homestel images
 
 
 }
-.detail-component{
-	/* position: absolute; */
-	
-}
+
+/* .detail-component{ */
+	/* position: absolute; */	
+/* } */
+
 .facility-flex{
 	display: flex;
 	flex-direction: row;
@@ -475,14 +476,7 @@ hostel and homestel images
 	color:rgb(224, 219, 219);
 	font-weight: 500;
 }
-.contact-list-right{
-	/* flex:50%; */
 
-	
-}
-.contact-list-left{
-	/* flex:50%; */
-}
 .contact-center{
 	color:#e5e5e5;
 }
@@ -555,9 +549,6 @@ hostel and homestel images
 	.image-gallery {
 		width: 100%;
 		height: 30%;
-	}
-	.warning-box{
-		/* border: 1px solid; */
 	}
 	.warning-text{
 		font-size: 12px;

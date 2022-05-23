@@ -7,7 +7,10 @@ const RequireAuth = () => {
 	const auth = new AuthStore();
 	const authService = new AuthService();
 	const location = useLocation();
-	authService.authVerify(auth.getToken());
+	const token = auth.getToken();
+	if (token) {
+		authService.authVerify(token);
+	}
 	return auth.getIsAdmin() ? (
 		<Outlet />
 	) : auth.getUser() ? (

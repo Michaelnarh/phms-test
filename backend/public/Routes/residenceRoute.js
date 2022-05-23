@@ -27,7 +27,7 @@ router
 			"maintainer",
 			"admin",
 			"superAdmin",
-			"Supervisor"
+			"supervisor"
 		),
 		residenceController.uploadImages,
 		residenceController.resizeImage,
