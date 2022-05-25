@@ -12,9 +12,13 @@ const ZoneSchema = mongoose.Schema({
 	},
 	createdAt: { type: Date, default: Date.now() },
 	updatedAt: { type: Date, default: Date.now() },
-	tutor: { type: mongoose.Schema.Types.ObjectId, ref: "SeniorTutor" },
+	tutor: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "SeniorTutor",
+		unique: [true, "Only one tutor should be assigned to a zone"],
+	},
 });
-
+ZoneSchema.index({ tutor: 1 }, { unique: true });
 ZoneSchema.plugin(uniqueValidator);
 
 let Zone = mongoose.model("Zone", ZoneSchema);

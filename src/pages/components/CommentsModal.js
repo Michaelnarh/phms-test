@@ -6,18 +6,15 @@ import { ToastContainer, toast } from "react-toastify";
 import AxiosInstance from "./utils/AxiosBase";
 import LogInModal from "./auth/Login";
 const CommentsModal = (props) => {
-	const { id, auth } = props;
+	const { id } = props;
 	const user = JSON.parse(localStorage.getItem("user"));
 	const [show, setShow] = useState(false);
-	const [isLogin, setIsLogin] = useState(false);
 	const [rating, setRating] = useState(0);
 	const [text, setText] = useState("");
 	const [err, setError] = useState("");
 
 	const handlechange = () => {
-		if (auth) {
-			setShow(!show);
-		}
+		setShow(!show);
 	};
 
 	const handleComment = async () => {
@@ -55,8 +52,8 @@ const CommentsModal = (props) => {
 	};
 	return (
 		<>
-			<CustomButton className="my-3" onClick={handlechange}>
-				Leave a Comment
+			<CustomButton className="my-3" onClick={() => setShow(true)}>
+				Leave a Comments
 			</CustomButton>
 			<Modal
 				show={show}

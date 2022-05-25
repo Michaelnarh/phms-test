@@ -52,6 +52,7 @@ export default function Navbar(props) {
 						</li>
 						<li>
 							<MdLogout
+								className="logout-icon"
 								size={30}
 								onClick={() => handleLogOut()}
 								color="var(--darkBlue)"

@@ -27,6 +27,7 @@ const residenceSchema = mongoose.Schema({
 	coverImage: { type: String },
 	images: [{ type: String }],
 	bookingLink: { type: String },
+	mapLink: { type: String },
 	gpsAddress: {
 		type: { type: String, default: "Point", enum: ["Point"] },
 		coordinates: { type: [], default: undefined },

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import MapComponent from "./components/MapsComponent";
 import { useNavigate, useParams } from "react-router-dom";
 import CommentsModal from "./components/CommentsModal";
 import ImageGallery from "react-image-gallery";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import AuthStore from "./../store/AuthStore";
-import LogInModal from "./components/auth/Login";
 import Iframe from "./components/utils/Iframe";
 import { ToastContainer } from "react-toastify";
 import { Button } from "react-bootstrap";
 import { CustomButton } from "./components/stylecomponents";
 import AxiosInstance from "./components/utils/AxiosBase";
+import CommentsAndLogInModal from "./components/CommentsAndLoginModal";
+// import LogInModal from "./components/auth/Login";
+// import MapComponent from "./components/MapsComponent";
 
 export default function Hosteldetails(props) {
 	const navigate = useNavigate();
@@ -101,10 +102,14 @@ export default function Hosteldetails(props) {
 											</div>
 											<div className="row">
 												<div className="col-md-6 col-lg-6 col-sm-12">
-													<CommentsModal
-														token={auth.getToken()}
-														id={residence?._id}
-													/>
+													{auth.getToken() ? (
+														<CommentsModal
+															token={auth.getToken()}
+															id={residence?._id}
+														/>
+													) : (
+														<CommentsAndLogInModal />
+													)}
 												</div>
 
 												<div className="col-md-6 col-lg-6 col-sm-12">
@@ -222,20 +227,20 @@ export default function Hosteldetails(props) {
 											Go Back
 										</Button>
 									</div>
-									<div className="col-md-6">
+									<div className="col-md-3">
 										{/* <MapComponent isMarkerShown={true} /> */}
-										{/* {residence && (
-									<button className=" btn p-3 my-3">
-										<a
-											rel="noopener noreferrer"
-											style={{ color: "#fff" }}
-											href={`http://${residence?.bookingLink}`}
-											target="_blank"
-										>
-											Direction Link
-										</a>
-									</button>
-								)} */}
+										{residence?.bookingLink && (
+											<button className=" btn p-3 my-3">
+												<a
+													rel="noopener noreferrer"
+													style={{ color: "#fff" }}
+													href={`http://${residence?.mapLink}`}
+													target="_blank"
+												>
+													Direction Link
+												</a>
+											</button>
+										)}
 
 										<div>
 											{residence?.gpsAddress?.coordinates[0] !== 0 ? (
@@ -245,7 +250,7 @@ export default function Hosteldetails(props) {
 													lng={residence?.gpsAddress?.coordinates[0]}
 												/>
 											) : (
-												<h2>Map View Not Available yet</h2>
+												<h5>Map View Not Available yet</h5>
 											)}
 											{/* <iframe
 										width={600}

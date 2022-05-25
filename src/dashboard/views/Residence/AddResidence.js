@@ -14,7 +14,7 @@ export default function Addhostel(props) {
 	const [coverImage, setCoverImage] = useState("");
 	const [accepted, setAccepted] = useState([]);
 	const [locations, setLocations] = useState([]);
-	const [RClass, setRClass] = useState([]);
+	// const [RClass, setRClass] = useState([]);
 	const [facilityArr, setFacilityArr] = useState([]);
 
 	const onDrop = useCallback((acceptedFiles) => {
@@ -35,13 +35,13 @@ export default function Addhostel(props) {
 			});
 			setFacilityArr(res.data.data);
 		};
-		const fetchRClass = async () => {
-			const res = await AxiosInstance({
-				method: "get",
-				url: `/api/v1/classes`,
-			});
-			setRClass(res.data.data);
-		};
+		// const fetchRClass = async () => {
+		// 	const res = await AxiosInstance({
+		// 		method: "get",
+		// 		url: `/api/v1/classes`,
+		// 	});
+		// 	setRClass(res.data.data);
+		// };
 		// if (locations.length === 0) {
 		fetchLocations();
 		// }
@@ -49,7 +49,7 @@ export default function Addhostel(props) {
 		fetchFacilities();
 		// }
 		// if (facilityArr.length === 0) {
-		fetchRClass();
+		// fetchRClass();
 		// }
 	}, []);
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -65,6 +65,7 @@ export default function Addhostel(props) {
 		lng: 0,
 		digitalAddress: "",
 		bookingLink: "",
+		mapLink: "",
 		managersName: "",
 		managersContact: "",
 		portersName: "",
@@ -101,6 +102,7 @@ export default function Addhostel(props) {
 		formData.append("location", values.location);
 		formData.append("digitalAddress", values.digitalAddress);
 		formData.append("bookingLink", values.bookingLink);
+		formData.append("mapLink", values.mapLink);
 		formData.append("description", values.description);
 
 		formData.append("managersName", values.managersName);
@@ -303,6 +305,22 @@ export default function Addhostel(props) {
 									Eg: www.saintpeters.studentroombook.com
 								</p>
 								<ErrorMessage name="bookingLink" render={renderError} />
+							</div>
+							<div className="col-md-4 col-sm-12">
+								<label>
+									<b>Map Url</b>
+								</label>
+								<Field
+									type="url"
+									className="form-control"
+									placeholder="Booking Link"
+									aria-label="booklink"
+									name="mapLink"
+								/>
+								<p className="eg-text">
+									Eg: www.saintpeters.studentroombook.com
+								</p>
+								<ErrorMessage name="mapLink" render={renderError} />
 							</div>
 						</div>
 						<div className="row mt-3">

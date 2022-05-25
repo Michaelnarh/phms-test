@@ -29,31 +29,6 @@ export default function AssessmentForm(props) {
 	const initialValues = {
 		name: "",
 		proximity: 0,
-		residenceType: "",
-		location: "",
-		lat: 0,
-		lng: 0,
-		digitalAddress: "",
-		bookingLink: "",
-		managersName: "",
-		managersContact: "",
-		portersName: "",
-		portersContact: "",
-		ownersName: "",
-		ownersContact: "",
-		facilities: [
-			{
-				id: "",
-				num: "",
-			},
-		],
-		rClass: "",
-		images: [],
-		coverImage: "",
-		roomsTotal: "",
-		totalBedspaces: "",
-		maleCapacity: "",
-		femaleCapacity: "",
 	};
 
 	const handleSubmit = async (values, resetForm) => {
@@ -230,34 +205,30 @@ export default function AssessmentForm(props) {
 						<div className="row">
 							<div className="col-md-6 col-sm-12">
 								<div role="group" aria-labelledby="proximity-radio-group">
-									<p>Proximity</p>
-									<label className="label-spacing">
-										<Field type="radio" name="proximity" value={"10"} />
-
-										<b className="mx-2">Very Near = Less than 1km</b>
-									</label>
-									<br />
-									<label className="label-spacing">
-										<Field type="radio" name="proximity" value={"8"} />
-										<b className="mx-2">Near = Between 1 and 3km</b>
-									</label>
-									<br />
+									<h3>Facilities</h3>
+									<p>Room Type</p>
 									<label className="label-spacing">
 										<Field type="radio" name="proximity" value={"6"} />
-										<b className="mx-2">Far = Between 3 and 5km</b>
+
+										<b className="mx-2">Self-Contained</b>
 									</label>
 									<br />
 									<label className="label-spacing">
 										<Field type="radio" name="proximity" value={"4"} />
 										<b className="mx-2">
-											Very far = Greater than 5km with transportation
+											Combination of Self-Contained and Shared
 										</b>
 									</label>
 									<br />
 									<label className="label-spacing">
 										<Field type="radio" name="proximity" value={"2"} />
+										<b className="mx-2">Shared lavatory for 2 or 3 rooms</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="proximity" value={"1"} />
 										<b className="mx-2">
-											Very far = Greater than 5km without transportation
+											Shared lavatory for more than 3 rooms
 										</b>
 									</label>
 									<br />
@@ -267,24 +238,24 @@ export default function AssessmentForm(props) {
 								<div role="group" aria-labelledby="accessibility-radio-group">
 									<p>Accessibility</p>
 									<label className="label-spacing">
-										<Field type="radio" name="accessibilty" value={"8"} />
+										<Field type="checkbox" name="accessibilty" value={"8"} />
 										<b className="mx-2">
-											Very accessible (Very good road leads to the
-											hostel/homestel)
+											Room furnishing: Does the room have fan, bed with
+											mattress, tables, chairs?
 										</b>
 									</label>
 									<br />
 									<label>
-										<Field type="radio" name="accessibilty" value={"5"} />
+										<Field type="checkbox" name="accessibilty" value={"5"} />
 										<b className="mx-2">
-											Accessible (possible to drive to hostel but on bad road)
+											Study Room: Does the hostel have a study room ?
 										</b>
 									</label>
 									<br />
 									<label className="label-spacing">
-										<Field type="radio" name="accessibilty" value={"3"} />
+										<Field type="checkbox" name="accessibilty" value={"3"} />
 										<b className="mx-2">
-											Not accessible (Motorable road leads to hostel/homestel)
+											TV/Common room: Does the hostel have a TV/Common room ?
 										</b>
 									</label>
 									<br />
@@ -292,182 +263,389 @@ export default function AssessmentForm(props) {
 							</div>
 							<div className="col-md-6 col-sm-12 mt-4">
 								<div role="group" aria-labelledby="area-radio-group">
-									<p>Area Proritization</p>
+									<p>Security</p>
 									<label className="label-spacing">
-										<Field type="radio" name="area" value={"9"} />
-										<b className="mx-2">Priority Area 1 (Ayeduase)</b>
-									</label>
-									<br />
-									<label className="label-spacing">
-										<Field type="radio" name="area" value={"7"} />
-										<b className="mx-2">Priority Area 2 (Kotei)</b>
-									</label>
-									<br />
-									<label className="label-spacing">
-										<Field type="radio" name="area" value={"5"} />
-										<b className="mx-2">Priority Area 3 (Ayeduase New Site)</b>
-									</label>
-									<br />
-									<label className="label-spacing">
-										<Field type="radio" name="area" value={"3"} />
-										<b className="mx-2">Priority Area 4 (Bomso & Gaza)</b>
-									</label>
-									<br />
-									<label className="label-spacing">
-										<Field type="radio" name="area" value={"3"} />
+										<Field type="checkbox" name="area" value={"9"} />
 										<b className="mx-2">
-											Priority Area 5 (Kentinkrono, Emina, Twumduasi)
+											Presence of functioning CCTV cameras?
 										</b>
 									</label>
 									<br />
 									<label className="label-spacing">
-										<Field type="radio" name="area" value={"1"} />
-										<b className="mx-2">Priority Area 5 (Others)</b>
+										<Field type="checkbox" name="area" value={"7"} />
+										<b className="mx-2">Presence of electric fencing?</b>
 									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="checkbox" name="area" value={"5"} />
+										<b className="mx-2">Is the hostel/homestel walled?</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="checkbox" name="area" value={"3"} />
+										<b className="mx-2">Is the hostel/homestel gated?</b>
+									</label>
+									<br />
+								</div>
+							</div>
+							<div className="col-md-6 col-sm-12 mt-4">
+								<div role="group" aria-labelledby="area-radio-group">
+									<p>Kitchen Type</p>
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"9"} />
+										<b className="mx-2">Room-specific kitchen</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"7"} />
+										<b className="mx-2">Shared kitchen</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"5"} />
+										<b className="mx-2">No Kitchen</b>
+									</label>
+									<br />
 								</div>
 							</div>
 						</div>
 					</FormikStep>
-					<FormikStep
-						validationSchema={Yup.object({
-							totalBedspaces: Yup.number("must be a number").nullable(),
-							roomsTotal: Yup.number("must be a number").nullable(),
-							femaleCapacity: Yup.number("must be a number").nullable(),
-							maleCapacity: Yup.number("must be a number").nullable(),
-						})}
-					>
+					<FormikStep>
 						<div className="row">
-							<ToastContainer />
-							<div className="col-md-6 col-sm-12">
-								<label>
-									<b>Total Number of Rooms</b>
-								</label>
-								<Field
-									type="number"
-									name="roomsTotal"
-									className="form-control"
-									// placeholder="Total Number of Rooms"
-								/>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: 25
-								</p>
-								<ErrorMessage name="roomsTotal" render={renderError} />
+							<div className="col-md-6 col-sm-12 mt-4">
+								<div role="group" aria-labelledby="area-radio-group">
+									<p>UTILITIES</p>
+									<label className="label-spacing">
+										<Field type="checkbox" name="area" value={"9"} />
+										<b className="mx-2">
+											Is there an alternative source of power?
+										</b>
+									</label>
+									<br />
+									<p>Type of Meter</p>
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"7"} />
+										<b className="mx-2">Room-specific</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"5"} />
+										<b className="mx-2">Shared</b>
+									</label>
+									<br />
+								</div>
 							</div>
 							<div className="col-md-6 col-sm-12">
-								<label>
-									<b>Total Number of Bed Spaces</b>
+								<p>WATER SUPPLY</p>
+								<p>Source of Water</p>
+
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"7"} />
+									<b className="mx-2">
+										Mechanized borehole available with machine pump and
+										reserviour
+									</b>
 								</label>
-								<Field
-									type="number"
-									name="totalBedspaces"
-									className="form-control"
-									// placeholder="Total Bed Spaces"
-								/>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: 100
-								</p>
-								<ErrorMessage name="totalBedspaces" render={renderError} />
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">
+										Manual borehole available without machine pump and
+										reserviour
+									</b>
+								</label>
+								<br />
 							</div>
 						</div>
 						<div className="row">
 							<div className="col-md-6 col-sm-12">
-								<label>
-									<b>Males Capacity</b>
+								<p>Reliability of Water</p>
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Very reliable supply</b>
 								</label>
-								<Field
-									type="number"
-									className="form-control"
-									// placeholder="Male Capacity"
-									name="maleCapacity"
-								/>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: 60
-								</p>
-								<ErrorMessage name="maleCapacity" render={renderError} />
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Somehow reliable</b>
+								</label>
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Erratic/unreliable water supply</b>
+								</label>
+								<br />
 							</div>
 							<div className="col-md-6 col-sm-12">
-								<label>
-									<b>Females Capacity</b>
+								<p>Payment of Electricity</p>
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Fully by hostel</b>
 								</label>
-								<Field
-									type="number"
-									className="form-control"
-									// placeholder="Femaile Capacity"
-									name="femaleCapacity"
-								/>
-								<p className="eg-text">
-									{" "}
-									<span className="required">*</span> Example: 40
-								</p>
-								<ErrorMessage name="femaleCapacity" render={renderError} />
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-md-6 col-sm-12">
-								<FieldArray
-									name="facilites"
-									render={(arrayHelpers) => (
-										<div>
-											{facilityArr?.length > 0 &&
-												facilityArr.map((name, i) => {
-													return (
-														<div key={i} className="row">
-															<div className="col-md-6 col-sm-6 col-mb-3">
-																<label>
-																	<Field
-																		name={`facilities[${i}].id`}
-																		type="checkbox"
-																		value={facilityArr[i]._id}
-																	/>
-																	<span style={{ marginLeft: 4 }}>
-																		<b>{facilityArr[i].name}</b>
-																	</span>
-																</label>
-															</div>
-															<div className="col-md-3 col-sm-6 mb-3 ml-3">
-																<Field
-																	type="number"
-																	className="form-control"
-																	name={`facilities[${i}].num`}
-																/>
-															</div>
-														</div>
-													);
-												})}
-										</div>
-									)}
-								/>
-							</div>
-
-							<div className="col-md-6 col-sm-12 my-3 ">
-								<label>
-									<b>Type of Residence Class</b>
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Shared between hostel and tenants</b>
 								</label>
-								<Field
-									as="select"
-									name="rClass"
-									className="form-select"
-									aria-label="Default select example"
-								>
-									<option> Select Class </option>
-									{RClass &&
-										RClass.map((item) => (
-											<option key={item._id} value={item._id}>
-												{item.name}
-											</option>
-										))}
-								</Field>
-
-								<ErrorMessage name="rClass" render={renderError} />
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Fully by tenants</b>
+								</label>
+								<br />
 							</div>
 						</div>
 					</FormikStep>
+					<FormikStep>
+						<div className="row">
+							<div className="col-md-6 col-sm-12">
+								<p>porters</p>
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Day and Night</b>
+								</label>
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Day only</b>
+								</label>
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Night only</b>
+								</label>
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">No Porter</b>
+								</label>
+								<br />
+							</div>
+							<div className="col-md-6 col-sm-12">
+								<p>Security Personnel</p>
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Day and Night</b>
+								</label>
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Day only</b>
+								</label>
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Night only</b>
+								</label>
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">No Security Personnel</b>
+								</label>
+								<br />
+							</div>
+						</div>
+						<div className="row">
+							<div className="col-md-6 col-sm-12">
+								<p>Manager(s)</p>
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Manager not owner ?</b>
+								</label>
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Manager same as owner</b>
+								</label>
+								<br />
+								<label className="label-spacing">
+									<Field type="radio" name="area" value={"5"} />
+									<b className="mx-2">Manager is same as managerAsPorter</b>
+								</label>
+								<br />
+							</div>
+						</div>
+						<div className="col-md-6 col-sm-12">
+							<p>Cleaners</p>
+							<label className="label-spacing">
+								<Field type="radio" name="area" value={"5"} />
+								<b className="mx-2">
+									Satisfactory cleaning for only common places (compound,
+									corridors etc) ?
+								</b>
+							</label>
+							<br />
+							<label className="label-spacing">
+								<Field type="radio" name="area" value={"5"} />
+								<b className="mx-2">
+									Satisfactory for cleaning both common places (compound,
+									corridors etc.) and rooms ?
+								</b>
+							</label>
+							<br />
+						</div>
+					</FormikStep>
+					<FormikStep>
+						<h5>Extra Services</h5>
+						<p>Paid TV Channel</p>
+						<div className="row">
+							<div className="col-md-6 col-sm-12">
+								<div role="group" aria-labelledby="paid-tv-channel-group">
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"5"} />
+										<b className="mx-2">
+											DSTV Available to rooms and common TV rooms ?
+										</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"5"} />
+										<b className="mx-2">
+											DSTV available only at common TV Rooms
+										</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"5"} />
+										<b className="mx-2">
+											Other service providers available to rooms and common TV
+											rooms?
+										</b>
+									</label>
+									<br />
+									<label className="label-spacing">
+										<Field type="radio" name="area" value={"5"} />
+										<b className="mx-2">No paid TV Channels</b>
+									</label>
+									<br />
+								</div>
+							</div>
+							<div className="col-md-6 col-sm-12">
+								<div role="group" aria-labelledby="specific-tv-radio-group">
+									<p>Is there an air-conditioner in the room?</p>
+									<div className="d-flex">
+										<label className="label-spacing">
+											<Field type="radio" name="specificTV" value={"5"} />
+											<b className="mx-2">Yes</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="specificTV" value={"5"} />
+											<b className="mx-2">No</b>
+										</label>
+										<br />
+									</div>
+								</div>
+								<div className="col-md-6 col-sm-12">
+									<h5>Air Conditioner</h5>
+									<div role="group" aria-labelledby="specific-tv-radio-group">
+										<p>Is there an air-conditioner in the room?</p>
+										<div className="d-flex">
+											<label className="label-spacing">
+												<Field type="radio" name="specificTV" value={"5"} />
+												<b className="mx-2">Yes</b>
+											</label>
+											<br />
+											<label className="label-spacing">
+												<Field type="radio" name="specificTV" value={"5"} />
+												<b className="mx-2">No</b>
+											</label>
+											<br />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className="col-md-6 col-sm-12">
+								<h5>Fridges</h5>
+								<div role="group" aria-labelledby="specific-tv-radio-group">
+									<p>Does your room have a fridge provided by the hostel?</p>
+									<div className="d-flex">
+										<label className="label-spacing">
+											<Field type="radio" name="specificTV" value={"5"} />
+											<b className="mx-2">Yes</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="specificTV" value={"5"} />
+											<b className="mx-2">No</b>
+										</label>
+										<br />
+									</div>
+								</div>
+							</div>
+							<div className="col-md-6 col-sm-12">
+								<div role="group" aria-labelledby="specific-tv-radio-group">
+									<p>Provision of Gas</p>
+									<div className="d-flex">
+										<label className="label-spacing">
+											<Field type="radio" name="specificTV" value={"5"} />
+											<b className="mx-2">Common Kitchen with Gas Cylinders</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="specificTV" value={"5"} />
+											<b className="mx-2">Room Kitchen with Gas Cylinders</b>
+										</label>
+										<br />
+									</div>
+								</div>
+								<div role="group" aria-labelledby="specific-tv-radio-group">
+									<p>Supply of Gas to common Kitchens</p>
+									<div className="d-flex">
+										<label className="label-spacing">
+											<Field type="radio" name="specificTV" value={"5"} />
+											<b className="mx-2">Yes</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="specificTV" value={"5"} />
+											<b className="mx-2">No</b>
+										</label>
+										<br />
+									</div>
+								</div>
+								<div role="group" aria-labelledby="specific-tv-radio-group">
+									<p>Supply of cooking stoves</p>
+									<div className="d-flex">
+										<label className="label-spacing">
+											<Field type="radio" name="specificTV" value={"5"} />
+											<b className="mx-2">
+												Each room has a cooking stove (electric or gas)
+											</b>
+										</label>
+										<br />
+										<label className="label-spacing">
+											<Field type="radio" name="specificTV" value={"5"} />
+											<b className="mx-2">
+												Common Kitchens with Cooking Stoves (electric or gas)
+											</b>
+										</label>
+										<br />
+									</div>
+								</div>
+							</div>
 
-					<FormikStep></FormikStep>
-					{/* )} */}
+							<div className="row">
+								<div className="col-md-6 col-sm-12">
+									<div role="group" aria-labelledby="specific-tv-radio-group">
+										<p>Is there a functioning water heater in your bathroom?</p>
+										<div className="d-flex">
+											<label className="label-spacing">
+												<Field type="radio" name="specificTV" value={"2"} />
+												<b className="mx-2">Yes</b>
+											</label>
+											<br />
+											<label className="label-spacing">
+												<Field type="radio" name="specificTV" value={"0"} />
+												<b className="mx-2">No</b>
+											</label>
+											<br />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</FormikStep>
 				</FormStepper>
 			</div>
 		</>

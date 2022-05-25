@@ -475,6 +475,9 @@ th {
 	border-style: "dashed";
 	border-radius: 5;
 }
+.logout-icon:hover{
+	cursor: pointer;
+}
 
 #dash-loading {
 	display: inline-block;

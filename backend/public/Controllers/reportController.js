@@ -359,7 +359,7 @@ exports.getHostels = async (req, res) => {
 
 		const stream = res.writeHead(200, {
 			"Content-Type": "application/pdf",
-			"Content-Disposition": "attachment;filename=Porters.pdf",
+			"Content-Disposition": "attachment;filename=Hostels.pdf",
 		});
 
 		pdfService(
@@ -463,7 +463,7 @@ exports.getHomestels = async (req, res) => {
 
 		const stream = res.writeHead(200, {
 			"Content-Type": "application/pdf",
-			"Content-Disposition": "attachment;filename=Porters.pdf",
+			"Content-Disposition": "attachment;filename=homestels.pdf",
 		});
 
 		pdfService(

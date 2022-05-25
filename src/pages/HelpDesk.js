@@ -31,7 +31,7 @@ export default function HelpDesk(props) {
 				<h3 className="text-center"> INTERNAL SERVICES</h3>
 				<div className="card-1 p-3 mt-3">
 					<div className="row mt-3">
-						<h2 className="help-text-header">Dean of Students Office</h2>
+						<h2 className="help-text-header">Office of the Dean of Students</h2>
 						<div className="d-flex p-3">
 							<img
 								src={knust}
@@ -96,14 +96,42 @@ export default function HelpDesk(props) {
 				<div className="card-2 p-3 mt-3">
 					<div className="row mt-3">
 						<h2 className="help-text-header">Counselling Centre</h2>
-						<div className="col-md-3 p-3">
+						<div className="d-flex p-3 text-white">
 							<img
 								src={kcc}
 								alt="..."
 								className="img-fluid "
 								style={{ height: 40, width: 70 }}
 							/>
-							<p></p>
+							<div>
+								<p className="mx-2">
+									The KNUST Counselling Center (KCC) is a mental health facility
+									dedicated to the promotion of a healthy University Environment
+									for students, staff and their dependents. The center has well
+									trained and professional Counsellors and Clinical
+									Psychologists who provide an emotionally safe, confidential,
+									compassionate and respectful environment that foster
+									development and greater subjective wellbeing of clients.
+								</p>
+								<p>
+									Since its initial foundation in 1993, the KCC has evolved and
+									grown to extend varied psychological and counselling services
+									to communities beyond the University. We are committed to a
+									cutting-edge and high-quality approach to each of our services
+									toward becoming a global leader as a University mental health
+									and wellbeing center.
+								</p>
+
+								<h5>Contact Information</h5>
+								<ul>
+									<li className="p-2">Call: 050-644-9747 / 059-4399-7772</li>
+									<li className="p-1">Email: counsellingcentre@gmail.com</li>
+									<li className="p-1">
+										website: counsellingcentre@knust.edu.gh
+									</li>
+									<li className="p-2">Monday to Friday - 8:00am to 5:000pm</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
